@@ -1,0 +1,11 @@
+{
+  "action": "project_create",
+  "created": true,
+  "success": true,
+  "id": "e4e954f1-59a9-479a-821f-be7eed9aff47",
+  "name": "Cats Cute Miner",
+  "platform": "android",
+  "package": "com.multicastgames.catscuteminer",
+  "verified": true,
+  "checked_at": "2026-10-14T13:14:38.781Z"
+}

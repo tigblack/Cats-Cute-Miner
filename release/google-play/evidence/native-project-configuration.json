@@ -1,0 +1,11 @@
+{
+  "package": "com.multicastgames.catscuteminer",
+  "reservedIosBundle": "com.multicastgames.catscuteminer",
+  "targetApi": 36,
+  "metaAutomaticStartup": false,
+  "metaAutomaticEvents": false,
+  "metaAdvertisingId": false,
+  "appMetricaAutomaticMaxRevenue": false,
+  "versionChanged": false,
+  "status": "source_settings_applied_pending_merged_manifest_and_device_verification"
+}

@@ -1,0 +1,57 @@
+{
+  "action": "backend_products_register",
+  "game_id": "gm_cats_cute_miner",
+  "receipts": [
+    {
+      "sku": "gems_handful",
+      "created": true,
+      "status": "verified_backend_registration",
+      "quantity": 160,
+      "google_play_sku": "gems_handful",
+      "product_type": 0
+    },
+    {
+      "sku": "gems_sack",
+      "created": true,
+      "status": "verified_backend_registration",
+      "quantity": 500,
+      "google_play_sku": "gems_sack",
+      "product_type": 0
+    },
+    {
+      "sku": "gems_bag",
+      "created": true,
+      "status": "verified_backend_registration",
+      "quantity": 1200,
+      "google_play_sku": "gems_bag",
+      "product_type": 0
+    },
+    {
+      "sku": "gems_crate",
+      "created": true,
+      "status": "verified_backend_registration",
+      "quantity": 2500,
+      "google_play_sku": "gems_crate",
+      "product_type": 0
+    },
+    {
+      "sku": "gems_cart",
+      "created": true,
+      "status": "verified_backend_registration",
+      "quantity": 6500,
+      "google_play_sku": "gems_cart",
+      "product_type": 0
+    },
+    {
+      "sku": "gems_pile",
+      "created": true,
+      "status": "verified_backend_registration",
+      "quantity": 14000,
+      "google_play_sku": "gems_pile",
+      "product_type": 0
+    }
+  ],
+  "google_play_products_created": false,
+  "checked_at": "2026-10-14T13:25:20.754Z",
+  "runtime_purchase_verified": false
+}

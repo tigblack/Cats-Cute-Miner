@@ -1,0 +1,5 @@
+<linker>
+  <!-- DTO и модели сохранения создаются Newtonsoft через reflection: не вырезать при IL2CPP. -->
+  <assembly fullname="CatMiners.Core" preserve="all"/>
+  <assembly fullname="CatMiners.Runtime" preserve="all"/>
+</linker>

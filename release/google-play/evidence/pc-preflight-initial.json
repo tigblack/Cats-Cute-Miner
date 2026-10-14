@@ -1,0 +1,82 @@
+{
+    "scope":  "read_only_pc_preflight",
+    "runtime_readiness":  "not_assessed",
+    "project_path":  "C:\\Unity Projects\\Cats Cute Miner",
+    "unity_version":  "6000.3.11f1",
+    "editor_directory":  null,
+    "running_unity_process_count":  1,
+    "android_module_present":  false,
+    "android_sdk_platforms":  [
+
+                              ],
+    "public_settings":  {
+                            "company":  "CatMiners",
+                            "product":  "Cats Cute Miner",
+                            "version_name":  "0.1.0",
+                            "version_code":  "1",
+                            "explicit_android_package_candidates":  [
+                                                                        "com.catminers.prototype"
+                                                                    ],
+                            "custom_upload_keystore_configured":  false
+                        },
+    "dependencies":  [
+                         {
+                             "version":  "1.0.0",
+                             "package":  "com.unity.modules.unityanalytics"
+                         },
+                         {
+                             "version":  "5.2.1",
+                             "package":  "com.unity.purchasing"
+                         },
+                         {
+                             "version":  "non-registry dependency; inspect locally without exposing credentials",
+                             "package":  "io.appmetrica.analytics"
+                         },
+                         {
+                             "version":  "non-registry dependency; inspect locally without exposing credentials",
+                             "package":  "com.adjust.sdk"
+                         },
+                         {
+                             "version":  "8.4.2",
+                             "package":  "com.applovin.mediation.ads"
+                         },
+                         {
+                             "version":  "1.2.187",
+                             "package":  "com.google.external-dependency-manager"
+                         }
+                     ],
+    "project_build_script_names":  [
+
+                                   ],
+    "build_inputs":  {
+                         "package_manifest_present":  true,
+                         "package_lock_present":  true,
+                         "configured_scenes":  [
+                                                   {
+                                                       "path":  "Assets/Game/Scenes/CoreGame.unity",
+                                                       "enabled":  true,
+                                                       "exists_on_build_machine":  true
+                                                   }
+                                               ],
+                         "note":  "Read-only configured scene check; custom build scripts may choose other scenes/assets. Verify their actual inputs too."
+                     },
+    "tools":  {
+                  "unity":  "C:\\Users\\arutt\\AppData\\Local\\Microsoft\\WindowsApps\\unity.exe",
+                  "dotnet":  "C:\\Program Files\\dotnet\\dotnet.exe",
+                  "python":  "C:\\Users\\arutt\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe",
+                  "adb":  null
+              },
+    "devices":  {
+                    "checked":  false,
+                    "adb_path":  null,
+                    "connected":  null,
+                    "unauthorized":  null,
+                    "error":  null
+                },
+    "reference":  null,
+    "limitations":  [
+                        "Editor settings require confirmation through PlayerSettings and the built manifest.",
+                        "No signing secrets, provider configuration values, binary contents or device serials are emitted.",
+                        "No SDK initialization, service access, release build or Google Play write is performed."
+                    ]
+}

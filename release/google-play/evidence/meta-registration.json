@@ -1,0 +1,22 @@
+{
+  "action": "meta_app_provision",
+  "success": true,
+  "error": null,
+  "app_id": "5614484342110411",
+  "existing_app_id": null,
+  "partial": null,
+  "verification_warning": "Meta could not verify the package name against Google Play",
+  "has_client_token": true,
+  "shape": [
+    "appId",
+    "clientToken",
+    "clientTokenError",
+    "projectId",
+    "platforms",
+    "verificationWarning",
+    "authorizedCount",
+    "adAccountsOnPage",
+    "store"
+  ],
+  "checked_at": "2026-10-14T13:21:57.731Z"
+}

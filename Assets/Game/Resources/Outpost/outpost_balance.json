@@ -1,0 +1,35 @@
+{
+  "Version": "outpost-2.1-b4",
+  "TicksPerSecond": 1000000,
+  "HitIntervalTicks": 1000000,
+  "PickupTicksPerUnit": 250000,
+  "OfflineCapMs": 10800000,
+  "StartWorkers": 2,
+  "MaxWorkersPerTarget": 4,
+  "MoveStuckTicks": 3000000,
+  "WatchdogTicks": 60000000,
+  "ZoneScale": "6/5",
+  "CostZoneStep": "1/10",
+  "Branches": [
+    { "Id": "Team",     "BaseCost": "50", "Growth": "19/10", "Cap": 10, "Milestones": [] },
+    { "Id": "Pickaxes", "BaseCost": "20", "Growth": "59/50", "Cap": 20, "Milestones": [10, 20] },
+    { "Id": "Boots",    "BaseCost": "25", "Growth": "13/10", "Cap": 15, "Milestones": [] },
+    { "Id": "Bags",     "BaseCost": "25", "Growth": "33/25", "Cap": 16, "Milestones": [] },
+    { "Id": "Unload",   "BaseCost": "20", "Growth": "32/25", "Cap": 20, "Milestones": [] },
+    { "Id": "Value",    "BaseCost": "30", "Growth": "31/25", "Cap": 40, "Milestones": [10, 25, 40] }
+  ],
+  "MilestoneMultiplier": "2",
+  "BaseDamage": "5", "DamageGrowth": "61/50", "TapDamageFactor": "1/4",
+  "BaseMoveSpeed": "5/2", "MoveSpeedStep": "2/25",
+  "BaseCapacity": 4, "CapacityStep": 1,
+  "BaseUnloadRate": "2", "UnloadStep": "1/5",
+  "ValueGrowth": "11/10",
+  "HpBase": "20", "ZoneHpStep": "1/25", "RankSpan": "5", "AreaFactorCap": "5/2", "AreaCapFromCells": 7,
+  "CargoHpDivisor": 10, "MinCargoUnits": 2, "CoinBase": "5",
+  "Types": {
+    "r": { "HpFactor": "1",   "ValueFactor": "1"   },
+    "x": { "HpFactor": "4/5", "ValueFactor": "1/2", "FixedRank": "1/2" },
+    "s": { "HpFactor": "2",   "ValueFactor": "2"   },
+    "p": { "HpFactor": "5/2", "ValueFactor": "1"   }
+  }
+}

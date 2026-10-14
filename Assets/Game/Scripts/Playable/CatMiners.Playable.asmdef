@@ -1,0 +1,22 @@
+{
+    "name": "CatMiners.Playable",
+    "rootNamespace": "CatMiners.Playable",
+    "references": [
+        "CatMiners.Core",
+        "CatMiners.Runtime",
+        "Unity.InputSystem",
+        "Unity.TextMeshPro",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_EDITOR || CATMINERS_PLAYABLE"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

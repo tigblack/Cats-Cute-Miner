@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "stage": "iap",
+  "created_at": "2026-10-14T12:58:32.533482+00:00",
+  "scope": {
+    "game": "Cats Cute Miner",
+    "engine": "Unity",
+    "platform": "Android",
+    "track": "internal",
+    "package_name": "com.multicastgames.catscuteminer"
+  },
+  "requirements": [
+    {
+      "id": "iap.1",
+      "requirement": "Approve exact product IDs/type/price/reward/currency/regions",
+      "applicability": "required",
+      "source_ref": "google-play-publish/SKILL.md",
+      "verification": "Actual readback, build or device evidence as appropriate"
+    },
+    {
+      "id": "iap.2",
+      "requirement": "Published billing-enabled build prerequisite",
+      "applicability": "required",
+      "source_ref": "google-play-publish/SKILL.md",
+      "verification": "Actual readback, build or device evidence as appropriate"
+    },
+    {
+      "id": "iap.3",
+      "requirement": "Play and Multicast registration with readback",
+      "applicability": "required",
+      "source_ref": "google-play-publish/SKILL.md",
+      "verification": "Actual readback, build or device evidence as appropriate"
+    },
+    {
+      "id": "iap.4",
+      "requirement": "Authenticated validation and durable grant ledger before claim/confirmation",
+      "applicability": "required",
+      "source_ref": "google-play-publish/SKILL.md",
+      "verification": "Actual readback, build or device evidence as appropriate"
+    },
+    {
+      "id": "iap.5",
+      "requirement": "Real license-test purchase and recovery; actual localized price",
+      "applicability": "required",
+      "source_ref": "google-play-publish/SKILL.md",
+      "verification": "Actual readback, build or device evidence as appropriate"
+    }
+  ]
+}

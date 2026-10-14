@@ -1,0 +1,630 @@
+{
+  "schema_version": 1,
+  "app": {
+    "name": "Cats Cute Miner",
+    "package_name": "com.multicastgames.catscuteminer",
+    "engine": "Unity 6000.3.11f1",
+    "android_project_path": ".",
+    "build_command_ref": "Tools/GooglePlay/build-aab.ps1",
+    "observed_package_name": "com.multicastgames.catscuteminer",
+    "proposed_package_name": "com.multicastgames.catscuteminer",
+    "package_approval_evidence_ref": "User reply 2026-10-14: com.multicastgames.catscuteminer",
+    "ios_bundle_id": "com.multicastgames.catscuteminer",
+    "identity_configuration_evidence_ref": "release/google-play/evidence/native-project-configuration.json"
+  },
+  "release": {
+    "track": "internal",
+    "version_name": null,
+    "version_code": null,
+    "upload_key_secret_ref": null,
+    "play_account_ref": "MULTICAST GAMES / 8879742639795815518 / actor sargsyan@multicastgames.com",
+    "testers_group_ref": null,
+    "artifact_path": null,
+    "artifact_sha256": null,
+    "opt_in_url": null,
+    "publication_hold": true,
+    "authorization_evidence_ref": "Provider app and IAP catalog creation approved; AAB upload/release approval explicitly deferred until concrete signed artifact ready",
+    "observed_local_version_name": "0.1.0",
+    "observed_local_version_code": 1
+  },
+  "providers": {
+    "appmetrica": {
+      "app_id": null,
+      "config_ref": null,
+      "ad_revenue_mode": null,
+      "iap_revenue_mode": null
+    },
+    "adjust": {
+      "app_id": null,
+      "config_ref": null,
+      "event_mapping_ref": null,
+      "environment": null
+    },
+    "meta": {
+      "app_id": "5614484342110411",
+      "config_ref": "release/google-play/sdk-credentials.local.json",
+      "event_mapping_ref": null,
+      "registration_evidence_ref": "release/google-play/evidence/meta-registration.json",
+      "google_package_verification": "pending Google Play app page",
+      "configuration_status": "created_pending_android_keyhash_and_runtime"
+    },
+    "max": {
+      "app_id": "com.multicastgames.catscuteminer",
+      "config_ref": null,
+      "consent_config_ref": null
+    }
+  },
+  "ads": {
+    "platform": "android",
+    "units": {
+      "rewarded": "f27564b55995aa89",
+      "interstitial": null,
+      "banner": null
+    },
+    "placements_ref": null,
+    "adapters": [],
+    "required_mediation_networks": [
+      "admob",
+      "unity",
+      "mintegral",
+      "pangle"
+    ],
+    "network_statuses": {
+      "admob": {
+        "status": "service_unavailable",
+        "source": "Actual panel /admob/provision; upstream closed connection",
+        "read_status": "existing apps readable; no matching app found",
+        "next_step": "Restore AdMob provision worker or use authorized direct dashboard; reconcile before retry"
+      }
+    },
+    "dev_ui_verification": {
+      "status": "not_started",
+      "settings_section": null,
+      "rewarded_hud_evidence_ref": null,
+      "interstitial_control_evidence_ref": null,
+      "confirmed_test_mode_evidence_ref": null,
+      "installed_artifact_sha256": null
+    },
+    "required_formats": [
+      "rewarded"
+    ],
+    "optional_formats": [
+      "interstitial",
+      "banner"
+    ],
+    "internal_qa": {
+      "build_scoped": true,
+      "requires_sdk_test_mode": true,
+      "final_artifact_ui_verified": false,
+      "evidence_ref": null
+    },
+    "enabled_formats": [
+      "rewarded"
+    ],
+    "disabled_formats": [],
+    "format_scope_evidence_ref": "Current gameplay has rewarded offers; inspect callbacks before release",
+    "mediation_status": "not_configured"
+  },
+  "iap": {
+    "catalog": [
+      {
+        "product_id": "gems_handful",
+        "type": "consumable",
+        "store_type": "one_time_product",
+        "title": "Handful Gems",
+        "rewards": [
+          {
+            "sku": "gems",
+            "quantity": 160
+          }
+        ],
+        "price_usd": "1.99",
+        "base_region": "US",
+        "regions": "All Google Play countries available to this game/account; Google-generated local prices",
+        "regional_price_strategy": "Approved Google Play automatic conversion from USD base price",
+        "first_purchase_bonus": 0
+      },
+      {
+        "product_id": "gems_sack",
+        "type": "consumable",
+        "store_type": "one_time_product",
+        "title": "Sack Gems",
+        "rewards": [
+          {
+            "sku": "gems",
+            "quantity": 500
+          }
+        ],
+        "price_usd": "5.99",
+        "base_region": "US",
+        "regions": "All Google Play countries available to this game/account; Google-generated local prices",
+        "regional_price_strategy": "Approved Google Play automatic conversion from USD base price",
+        "first_purchase_bonus": 0
+      },
+      {
+        "product_id": "gems_bag",
+        "type": "consumable",
+        "store_type": "one_time_product",
+        "title": "Bag Gems",
+        "rewards": [
+          {
+            "sku": "gems",
+            "quantity": 1200
+          }
+        ],
+        "price_usd": "11.99",
+        "base_region": "US",
+        "regions": "All Google Play countries available to this game/account; Google-generated local prices",
+        "regional_price_strategy": "Approved Google Play automatic conversion from USD base price",
+        "first_purchase_bonus": 0
+      },
+      {
+        "product_id": "gems_crate",
+        "type": "consumable",
+        "store_type": "one_time_product",
+        "title": "Crate Gems",
+        "rewards": [
+          {
+            "sku": "gems",
+            "quantity": 2500
+          }
+        ],
+        "price_usd": "22.99",
+        "base_region": "US",
+        "regions": "All Google Play countries available to this game/account; Google-generated local prices",
+        "regional_price_strategy": "Approved Google Play automatic conversion from USD base price",
+        "first_purchase_bonus": 0
+      },
+      {
+        "product_id": "gems_cart",
+        "type": "consumable",
+        "store_type": "one_time_product",
+        "title": "Cart Gems",
+        "rewards": [
+          {
+            "sku": "gems",
+            "quantity": 6500
+          }
+        ],
+        "price_usd": "59.99",
+        "base_region": "US",
+        "regions": "All Google Play countries available to this game/account; Google-generated local prices",
+        "regional_price_strategy": "Approved Google Play automatic conversion from USD base price",
+        "first_purchase_bonus": 0
+      },
+      {
+        "product_id": "gems_pile",
+        "type": "consumable",
+        "store_type": "one_time_product",
+        "title": "Pile Gems",
+        "rewards": [
+          {
+            "sku": "gems",
+            "quantity": 14000
+          }
+        ],
+        "price_usd": "119.99",
+        "base_region": "US",
+        "regions": "All Google Play countries available to this game/account; Google-generated local prices",
+        "regional_price_strategy": "Approved Google Play automatic conversion from USD base price",
+        "first_purchase_bonus": 0
+      }
+    ],
+    "approval": {
+      "approved": true,
+      "evidence_ref": "User reply 2026-10-14: confirmed exact six IDs/rewards/USD prices, all available countries, Google regional conversion",
+      "approved_catalog_ref": "release/google-play/iap-catalog.approved.json"
+    },
+    "verification_service_ref": null,
+    "server_validation": {
+      "required": true,
+      "game_id": "gm_cats_cute_miner",
+      "registration_status": "verified_admin_registration",
+      "registration_evidence_ref": "release/google-play/evidence/backend-products.json",
+      "runtime_status": "implementation_in_progress",
+      "runtime_contract_ref": "references/server-iap.md",
+      "runtime_catalog_evidence_ref": "release/google-play/evidence/backend-runtime-catalog.json",
+      "local_tests_evidence_ref": null,
+      "device_purchase_status": "waiting_for_device",
+      "device_purchase_evidence_ref": null,
+      "runtime_auth_catalog_status": "verified"
+    },
+    "runtime_shop": {
+      "status": "in_progress",
+      "entry_point": "Outpost HUD → Shop → Gems",
+      "panel_ref": "Assets/Game/Scripts/Runtime/Outpost/UI/OutpostHud.Store.cs",
+      "approved_skus_visible": false,
+      "installed_artifact_sha256": null,
+      "ui_evidence_ref": null,
+      "store_metadata_evidence_ref": null,
+      "purchase_restore_evidence_ref": null
+    },
+    "google_play_status": "waiting_for_billing_release_and_console_access"
+  },
+  "sdk_versions": {
+    "appmetrica": "6.7.0",
+    "adjust": "5.8.1",
+    "max": "8.4.2",
+    "iap": "5.2.1",
+    "edm4u": "1.2.187",
+    "meta": "18.1.1"
+  },
+  "store_assets": {
+    "locale": null,
+    "generator": "internal",
+    "manifest_ref": null,
+    "archive_ref": null,
+    "local_status": "not_started",
+    "console_status": "not_uploaded",
+    "form_inventory_ref": null,
+    "required_fields_evidence_ref": null,
+    "save_evidence_ref": null,
+    "reload_evidence_ref": null,
+    "readback_evidence_ref": null,
+    "completion_gate_status": "not_checked",
+    "device_category_checks": {
+      "phone": {
+        "present": null,
+        "evidence_ref": null,
+        "applicable": null,
+        "applicability_evidence_ref": null
+      },
+      "tablet_7": {
+        "present": null,
+        "evidence_ref": null,
+        "applicable": null,
+        "applicability_evidence_ref": null
+      },
+      "tablet_10": {
+        "present": null,
+        "evidence_ref": null,
+        "applicable": null,
+        "applicability_evidence_ref": null
+      }
+    },
+    "text_draft_ref": "Docs/Store/GooglePlay/listing.en-US.draft.json"
+  },
+  "event_contract_ref": null,
+  "privacy_policy_url": null,
+  "verification_evidence_ref": null,
+  "build_machine_evidence_ref": "release/google-play/evidence/pc-preflight.json",
+  "panel_capabilities_evidence_ref": "release/google-play/evidence/service-access.json",
+  "integration_strategy_ref": "release/google-play/integration-plan.md",
+  "terms_of_service_url": null,
+  "panel_connections": [
+    {
+      "endpoint": "https://dostupai.aimulticast.org/",
+      "actor": "sargsyan@multicastgames.com",
+      "route": "authenticated browser UI API client",
+      "project_id": "e4e954f1-59a9-479a-821f-be7eed9aff47",
+      "checked_at": "2026-10-14T12:58:32.533482+00:00",
+      "safe_evidence_ref": "release/google-play/evidence/service-access.json",
+      "private_config_ref": null
+    }
+  ],
+  "service_access": {
+    "checks": {
+      "panel": {
+        "route": "panel browser API client GET /projects",
+        "status": "ready_for_discovery",
+        "target_operation": "read existing apps/resources",
+        "checked_at": "2026-10-14T12:58:32.533482+00:00",
+        "record_count": 166,
+        "matching_game_records": 0,
+        "create_permission": "not_verified",
+        "evidence_ref": "release/google-play/evidence/service-access.json"
+      },
+      "google_play_lookup": {
+        "route": "panel browser API client GET /google-play-apps",
+        "status": "ready_for_discovery",
+        "target_operation": "read existing apps/resources",
+        "checked_at": "2026-10-14T12:58:32.533482+00:00",
+        "record_count": 50,
+        "matching_game_records": 0,
+        "create_permission": "not_verified",
+        "evidence_ref": "release/google-play/evidence/service-access.json"
+      },
+      "appmetrica": {
+        "route": "panel browser API client GET /appmetrica-apps",
+        "status": "ready_for_discovery",
+        "target_operation": "read existing apps/resources",
+        "checked_at": "2026-10-14T12:58:32.533482+00:00",
+        "record_count": 110,
+        "matching_game_records": 0,
+        "create_permission": "not_verified",
+        "evidence_ref": "release/google-play/evidence/service-access.json"
+      },
+      "adjust": {
+        "route": "panel browser API client GET /adjust-apps",
+        "status": "ready_for_discovery",
+        "target_operation": "read existing apps/resources",
+        "checked_at": "2026-10-14T12:58:32.533482+00:00",
+        "record_count": 95,
+        "matching_game_records": 0,
+        "create_permission": "not_verified",
+        "evidence_ref": "release/google-play/evidence/service-access.json"
+      },
+      "meta": {
+        "route": "panel browser API client GET /facebook-apps",
+        "status": "ready_for_discovery",
+        "target_operation": "read existing apps/resources",
+        "checked_at": "2026-10-14T12:58:32.533482+00:00",
+        "record_count": 133,
+        "matching_game_records": 0,
+        "create_permission": "not_verified",
+        "evidence_ref": "release/google-play/evidence/service-access.json"
+      },
+      "max": {
+        "route": "panel browser API client GET /monetization/ad-units",
+        "status": "ready_for_discovery",
+        "target_operation": "read existing apps/resources",
+        "checked_at": "2026-10-14T12:58:32.533482+00:00",
+        "record_count": 50,
+        "matching_game_records": 0,
+        "create_permission": "not_verified",
+        "evidence_ref": "release/google-play/evidence/service-access.json"
+      },
+      "play_console": {
+        "route": "panel health plus direct Console browser",
+        "status": "waiting_for_access",
+        "target_operation": "read/create app, upload AAB, internal release",
+        "observed": "Panel worker health unavailable; direct browser redirects to Google sign-in",
+        "evidence_ref": "release/google-play/evidence/service-access.json"
+      }
+    },
+    "pending_requests": [
+      {
+        "service": "Google Play/AppMetrica/Adjust",
+        "operation": "Management and creation routes not covered by current available UI",
+        "requested_at": "2026-10-14T13:27:47.078988+00:00",
+        "request": "Connect authorized user Chrome OR provide personal panel MCP config; do not send passwords/keys in chat",
+        "next_step": "Verify actual operation permissions and resume service registration/Console discovery"
+      }
+    ],
+    "browser_connection_ref": "release/google-play/evidence/chrome-connection.json",
+    "browser_capabilities_ref": "release/google-play/evidence/browser-service-access.json"
+  },
+  "audience": {
+    "minimum_age": null,
+    "child_directed": true,
+    "evidence_ref": "User reply 2026-10-14: including children under 13",
+    "distribution": "mixed_children_and_older",
+    "legal_mismatch_evidence_ref": "release/google-play/evidence/audience-policy.json",
+    "age_gate_status": "approved_pending_implementation",
+    "child_mode": "No MAX, Meta or ads; protected unknown age; separate game documents",
+    "child_mode_approval_evidence_ref": "User reply 2026-10-14: preserve children, child mode and separate documents"
+  },
+  "marketing": {
+    "language": null,
+    "segment": {
+      "description": null,
+      "reason": null,
+      "source_rules_ref": null,
+      "demo_adjustments": []
+    },
+    "videos": {
+      "count": 3,
+      "size": [
+        1080,
+        1920
+      ],
+      "fps": 30,
+      "duration_seconds": [
+        20,
+        30
+      ],
+      "scenarios": [],
+      "manifest_ref": null,
+      "archive_ref": null,
+      "capture_status": "not_started",
+      "edit_status": "not_started",
+      "full_review_status": "not_started"
+    },
+    "playable": {
+      "targets": [],
+      "manifest_ref": null,
+      "archive_refs": [],
+      "browser_qa_ref": null,
+      "local_status": "not_started",
+      "network_validation_status": "not_submitted"
+    },
+    "save_isolation_ref": null,
+    "editor_restored": null
+  },
+  "stages": {
+    "service_access": {
+      "status": "waiting_for_access",
+      "requirements_manifest_ref": "release/google-play/manifests/service_access.json",
+      "evidence_ref": "release/google-play/evidence/browser-service-access.json",
+      "next_step": "Own Chrome connected. Await Adjust/MAX native dashboard login and owner/admin-provided Play account create/read rights. AppMetrica UI currently shows service outage. Existing provider/catalog creation authorization remains accepted."
+    },
+    "sdk_integration": {
+      "status": "in_progress",
+      "requirements_manifest_ref": "release/google-play/manifests/sdk_integration.json",
+      "evidence_ref": "release/google-play/evidence/android-player-api-compile.json",
+      "next_step": "Android player C# compile passed. Supply remaining own keys/legal URLs, resolve native Gradle dependencies and verify artifact/device/provider delivery."
+    },
+    "mediation": {
+      "status": "in_progress",
+      "requirements_manifest_ref": "release/google-play/manifests/mediation.json",
+      "evidence_ref": "release/google-play/evidence/max-registration.json",
+      "next_step": "Register network placements, save mediation; get verified account-level MAX SDK key; adult branch only"
+    },
+    "iap": {
+      "status": "in_progress",
+      "requirements_manifest_ref": "release/google-play/manifests/iap.json",
+      "evidence_ref": null,
+      "next_step": "Continue independent preparation; await explicit confirmation for external changes"
+    },
+    "store_listing": {
+      "status": "waiting_for_user",
+      "requirements_manifest_ref": "release/google-play/manifests/store_listing.json",
+      "evidence_ref": null,
+      "next_step": "Resolve chosen under-13 audience against studio 16+ policy and terms; approve child mode/neutral age screen"
+    },
+    "android_build": {
+      "status": "in_progress",
+      "requirements_manifest_ref": "release/google-play/manifests/android_build.json",
+      "evidence_ref": null,
+      "next_step": "Continue independent preparation; await explicit confirmation for external changes"
+    },
+    "internal_release": {
+      "status": "in_progress",
+      "requirements_manifest_ref": "release/google-play/manifests/internal_release.json",
+      "evidence_ref": null,
+      "next_step": "Continue independent preparation; await explicit confirmation for external changes"
+    },
+    "device_qa": {
+      "status": "in_progress",
+      "requirements_manifest_ref": "release/google-play/manifests/device_qa.json",
+      "evidence_ref": null,
+      "next_step": "Continue independent preparation; await explicit confirmation for external changes"
+    },
+    "marketing_videos": {
+      "status": "not_started",
+      "requirements_manifest_ref": null,
+      "evidence_ref": null,
+      "next_step": null
+    },
+    "playable": {
+      "status": "not_started",
+      "requirements_manifest_ref": null,
+      "evidence_ref": null,
+      "next_step": null
+    }
+  },
+  "sdk_validation": {
+    "contract_ref": "references/sdk-validation.md",
+    "providers": {
+      "appmetrica": {
+        "status": "in_progress",
+        "checks": {
+          "presence": {
+            "status": "verified",
+            "evidence_ref": "release/google-play/evidence/android-player-api-compile.json",
+            "scope": "Pinned managed SDK package/bridge resolved on Unity build machine; Meta binary hashes recorded separately",
+            "next_step": "Native Maven dependency resolution and artifact inclusion remain unverified"
+          },
+          "api_compile": {
+            "status": "verified",
+            "evidence_ref": "release/google-play/evidence/android-player-api-compile.json",
+            "scope": "Unity6000.3.11f1 Android player C# branches, com.multicastgames.catscuteminer; includes manual verified IAP revenue consumers",
+            "next_step": "Resolve native Gradle build and inspect final artifact; no runtime/delivery claim"
+          },
+          "compile": {
+            "status": "in_progress",
+            "evidence_ref": "release/google-play/evidence/android-player-api-compile.json",
+            "next_step": "C# player compilation passed, native Gradle/AAB compilation pending"
+          }
+        },
+        "evidence_ref": null,
+        "next_step": "Own configuration/legal URLs, native artifact and device/dashboard verification remain open"
+      },
+      "adjust": {
+        "status": "in_progress",
+        "checks": {
+          "presence": {
+            "status": "verified",
+            "evidence_ref": "release/google-play/evidence/android-player-api-compile.json",
+            "scope": "Pinned managed SDK package/bridge resolved on Unity build machine; Meta binary hashes recorded separately",
+            "next_step": "Native Maven dependency resolution and artifact inclusion remain unverified"
+          },
+          "api_compile": {
+            "status": "verified",
+            "evidence_ref": "release/google-play/evidence/android-player-api-compile.json",
+            "scope": "Unity6000.3.11f1 Android player C# branches, com.multicastgames.catscuteminer; includes manual verified IAP revenue consumers",
+            "next_step": "Resolve native Gradle build and inspect final artifact; no runtime/delivery claim"
+          },
+          "compile": {
+            "status": "in_progress",
+            "evidence_ref": "release/google-play/evidence/android-player-api-compile.json",
+            "next_step": "C# player compilation passed, native Gradle/AAB compilation pending"
+          }
+        },
+        "evidence_ref": null,
+        "next_step": "Own configuration/legal URLs, native artifact and device/dashboard verification remain open"
+      },
+      "meta": {
+        "status": "in_progress",
+        "checks": {
+          "presence": {
+            "status": "verified",
+            "evidence_ref": "release/google-play/evidence/android-player-api-compile.json",
+            "scope": "Pinned managed SDK package/bridge resolved on Unity build machine; Meta binary hashes recorded separately",
+            "next_step": "Native Maven dependency resolution and artifact inclusion remain unverified"
+          },
+          "api_compile": {
+            "status": "verified",
+            "evidence_ref": "release/google-play/evidence/android-player-api-compile.json",
+            "scope": "Unity6000.3.11f1 Android player C# branches, com.multicastgames.catscuteminer; includes manual verified IAP revenue consumers",
+            "next_step": "Resolve native Gradle build and inspect final artifact; no runtime/delivery claim"
+          },
+          "compile": {
+            "status": "in_progress",
+            "evidence_ref": "release/google-play/evidence/android-player-api-compile.json",
+            "next_step": "C# player compilation passed, native Gradle/AAB compilation pending"
+          }
+        },
+        "evidence_ref": null,
+        "next_step": "Own configuration/legal URLs, native artifact and device/dashboard verification remain open"
+      },
+      "max": {
+        "status": "in_progress",
+        "checks": {
+          "presence": {
+            "status": "verified",
+            "evidence_ref": "release/google-play/evidence/android-player-api-compile.json",
+            "scope": "Pinned managed SDK package/bridge resolved on Unity build machine; Meta binary hashes recorded separately",
+            "next_step": "Native Maven dependency resolution and artifact inclusion remain unverified"
+          },
+          "api_compile": {
+            "status": "verified",
+            "evidence_ref": "release/google-play/evidence/android-player-api-compile.json",
+            "scope": "Unity6000.3.11f1 Android player C# branches, com.multicastgames.catscuteminer; includes manual verified IAP revenue consumers",
+            "next_step": "Resolve native Gradle build and inspect final artifact; no runtime/delivery claim"
+          },
+          "compile": {
+            "status": "in_progress",
+            "evidence_ref": "release/google-play/evidence/android-player-api-compile.json",
+            "next_step": "C# player compilation passed, native Gradle/AAB compilation pending"
+          }
+        },
+        "evidence_ref": null,
+        "next_step": "Own configuration/legal URLs, native artifact and device/dashboard verification remain open"
+      }
+    }
+  },
+  "sdk_install_evidence_ref": "release/google-play/evidence/sdk-install.json",
+  "external_registration_authorization_ref": "User reply 2026-10-14: AppMetrica, Adjust, Meta, MAX registrations approved; Adjust USD/no foreign template; Multicast catalog approved",
+  "legal_documents": {
+    "status": "draft_for_review",
+    "privacy_policy_ref": "Docs/Legal/CatsCuteMiner/privacy-policy.draft.md",
+    "terms_ref": "Docs/Legal/CatsCuteMiner/terms-of-use.draft.md",
+    "published": false,
+    "published_urls": {
+      "privacy": null,
+      "terms": null
+    },
+    "reason": "Accepted mixed under-13 audience conflicts with shared studio 16+ documents"
+  },
+  "sdk_source_compile": {
+    "status": "verified_editor_compile",
+    "evidence_ref": "Docs/Reports/unity-compile.log",
+    "completed_at": "2026-10-14T13:20:30.423456+00:00",
+    "exit_code": 0,
+    "limitations": [
+      "No Android build or native dependency verification",
+      "MAX editor reported missing mainTemplate.gradle; configure templates before Android resolution",
+      "Gameplay integration is being implemented separately"
+    ]
+  },
+  "native_configuration_command_ref": "Assets/Game/Scripts/Editor/GooglePlayProjectConfiguration.cs",
+  "sdk_review": {
+    "status": "reviewed_pending_fixes_and_artifact",
+    "evidence_ref": "Assets/Game/Scripts/Runtime/Integrations/README.md",
+    "findings": [
+      "Final merged manifest must retain Meta flags; source settings insufficient",
+      "Synchronous SDK initialization failure needs safe explicit retry behavior"
+    ]
+  }
+}

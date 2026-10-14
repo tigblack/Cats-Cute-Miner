@@ -1,0 +1,26 @@
+{
+    "name": "CatMiners.Runtime",
+    "rootNamespace": "CatMiners.Runtime",
+    "references": [
+        "CatMiners.Core",
+        "Unity.InputSystem",
+        "Unity.TextMeshPro",
+        "UnityEngine.UI",
+        "AppMetrica",
+        "AdjustSdk.Scripts",
+        "MaxSdk.Scripts",
+        "Unity.Purchasing"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Newtonsoft.Json.dll",
+        "Facebook.Unity.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,164 @@
+{
+ "findings": [
+  {
+   "id": "SCOPE-01",
+   "section": "2, 3 (таблица «Проверенные сведения»)",
+   "quote": "Данные этих систем сохраняются в исходном JSON, но не создают экраны и игровые процессы первой версии.",
+   "category": "omission",
+   "severity": "major",
+   "problem": "В ТЗ нет полного перечня корневых разделов JSON с явным статусом. В таблице §3 названо 13 разделов из 33. Пятнадцать разделов не упоминаются нигде. Reinforcements, SpawningCart, CheckPoint, Exit и Spells встречаются только в тексте. Статусы на уровне полей тоже не заданы: из 30 полей BalanceProperties в ТЗ названо около 8, поля зон CrusherGridId и DecoSeed не упомянуты. Без этого исполнитель не знает, нужно ли писать DTO и валидацию для Bundles или BattlePassRegions, можно ли на них ссылаться из кода, попадают ли они в сборку и можно ли использовать их как доказательство при расшифровке кодов.",
+   "evidence": "scratch/roots.py: корень = Id + 33 раздела. В ТЗ 0 упоминаний: CrushableRewards, FreeGachaCycle, StoreItems(183), CostConversions, Bundles(107), BundleReplacementsAbTest(52), RewardWheel, Achievements(18), ProgressiveOffers(13), ProgressiveOffersABTest, Quests(47), MultiOffers(12), MultiOffersAbTest, BattlePassRegions(8), BattlePassBonusRewards(15). Не упомянутые поля BalanceProperties: DeliveryDelaySecMultiplier/Growth/FormulaType/Variance, DeliveryStartMineShaftNum, DeliveryStartRank, DeliveryForeverAloneDelta, RankUpType, CoreCurrencyId, SoftCurrencyId, CardStackCounts, Common/Uncommon/Rare/EventEpicStackSplitAt, StackableAdsSettings, WelcomeBackAdSettings, LteCurrencyPerZone=[], WeeklyOffer, BattlePass, ThemeId, IsWorldEvergreen; в AntiCheatSettings упомянут только CoreCurrencyMax.",
+   "proposed_fix": "Добавить раздел «3.1. Статус разделов и полей JSON». Каждый раздел и поле получает ровно один статус.\nВ ОБЛАСТИ: типизированный DTO, валидатор, использование в симуляции. Сюда входят Zones (Grid, WidthCells, DepthCells, RankMultipliers; для FogOfWarCheckpoint=0 и GridRowRanks=null валидатор проверяет значения), Miners, Reinforcements, SpawningCart, Rocks, MineShafts, Obstructions, MiningTargetHealths, GeneratorObjectives, CheckPoint, Exit, Cards, CardUpgradeCosts, Gacha, Deliveries, Spells, FreeGachaCycle (см. SCOPE-08). Из BalanceProperties: StartingCoreCurrency, BaseUnitCap, NoGeneratorsCurrencyRate, CoreCurrencyId, SoftCurrencyId, все Delivery*.\nСПРАВОЧНЫЕ: раздел читается как сырой JToken, валидатор проверяет только его наличие, игровых процессов нет. Разрешено ссылаться на такой раздел как на доказательство расшифровки с указанием JSON-пути в BALANCE_MAPPING.md. Сюда входят CrusherGrids, CrushableRewards, Zones.CrusherGridId, Zones.DecoSeed, CostConversions, CardStackCounts, *StackSplitAt, RankUpType, ThemeId, IsWorldEvergreen, WelcomeBackAdSettings.MinMinutesAway (порог показа окна «Пока вас не было»), AntiCheatSettings.\nИСКЛЮЧЕНЫ: раздел не десериализуется в модели, код на него не ссылается, в runtime-сборку он не попадает. Сюда входят StoreItems, Bundles, BundleReplacementsAbTest, ProgressiveOffers, ProgressiveOffersABTest, MultiOffers, MultiOffersAbTest, Quests, Achievements, RewardWheel, BattlePassRegions, BattlePassBonusRewards, BalanceProperties.{BattlePass, WeeklyOffer, StackableAdsSettings, WelcomeBackAdSettings.Multiplier, LteCurrencyPerZone}.\nПоле, которого нет в таблице, по умолчанию считается справочным. Чтобы использовать его в симуляции, нужна запись в реестре."
+  },
+  {
+   "id": "SCOPE-02",
+   "section": "11, 4.2, 10.3",
+   "quote": "Награда, непосредственно указанная в токене `e`, остаётся наградой выхода; дополнительные результаты бонусной мини-игры не симулируются и не выдаются.",
+   "category": "unimplementable",
+   "severity": "critical",
+   "problem": "Награда выхода в данных сама зависит от результата Crusher. По ТЗ её нельзя однозначно выдать, потому что не сказано, какие числа платить. У сундуков выхода zone1–10 заданы диапазоны Min..Max и CardMultMax, которые есть только у них. Для zone11–144 наградой выхода служит сам сундук GachaCrusher. Каждая зона, включая zone1, ссылается на свою сетку Crusher. ТЗ описывает GuaranteedCardMin как общую неизвестность, хотя это поле встречается только в наградах выхода. Исполнителю придётся угадывать: выдать Min, Max, ноль или обычное открытие сундука.",
+   "evidence": "scratch/cardflow2.py, crusher.py и gacha.py. Награды выхода scg_m001..m010_exit: MimicId=GachaCrusher, CardMultMax от 0.3 до 0.95, SoftCurrencyMin 17..100 при Max 250, GuaranteedCardMin < GuaranteedCardCounts. Сумма по 10 зонам: эликсир 697 (Min) против 2500 (Max), гарантированные карты 89 против 171. У остальных 36 сундуков scg_* Min=Max, GuaranteedCardMin пуст. В 134 зонах (zone11–144) e → GachaCrusher: GachaType 0, BaseNumCards 35, SoftCurrency 250/250, EventEpicWeight 125. Это единственный размещённый на картах сундук с EventEpicWeight>0 (кроме него только GachaEpic и GachaLongEpic, которых на картах нет). Zones.CrusherGridId задан у всех 144 зон (сетки 1..34). Суммы CrushableRewards по сеткам: CardMult от 0 (сетка 1) и 2.26 (сетка 2) до 28.8 (сетка 34), SoftCurrencyMult от 0.95 до 49.6, HardCurrency от 6 до 147. Сундуки выхода дают ≈7% базового потока карточек всех сундуков карт (4861 из 69112 без множителей).",
+   "proposed_fix": "Добавить «11.1. Награда выхода без Crusher (правило прототипа EXIT-NOCRUSHER, внести в реестр)»:\n(а) Для записей Gacha с SoftCurrencyMin < SoftCurrencyMax и непустым GuaranteedCardMin (сейчас только scg_m001..m010_exit) выдаётся нижняя граница: SoftCurrencyMin эликсира и GuaranteedCardMin[i] карточек GuaranteedCardIds[i]. CardMultMax не применяется.\n(б) GachaCrusher открывается один раз как обычный сундук своего GachaType: BaseNumCards, веса (включая EventEpicWeight), SoftCurrency, множители зоны. Без каких-либо множителей CrushableRewards.\n(в) CrusherGrids, CrushableRewards и Zones.CrusherGridId справочные.\n(г) В IMPLEMENTATION_NOTES указать упущенную разницу: для zone1–10 это 1803 эликсира и 82 гарантированные карточки, для zone11+ — бонусы Crusher.\nВыдавать верхнюю границу или симулировать средний результат Crusher можно только по решению владельца."
+  },
+  {
+   "id": "SCOPE-03",
+   "section": "10.4, 10.3, 2",
+   "quote": "Для обычных доставок сохраняются условия `RankUnlock`, `CheckPointUnlock`, `Weight`, `MaxDupes` и счётчики сброса.",
+   "category": "omission",
+   "severity": "major",
+   "problem": "ТЗ требует проверять ранговые условия, но нигде не определяет, что такое Rank (ранг). При этом от Rank зависят доставки, бесплатные сундуки, доступность карточек для выпадения (MineUnlock) и выбор множителей зоны. Не сказано и то, что считать значением CheckPointUnlock. Без определения исполнитель введёт собственный «уровень игрока» или будет считать ранг по числу пройденных зон в сессии, и гейтинг окажется произвольным.",
+   "evidence": "scratch/rank2.py, mineunlock.py. Rank используется в Deliveries.RankUnlock (4..9), BalanceProperties.DeliveryStartRank=4, FreeGachaCycle.StartRank=4, RewardWheel.ActivationRank=5, BattlePass.ActivationRank=7, Quests.Rank (8..141), Bundles.MinRank (1..140), Progressive/MultiOffers Min/MaxRank (7..139), Zones[].RankMultipliers (свой набор в каждой зоне); RankUpType=1; GridRowRanks=null. Cards.MineUnlock совпадает с номером первой зоны, где токен s требует эту карту, у 39 из 39 требуемых manager-карт (ca002→2, ca008→14, ca060→134). Первый rockbattlepasscurrency стоит в zone7, а BattlePass.ActivationRank=7. Все значения рангов ≤ 144.",
+   "proposed_fix": "Добавить в раздел 4 определение: «Ранг (Rank) — порядковый номер текущей зоны: zoneN → Rank = N. Это гипотеза H-RANK. Основания: MineUnlock = номер первой зоны с требованием карты для 39/39 manager-карт; все ранговые поля лежат в диапазоне 1..141 ≤ 144; BattlePass.ActivationRank 7 = первая зона с rockbattlepasscurrency. Ранг повышается только при переходе через выход; RankUpType = 1 справочный. Применение: запись доставки доступна при RankUnlock ≤ Rank; доставки включаются при DeliveryStartRank ≤ Rank; бесплатный сундук — при FreeGachaCycle.StartRank ≤ Rank; карта может выпасть при MineUnlock ≤ Rank; RankMultipliers берутся из записи текущей зоны. CheckPointUnlock = N означает, что в текущей зоне открыто не меньше N ворот (гипотеза H-CPUNLOCK). В инструменте выбора зоны Rank равен номеру выбранной зоны».\nОпределение также внести в BALANCE_MAPPING.md."
+  },
+  {
+   "id": "SCOPE-04",
+   "section": "10.4, 4.3",
+   "quote": "Явно выбранная политика: исключать их из доступного пула и нормализовать оставшиеся вероятности по подтверждённому алгоритму",
+   "category": "contradiction",
+   "severity": "major",
+   "problem": "Выбранная политика для рекламных доставок противоречит §4.3 («не компенсируй это скрытыми множителями»). Число доставок задаётся таймером. Если записи IsAd убрать из пула и перенормировать веса, частота обычных доставок (котики, эликсир, золото, динамит) вырастет в несколько раз. Получается скрытый бафф, а не отключение источника.",
+   "evidence": "scratch/delivw.py. IsAd=true у записей 1, 2, 6, 10 с весами 300/30/60/32, всего 422. При гипотезе H-RANK и рулеточных весах доля рекламы в доступном пуле и прирост частоты обычных доставок после перенормировки такие: Rank 5 — 75% (360/480), ×4.00; Rank 6 — 69%, ×3.19; Rank 7 — 65%, ×2.87; Rank ≥9 после открытых ворот — 56% (422/748), ×2.29. На Rank 4 рекламных записей ещё нет (×1.00).",
+   "proposed_fix": "Заменить политику: «Доставка разыгрывается по полному доступному пулу, включая записи IsAd = true. Если выпала рекламная запись, слот пропускается: доставка не появляется, награда не выдаётся, счётчики MaxDupes и claim не меняются, таймер перезапускается по обычной формуле. В диагностику пишется событие SkippedAdDelivery. Перенормировка пула без рекламных записей запрещена: она в 2.3–4 раза повышает частоту обычных доставок. В IMPLEMENTATION_NOTES указать долю пропущенных слотов по рангам»."
+  },
+  {
+   "id": "SCOPE-05",
+   "section": "10.4",
+   "quote": "В текущем файле есть `DeliveryStartupDelaySec = 20`, `DeliveryDelaySecBase = 22`, `DeliveryClaimCountResetSec = 3600`, `DeliveryMaxDupesResetSec = 14400`.",
+   "category": "omission",
+   "severity": "major",
+   "problem": "Параметры таймера и включения доставок перечислены частично. Без Growth, FormulaType и Variance исполнитель сделает постоянный 22-секундный таймер, хотя данные задают растущий интервал со случайным отклонением. Без StartRank и StartMineShaftNum доставки появятся с первой секунды zone1. Значение DeliveryForeverAloneDelta не объяснено и не получило статуса.",
+   "evidence": "BalanceProperties: DeliveryDelaySecBase 22, DeliveryDelaySecMultiplier 1, DeliveryDelaySecGrowth 1.02, DeliveryDelaySecFormulaType 2, DeliveryDelaySecVariance 0.1, DeliveryStartupDelaySec 20, DeliveryClaimCountResetSec 3600, DeliveryMaxDupesResetSec 14400, DeliveryStartMineShaftNum 2, DeliveryStartRank 4, DeliveryForeverAloneDelta 2. FormulaType 2 используется также для UpgradeCost (72; Growth 1.43), то есть это растущая функция аргумента. Сброс по DeliveryClaimCountResetSec указывает, что аргументом служит счётчик полученных доставок. FreeGachaCycle имеет те же условия старта (StartRank 4, StartMineshaftNum 2).",
+   "proposed_fix": "Заменить абзац полным перечнем: «Интервал до следующей доставки = FormulaEvaluator(FT = DeliveryDelaySecFormulaType, Base = 22, Multiplier = 1, Growth = 1.02; аргумент = число доставок, полученных с последнего сброса по DeliveryClaimCountResetSec) × случайный множитель из [1 − Variance; 1 + Variance] (гипотеза H-DELIV-DELAY). Случайный множитель берётся из сохраняемого ГСЧ. Первый таймер после включения равен DeliveryStartupDelaySec. Доставки включаются, когда Rank ≥ DeliveryStartRank и число активированных шахт текущей зоны ≥ DeliveryStartMineShaftNum (гипотеза H-DELIV-START). Счётчики MaxDupes сбрасываются через DeliveryMaxDupesResetSec. DeliveryForeverAloneDelta не реализуется и вносится в открытые вопросы реестра». Все гипотезы внести в BALANCE_MAPPING.md."
+  },
+  {
+   "id": "SCOPE-06",
+   "section": "2 (таблица «Доставка»), 10.4",
+   "quote": "обычные доставки из поддерживаемых записей JSON",
+   "category": "ambiguity",
+   "severity": "major",
+   "problem": "Доставки с котиком (RewardType 4) входят в первую версию, но значение их количества не определено. В данных QuantityBase равен +2 у рекламных записей и −2 у обычных. Отрицательное количество котиков невозможно, поэтому это почти наверняка смещение уровня относительно текущего найма. Если трактовать Quantity как количество, исполнитель получит «−2 котика», обрежет значение до нуля и потеряет основную бесплатную доставку.",
+   "evidence": "Deliveries id 1–2 (IsAd): RewardType 4, DetailedType tinygoblin, QuantityBase +2, Mult 0, Growth 0, Power 0, QuantityRound +1, FT3. Id 3–5 (обычные): QuantityBase −2, QuantityRound −1. Похожие данные: SpawningCart.SpawnLevelOffset = −1, RewardWheel tinygoblin Quantity 1 и 0. Записи 3–5 составляют 72 из 120..326 веса обычного пула (100% на Rank 4).",
+   "proposed_fix": "Добавить в 10.4: «RewardType 4 (DetailedType = ID шахтёра) выдаёт одного котика. Значение Q, вычисленное по полям Quantity*, — смещение уровня относительно текущего уровня найма: уровень = max(1, hireLevel + Q). Это гипотеза H-DELIV-CAT, по аналогии с SpawnLevelOffset = −1. Q не является количеством. Доставленный котик подчиняется лимиту как бесплатный: если места нет, получение ждёт места».\nВнести гипотезу в реестр."
+  },
+  {
+   "id": "SCOPE-07",
+   "section": "2 (таблица «Динамит»), 10.5",
+   "quote": "Если семантика соответствующих наград или `SpellType` не установлена, сохранять их как неподдерживаемый предмет в техническом инвентаре и отмечать это в отчёте",
+   "category": "ambiguity",
+   "severity": "major",
+   "problem": "Статус динамита условный («если подключены…»), а запасной вариант («неподдерживаемый предмет») даёт игроку бесполезную награду до 37% обычных доставок. Число зарядов в данных вообще не задано: все поля Quantity равны 0. Неизвестен и аргумент формулы урона. Поэтому условие «если семантика установлена» по одному JSON не выполнится никогда, и результат по умолчанию — мёртвые доставки.",
+   "evidence": "Deliveries 16–21 (DetailedType Dynamite): QuantityBase, Multiplier, Growth, Power и Round равны 0, FT3; RankUnlock 6–9; CheckPointUnlock 0/1; веса 15+30+40+5+20+10 = 120. Доля в обычном пуле (scratch/delivw.py): 21% на Rank ≥9 без открытых ворот, 37% с открытыми. Spells: одна запись, SpellType 1, Effect FT1 750/300/2.1 (тот же Growth 2.1, что у Miners.DamageGrowth), CritChance 0, CritPower 2.",
+   "proposed_fix": "Принять однозначное решение: «Динамит входит в первую версию. Доставка Dynamite даёт 1 заряд (правило прототипа: все Quantity* = 0). Урон = FormulaEvaluator(Spells.Effect*), аргумент = текущий уровень найма (гипотеза H-DYN-ARG: тот же Growth 2.1, что у урона котика). Альтернатива Rank допустима только по решению владельца. Крит считается по Spells.Crit*. Если владелец не принимает H-DYN-ARG, записи Dynamite обрабатываются как рекламные (слот пропускается, см. SCOPE-04). Выдавать неиспользуемый предмет запрещено»."
+  },
+  {
+   "id": "SCOPE-08",
+   "section": "2, 4.3, 10",
+   "quote": "—",
+   "category": "omission",
+   "severity": "major",
+   "problem": "FreeGachaCycle в ТЗ не упоминается совсем. Это бесплатный источник сундуков по таймеру, не реклама и не покупка. Он не попадает ни в список включённого, ни в §4.3 (магазин, реклама, события, мини-игра). В нём два сценарных сундука онбординга, которые больше нигде не используются. Если источник молча выпадет, поток карточек и эликсира уменьшится без записи об этом в отчёте.",
+   "evidence": "FreeGachaCycle: StartRank 4, StartMineshaftNum 2, MaxFreeGachas 2, Hours 4, 377 GachaIds. Состав: 300 Wooden, 55 Iron, 12 Forged, 4 Silver, 2 Golden, 1 Royal, 1 Legendary, scg_free_01 (ca002×1, ca015×1, 19 эликсира), scg_free_02 (ca001×2, 22 эликсира). scg_free_01/02 есть только здесь (gacha.py: «never referenced by zones/rocks»). Поток без множителей (scratch/cardflow2.py): 3475 базовых карточек, ≈5% от 69112 у всех сундуков на картах, и ≈24.6 тыс. эликсира. Полный цикл занимает 377 × 4 ч = 1508 ч.",
+   "proposed_fix": "Добавить в таблицу §2 и в §10 «10.6. Бесплатный сундук»: «Каждые Hours = 4 ч начисляется один сундук, в запасе не больше MaxFreeGachas = 2, в том числе офлайн в пределах офлайн-лимита. Сундук доступен при Rank ≥ StartRank и активированных шахтах ≥ StartMineshaftNum, в той же трактовке, что у доставок. Сундуки выдаются строго в порядке GachaIds. Индекс хранится в PlayerProgressState и не сбрасывается при переходе зоны. Поведение после конца массива определяется тем же правилом конца цикла, что для RewardCycle камней (одна запись в реестре). Кнопка размещается в панели «Чертежи»». Если владелец решит исключить источник, внести его в перечень отключённых источников §4.3 с приведёнными объёмами."
+  },
+  {
+   "id": "SCOPE-09",
+   "section": "2, 10.2, 17.1",
+   "quote": "события, сезонный пропуск, задания на сутки",
+   "category": "omission",
+   "severity": "major",
+   "problem": "Сезонный пропуск исключён, но его камни стоят на 72 картах основного геймплея, и правил для них нет. ТЗ запрещает заменять неизвестный объект стандартным камнем (§17.1), а награда ведёт в исключённую систему. Возможные решения исполнителя ломают либо геометрию (удалить камень, сделать непроходимым), либо политику (выдавать «что-нибудь»). Если такой камень сделать непроходимым, на двух картах часть целей станет недостижимой.",
+   "evidence": "rockbattlepasscurrency: 72 размещения, по одному в 72 зонах, первое в zone7 (= BattlePass.ActivationRank 7), уровни до 65. Есть своя HP-таблица MiningTargetHealths.rockbattlepasscurrency, RewardCycle = [(0, 'BattlePass', 1)], AntiCheatSettings.BattlePassCurrencyMax = 0. Проверка scratch/reach_bp_wall.py (расчистка с 4-соседством от старта): если эти камни непроходимы, недостижимы zone48 idx 11 'r:rockbasic:20' и zone83 idx 6 'r:rockgachaforged:43'.",
+   "proposed_fix": "Добавить в 10.2: «rockbattlepasscurrency остаётся добываемой целью размером 1×1 с собственной HP-таблицей; геометрия и проходимость не меняются. Награда BattlePass не выдаётся и не хранится, в журнал пишется событие ExcludedReward(BattlePass). Визуально — нейтральная порода без символики пропуска. В счётчик оставшихся камней перед переходом не входит. Запрещено делать её непроходимой, удалять из сетки или подменять rockbasic». Отличие указать в IMPLEMENTATION_NOTES."
+  },
+  {
+   "id": "SCOPE-10",
+   "section": "2 (таблица «Карточки», список исключений), 10.1, 11",
+   "quote": "Минимальный слой карточек, необходимых для дохода, автоматизации и прогрессии шахт",
+   "category": "ambiguity",
+   "severity": "major",
+   "problem": "Граница «минимального слоя карточек» и термин «исследования» в данных не определены. Исполнитель не может решить, какие из 21 карточки без роли manager входят в первую версию. Часть этих карточек гарантированно выдаётся наградами выхода, то есть основным геймплеем, но их эффекты не расшифрованы. Другие доступны только через магазинные Bundles или не упоминаются нигде. Совет скрыть карты исключённых режимов не применим: определить режим по данным нельзя.",
+   "evidence": "scratch/cards2.py и cardsrc.py. Из 61 карты 40 — manager (StatModifierType 9, Rarity 1/2). У 21 карты без роли manager 21 разный код StatModifierType (1, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 19, 20, 21, 22, 23, 24, 25, 26), по одной карте на код. Гарантированно в наградах выхода: ca026 (scg_m004/m006/m009_exit), ca029 (m005/m008), ca030 (m010), ca050 (m007). Только в Bundles: ca027, ca028, ca031–ca033, ca035–ca037, ca043, ca051–ca055. Нигде вне Cards: ca034, ca038, ca062. Коды CheckPoint 10/7/1 совпадают с ca034/ca029/ca038. У ca062 (Rarity 6) нет веса выпадения ни в одном Gacha.",
+   "proposed_fix": "Заменить строку таблицы и §10.1 явным правилом: «Все 61 карточка входят в первую версию как предметы коллекции: получение, дубликаты, улучшение за эликсир по CardUpgradeCosts. Применяемый эффект один: автоматизация шахты по cardId и уровню из токена s (manager-карты, код 9). Эффекты остальных 20 кодов StatModifierType и бонусы CheckPoint не применяются ни в одном профиле, пока код не внесён в реестр с доказательством. В UI такие карты помечаются «эффект не подтверждён». Карты ca026, ca029, ca030, ca050 не скрывать: их выдают награды выхода. Карты, недостижимые в основном геймплее (сейчас ca062), в панели не показывать». Слова «исследования вне исходного минимального слоя карточек» из §2 удалить."
+  },
+  {
+   "id": "SCOPE-11",
+   "section": "10.3, 4.2",
+   "quote": "Учесть `GuaranteedCardIds`, `GuaranteedCardCounts`, опциональный `GuaranteedCardMin`, базовое количество карточек, ограничения по открытым картам и множители текущей зоны.",
+   "category": "omission",
+   "severity": "major",
+   "problem": "Случайный выбор карточек — единственный источник большинства требуемых manager-карт. Без него автоматизация шахт недостижима начиная с zone14. При этом в ТЗ не названы влияющие на выбор поля (ManagerChanceMult, LowCardChanceMult, Cards.MineUnlock, SoftCurrencyMin/Max) и не определено соответствие числовой Rarity и весов Gacha. Формулировка «ограничения по открытым картам» не указывает поле.",
+   "evidence": "scratch/mineunlock.py и cardsrc.py: 28 из 39 manager-карт, которые требуются в токенах s, ни разу не встречаются в GuaranteedCardIds. Первая такая — ca008 (onyx, zone14, требуемый уровень 5). Последняя зона, где хватает гарантированных карт, — zone12. Поля Gacha: BaseNumCards; UncommonWeight, RareWeight, LegendaryWeight, EventEpicWeight (поля Common, Epic и Majestic нет); ManagerChanceMult (3 у типов 0/1 и GachaLegendary, 1 у типа 3, 0 у scg_*); LowCardChanceMult 2; SoftCurrencyMin/Max. Cards.MineUnlock 1..138. В ТЗ этих полей нет (grep: 0 упоминаний).",
+   "proposed_fix": "Добавить «10.3.1. Случайный выбор карточек (обязателен в первой версии)». Поля: BaseNumCards, все *Weight, ManagerChanceMult, LowCardChanceMult, SoftCurrencyMin/Max, Cards.Rarity, Cards.MineUnlock (карта доступна при MineUnlock ≤ Rank, см. SCOPE-03). Алгоритм не установлен, поэтому он реализуется в PrototypeCompatibility с явным описанием (гипотеза H-GACHA-DRAW). Для каждой карты сундука редкость определяется по шансам 1/Weight; иначе выпадает карта редкости 1. Вес manager-карт внутри редкости умножается на ManagerChanceMult. LowCardChanceMult до расшифровки не применяется. Эликсир берётся равномерно из [SoftCurrencyMin; SoftCurrencyMax]. В VALIDATION_REPORT показать, к какой зоне на обычном профиле достижима автоматизация каждой шахты."
+  },
+  {
+   "id": "SCOPE-12",
+   "section": "10.3, 9.3",
+   "quote": "множители текущей зоны",
+   "category": "omission",
+   "severity": "major",
+   "problem": "В RankMultipliers 12 полей, а в ТЗ названо одно (GenObjectiveSoftCurrencyMultiplier). Не сказано, какие категории Gacha (Normal, Premium, Rare) соответствуют значениям GachaType, применяются ли множители к сценарным сундукам и что делать с четырьмя полями лидерборда. Ошибка здесь меняет число карточек в несколько раз: GachaCardsMultNormal на zone1 равен 0.1.",
+   "evidence": "scratch/rank.py. Поля: GenObjectiveSoftCurrencyMultiplier, MiningSoftCurrencyMultiplier, GachaSoftCurrencyMult{Normal,Premium,Rare}, GachaCardsMult{Normal,Premium,Rare}, MiningLeaderboardCurrencyMultiplier, GachaLeaderboardCurrencyMult{Normal,Premium,Rare}. Все четыре поля лидерборда равны 1 во всех 144 зонах; Rocks.LeaderboardCurrency* равны 0 у всех 26 камней, Gacha.LeaderboardCurrency = 0 у всех 58. GachaCardsMultNormal: z1 0.1, z5 0.325, z10 1.0, z144 4. GachaType: 0 = Wooden, Iron, Forged, Silver, Golden, Crusher; 1 = Royal, Mythical; 2 = 46 scg_* и GachaLegendary; 3 = Epic, LongEpic, Rare, Uncommon. Согласованность: у сундуков типа 3 SoftCurrency = 0, и GachaSoftCurrencyMultRare = 1 во всех зонах. Если применить 0.1 к scg_m001_exit (GuaranteedCardCounts [1]), получится 0 карт.",
+   "proposed_fix": "Добавить таблицу соответствия (гипотеза H-GACHA-MULT): «Normal ↔ GachaType 0; Premium ↔ GachaType 1; Rare ↔ GachaType 3. GachaType 2 (сценарные scg_* и GachaLegendary) открывается без множителей зоны. MiningSoftCurrencyMultiplier применяется к эликсиру из RewardCycle камней (Soft) и из rocksoftcurrency*. GenObjectiveSoftCurrencyMultiplier — к GeneratorObjectives.SoftCurrencyReward*. Множитель берётся из зоны, в которой выдана награда. Поля *Leaderboard* и все LeaderboardCurrency* исключены; валидатор проверяет, что они равны 1 и 0 соответственно, иначе выдаёт предупреждение»."
+  },
+  {
+   "id": "SCOPE-13",
+   "section": "4.3, 10.1, 9.3",
+   "quote": "После исключения источников ресурсов фактический темп может измениться.",
+   "category": "omission",
+   "severity": "major",
+   "problem": "ТЗ требует записать отключённые источники, но не перечисляет ни их, ни включённые источники и стоки эликсира и карточек. Экономика эликсира в первой версии не описана, поля наград эликсиром не названы (GeneratorObjectives.SoftCurrencyReward*, Rocks.SoftCurrency*). Объём исключённых источников при этом заметен по сравнению со стоком.",
+   "evidence": "Включённые источники эликсира: Rocks.SoftCurrency{Base, Multiplier, Growth, FT} (rockbasic и онбординг 4/0.3/0/FT0; rocksoftcurrencysmall 16/2.5; big 45/7); GeneratorObjectives.SoftCurrencyReward{Base, Multiplier, Growth, FT0} (например, spawningcart 0.5/0.125, amethyst 1.4/0.6); Gacha.SoftCurrencyMin/Max; Deliveries 7–9. Сток: CardUpgradeCosts (полное улучшение карты Rarity 1 стоит 168 350 эликсира, Rarity 2 — 223 700). Исключённые (scratch/excluded_flow.py): Quests — 185 550 эликсира и 1232 карты (535 Common, 544 Uncommon, 117 Rare, 36 EventEpic); Achievements — 553 карты и 2159 твёрдой валюты; StoreItems softcurrency_1000/10000/100000; CrushableRewards.SoftCurrencyMult; рекламная доставка 6; RewardWheel.",
+   "proposed_fix": "Добавить «4.4. Источники и стоки ресурсов». Таблица по ресурсам (золото, эликсир, карточки, твёрдая валюта, котики, динамит) с колонками: источник (раздел и поле) и статус («в области», «исключён», «правило прототипа»). Исключённые источники перечислить поимённо с объёмами: Quests, Achievements, StoreItems и Bundles, RewardWheel, BattlePass, Crusher, рекламные доставки, StackableAds, WelcomeBack. Требование к отчёту: в обычном профиле вести журнал начислений по источникам. VALIDATION_REPORT показывает накопленный эликсир и карты по источникам после zone1–zone10."
+  },
+  {
+   "id": "SCOPE-14",
+   "section": "13, 2",
+   "quote": "Твёрдую валюту сохранять, но не делать главным элементом HUD, пока у неё нет потребительской функции.",
+   "category": "omission",
+   "severity": "minor",
+   "problem": "Раздел CostConversions (цены недостающих эликсира и карточек в твёрдой валюте) не получил статуса. Исполнитель может добавить «доплату кристаллами» как сток. Это механика монетизации, и она меняет темп улучшения карточек. Камни с твёрдой валютой — массовый тип цели, но по ТЗ награда за них никуда не идёт.",
+   "evidence": "CostConversions: SoftCurrency 0.0625, Common 1, Uncommon 10, Rare 100, Epic 500, Legendary 2000. Камни: rockhardcurrencysmall — 1412 размещений (по 3), rockhardcurrencybig — 67 (по 10), итого 4906; плюс записи Hard в цикле rockbasic (14×1 + 9×2 на 500). StoreItems с CurrencyCode 0 (72 шт., например gacha_royal за 750) — стоки только в магазине. AntiCheatSettings.HardCurrencyMax = 500000.",
+   "proposed_fix": "Добавить в §2 и в §13: «CostConversions исключён: покупка недостающих эликсира или карточек за твёрдую валюту не реализуется. Твёрдая валюта начисляется и хранится без расхода. rockhardcurrency* — обычные добываемые цели. Баланс твёрдой валюты показывается в профиле или инвентаре. HardCurrencyMax и SoftCurrencyMax из AntiCheatSettings, как и CoreCurrencyMax, не применяются для обрезки»."
+  },
+  {
+   "id": "SCOPE-15",
+   "section": "1, 4.1, 14, 19",
+   "quote": "Сохрани файл побайтно в проекте, например как `Assets/Game/Data/Source/json-data.json`.",
+   "category": "risk",
+   "severity": "critical",
+   "problem": "Приложенный JSON по всем признакам — рабочая конфигурация коммерческой игры Gold & Goblins: магазинные ID, токены локализации, 144 авторские карты, полный баланс и монетизация. ТЗ запрещает заменять карты и экономику (§1), требует хранить файл байт в байт и собрать APK (§19), но в §14 утверждает, что из референса берётся только механика. Механики обычно не охраняются. Конкретные уровни и подборка данных могут охраняться: как произведения, правом изготовителя базы данных (ст. 1334 ГК РФ, sui generis в ЕС) и условиями лицензии и пользовательского соглашения (EULA/ToS) исходного приложения, если данные из него извлечены. Сборка, которая загружает этот JSON как TextAsset, распространяет его целиком, включая магазинные ID.",
+   "evidence": "scratch/ip.py: в StoreItems 121 из 183 Id имеют вид com.redcellgames.goldandgoblins.* — это ID товаров магазина приложения; например, ...t02_hardcurrency_160 стоит 199 при CurrencyCode 2 (реальные деньги). Ещё есть NameToken 'storeitem.name.*', Achievements.BalanceId 'evergreen', AssetId вроде 'GoldPileBlue', внутренний ID 'tinygoblin', SHA-256 исходного файла сохраняется. Сама ТЗ ссылается на справку appquantum.helpshift.com по Gold & Goblins.",
+   "proposed_fix": "Добавить раздел «4.5. Правовой статус данных».\n1) Приложенный JSON используется только для внутреннего прототипа. Сборки с ним не публикуются и не передаются третьим лицам; APK в отчёте помечается «internal only».\n2) Исходный файл лежит вне путей, попадающих в сборку: не Resources, не StreamingAssets, не Addressables, без ссылки из сцены.\n3) Runtime получает производный ассет, который генерируется в Editor и содержит только разделы со статусом «в области» и hash исходника. StoreItems, Bundles, Offers, BattlePass, Quests и Achievements в сборку не попадают.\n4) Код не содержит литералов ID из данных (tinygoblin, scg_*, Gacha*, ID шахт) вне PresentationCatalog, тестов и адаптера данных. Тогда весь набор можно заменить собственным той же схемы.\n5) До любого внешнего релиза владелец получает юридическое заключение и либо лицензию, либо собственные карты и баланс («этап E»).\n6) Пункт §14 переформулировать: «механика и, временно для прототипа, данные референса»."
+  },
+  {
+   "id": "SCOPE-16",
+   "section": "4.2 (таблица), 10.2",
+   "quote": "| `CurrencyType`, `GachaType`, часть `RewardType` | Значение числовых кодов, особенности отдельных источников |",
+   "category": "improvement",
+   "severity": "minor",
+   "problem": "Исключённые разделы содержат прямые доказательства для расшифровки кодов основных систем: RewardType, имена редкостей. ТЗ этим не пользуется и не разрешает это явно. Не задано и то, какие RewardType должны поддерживаться в основном геймплее, поэтому исполнитель может писать resolver'ы для всех 12 кодов или пропустить неизвестный код без ошибки.",
+   "evidence": "scratch/cardsrc.py, сводка RewardType по всем разделам: 0 — валюта (Core/Soft/Hard/BattlePass); 1 — Gacha; 2 — случайная карта по имени редкости (Common, Uncommon, Rare, EventEpic, Legendary, Majestic); 3 — конкретная карта (Bundles: ca050); 4 — шахтёр (tinygoblin); 5 — '1'/'4'/'12'; 6 — '5'/'10'/'30'; 7 — ID бандла; 8 — 'none'; 9 — Dynamite; 12 — FreeSpin; 13 — '0'..'7'. В разделах «в области» (Rocks, Deliveries, Gacha, Zones) встречаются только 0, 1, 4, 9. Имена редкостей: CostConversions (Common..Legendary, 5 имён), BattlePassRegions (+Epic, Majestic), *StackSplitAt (+EventEpic). Числовых значений Rarity в Cards шесть (1..6).",
+   "proposed_fix": "Добавить в 4.2: «Справочные и исключённые разделы разрешено использовать как доказательство расшифровки, с JSON-путём в BALANCE_MAPPING.md. Обязательный минимум реестра — таблица RewardType 0..13 и предполагаемое соответствие Rarity 1..6 ↔ имя (Common, Uncommon, Rare, Epic/EventEpic, Legendary, Majestic) с пометкой степени подтверждения. В основном геймплее поддерживаются только RewardType 0 (Core, Soft, Hard; BattlePass — см. правило для камня пропуска), 1, 4, 9. Валидатор выдаёт ошибку с путём поля, если в разделе «в области» встретился другой код»."
+  }
+ ]
+}

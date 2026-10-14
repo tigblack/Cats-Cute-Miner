@@ -1,0 +1,62 @@
+# Unity-generated data and local machine settings
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+/[Bb]uild/
+/[Bb]uilds/
+/Backups/
+/Transfers/
+
+# Generated test/tool outputs and local IDE files
+**/bin/
+**/obj/
+**/node_modules/
+**/__pycache__/
+*.pyc
+*.csproj
+*.sln
+*.slnx
+*.suo
+*.user
+*.pidb
+*.booproj
+*.log
+*.tmp
+*.bak
+.vs/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Raw QA/capture reports may contain local paths or authenticated browser traces.
+# Public, curated release evidence lives under release/google-play/evidence/.
+/Docs/Reports/
+
+# Personal agent sessions and service access/signing material
+/.t3/
+/.claude/
+/.codex/
+*.local.json
+*.local.md
+*.local.env
+*.secret.json
+.env
+.env.*
+!.env.example
+*.keystore
+*.jks
+*.p12
+*.pfx
+*.pem
+*.key
+browser-session*.json
+access.local.json
+superleo*.env
+
+# Keep templates and Unity .meta files; no global DLL/AAR exclusion.

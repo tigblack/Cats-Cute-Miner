@@ -1,0 +1,22 @@
+<Project>
+  <!-- Быстрая проверка компиляции Unity-кода без Unity: netstandard2.1, C# 9, ссылки на DLL Unity и пакетов. -->
+  <PropertyGroup>
+    <UnityCheckSuffix Condition="'$(UnityCheckInstance)' != ''">-$(UnityCheckInstance)</UnityCheckSuffix>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)..\..\obj\UnityCheck$(UnityCheckSuffix)\$(MSBuildProjectName)\obj\</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(MSBuildThisFileDirectory)..\..\obj\UnityCheck$(UnityCheckSuffix)\$(MSBuildProjectName)\bin\</BaseOutputPath>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>$(NoWarn);CS1591;CS0649;CS0414;CS0169;NU1603;MSB3277;MSB3243</NoWarn>
+    <DefineConstants>$(DefineConstants);UNITY_EDITOR;UNITY_INCLUDE_TESTS;UNITY_2021_3_OR_NEWER;UNITY_2022_3_OR_NEWER;UNITY_6000_0_OR_NEWER;DEVELOPMENT_BUILD;ENABLE_INPUT_SYSTEM</DefineConstants>
+    <AssetsDir>$(MSBuildThisFileDirectory)..\..\Assets\Game\</AssetsDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="$(UnityManaged)\UnityEngine\UnityEngine.*.dll" Private="false" />
+    <Reference Include="$(NewtonsoftDll)" Private="false" />
+  </ItemGroup>
+</Project>

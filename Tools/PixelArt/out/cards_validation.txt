@@ -1,0 +1,3 @@
+61 unique 48×44 card_art sprites; RAMPS only; all opaque; no ca061.
+Majestic background: 64×48; frame: 24×32, pivot (12,16), border (6,6,6,6).
+All 3494 baseline sprites have identical pixels, pivots and borders.

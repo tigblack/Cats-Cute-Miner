@@ -1,0 +1,21 @@
+{
+  "full_run": {
+    "total": 2532,
+    "passed": 2530,
+    "failed": 2,
+    "failures": [
+      "OutpostConfigTests.Versions_MatchTz",
+      "OutpostRewardTests.NewProfile_RewardRngIsStream5OfSeed"
+    ],
+    "reason": "Outdated schema 1 expectations after accepted durable payment schema 2 integration",
+    "log": "Docs/Reports/google-play-coretests.log"
+  },
+  "correction": "Both version expectations now explicitly require 2; save-format addition documented in game TZ",
+  "affected_suites_after_correction": {
+    "total": 106,
+    "passed": 106,
+    "failed": 0,
+    "log": "Docs/Reports/google-play-schema-tests.log"
+  },
+  "android_player_compile": "not_yet_run; helper Editor compilation passed"
+}

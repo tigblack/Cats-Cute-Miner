@@ -1,0 +1,35 @@
+{
+  "requested_by_user": true,
+  "server": "chrome-devtools",
+  "installation": "installed",
+  "enabled": true,
+  "tool_availability": "available",
+  "connection": "connected",
+  "arguments": [
+    "-y",
+    "chrome-devtools-mcp@latest",
+    "--autoConnect",
+    "--no-usage-statistics",
+    "--no-performance-crux",
+    "--redactNetworkHeaders"
+  ],
+  "session_exported": false,
+  "personal_chrome_restarted": false,
+  "next_step": "Reuse task pages 2/3. Await Adjust/MAX login and Play create/read account permissions. AppMetrica dashboard shows a service outage.",
+  "user_remote_debugging_reply": "Готово",
+  "pc_probe": {
+    "computer_name": "TINOTE",
+    "current_user": "arutt",
+    "chrome_process_count": 1,
+    "chrome_session_id": 1,
+    "chrome_version": "155.0.8059.40",
+    "default_devtools_active_port_exists": true
+  },
+  "user_chrome_reply": "Chrome открыт на TINOTE",
+  "verified_at": "2026-10-14T16:02:25.494777+00:00",
+  "owned_task_pages": {
+    "adjust": 2,
+    "google_play": 3
+  },
+  "user_inspect_page": 1
+}

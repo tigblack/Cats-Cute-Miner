@@ -1,0 +1,305 @@
+using System;
+using System.Collections.Generic;
+using CatMiners.Core.Data;
+
+namespace CatMiners.Core.Outpost
+{
+    /// <summary>
+    /// Новые значения токенов (ТЗ 8.2–8.4): площадка базы из трёх строк под картой, ворота как логический барьер,
+    /// секторы, рабочие клетки. c и e — проходимые маркеры, старой искусственной занятости нет.
+    /// </summary>
+    public static class OutpostLevelAdapter
+    {
+        public const int BaseRows = 3;
+
+        /// <summary>Импорт и адаптация зоны одним вызовом: новая шахта получает текущий override зоны из конфигурации.</summary>
+        public static OutpostMap Build(BalanceRepository repo, int zoneNumber, LevelOverrides overrides = null)
+        {
+            if (repo == null) throw new ArgumentNullException(nameof(repo));
+            return BuildWithOverride(repo, zoneNumber, overrides?.For(repo.Zone(zoneNumber).Id));
+        }
+
+        /// <summary>Карта с заданным override зоны (null — исходная геометрия).</summary>
+        public static OutpostMap BuildWithOverride(BalanceRepository repo, int zoneNumber, ZoneOverride zoneOverride) =>
+            Build(SourceLevelImporter.Import(repo, zoneNumber, zoneOverride));
+
+        /// <summary>New campaign mine. Source/override owns content; a separate snapshot owns geometry.</summary>
+        public static OutpostMap BuildMine(BalanceRepository repo, int zoneNumber, OutpostConfigSet configs)
+        {
+            if (configs == null) throw new ArgumentNullException(nameof(configs));
+            var map = Build(repo, zoneNumber, configs.Overrides);
+            if (configs.Topologies == null) return map;
+            if (configs.Topologies.SourceSha256 != repo.Sha256)
+                throw new ArgumentException("Mine topology source checksum mismatch");
+            var topology = configs.Topologies.For(map.ZoneId);
+            if (topology == null) throw new ArgumentException("Missing topology: " + map.ZoneId);
+            return MineTopologyAdapter.Apply(map, topology);
+        }
+
+        /// <summary>
+        /// Карта сохранённой шахты: с копией override, с которой run создан (<see cref="OutpostRun.MapOverride"/>), а не с текущим
+        /// файлом конфигурации — изменённый override не подменяет геометрию незавершённой шахты.
+        /// </summary>
+        public static OutpostMap ForRun(BalanceRepository repo, OutpostRun run)
+        {
+            if (run == null) throw new ArgumentNullException(nameof(run));
+            var map = BuildWithOverride(repo, run.Zone, run.MapOverride);
+            return run.MapTopology == null ? map : MineTopologyAdapter.Apply(map, run.MapTopology);
+        }
+
+        /// <summary>
+        /// Адаптация импортированной зоны. Геометрию override вносит импорт (<see cref="SourceZone.Override"/>);
+        /// <paramref name="overrides"/> только сверяется с ним: зона с override не строится из импорта без него.
+        /// </summary>
+        public static OutpostMap Build(SourceZone src, LevelOverrides overrides = null)
+        {
+            if (src == null) throw new ArgumentNullException(nameof(src));
+            var expected = overrides?.For(src.ZoneId);
+            if (expected != null && expected.HasGeometry() && !ZoneOverride.SameAs(expected, src.Override))
+                throw new ArgumentException(src.ZoneId + ": импорт без override " + expected.Name);
+            int width = src.Width, depth = src.Depth, rows = depth + BaseRows;
+            var map = new OutpostMap
+            {
+                ZoneId = src.ZoneId,
+                Number = src.Number,
+                Width = width,
+                Depth = depth,
+                Rows = rows,
+                CellCount = width * rows,
+                DecoSeed = src.DecoSeed,
+                SourceSha256 = src.SourceSha256,
+                Override = src.Override,
+                OverrideName = src.Override?.Name,
+            };
+            int baseCol = width / 2;
+            map.SpawnCell = map.Cell(baseCol, depth + 1);
+            map.IntakeCell = map.SpawnCell;
+            map.DepotCells = new[] { map.Cell(baseCol - 1, depth + 1), map.Cell(baseCol + 1, depth + 1) };
+            if (baseCol - 1 < 0 || baseCol + 1 >= width) throw new OutpostDataException(src.ZoneId, -1, "поле слишком узкое для базы");
+            var camp = new int[width * BaseRows];
+            for (int r = 0; r < BaseRows; r++)
+                for (int c = 0; c < width; c++)
+                    camp[r * width + c] = map.Cell(c, depth + r);
+            map.CampCells = camp;
+
+            // Ворота: по строке убыв., затем по индексу якоря.
+            var gateTokens = new List<SourceToken>();
+            var targetTokens = new List<SourceToken>();
+            foreach (var t in src.Tokens)
+            {
+                if (t == null) continue;
+                switch (t.Kind)
+                {
+                    case 'p':
+                        gateTokens.Add(t);
+                        targetTokens.Add(t);
+                        break;
+                    case 'r':
+                    case 's':
+                    case 'x':
+                        targetTokens.Add(t);
+                        break;
+                    case 'e':
+                        map.ExitCell = map.Cell(t.Column, t.Row);
+                        map.ExitRewardId = string.IsNullOrEmpty(t.RewardId) ? null : t.RewardId;
+                        break;
+                }
+            }
+            gateTokens.Sort((a, b) => a.Row != b.Row ? b.Row.CompareTo(a.Row) : a.Index.CompareTo(b.Index));
+            var gates = new MapGate[gateTokens.Count];
+            for (int k = 0; k < gates.Length; k++)
+            {
+                if (k > 0 && gateTokens[k].Row == gateTokens[k - 1].Row)
+                    throw new OutpostDataException(src.ZoneId, gateTokens[k].Index, "повтор строки ворот " + gateTokens[k].Row);
+                gates[k] = new MapGate { TargetId = gateTokens[k].Index, Row = gateTokens[k].Row, Order = k };
+            }
+            map.Gates = gates;
+
+            // Цели по возрастанию Id (индекс якоря).
+            targetTokens.Sort((a, b) => a.Index.CompareTo(b.Index));
+            var targets = new MapTarget[targetTokens.Count];
+            var occupant = new int[map.CellCount];
+            for (int i = 0; i < occupant.Length; i++) occupant[i] = -1;
+            var gateOrder = new Dictionary<int, int>();
+            foreach (var g in gates) gateOrder[g.TargetId] = g.Order;
+            int required = 0;
+            for (int i = 0; i < targets.Length; i++)
+            {
+                var t = targetTokens[i];
+                var mt = new MapTarget
+                {
+                    Id = t.Index,
+                    Kind = t.Kind,
+                    TypeId = t.TypeId,
+                    VisualId = t.MimicId ?? t.TypeId,
+                    Column = t.Column,
+                    Row = t.Row,
+                    Cells = (int[])t.Cells.Clone(),
+                    SourceLevel = t.Level,
+                    Added = t.Added,
+                    RewardId = string.IsNullOrEmpty(t.RewardId) ? null : t.RewardId,
+                };
+                if (t.Kind == 'p')
+                {
+                    mt.Sector = gateOrder[t.Index];
+                    var wc = new int[width];
+                    for (int c = 0; c < width; c++) wc[c] = map.Cell(c, t.Row);
+                    mt.WorkCells = wc;
+                }
+                else
+                {
+                    int maxRow = int.MinValue;
+                    foreach (int cell in mt.Cells)
+                    {
+                        maxRow = Math.Max(maxRow, cell / width);
+                        occupant[cell] = mt.Id;
+                    }
+                    int sector = 0;
+                    foreach (var g in gates)
+                        if (g.Row > maxRow) sector++;
+                    mt.Sector = sector;
+                    mt.WorkCells = NeighbourCells(mt.Cells, width, rows);
+                    if (mt.WorkCells.Length == 0) throw new OutpostDataException(src.ZoneId, t.Index, "у цели нет соседних клеток");
+                }
+                targets[i] = mt;
+                required++;
+            }
+            map.Targets = targets;
+            map.RequiredCount = required;
+            map.InitialOccupant = occupant;
+            map.BuildIndex();
+            return map;
+        }
+
+        /// <summary>Клетки сетки (включая площадку), ортогонально соседние с footprint и не входящие в него, по возрастанию.</summary>
+        static int[] NeighbourCells(int[] cells, int width, int rows)
+        {
+            var own = new HashSet<int>(cells);
+            var result = new SortedSet<int>();
+            foreach (int cell in cells)
+            {
+                int col = cell % width, row = cell / width;
+                Add(col, row - 1);
+                Add(col - 1, row);
+                Add(col + 1, row);
+                Add(col, row + 1);
+            }
+            var arr = new int[result.Count];
+            result.CopyTo(arr);
+            return arr;
+
+            void Add(int c, int r)
+            {
+                if (c < 0 || c >= width || r < 0 || r >= rows) return;
+                int n = r * width + c;
+                if (!own.Contains(n)) result.Add(n);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Неизменяемая карта режима: сетка навигации Width × (Depth + 3), клетка = row · Width + col
+    /// (ID исходных целей сохраняются независимо от новых координат), площадка базы — строки Depth..Depth+2.
+    /// </summary>
+    public sealed class OutpostMap
+    {
+        public string ZoneId;
+        public int Number;
+        public int Width;
+        public int Depth;
+        public int Rows;
+        public int CellCount;
+        public int DecoSeed;
+        public string SourceSha256;
+        /// <summary>Override с геометрией, из которого построена карта, или null; новая шахта копирует его в run.</summary>
+        public ZoneOverride Override;
+        public string OverrideName;
+        public MineTopology Topology;
+        public bool[] PlayableCells;
+        public int[] CellSectors;
+        public int[] CellGateOrder;
+
+        public int SpawnCell;
+        public int IntakeCell;
+        public int[] DepotCells;
+        public int ExitCell;
+        /// <summary>Запись Gacha сундука выхода (исходный rewardId токена e) или null.</summary>
+        public string ExitRewardId;
+        /// <summary>Все клетки площадки базы (декоративный сбор и возвращение домой).</summary>
+        public int[] CampCells;
+
+        /// <summary>Цели r/s/x/p по возрастанию Id.</summary>
+        public MapTarget[] Targets;
+        /// <summary>Ворота по Order (0 — нижние).</summary>
+        public MapGate[] Gates;
+        /// <summary>Число обязательных целей r/s/x + ворот.</summary>
+        public int RequiredCount;
+        /// <summary>Исходная занятость: клетка → Id живой цели с footprint или −1.</summary>
+        public int[] InitialOccupant;
+
+        int[] m_IndexById;
+
+        public int Cell(int col, int row) => row * Width + col;
+        public int Col(int cell) => cell % Width;
+        public int Row(int cell) => cell / Width;
+        public bool IsPlayable(int cell) => cell >= 0 && cell < CellCount && (PlayableCells == null || PlayableCells[cell]);
+        public int SectorAt(int cell) => cell >= 0 && cell < CellCount && CellSectors != null ? CellSectors[cell] : 0;
+
+        /// <summary>Индекс цели в <see cref="Targets"/> по Id или −1.</summary>
+        public int TargetIndex(int targetId) =>
+            targetId >= 0 && targetId < m_IndexById.Length ? m_IndexById[targetId] : -1;
+
+        public MapTarget Target(int targetId)
+        {
+            int i = TargetIndex(targetId);
+            return i < 0 ? null : Targets[i];
+        }
+
+        public bool IsCampCell(int cell) => cell >= Depth * Width && cell < CellCount;
+
+        internal void BuildIndex()
+        {
+            int size = Width * Depth;
+            foreach (var target in Targets) size = Math.Max(size, target.Id + 1);
+            m_IndexById = new int[size];
+            for (int i = 0; i < m_IndexById.Length; i++) m_IndexById[i] = -1;
+            for (int i = 0; i < Targets.Length; i++) m_IndexById[Targets[i].Id] = i;
+        }
+    }
+
+    /// <summary>Цель шахты: r/s/x с footprint или ворота p (без footprint, рабочие клетки — строка ворот).</summary>
+    public sealed class MapTarget
+    {
+        /// <summary>Индекс якоря в исходной сетке.</summary>
+        public int Id;
+        public char Kind;
+        public string TypeId;
+        /// <summary>MimicId или TypeId — только для оформления.</summary>
+        public string VisualId;
+        public int Column;
+        public int Row;
+        /// <summary>Footprint (пусто у ворот).</summary>
+        public int[] Cells;
+        public int Sector;
+        /// <summary>Authored work branch for balancing new task assignments; zero for gates/legacy layouts.</summary>
+        public int Branch;
+        /// <summary>Кандидаты рабочих клеток по возрастанию; свободность, барьер и достижимость проверяются в рантайме.</summary>
+        public int[] WorkCells;
+        public int SourceLevel;
+        /// <summary>Цель добавлена override зоны.</summary>
+        public bool Added;
+        /// <summary>Запись Gacha сундука s/p (исходный rewardId токена) или null.</summary>
+        public string RewardId;
+
+        public bool IsGate => Kind == 'p';
+    }
+
+    public sealed class MapGate
+    {
+        public int TargetId;
+        public int Row;
+        public int Order;
+        /// <summary>Physical passage cells for branching maps; null for the saved legacy row barrier.</summary>
+        public int[] BarrierCells;
+    }
+}

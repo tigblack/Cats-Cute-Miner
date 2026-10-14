@@ -1,0 +1,27 @@
+{
+  "status": "local_draft_not_uploaded",
+  "locale": "en-US",
+  "package": "com.multicastgames.catscuteminer",
+  "text": {
+    "title": "Cats Cute Miner",
+    "short_description": "Lead cute cats into the mines, collect gear, and build a stronger mining team.",
+    "full_description": "Put your cat crew to work in an underground mining adventure. Your cats choose targets, dig through rocks, fill their bags, and bring the coins back to base. Spend the coins they deliver to improve the whole team.\n\nBUILD YOUR MINING CREW\nUpgrade mining power, movement, carrying capacity, unloading speed, and the value of your haul. Tap rocks to lend your cats a helping paw.\n\nEXPLORE 144 MINES\nOpen gates and uncover branching tunnels as you work through the campaign. Finish the current mine and move on to the next challenge.\n\nCOLLECT LASTING UPGRADES\nEquip pickaxes, hats, backpacks, and boots. Collect cards and improve their bonuses. Your equipment and card progress carry into the next mine, while local mine upgrades start fresh.\n\nRETURN TO YOUR CATS\nYour saved crew can make progress while you are away. Come back, collect the results, and decide what to upgrade next.\n\nOptional in-app purchases are available. Randomized card chests have their chances shown in the game. Optional rewarded advertisements are available only to eligible users when enabled and permitted by their privacy choices."
+  },
+  "character_counts": {
+    "title": 15,
+    "short_description": 78,
+    "full_description": 1104
+  },
+  "source_refs": [
+    "Docs/TZ/Cat_Miners_Auto_Incremental_TZ_v2.1.md",
+    "Assets/Game/Scripts/Runtime/Outpost/OutpostController.Purchasing.cs"
+  ],
+  "google_limits_source": "https://support.google.com/googleplay/android-developer/answer/9859152?hl=en",
+  "pending_before_submission": [
+    "Compare against final installed Android UI and current Console listing field inventory",
+    "Confirm support contact and publish approved game-specific legal documents",
+    "Complete graphics and real screenshot inventory",
+    "Verify chest chance disclosure in final installed UI",
+    "Verify optional services and age-dependent presentation on device"
+  ]
+}

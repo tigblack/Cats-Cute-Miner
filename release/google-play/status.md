@@ -1,0 +1,34 @@
+# Подготовка Google Play — 14.10.2026
+
+Пользователь подтвердил Android/iOS ID `com.multicastgames.catscuteminer`, mixed audience с детьми младше 13 лет, нейтральный экран возраста, детский режим без MAX/Meta/рекламы и отдельные документы игры. Приняты шесть расходуемых SKU текущего store-3, точные цены/награды, USD, все доступные страны и автоматические цены Google. Приложения сервисов и backend-регистрация разрешены. Загрузка/выпуск AAB требуют отдельного подтверждения готового артефакта.
+
+## Фактически создано и перечитано
+
+- Проект панели: e4e954f1-59a9-479a-821f-be7eed9aff47.
+- Multicast game: gm_cats_cute_miner. Все шесть товаров зарегистрированы и перечитаны. Authenticated guest `/api/products/get` подтвердил Consumable, Google SKU и gems × точное количество, nestedItems=null. Реального платежа пока не было.
+- MAX Android rewarded: f27564b55995aa89, активен. Mediation пока не настроен, SDK account key ожидается. Interstitial/banner пока не включены.
+- Meta: 5614484342110411, привязка проекта подтверждена; собственный client token получен и подключён к клиентской конфигурации. Meta не смогла верифицировать ещё отсутствующий Play package. Key hashes, тест событий и доставка ожидаются.
+
+## Локальная подготовка
+
+Установлены официальные AppMetrica 6.7.0, Adjust 5.8.1, MAX 8.4.2, Unity IAP 5.2.1/Billing8.3.0, EDM4U1.2.187, Meta18.1.1. Meta binaries доставлены на ПК с проверкой hashes. Первый SDK-only Unity Editor compile прошёл (147с); это не Android player/API/runtime проверка. Новый runtime/детский режим и устойчивая rewarded-выдача внедрены; 22 выбранных PC core tests прошли. SDK release-gate PackageInfo ambiguity исправлена; новое полное Unity подтверждение ещё требуется.
+
+Подготовлены preflight, guarded signed AAB builder и конфигуратор принятой identity/native privacy. На ПК установлены восемь официальных компонентов SDK/NDK/OpenJDK для Unity6000.3.11f1; preflight подтвердил инструменты и API36. Android SDK license acceptance скриптом не выполнялась. Конфигуратор успешно выполнен настоящим Unity: package Android/iOS принят, API36, ARM64, IL2CPP, Meta startup/events/advertising ID выключены, AppMetrica automatic MAX revenue выключен. Evidence: native-project-configuration.json. При начальном импорте EDM ругался на ещё не созданные Gradle templates; шаблоны конфигуратором созданы, настоящее native dependency resolution ещё не проверено. Версия 0.1.0(1) не менялась. AndroidPlayerApiCheck/Mode CheckAndroidApi успешно выполнен настоящим Unity после окончания изменений денежной аналитики: Android player C# SDK/IAP ветки скомпилированы (android-player-api-compile.json, google-play-android-api.log). Это не Gradle/AAB/16KB/device доказательство.
+
+Новый денежный Unity IAP→Multicast→durable ledger flow внедрён; 102 выбранных платежных core tests прошли. Полный прогон ядра завершился 2530 passed/2 failed: только два старых ожидания schema1. Они исправлены на schema2; затронутые OutpostConfigTests/OutpostRewardTests перечитаны и прошли 106/106. Изменение формата задокументировано в ТЗ §17. Полный прогон повторно не выполнялся. Source gates отделены от последующих платежных/device доказательств, чтобы не блокировать саму billing prerequisite сборку. Денежная аналитика подтверждённых новых production покупок реализована и прошла 52/52 выбранных теста, затем настоящий Android player compile. Amount/currency — свежие Google Product metadata перед checkout; отдельные durable markers каждого провайдера, никакого sandbox/restore/replay/детских событий. Не обещает remote exactly-once: ambiguous dispatch не пересылается. Adjust purchase event token ожидает создания собственного приложения/event. Детали: Docs/Reports/google-play-manual-iap-revenue.md. Реальной покупки/доставки событий пока не было.
+
+Локальные Privacy Policy/Terms drafts: Docs/Legal/CatsCuteMiner/. Они не опубликованы и требуют окончательного contact/data/retention/readback. Общие страницы студии остаются 16+ и не используются как утверждённые документы детской игры.
+
+Подготовлен локальный английский текст карточки Docs/Store/GooglePlay/listing.en-US.draft.json: title15, short78, full1104 символа; лимиты сверены с официальной документацией Google, загрузки не было. Требуются реальный Console field inventory/graphics/readback и финальный device UI. ТЗ §2/§10.5/§13 обновлено: Android реальные SDK/покупки, защищённый возраст, точные SKU без бонуса, серверная выдача, настоящие reward callbacks и ledger; тестовый магазин остаётся только в редакторе/браузере. Исторический пункт «SDK пока нет» больше не объявляет scope Android.
+
+## Реальные блокеры доступа
+
+Chrome подключён через установленный chrome-devtools MCP после включения пользователем переключателя отладки. DevToolsActivePort найден, list_pages выполнен, соединение проверено. Пользовательский inspect tab1 сохранён; две вкладки задачи: 2 — Adjust login, 3 — собственные права пользователя в Google Play. В следующем turn сначала list_pages и переиспользование этих вкладок; не создавать дубликаты. Личный Chrome не перезапускался, cookies/credentials не экспортировались.
+
+AppMetrica: прямые .com и .ru кабинеты показывают техническую недоступность сервиса; .ru ссылается на https://yandex.ru/company/news/09-10-2026-01. Panel read работает, функции create в нём нет. Нужен восстановленный штатный кабинет; создание не выполнялось. Adjust и MAX в личном Chrome показывают login, авторизации ещё нет. Adjust automation settings панели по-прежнему Unauthorized; прямой кабинет нужен для собственного USD приложения и event, без чужого template. SDK account key MAX ещё не прочитан.
+
+Google Play: штатный вход подтверждён как sargsyan@multicastgames.com, MULTICAST GAMES, developer8879742639795815518, текущий u/0. Доступны 7 приложений; своей игры среди доступных нет (это не полная проверка всей организации). Create disabled с текстом «Для создания новых приложений нужно разрешение». Собственная карточка прав прочитана: account-level checkboxes unchecked+disabled, изменение требует owner/admin; настройки доступа не изменялись. Нужны account-level read-all и создание/редактирование проектов, затем права собственной игры на listing/IAP, декларации правил, тестовые выпуски и testers. Пользователю задан один pending запрос: войти Adjust/MAX в этом Chrome и получить необходимые права Play от владельца/администратора. Полное evidence: browser-service-access.json. Все ранее принятые разрешения на создание приложений/каталога сохраняются, повторное согласование не нужно.
+
+AdMob apps читаются, но provision завершился upstream connection-closed. После ошибки перечитаны apps и проект: нового app/binding нет; retry не делался, статус исхода неопределён до worker reconciliation.
+
+Не создана карточка Play, не загружен/выпущен AAB, не создан/активирован Play-каталог и не выдан opt-in. AppMetrica/Adjust регистрации, mediation, подпись, native manifest/16KB и реальные device/dashboard/purchase gates остаются открытыми.

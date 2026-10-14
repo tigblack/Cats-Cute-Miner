@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Playable (Docs/Playable/PLAYABLE_TZ.md): без масштабирования страницы — двойной тап, щипок и прокрутка достаются игре. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#13182c">
+  <meta name="format-detection" content="telephone=no">
+  <title>Cat Miners — Playable</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      width: 100%; height: 100%; margin: 0; overflow: hidden; background: #13182c;
+      overscroll-behavior: none; touch-action: none;
+      -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent;
+    }
+    body { position: fixed; inset: 0; display: grid; place-items: center; font-family: system-ui, sans-serif; color: #fff3d3; }
+    /* Портретный контейнер: 9:16 на широком экране, на высоком телефоне — во весь экран до 9:21 (HUD и баннер подстраиваются). */
+    #game { position: relative; width: min(100vw, 56.25vh); height: min(100vh, 233.3333vw); background: #1c2343; touch-action: none; }
+    @supports (height: 100dvh) { #game { width: min(100vw, 56.25dvh); height: min(100dvh, 233.3333vw); } }
+    #unity-canvas { display: block; width: 100%; height: 100%; outline: none; touch-action: none; }
+    #loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding: 28px; background: #1c2343; text-align: center; }
+    #loading[hidden], #fullscreen[hidden] { display: none; }
+    h1 { margin: 0; font-size: clamp(26px, 6vw, 38px); }
+    #status { margin: 0; line-height: 1.5; }
+    progress { width: min(100%, 270px); height: 14px; accent-color: #75bb44; }
+    #fullscreen { position: fixed; top: max(8px, env(safe-area-inset-top)); right: max(8px, env(safe-area-inset-right)); border: 1px solid #a5a9be; border-radius: 6px; color: #fff3d3; background: #13182cbb; font-size: 28px; padding: 2px 10px; cursor: pointer; }
+    button:focus-visible { outline: 3px solid #75bb44; outline-offset: 2px; }
+    @media (max-aspect-ratio: 3/4) { #fullscreen { display: none; } }
+  </style>
+</head>
+<body>
+  <main id="game" aria-label="Cat Miners">
+    <canvas id="unity-canvas" width="540" height="960" tabindex="0" aria-label="Cat Miners game"></canvas>
+    <div id="loading" role="status" aria-live="polite">
+      <h1>Cat Miners</h1>
+      <p id="status">Loading the game…</p>
+      <progress id="progress" value="0" max="1" aria-label="Loading the game"></progress>
+    </div>
+  </main>
+  <button id="fullscreen" type="button" aria-label="Full screen" title="Full screen" hidden>⛶</button>
+  <script>
+    // Защита от жестов браузера (reference.md §7 п. 5): щипок и масштаб Safari, двойной тап, свайп от края (назад в iOS),
+    // прокрутка и «резинка», контекстное меню и выделение. Unity получает события как обычно: preventDefault их не
+    // останавливает. Ссылку магазина открывает игра (Plugins/CatMinersPlayable.jslib), ссылка — «?store=» адреса страницы.
+    (function () {
+      var block = function (e) {
+        if (e.cancelable && !(e.target && e.target.closest && e.target.closest("button"))) e.preventDefault();
+      };
+      var active = { passive: false, capture: true };
+      ["gesturestart", "gesturechange", "gestureend", "contextmenu", "selectstart", "dragstart", "dblclick"].forEach(function (type) {
+        document.addEventListener(type, block, active);
+      });
+      document.addEventListener("touchmove", block, active);
+      document.addEventListener("touchstart", function (e) {
+        if (e.touches.length > 1) { block(e); return; }
+        var t = e.touches[0], edge = 22;
+        if (t && (t.clientX < edge || t.clientX > window.innerWidth - edge)) block(e);
+      }, active);
+      var lastEnd = 0;
+      document.addEventListener("touchend", function (e) {
+        var now = Date.now();
+        if (now - lastEnd < 320) block(e);
+        lastEnd = now;
+      }, active);
+      document.addEventListener("wheel", function (e) { if (e.ctrlKey) block(e); }, active);
+    })();
+
+    const canvas = document.getElementById("unity-canvas");
+    const loading = document.getElementById("loading");
+    const status = document.getElementById("status");
+    const progress = document.getElementById("progress");
+    const fullscreen = document.getElementById("fullscreen");
+    const config = {
+      dataUrl: "Build/{{{ DATA_FILENAME }}}",
+      frameworkUrl: "Build/{{{ FRAMEWORK_FILENAME }}}",
+      codeUrl: "Build/{{{ CODE_FILENAME }}}",
+#if MEMORY_FILENAME
+      memoryUrl: "Build/{{{ MEMORY_FILENAME }}}",
+#endif
+#if SYMBOLS_FILENAME
+      symbolsUrl: "Build/{{{ SYMBOLS_FILENAME }}}",
+#endif
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
+      productName: {{{ JSON.stringify(PRODUCT_NAME) }}},
+      productVersion: {{{ JSON.stringify(PRODUCT_VERSION) }}},
+      // Сохранение playable (persistentDataPath/playable) переживает перезагрузку вкладки.
+      autoSyncPersistentDataPath: true,
+      devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
+      showBanner: function (message, type) {
+        if (type === "error") showFailure(message);
+        else console.warn(message);
+      }
+    };
+    function showFailure(message) {
+      console.error(message);
+      status.textContent = "Could not load the game. Refresh the page and try again.";
+      progress.hidden = true;
+      loading.hidden = false;
+    }
+    const loader = document.createElement("script");
+    loader.src = "Build/{{{ LOADER_FILENAME }}}";
+    loader.onerror = function () { showFailure("Unity loader unavailable"); };
+    loader.onload = function () {
+      createUnityInstance(canvas, config, function (value) { progress.value = value; })
+        .then(function (instance) {
+          window.unityInstance = instance;
+          loading.hidden = true;
+          canvas.focus();
+          fullscreen.hidden = !document.documentElement.requestFullscreen;
+          // Сеть с install()/gameReady() (Mintegral) ждёт сигнала готовности после загрузки.
+          try { if (typeof window.gameReady === "function") window.gameReady(); } catch (e) { console.warn(e); }
+        })
+        .catch(showFailure);
+    };
+    fullscreen.addEventListener("click", function () {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else document.documentElement.requestFullscreen().catch(console.warn);
+      canvas.focus();
+    });
+    document.body.appendChild(loader);
+  </script>
+</body>
+</html>

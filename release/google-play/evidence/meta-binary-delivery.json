@@ -1,0 +1,7 @@
+{
+    "source":  "https://github.com/facebook/facebook-sdk-for-unity/releases/download/sdk-version-18.1.1/facebook-unity-sdk-18.1.1.zip",
+    "version":  "18.1.1",
+    "verified_binary_files":  30,
+    "status":  "delivered_to_build_machine",
+    "runtime_ready":  false
+}

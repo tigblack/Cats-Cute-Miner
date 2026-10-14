@@ -1,0 +1,61 @@
+{
+  "checked_at": "2026-10-14T16:02:25.494777+00:00",
+  "connection": "own_user_chrome_connected_no_session_export",
+  "task_pages": {
+    "adjust": 2,
+    "google_play": 3
+  },
+  "adjust": {
+    "url": "https://suite.adjust.com/login",
+    "status": "waiting_for_user_login",
+    "creation_attempted": false
+  },
+  "max": {
+    "url": "https://max.applovin.com/login",
+    "status": "waiting_for_user_login",
+    "sdk_key_read": false
+  },
+  "appmetrica": {
+    "status": "service_outage",
+    "checked_urls": [
+      "https://appmetrica.yandex.com/",
+      "https://appmetrica.yandex.ru/"
+    ],
+    "observed_message": "Кабинет AppMetrica пока недоступен.",
+    "official_link": "https://yandex.ru/company/news/09-10-2026-01",
+    "creation_attempted": false
+  },
+  "google_play": {
+    "actor": "sargsyan@multicastgames.com",
+    "organization": "MULTICAST GAMES",
+    "developer_id": "8879742639795815518",
+    "user_index": 0,
+    "signed_in": true,
+    "visible_app_count": 7,
+    "own_game_visible": false,
+    "create_app_permission": false,
+    "account_admin_permission": false,
+    "account_permissions_readback": "All displayed account-level checkboxes unchecked and disabled; scope changes require owner/admin.",
+    "creation_disabled_text": "Для создания новых приложений нужно разрешение",
+    "own_permission_page": "https://play.google.com/console/u/0/developers/8879742639795815518/users-and-permissions/sargsyan%40multicastgames.com",
+    "rights_modified": false,
+    "app_created": false,
+    "artifact_uploaded": false,
+    "minimum_account_permissions": [
+      "Просмотр информации о приложении и массовое скачивание отчетов (только чтение)",
+      "Создание, редактирование и удаление проектов приложений"
+    ],
+    "required_game_permissions_after_creation": [
+      "Управление страницей приложения (including IAP)",
+      "Управление декларациями правил",
+      "Выпуск версий для тестирования приложения",
+      "Управление версиями для тестирования и редактирование списков тестировщиков"
+    ]
+  },
+  "limitations": [
+    "Authentication is not creation rights",
+    "Limited visible app list cannot prove absence across entire organization",
+    "No management credentials or browser cookies exported",
+    "Google Play upload/release authorization still deferred until actual artifact"
+  ]
+}

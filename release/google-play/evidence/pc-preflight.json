@@ -1,0 +1,111 @@
+{
+    "scope":  "read_only_machine_inventory",
+    "project":  "C:\\Unity Projects\\Cats Cute Miner",
+    "requiredUnity":  "6000.3.11f1",
+    "unityExe":  "C:\\Unity\\Editor\\Unity.exe",
+    "installedUnity":  "6000.3.11f1_3000ef702840",
+    "androidModulePresent":  true,
+    "tools":  {
+                  "SDK":  {
+                              "embedded_preference":  null,
+                              "candidates":  [
+                                                 {
+                                                     "path":  "C:\\Unity\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\SDK",
+                                                     "source":  "bundled",
+                                                     "usable_files_present":  false
+                                                 }
+                                             ],
+                              "available":  false
+                          },
+                  "NDK":  {
+                              "embedded_preference":  null,
+                              "candidates":  [
+                                                 {
+                                                     "path":  "C:\\Unity\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\NDK",
+                                                     "source":  "bundled",
+                                                     "usable_files_present":  false
+                                                 }
+                                             ],
+                              "available":  false
+                          },
+                  "OpenJDK":  {
+                                  "embedded_preference":  null,
+                                  "candidates":  [
+                                                     {
+                                                         "path":  "C:\\Unity\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\OpenJDK",
+                                                         "source":  "bundled",
+                                                         "usable_files_present":  false
+                                                     }
+                                                 ],
+                                  "available":  false
+                              }
+              },
+    "versions":  [
+
+                 ],
+    "platforms":  [
+
+                  ],
+    "devices":  {
+                    "checked":  false,
+                    "connected":  0,
+                    "unauthorized":  0,
+                    "offline":  0,
+                    "note":  "Not requested or adb unavailable."
+                },
+    "settings":  {
+                     "bundleVersion":  "0.1.0",
+                     "AndroidBundleVersionCode":  "1",
+                     "AndroidTargetSdkVersion":  "0",
+                     "activeInputHandler":  "1",
+                     "androidPackage":  "com.catminers.prototype"
+                 },
+    "buildInputs":  {
+                        "Assets\\Game\\Scenes\\CoreGame.unity":  true,
+                        "Assets\\Game\\Input\\CatMinersInput.inputactions":  true,
+                        "Assets\\Game\\Data\\Source\\json-data.json":  true,
+                        "Packages\\manifest.json":  true,
+                        "Packages\\packages-lock.json":  true
+                    },
+    "configuredScenes":  [
+                             {
+                                 "path":  "Assets/Game/Scenes/CoreGame.unity",
+                                 "enabled":  true,
+                                 "present":  true
+                             }
+                         ],
+    "providerPackageHints":  [
+                                 {
+                                     "package":  "com.unity.purchasing",
+                                     "version":  "5.2.1"
+                                 },
+                                 {
+                                     "package":  "io.appmetrica.analytics",
+                                     "version":  "non-registry dependency; value redacted"
+                                 },
+                                 {
+                                     "package":  "com.adjust.sdk",
+                                     "version":  "non-registry dependency; value redacted"
+                                 },
+                                 {
+                                     "package":  "com.applovin.mediation.ads",
+                                     "version":  "8.4.2"
+                                 }
+                             ],
+    "coreScenePresent":  true,
+    "unityProcessCount":  0,
+    "blockers":  [
+                     "Accepted release package/version/code and existing upload signing key must be supplied.",
+                     "Provider integration/configuration must pass BuildAndroid.IReleaseGate; no readiness inferred from package presence.",
+                     "Final artifact signature, merged manifest, Billing \u003e=8 and every native library 16 KB alignment remain unverified.",
+                     "SDK not found in bundled, external EditorPrefs or environment candidates.",
+                     "NDK not found in bundled, external EditorPrefs or environment candidates.",
+                     "OpenJDK not found in bundled, external EditorPrefs or environment candidates.",
+                     "API 36 platform not found.",
+                     "No platform icons serialized; inspect Android/default icons in Unity."
+                 ],
+    "limitations":  [
+                        "Candidates do not establish effective Unity External Tools selection or toolchain compatibility.",
+                        "No Unity build, signing secrets, provider values or device serials are emitted."
+                    ]
+}

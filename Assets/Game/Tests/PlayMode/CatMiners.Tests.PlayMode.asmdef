@@ -1,0 +1,30 @@
+{
+    "name": "CatMiners.Tests.PlayMode",
+    "rootNamespace": "CatMiners.Tests",
+    "references": [
+        "CatMiners.Core",
+        "CatMiners.Runtime",
+        "CatMiners.DevTools",
+        "CatMiners.Playable",
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Unity.InputSystem",
+        "Unity.InputSystem.TestFramework",
+        "UnityEngine.UI",
+        "Unity.TextMeshPro"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll",
+        "Newtonsoft.Json.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

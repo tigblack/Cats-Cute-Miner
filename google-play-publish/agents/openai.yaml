@@ -1,0 +1,4 @@
+interface:
+  display_name: "Multicast: Google Play"
+  short_description: "SDK, реклама, инапы, оформление и internal Google Play"
+  default_prompt: "Используй $google-play-publish: давай эту игру в Google Play во внутренний тест."

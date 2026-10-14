@@ -1,0 +1,11 @@
+import json
+J=json.load(open('/home/claude-sargsyan-tinote/.t3/userdata/attachments/1cbf2b9f-4fe2-4acb-8a57-74cb166e193f-63492c51-4458-4d4a-9df2-8438921bb39a-json.json'))
+print(list(J.keys()))
+c=J['Cards'][0]; print('Card keys',list(c.keys()))
+g=J['Gacha'][0]; print('Gacha keys',list(g.keys()))
+z=J['Zones'][0]; print('Zone keys',list(z.keys())); print('RankMult keys',list(z['RankMultipliers'][0].keys()) if isinstance(z['RankMultipliers'],list) else z['RankMultipliers'])
+bp=J['BalanceProperties'][0]; print({k:bp[k] for k in bp if 'Stack' in k or 'Rank' in k})
+print('FreeGacha', {k:(v if not isinstance(v,list) else len(v)) for k,v in J['FreeGachaCycle'][0].items()})
+print('Delivery keys', list(J['Deliveries'][0].keys()))
+print('Spells', J['Spells'][0])
+print('Miners', J['Miners'][0])

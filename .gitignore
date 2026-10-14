@@ -42,6 +42,8 @@ Desktop.ini
 /.t3/
 /.claude/
 /.codex/
+/.playwright-mcp/
+/.sdk-source-review/
 *.local.json
 *.local.md
 *.local.env

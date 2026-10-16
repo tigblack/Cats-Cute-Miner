@@ -4,6 +4,7 @@ using System.Linq;
 using System.Numerics;
 using CatMiners.Core;
 using CatMiners.Core.Outpost;
+using CatMiners.Core.Text;
 using NUnit.Framework;
 using static CatMiners.Tests.Outpost.OutpostTestHelpersB;
 
@@ -13,6 +14,8 @@ namespace CatMiners.Tests.Outpost
     /// Возвращение карточек (задание «Cat Miners возвращение карточек», CARD_EFFECT_MAPPING.md): каталог 61 записи источника,
     /// открытие по максимальной достигнутой шахте, выдача и улучшение по CardUpgradeCosts, сундуки, эффекты в автоматическом
     /// ядре (каждый один раз), учебная карта, миграция профиля и перенос прежних карточек, детерминизм онлайн/офлайн.
+    /// cards-3 (ТЗ 2.2 §7.1, §16.1 (а)): 39 manager-карточек — карточки заводов «… Foreman»/«… Manager» с FactoryOutput вместо
+    /// прежних цены порций и урона по месторождению; автодоставку и выпуск в ядре проверяют тесты Factory* (WP1).
     /// </summary>
     public class OutpostCardTests
     {
@@ -59,8 +62,9 @@ namespace CatMiners.Tests.Outpost
             }
             // Специалисты сохраняют TargetIds; 21 не-manager — 21 разный код, у каждого свой эффект.
             Assert.AreEqual(21, Cat.Cards.Where(c => !c.IsManager).Select(c => c.StatModifierType).Distinct().Count());
-            Assert.AreEqual(CardEffectKind.TargetValue, Cat.Get("ca002").Effect.Kind);
-            Assert.AreEqual(CardEffectKind.TargetDamage, Cat.Get("ca014").Effect.Kind);
+            // ТЗ 2.2 §7.1, §16.1 (а): было TargetValue (ca002) и TargetDamage (ca014) — в cards-3 обе карточки завода дают FactoryOutput.
+            Assert.AreEqual(CardEffectKind.FactoryOutput, Cat.Get("ca002").Effect.Kind);
+            Assert.AreEqual(CardEffectKind.FactoryOutput, Cat.Get("ca014").Effect.Kind);
             Assert.AreEqual(CardEffectKind.UnloadRate, Cat.Get("ca001").Effect.Kind, "spawningcart → склад базы");
         }
 
@@ -83,6 +87,184 @@ namespace CatMiners.Tests.Outpost
             StringAssert.Contains("\"card_bg_majestic\"", atlas);
             StringAssert.Contains("\"ui_card_frame_majestic\"", atlas);
             StringAssert.DoesNotContain("\"card_art_ca061\"", atlas);
+        }
+
+        // ───────────────────────────── Карточки заводов (cards-3, ТЗ 2.2 §7.1) ─────────────────────────────
+
+        /// <summary>Английские имена 39 карточек заводов по приложению A ТЗ 2.2.</summary>
+        static readonly Dictionary<string, string> s_FactoryCardNames = new Dictionary<string, string>
+        {
+            { "ca002", "Dairy Foreman" }, { "ca014", "Dairy Manager" },
+            { "ca003", "Sawmill Foreman" }, { "ca015", "Sawmill Manager" },
+            { "ca004", "Fishery Foreman" }, { "ca016", "Fishery Manager" },
+            { "ca005", "Yarn Mill Foreman" }, { "ca017", "Yarn Mill Manager" },
+            { "ca006", "Cat Food Foreman" }, { "ca018", "Cat Food Manager" },
+            { "ca007", "Box Foreman" }, { "ca019", "Box Manager" },
+            { "ca008", "Brickworks Foreman" }, { "ca020", "Brickworks Manager" },
+            { "ca009", "Steel Mill Foreman" }, { "ca021", "Steel Mill Manager" },
+            { "ca010", "Glassworks Foreman" }, { "ca022", "Glassworks Manager" },
+            { "ca011", "Catnip Foreman" }, { "ca023", "Catnip Manager" },
+            { "ca012", "Toy Foreman" }, { "ca024", "Toy Manager" },
+            { "ca013", "Scratcher Foreman" }, { "ca025", "Scratcher Manager" },
+            { "ca039", "Cushion Foreman" }, { "ca040", "Cushion Manager" },
+            { "ca041", "Foundry Foreman" }, { "ca042", "Foundry Manager" },
+            { "ca044", "Collar Foreman" }, { "ca045", "Collar Manager" },
+            { "ca046", "Gear Foreman" }, { "ca047", "Gear Manager" },
+            { "ca048", "Lantern Foreman" }, { "ca049", "Lantern Manager" },
+            { "ca056", "Apiary Foreman" }, { "ca057", "Apiary Manager" },
+            { "ca058", "Silk Mill Foreman" }, { "ca059", "Silk Mill Manager" },
+            { "ca060", "Cannery Foreman" },
+        };
+
+        [Test]
+        public void FactoryCards_Cards3_ManagerRecordsShareFactoryOutput_DepotAndOtherCardsUnchanged()
+        {
+            // ТЗ 2.2 §7.1: manager-1 и manager-2 — одинаково FactoryOutput, Base 1/10, PerLevel 1/20, Rule CatMiners; ca001 не меняется.
+            var rules = CardConfigs.CardRules;
+            Assert.AreEqual("cards-3", CardRules.CurrentVersion);
+            Assert.AreEqual(CardRules.CurrentVersion, rules.Version);
+            foreach (var key in new[] { "manager-1", "manager-2" })
+            {
+                var e = rules.Effects[key];
+                Assert.AreEqual(CardEffectKind.FactoryOutput, e.Kind, key);
+                Assert.AreEqual(Rational.Of(1, 10), e.Base, key);
+                Assert.AreEqual(Rational.Of(1, 20), e.PerLevel, key);
+                Assert.AreEqual("CatMiners", e.Rule, key);
+                Assert.IsNull(e.TargetKind, key);
+            }
+            var depot = rules.Effects["ca001"];
+            Assert.AreEqual((CardEffectKind.UnloadRate, Rational.Of(1, 20), Rational.Of(1, 100), "LegacyConfirmed"),
+                (depot.Kind, depot.Base, depot.PerLevel, depot.Rule), "запись ca001 (склад базы) без изменений");
+
+            // FactoryOutput — ровно у 39 карточек заводов (20 Common, 19 Uncommon; у sunstone Uncommon нет), каждая — своего типа.
+            var factories = CardConfigs.Factories;
+            Assert.AreEqual(39, factories.CardIds.Count);
+            CollectionAssert.AreEquivalent(factories.CardIds, Cat.Cards.Where(c => c.Effect.Kind == CardEffectKind.FactoryOutput).Select(c => c.Id));
+            Assert.AreEqual(20, Cat.Cards.Count(c => c.IsFactoryOutput && c.Rarity == 1));
+            Assert.AreEqual(19, Cat.Cards.Count(c => c.IsFactoryOutput && c.Rarity == 2));
+            Assert.IsNull(factories.Get("sunstone").UncommonCardId);
+            foreach (var type in factories.Types)
+            {
+                foreach (var id in new[] { type.CommonCardId, type.UncommonCardId })
+                {
+                    if (id == null) continue;
+                    var def = Cat.Get(id);
+                    Assert.IsTrue(def.IsFactoryOutput, id);
+                    Assert.IsTrue(def.IsManager, id);
+                    CollectionAssert.AreEqual(new[] { type.TypeId }, def.TargetIds, id);
+                    Assert.AreEqual(type.MaxLevelOf(id), def.MaxLevel, id + ": Common 14, Uncommon 12");
+                    Assert.AreEqual(Rational.Zero, def.EffectAt(0), id + ": карточка без копий эффекта не даёт");
+                    Assert.AreEqual(Rational.Of(1, 10), def.EffectAt(1), id + ": уровень 1 — +10 %");
+                }
+                Assert.AreEqual(Rational.Of(3, 4), Cat.Get(type.CommonCardId).EffectAt(14), type.CommonCardId + ": Common 14 — +75 %");
+                if (type.UncommonCardId != null)
+                    Assert.AreEqual(Rational.Of(13, 20), Cat.Get(type.UncommonCardId).EffectAt(12), type.UncommonCardId + ": Uncommon 12 — +65 %");
+            }
+            Assert.IsFalse(Cat.Get("ca001").IsFactoryOutput, "ca001 (spawningcart) — не завод");
+            Assert.IsFalse(factories.IsFactoryCard("ca001"));
+            Assert.AreEqual(21, Cat.Cards.Count(c => !c.IsManager && !c.IsFactoryOutput), "глобальные карточки не затронуты");
+
+            // Прежние эффекты месторождений сняты: с 39 карточками на максимуме урон и цена порций по любому типу s — как без карточек.
+            var b = CardConfigs.Balance;
+            var all = Profile(highest: 144);
+            foreach (var id in factories.CardIds) Give(all, id, Cat.Get(id).MaxLevel);
+            var none = TeamStats.Compute(b, new int[6], Profile(highest: 144), Catalog(), 1, Cat);
+            var full = TeamStats.Compute(b, new int[6], all, Catalog(), 1, Cat);
+            foreach (var type in factories.Types)
+            {
+                Assert.AreEqual(none.DamageUnitsFor('s', type.TypeId), full.DamageUnitsFor('s', type.TypeId), type.TypeId);
+                Assert.AreEqual(none.CoinValueFor('s', type.TypeId, Rational.Of(2, 1)), full.CoinValueFor('s', type.TypeId, Rational.Of(2, 1)), type.TypeId);
+            }
+            Assert.AreEqual(none.DamageUnits, full.DamageUnits);
+            Assert.AreEqual(none.FinalValue, full.FinalValue);
+
+            // Запись FactoryOutput с видом цели — ошибка конфига (тип завода задают TargetIds карточки).
+            var bad = OutpostJson.DeepCopy(rules);
+            bad.Effects["manager-1"].TargetKind = "s";
+            Assert.Throws<OutpostConfigException>(() => bad.Validate());
+        }
+
+        [Test]
+        public void FactoryCards_OutputBonus_BothCardsOfTypeStack_EveryUpgradeAddsAUnit_OthersIgnored()
+        {
+            // ТЗ 2.2 §4.4, §7.1, прил. B п. 5: Units = floor(20 × (1 + Output(Common) + Output(Uncommon))) — 22 / 26 / 48.
+            // Через единственную функцию выпуска ядра, без своей копии формулы (ТЗ 2.2 §4.4; запрос ревью этапа 1, ворота G3).
+            int Units(OutpostProfile profile, string typeId) =>
+                FactoryMath.UnitsPerCycle(CardConfigs.Factories.Get(typeId).Rule, profile, Cat);
+            var p = Profile(highest: 144);
+            Assert.AreEqual(20, Units(p, "amethyst"), "без карточек — UnitsPerCycle");
+            Give(p, "ca002", 0, 5);
+            Assert.AreEqual(Rational.Zero, CardService.FactoryOutputBonus(p, Cat, "amethyst"), "копии без уровня эффекта не дают");
+            Give(p, "ca002", 1);
+            Assert.AreEqual(22, Units(p, "amethyst"), "Common ур. 1");
+            Give(p, "ca002", 3);
+            Give(p, "ca014", 1);
+            Assert.AreEqual(26, Units(p, "amethyst"), "Common ур. 3 + Uncommon ур. 1");
+            Give(p, "ca002", 14);
+            Give(p, "ca014", 12);
+            Assert.AreEqual(Rational.Of(7, 5), CardService.FactoryOutputBonus(p, Cat, "amethyst"), "3/4 + 13/20");
+            Assert.AreEqual(48, Units(p, "amethyst"), "обе на максимуме — ×2,4");
+            Give(p, "ca001", 14);   // склад базы — не завод
+            Give(p, "ca034", 5);    // общая цена порций — на товар не действует
+            Give(p, "ca003", 14);   // Sawmill Foreman — другой тип
+            Assert.AreEqual(48, Units(p, "amethyst"), "чужие и глобальные карточки выпуск не меняют");
+            Assert.AreEqual(35, Units(p, "citrine"), "floor(20 × 7/4)");
+            Assert.AreEqual(Rational.Zero, CardService.FactoryOutputBonus(p, Cat, "spawningcart"));
+            Assert.AreEqual(Rational.Zero, CardService.FactoryOutputBonus(p, Cat, null));
+            Assert.AreEqual(Rational.Zero, CardService.FactoryOutputBonus(p, null, "amethyst"), "без каталога карточек — без бонуса");
+
+            // Каждое улучшение любой карточки завода добавляет хотя бы одну единицу при любом уровне второй карточки типа (§3.2).
+            var q = Profile(highest: 144);
+            foreach (var type in CardConfigs.Factories.Types)
+            {
+                int uMax = type.UncommonCardId != null ? type.UncommonMaxLevel : 0;
+                var grid = new int[type.CommonMaxLevel + 1, uMax + 1];
+                for (int c = 0; c <= type.CommonMaxLevel; c++)
+                    for (int u = 0; u <= uMax; u++)
+                    {
+                        q.Cards.Clear();
+                        if (c > 0) Give(q, type.CommonCardId, c);
+                        if (u > 0) Give(q, type.UncommonCardId, u);
+                        grid[c, u] = Units(q, type.TypeId);
+                        if (c > 0) Assert.Greater(grid[c, u], grid[c - 1, u], type.CommonCardId + " " + (c - 1) + "→" + c + " при U " + u);
+                        if (u > 0) Assert.Greater(grid[c, u], grid[c, u - 1], type.UncommonCardId + " " + (u - 1) + "→" + u + " при C " + c);
+                    }
+                Assert.AreEqual(type.UncommonCardId != null ? 48 : 35, grid[type.CommonMaxLevel, uMax], type.TypeId);
+            }
+        }
+
+        [Test]
+        public void FactoryCards_EnglishNamesFromAppendixA_AndEffectTexts()
+        {
+            // ТЗ 2.2 §7.1, §12, приложение A: Common — «… Foreman», Uncommon — «… Manager» того же завода.
+            Assert.AreEqual(39, s_FactoryCardNames.Count);
+            CollectionAssert.AreEquivalent(CardConfigs.Factories.CardIds, s_FactoryCardNames.Keys);
+            foreach (var kv in s_FactoryCardNames) Assert.AreEqual(kv.Value, Loc.T("cards.name." + kv.Key), kv.Key);
+            foreach (var type in CardConfigs.Factories.Types)
+            {
+                string common = Loc.T("cards.name." + type.CommonCardId);
+                StringAssert.EndsWith(" Foreman", common, type.TypeId);
+                if (type.UncommonCardId != null)
+                    Assert.AreEqual(common.Substring(0, common.Length - "Foreman".Length) + "Manager", Loc.T("cards.name." + type.UncommonCardId), type.TypeId);
+            }
+            Assert.AreEqual("Depot Master", Loc.T("cards.name.ca001"));
+            foreach (var c in Cat.Cards)
+            {
+                Assert.IsTrue(Loc.Has("cards.name." + c.Id), c.Id);
+                string name = Loc.T("cards.name." + c.Id);
+                Assert.IsFalse(name.EndsWith(" Appraiser") || (name.EndsWith(" Master") && c.Id != "ca001"), c.Id + ": имя самоцвета cards-2 «" + name + "»");
+            }
+            Assert.AreEqual(61, Cat.Cards.Select(c => Loc.T("cards.name." + c.Id)).Distinct().Count(), "имена не повторяются");
+
+            // Тексты эффекта и блока завода в окне карточки: {0} — товар (или завод), {1} — бонус; числа подставляет UI (WP5).
+            Assert.AreEqual("Milk +10%", Loc.F("cards.short.FactoryOutput", "Milk", "10%"));
+            Assert.AreEqual("+10% Milk per cycle", Loc.F("cards.effect.FactoryOutput", "Milk", "10%"));
+            Assert.AreEqual("Factory: Dairy (Milk)", Loc.F("cards.detail.factory", "Dairy", "Milk"));
+            Assert.AreEqual("This mine: Dairy auto delivery needs Lv 2 (you have Lv 1)", Loc.F("cards.detail.mine_auto", "Dairy", 2, 1));
+            Assert.AreEqual("This mine: Dairy auto delivery needs Lv 2 (not collected)", Loc.F("cards.detail.mine_auto_missing", "Dairy", 2));
+            Assert.AreEqual("This mine: Dairy auto delivery needs Dairy Foreman Lv 2", Loc.F("cards.detail.mine_auto_other", "Dairy", "Dairy Foreman", 2));
+            Assert.AreEqual("This mine: Dairy auto delivery: on", Loc.F("cards.detail.mine_auto_on", "Dairy"));
+            CollectionAssert.IsEmpty(Loc.RegistrationProblems);
         }
 
         // ───────────────────────────── Открытие по прогрессу ─────────────────────────────
@@ -238,20 +420,27 @@ namespace CatMiners.Tests.Outpost
             Assert.AreEqual(1_640_625, s.TapDamageUnits, "5.25 × 1/4 × 1.25");
 
             var spec = Profile(highest: 144);
-            Give(spec, "ca002", 3);   // знаток аметиста: +20 % цены
-            Give(spec, "ca014", 1);   // мастер аметиста: +15 % урона
+            Give(spec, "ca002", 3);   // Dairy Foreman: выпуск молока +20 %
+            Give(spec, "ca014", 1);   // Dairy Manager: выпуск молока +10 %
             Give(spec, "ca032", 1);   // ворота +20 %
             Give(spec, "ca037", 1);   // цена r +15 %
             Give(spec, "ca054", 1);   // урон x +20 %
             var t = TeamStats.Compute(b, new int[6], spec, Catalog(), 1, Cat);
-            Assert.AreEqual(5_750_000, t.DamageUnitsFor('s', "amethyst"), "специалист усиливает только свой ресурс");
+            // ТЗ 2.2 §7.1, §16.1 (а): было «специалист» — +15 % урона (5 750 000) и +20 % цены (12) по месторождению аметиста.
+            // В cards-3 карточки завода не дают ни урона, ни цены порций: цепи Dairy бьются общим уроном.
+            Assert.AreEqual(5_000_000, t.DamageUnitsFor('s', "amethyst"), "карточки завода не усиливают удары по его цепям");
             Assert.AreEqual(5_000_000, t.DamageUnitsFor('s', "citrine"));
             Assert.AreEqual(6_000_000, t.DamageUnitsFor('p', null), "ворота");
             Assert.AreEqual(6_000_000, t.DamageUnitsFor('x', "block1x1v1"), "завалы");
             Assert.AreEqual(5_000_000, t.DamageUnitsFor('r', "rockbasic"));
-            Assert.AreEqual(new BigInteger(12), t.CoinValueFor('s', "amethyst", Rational.Of(2, 1)), "ceil(5 × 2 × 1.2)");
+            Assert.AreEqual(new BigInteger(10), t.CoinValueFor('s', "amethyst", Rational.Of(2, 1)), "ceil(5 × 2): цены порций карточка завода не меняет");
             Assert.AreEqual(new BigInteger(10), t.CoinValueFor('s', "citrine", Rational.Of(2, 1)));
             Assert.AreEqual(new BigInteger(6), t.CoinValueFor('r', "rockbasic", Rational.One), "ceil(5 × 1.15)");
+            // Вместо этого — выпуск товара своего типа: Output(3) + Output(1) = 1/5 + 1/10, floor(20 × 13/10) = 26 (прил. B п. 5).
+            Assert.AreEqual(Rational.Of(3, 10), CardService.FactoryOutputBonus(spec, Cat, "amethyst"));
+            Assert.AreEqual(26, FactoryMath.Units(20, CardService.FactoryOutputBonus(spec, Cat, "amethyst")));
+            Assert.AreEqual(Rational.Zero, CardService.FactoryOutputBonus(spec, Cat, "citrine"), "карточка завода усиливает только свой тип");
+            Assert.AreEqual(20, FactoryMath.Units(20, CardService.FactoryOutputBonus(spec, Cat, "citrine")));
         }
 
         [Test]
@@ -365,8 +554,9 @@ namespace CatMiners.Tests.Outpost
         }
 
         [Test]
-        public void Zone2_ShaftChest_GrantsItsScriptedCards_AndManagerBonusRaisesThatResource()
+        public void Zone2_ShaftChest_GrantsItsScriptedCards_AndFactoryCardRaisesOnlyItsOutput()
         {
+            // ТЗ 2.2 §16.1 (а): прежнее имя …_AndManagerBonusRaisesThatResource — «знаток» поднимал цену порций месторождения.
             var configs = CardConfigs;
             var map = OutpostLevelAdapter.Build(TestData.Balance, 2, configs.Overrides);
             var st = StageProgressionService.NewGame(TestData.Balance, configs, Seed, StartUtcMs, 2);
@@ -374,20 +564,28 @@ namespace CatMiners.Tests.Outpost
             var chests = new List<OutpostEvent>();
             RunToReadyOrFail(sim, "zone2", null, (s, ev) => chests.AddRange(ev.Where(e => e.Type == OutpostEventType.ChestOpened)));
             var shaft = chests.Single(e => e.ItemId == "scg_m002_s01");
-            Assert.AreEqual("ca001:2", shaft.Detail, "месторождение аметиста: GuaranteedCardCounts ca001 × 2");
+            Assert.AreEqual("ca001:2", shaft.Detail, "цепи Dairy (токен s аметиста): GuaranteedCardCounts ca001 × 2");
             Assert.AreEqual(33, (long)shaft.Value);
             Assert.IsTrue(chests.Any(e => e.ItemId == "scg_m002_exit"));
 
-            // Знаток аметиста: новые порции месторождения аметиста дороже, остальные — без изменений.
+            // Dairy Foreman ур. 14 (ТЗ 2.2 §7.1): ни цена порций, ни урон по цепям не меняются (было ceil(12 × 1.75) = 21),
+            // выпуск молока за цикл — floor(20 × (1 + 3/4)) = 35. Требование автодоставки — из токена (прил. B п. 1).
             var amethyst = map.Targets.Single(t => t.Kind == 's' && t.TypeId == "amethyst");
             var plain = new OutpostSimulation(StageProgressionService.NewGame(TestData.Balance, configs, Seed, StartUtcMs, 2), map, configs);
             var boostedState = StageProgressionService.NewGame(TestData.Balance, configs, Seed, StartUtcMs, 2);
             boostedState.Profile.Cards["ca002"] = new CardProgress { Level = 14 };
             var boosted = new OutpostSimulation(boostedState, map, configs);
             Assert.AreEqual(new BigInteger(12), plain.Stats.CoinValueFor('s', "amethyst", Rational.Of(2, 1)), "5 × S(2) 6/5 × 2");
-            Assert.AreEqual(new BigInteger(21), boosted.Stats.CoinValueFor('s', "amethyst", Rational.Of(2, 1)), "ceil(12 × 1.75)");
+            Assert.AreEqual(new BigInteger(12), boosted.Stats.CoinValueFor('s', "amethyst", Rational.Of(2, 1)), "карточка завода не меняет цену порций");
+            Assert.AreEqual(plain.Stats.DamageUnitsFor('s', "amethyst"), boosted.Stats.DamageUnitsFor('s', "amethyst"), "и урон по цепям");
             Assert.AreEqual(plain.Stats.CoinValueFor('r', "rockonboardingmine2", Rational.One), boosted.Stats.CoinValueFor('r', "rockonboardingmine2", Rational.One));
+            Assert.AreEqual(Rational.Zero, CardService.FactoryOutputBonus(plain.State.Profile, configs.Cards, "amethyst"));
+            Assert.AreEqual(Rational.Of(3, 4), CardService.FactoryOutputBonus(boosted.State.Profile, configs.Cards, "amethyst"));
+            Assert.AreEqual(35, FactoryMath.Units(configs.FactoryRules.ForType("amethyst").UnitsPerCycle,
+                CardService.FactoryOutputBonus(boosted.State.Profile, configs.Cards, "amethyst")));
             Assert.IsNotNull(amethyst.RewardId);
+            Assert.AreEqual(("ca002", 1), (amethyst.CardId, amethyst.CardLevel), "Dairy в шахте 2 требует Dairy Foreman ур. 1");
+            Assert.AreSame(configs.Factories.Get("amethyst"), configs.Factories.ByCard(amethyst.CardId));
         }
 
         [Test]

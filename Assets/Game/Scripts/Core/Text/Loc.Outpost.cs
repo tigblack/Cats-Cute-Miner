@@ -5,7 +5,7 @@ namespace CatMiners.Core.Text
     public static partial class Loc
     {
         /// <summary>
-        /// Раздел Outpost: HUD, окна и обучение режима CatOutpostV2 (Runtime/Outpost: OutpostHud, OutpostTutorial, OutpostUiText).
+        /// Раздел Outpost: HUD и окна режима CatOutpostV2 (Runtime/Outpost: OutpostHud, OutpostUiText).
         /// Ключи начинаются с «outpost.»; строки добавляются через d.Add("outpost.группа.имя", "Текст").
         /// Числа в шаблонах — уже отформатированные строки (MoneyFormat/NumberFormat) или целые. Формы слова — ключи
         /// «.one/.many» для Loc.Plural (английское правило). Глифы «→», «×», «·» и «—» есть в Pixeloid Sans.
@@ -15,7 +15,7 @@ namespace CatMiners.Core.Text
         {
             d.Add("outpost.dev.reset", "Reset progress");
             d.Add("outpost.dev.reset_title", "Start over?");
-            d.Add("outpost.dev.reset_body", "All progress of profile {0} will be reset: mines, gold, cards, elixir, equipment and parts. The game will start from mine 1 and the tutorial will run again.");
+            d.Add("outpost.dev.reset_body", "All progress of profile {0} will be reset: mines, gold, goods, cards, elixir, equipment and parts. The game will start from mine 1.");
             d.Add("outpost.dev.reset_cancel", "Cancel");
             d.Add("outpost.dev.reset_confirm", "Start over");
             // Верхняя полоса: табличка «Шахта N» и сектор; подписи кошелька и несданного груза (разные по смыслу, ТЗ 14).
@@ -28,8 +28,9 @@ namespace CatMiners.Core.Text
             // Нижняя панель.
             d.Add("outpost.bottom.base", "Base");
             d.Add("outpost.bottom.equipment", "Equipment");
-            d.Add("outpost.bottom.to_base", "To base");
             d.Add("outpost.bottom.store", "Store");
+            // ТЗ 2.2 §6.2: шестая кнопка — рынок товаров заводов.
+            d.Add("outpost.bottom.market", "Market");
 
             // Полоса над нижней панелью: фаза шахты, переход, повтор записи, расчёт офлайна ({0} — проценты).
             d.Add("outpost.status.draining", "Delivering the remaining coins");
@@ -45,6 +46,8 @@ namespace CatMiners.Core.Text
             d.Add("outpost.toast.best_done", "Best gear equipped");
             d.Add("outpost.toast.best_equipped", "Best gear is already equipped");
             d.Add("outpost.toast.map_updated", "The map of mine {0} was updated — the mine has restarted. Items, parts and rewards are kept");
+            // ТЗ 2.2 §10.3: сохранение схемы < 3 — архив pre-factories/ и новая кампания.
+            d.Add("outpost.toast.save_reset", "The game was updated: progress started over");
 
             // Причины недоступности (ТЗ 14): короткие, по коду отказа ядра или контроллера.
             d.Add("outpost.reason.gold", "Not enough delivered gold");
@@ -205,10 +208,8 @@ namespace CatMiners.Core.Text
             d.Add("outpost.task.idle", "resting");
             d.Add("outpost.task.going_home", "returning to camp");
 
-            // Имена целей по виду токена (не архивные ID): {0} — имя месторождения из каталога.
+            // Имена целей по виду токена (не архивные ID). Токен s — завод (ТЗ 2.2): имя из раздела Factories (FactoryText).
             d.Add("outpost.target.gate", "Sector Gate");
-            d.Add("outpost.target.deposit", "{0} Deposit");
-            d.Add("outpost.target.deposit_generic", "Rich Deposit");
             d.Add("outpost.target.wall", "Rockfall");
             d.Add("outpost.target.waterfall", "Waterfall");
             d.Add("outpost.target.unknown", "Obstacle");
@@ -222,7 +223,9 @@ namespace CatMiners.Core.Text
             d.Add("outpost.results.completion_parts", "Mine reward: {0}");
             d.Add("outpost.results.no_reward", "The reward for this mine was already received");
             d.Add("outpost.results.campaign", "That was the last mine of the campaign!");
-            d.Add("outpost.results.reset", "Local base upgrades and hired cats will reset. Equipment, items and parts are kept.");
+            // ТЗ 2.2 §4.6: золото продаж товара — отдельной строкой (только если > 0); непроданный товар пропадает при переходе.
+            d.Add("outpost.results.goods", "Goods sold: {0} gold");
+            d.Add("outpost.results.reset", "Local base upgrades, hired cats and unsold goods will reset. Equipment, items, parts and cards are kept.");
             d.Add("outpost.results.equipment", "Equipment");
             d.Add("outpost.results.next", "Next mine");
             d.Add("outpost.results.retry", "Retry saving");
@@ -320,32 +323,46 @@ namespace CatMiners.Core.Text
             d.Add("outpost.settings.ambience", "Ambience");
             d.Add("outpost.settings.vibration", "Vibration");
             d.Add("outpost.settings.reduce_effects", "Fewer effects");
-            d.Add("outpost.settings.tutorial", "Tutorial hints");
             d.Add("outpost.settings.play_time", "Play time");
             d.Add("outpost.settings.play_time_value", "{0}h {1}m");
             d.Add("outpost.settings.reset", "Reset Progress");
             d.Add("outpost.settings.reset_title", "Start over?");
-            d.Add("outpost.settings.reset_body", "Start from mine 1? Your mines, cards, equipment and currencies will be reset. The tutorial will start again. Sound settings and play time will be kept.");
+            d.Add("outpost.settings.reset_body", "Start from mine 1? Your mines, goods, cards, equipment and currencies will be reset. Sound settings and play time will be kept.");
 
-            // Обучение (ТЗ 15): реплики наставника, по одному действию. pickaxes_done: {0} → {1} — урон до и после;
-            // kept_bonus: {0} — урон с киркой, {1} — без неё (местный уровень 0).
-            d.Add("outpost.tutorial.skip", "Skip tutorial");
-            d.Add("outpost.tutorial.skipped", "Tutorial skipped. Hints can be turned on in Settings");
-            d.Add("outpost.tutorial.auto", "The cats already work on their own: they break rocks and collect coins");
-            d.Add("outpost.tutorial.strike", "You can break rocks too! Tap a rock to hit it with your pickaxe");
-            d.Add("outpost.tutorial.bag", "A cat fills its bag with coins and carries it to the base");
-            d.Add("outpost.tutorial.gold", "Coins reached the depot — your gold went up! Only delivered gold can be spent");
-            d.Add("outpost.tutorial.pickaxes_open", "You have enough gold for Pickaxes — open the Base");
-            d.Add("outpost.tutorial.pickaxes_buy", "Upgrade Pickaxes: the whole team gets stronger");
-            d.Add("outpost.tutorial.pickaxes_done", "Team damage went up: {0} → {1}");
-            d.Add("outpost.tutorial.team_open", "You can afford a third cat — take a look at the Base");
-            d.Add("outpost.tutorial.team_buy", "Team hires one more worker — it gets to work right away");
-            d.Add("outpost.tutorial.auto_targets", "Cats choose their next target on their own — no need to control them");
-            d.Add("outpost.tutorial.reward", "Mine cleared! You got a pickaxe — equip it in Equipment");
-            d.Add("outpost.tutorial.reward_closed", "Mine cleared! Your reward is in the mine results");
-            d.Add("outpost.tutorial.reset", "Local base upgrades will reset, but the item and parts stay with you");
-            d.Add("outpost.tutorial.kept_bonus", "Base upgrades are back to zero, but the pickaxe already works: damage {0} instead of {1}");
-            d.Add("outpost.tutorial.kept_bonus_equip", "Equip the pickaxe in Equipment — its bonus works from the very first hit");
+            // ───── Заводы и рынок в HUD (ТЗ 2.2 §6, §8, §12). Имена заводов и товаров, склад, подсказка закрытого завода, причины
+            // отказа и тосты поля — раздел Factories (Loc.Factories.cs, Runtime.Outpost.FactoryText); здесь — сведения завода, окно
+            // рынка и итоги.
+
+            // Сведения завода (§8, удержание или тап по открытому): заголовок «завод · товар», первая строка закрытого — подсказка
+            // factories.locked_hint («Dairy — locked. Break the chains», §2 п. 1), у остальных — состояние с циклом (длительность —
+            // NumberFormat.FormatDuration: «8s», «1h 30m»), выпуск и цена, оставшееся время, строка автодоставки с именем
+            // требуемой карточки ({0} — имя карточки, {1} — требуемый уровень, {2} — уровень игрока).
+            d.Add("outpost.factory.title", "{0} · {1}");
+            d.Add("outpost.factory.working", "Working · cycle {0}");
+            d.Add("outpost.factory.ready", "Ready · cycle {0}");
+            d.Add("outpost.factory.stopped", "Stopped · mine complete");
+            d.Add("outpost.factory.chains", "Chains HP: {0}/{1}");
+            d.Add("outpost.factory.chest", "A chest is locked inside");
+            d.Add("outpost.factory.output", "Output: {0} {1} · each {2} gold");
+            d.Add("outpost.factory.batch", "Batch: {0} {1} · each {2} gold");
+            d.Add("outpost.factory.next", "Next batch in {0}");
+            d.Add("outpost.factory.auto_on", "Auto delivery: on");
+            d.Add("outpost.factory.auto_needs", "Auto delivery: needs {0} Lv {1} (you have Lv {2})");
+            d.Add("outpost.factory.auto_missing", "Auto delivery: needs {0} Lv {1} (not collected)");
+            d.Add("outpost.factory.deliver", "Deliver ×{0}");
+
+            // Окно рынка (§6.3): строка товара — иконка, имя, количество, цена единицы, сумма и «Sell»; «Sell all +X» внизу.
+            d.Add("outpost.market.title", "Market");
+            d.Add("outpost.market.total", "Total value: {0}");
+            d.Add("outpost.market.count", "×{0}");
+            d.Add("outpost.market.each", "each {0} gold");
+            d.Add("outpost.market.sell", "Sell");
+            d.Add("outpost.market.sell_all", "Sell all");
+            d.Add("outpost.market.sell_all_value", "Sell all +{0}");
+            d.Add("outpost.market.hint", "Factories send goods to the warehouse by pipe");
+            d.Add("outpost.market.locked", "Market unlocks at mine {0}");
+            // Тост продажи: {0} — золото одной команды (сумма событий GoodsSold).
+            d.Add("outpost.toast.goods_sold", "+{0} gold");
         }
     }
 }

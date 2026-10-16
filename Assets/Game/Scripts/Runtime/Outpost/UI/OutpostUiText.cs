@@ -6,8 +6,8 @@ using BigInteger = System.Numerics.BigInteger;
 namespace CatMiners.Runtime.Outpost
 {
     /// <summary>
-    /// Тексты и иконки режима CatOutpostV2 для HUD и обучения: имена веток, слотов, редкостей и 16 предметов, задачи котика,
-    /// имена целей (никогда не архивные ID), причины отказа команд (ТЗ 14), показ чисел. Все строки — из словаря
+    /// Тексты и иконки режима CatOutpostV2 для HUD: имена веток, слотов, редкостей и 16 предметов, задачи котика,
+    /// имена целей (никогда не архивные ID; завод — через FactoryText, ТЗ 2.2), причины отказа команд (ТЗ 14), показ чисел. Все строки — из словаря
     /// Loc (раздел Outpost), числа — уже посчитанные ядром величины (UI ничего не пересчитывает по своим формулам).
     /// Таблицы ключей и имён спрайтов — статические массивы: показ не собирает строки из частей.
     /// </summary>
@@ -189,7 +189,7 @@ namespace CatMiners.Runtime.Outpost
             return Loc.T(i >= 0 && i < s_TaskKeys.Length ? s_TaskKeys[i] : "outpost.task.idle");
         }
 
-        /// <summary>Имя цели по виду токена: порода, богатое месторождение, завал или водопад, ворота сектора.</summary>
+        /// <summary>Имя цели по виду токена: порода, завод (токен s, ТЗ 2.2), завал или водопад, ворота сектора.</summary>
         public static string TargetName(MapTarget t)
         {
             if (t == null) return Loc.T("outpost.target.unknown");
@@ -198,11 +198,7 @@ namespace CatMiners.Runtime.Outpost
                 case 'p':
                     return Loc.T("outpost.target.gate");
                 case 's':
-                {
-                    // Имя шахты-месторождения из каталога; без записи в словаре — общее имя, а не ID данных.
-                    string name = t.TypeId != null ? PresentationCatalog.ShaftName(t.TypeId) : null;
-                    return string.IsNullOrEmpty(name) || name == t.TypeId ? Loc.T("outpost.target.deposit_generic") : Loc.F("outpost.target.deposit", name);
-                }
+                    return FactoryName(t.TypeId);
                 case 'x':
                     return PresentationCatalog.ObstructionVisual(t.TypeId) == ObstructionVisualKind.Water
                         ? Loc.T("outpost.target.waterfall")
@@ -220,7 +216,8 @@ namespace CatMiners.Runtime.Outpost
             switch (t.Kind)
             {
                 case 'p': return "icon_gate";
-                case 's': return "icon_shaft";
+                // ТЗ 2.2 §11: icon_factory заменяет icon_shaft в сведениях цели (сам icon_shaft остаётся старому режиму).
+                case 's': return "icon_factory";
                 case 'x':
                 {
                     string sprite = PresentationCatalog.ObstructionSingleSprite(t.TypeId);
@@ -243,6 +240,15 @@ namespace CatMiners.Runtime.Outpost
                 }
             }
         }
+
+        // ───────────── Заводы (ТЗ 2.2) ─────────────
+
+        /// <summary>
+        /// Имя завода по типу JSON («Dairy» для amethyst, приложение A ТЗ 2.2): тип → товар по правилам заводов, имя — раздел
+        /// Factories (<see cref="FactoryText.FactoryName"/>); неизвестный тип — общее «Factory», а не ID данных. Строка ключа
+        /// собирается при каждом вызове — звать при смене показанного значения, не каждый кадр.
+        /// </summary>
+        public static string FactoryName(string typeId) => FactoryText.FactoryName(OutpostCardText.GoodOfType(typeId));
 
         // ───────────── Причины отказа (ТЗ 14) ─────────────
 
@@ -268,6 +274,12 @@ namespace CatMiners.Runtime.Outpost
                 case "gems": return Loc.T("outpost.reason.gems");
                 case "cooldown": return Loc.T("outpost.reason.cooldown");
                 case "unavailable": return Loc.T("outpost.reason.unavailable");
+                // Коды заводов и рынка (CORE_SPEC §16.5) — тексты раздела Factories (ТЗ 2.2 §12), чтобы любой вызов давал их.
+                case "not-ready":
+                case "locked":
+                case "no-goods":
+                case "no-factories":
+                    return FactoryText.Reason(code);
                 default: return Loc.T("outpost.reason.unknown");
             }
         }

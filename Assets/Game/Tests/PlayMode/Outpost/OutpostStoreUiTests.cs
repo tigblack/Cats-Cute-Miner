@@ -2,6 +2,7 @@ using System.Collections;
 using System.Linq;
 using CatMiners.Core.Outpost;
 using CatMiners.Core.Text;
+using CatMiners.Runtime;
 using CatMiners.Runtime.Outpost;
 using NUnit.Framework;
 using TMPro;
@@ -12,7 +13,7 @@ using UnityEngine.UI;
 namespace CatMiners.Tests
 {
     /// <summary>
-    /// Магазин с настоящим контроллером (ТЗ 10.5): нижняя панель Store · Cards · Base · Equipment · To base, разделы и плитки
+    /// Магазин с настоящим контроллером (ТЗ 10.5): нижняя панель Store · Cards · Base · Market · Equipment · To base, разделы и плитки
     /// (зелёная — бесплатно или своё, синяя — покупка), рекламный сундук с окном карточек и таймером, шансы «i», покупка за гемы
     /// после подтверждения, отказ без гемов, тайм-скип из стартового набора с расчётом и итогом.
     /// </summary>
@@ -36,30 +37,57 @@ namespace CatMiners.Tests
 
         long CardCopies() => Game.State.Profile.Cards.Values.Sum(c => c.Level > 0 ? 1 + c.Copies : 0);
 
+        /// <summary>
+        /// Решение владельца 16.10.2026 (прежний BottomBar_StoreCardsBaseMarketEquipmentToBase, ТЗ 2.2 §6.2): «To base» убрана,
+        /// пять кнопок в порядке Store · Cards · Base · Equipment · Market, без перекрытий, «Base» ровно по центру панели и не уже
+        /// 44 пикселей арта; подписи боковых кнопок не мельче FontSmall и без многоточия; в шахте 1 (заводов нет) Market неактивна и
+        /// вместо весов на ней замок.
+        /// </summary>
         [UnityTest]
-        public IEnumerator BottomBar_StoreCardsBaseEquipmentToBase()
+        public IEnumerator BottomBar_StoreCardsBaseEquipmentMarket()
         {
-            Game.Tutorial.Skip();
             yield return null;
             Game.Hud.RefreshNow();
+            Canvas.ForceUpdateCanvases();
             var bar = Named("BottomBar");
             float previousRight = float.MinValue;
             var corners = new Vector3[4];
-            foreach (string name in new[] { "Store", "Cards", "Base", "Equipment", "ToBase" })
+            string[] order = { "Store", "Cards", "Base", "Equipment", "Market" };
+            Assert.That(bar.GetComponentsInChildren<Button>(true).Where(b => b.transform.parent == bar).Select(b => b.name)
+                .OrderBy(n => System.Array.IndexOf(order, n)).ToArray(), Is.EqualTo(order), "ровно пять кнопок панели");
+            foreach (string name in order)
             {
                 var button = bar.GetComponentsInChildren<Button>(true).Single(b => b.name == name);
                 Assert.That(button.gameObject.activeInHierarchy, Is.True, name);
                 ((RectTransform)button.transform).GetWorldCorners(corners);
                 Assert.That(corners[0].x, Is.GreaterThanOrEqualTo(previousRight - 0.5f), name + " правее предыдущей кнопки и не перекрывает её");
                 previousRight = corners[2].x;
+                if (name == "Base")
+                {
+                    Assert.That(((RectTransform)button.transform).rect.width, Is.GreaterThanOrEqualTo(OutpostHud.BaseMinWidth - 0.5f), "ширина «Base»");
+                    var barCorners = new Vector3[4];
+                    ((RectTransform)bar).GetWorldCorners(barCorners);
+                    Assert.That((corners[0].x + corners[2].x) / 2f, Is.EqualTo((barCorners[0].x + barCorners[2].x) / 2f).Within(1f), "«Base» по центру панели");
+                }
+                else
+                {
+                    var label = button.GetComponentsInChildren<TextMeshProUGUI>(true).First(t => t.name == "label");
+                    label.ForceMeshUpdate();
+                    Assert.That(label.fontSize, Is.GreaterThanOrEqualTo(PixelUi.FontSmall - 0.01f), name + ": подпись не мельче FontSmall");
+                    Assert.That(label.isTextTruncated, Is.False, name + ": подпись без многоточия");
+                }
             }
             Assert.That(Texts(bar.GetComponentsInChildren<Button>(true).Single(b => b.name == "Store").transform), Does.Contain(Loc.T("outpost.bottom.store")));
+            var market = bar.GetComponentsInChildren<Button>(true).Single(b => b.name == "Market");
+            Assert.That(Texts(market.transform), Does.Contain(Loc.T("outpost.bottom.market")));
+            Assert.That(market.interactable, Is.False, "шахта 1 без заводов: Market неактивна");
+            Assert.That(market.transform.Find("content/icon").GetComponent<Image>().sprite.name, Is.EqualTo("icon_lock"), "замок на Market до шахты с заводами");
+            Assert.That(Game.Hud.FindTarget(OutpostHud.TargetMarket), Is.EqualTo(market.transform));
         }
 
         [UnityTest]
         public IEnumerator Store_SectionsTilesColorsAndBack()
         {
-            Game.Tutorial.Skip();
             yield return null;
             Game.Hud.GetComponentsInChildren<Button>().Single(b => b.name == "Store").onClick.Invoke();
             yield return null;
@@ -95,7 +123,6 @@ namespace CatMiners.Tests
         [UnityTest]
         public IEnumerator AdChest_RewardWindowDropRatesThenCooldown()
         {
-            Game.Tutorial.Skip();
             yield return null;
             Game.Hud.ShowStore();
             yield return null;
@@ -135,7 +162,6 @@ namespace CatMiners.Tests
         [UnityTest]
         public IEnumerator GemPurchase_ConfirmThenSpend_RefusedWithoutGems()
         {
-            Game.Tutorial.Skip();
             yield return null;
             Game.Hud.ShowStore();
             yield return null;
@@ -169,7 +195,6 @@ namespace CatMiners.Tests
         [UnityTest]
         public IEnumerator TimeSkip_OwnedShort_CalculatesAndShowsResult()
         {
-            Game.Tutorial.Skip();
             yield return null;
             Game.Hud.ShowStore();
             yield return null;

@@ -1,5 +1,8 @@
 # Ядро режима CatOutpostV2 — спецификация реализации
 
+> Дополнение 15 октября 2026 (ТЗ 2.2, заводы вместо месторождений): типы, состояние, команды, события и версии заводов, труб,
+> склада и рынка — §16. Версии схемы и правил там же (§16.8) заменяют значения из примеров §5 и §12.
+
 > Дополнение 10 октября 2026: для новых шахт правила геометрии, ворот, масок навигации/затемнения и сохранений задаёт [MINE_TOPOLOGY.md](MINE_TOPOLOGY.md). Описания барьера по строке и исходного прямоугольного поля ниже применяются к старым сохранённым шахтам без `MapTopology`.
 
 Документ — внутренний контракт реализации ТЗ 2.1 (`Docs/TZ/Cat_Miners_Auto_Incremental_TZ_v2.1.md`, далее «ТЗ»).
@@ -190,7 +193,7 @@ OutpostProfile {
   List<string> CardKeys;             // однократные сундуки/учебная карточка/импорт
   long NextRunSeq = 1;
   long PlayTimeMs;                  // реальное время активной игры; сохраняется при начале заново, старые профили — 0
-  TutorialState Tutorial;            // { int Step; bool Dismissed; List<string> Seen; }
+  TutorialState Tutorial;            // { int Step; bool Dismissed; List<string> Seen; } — обучение убрано 15.10.2026: только совместимость, не читается
   OutpostSettings Settings;          // { float Master, Music, Sfx, Ambience; bool Vibration; bool ReduceEffects; bool LegacySettingsImported; }
 }
 
@@ -250,7 +253,8 @@ QueueEntry { int WorkerId; long ArrivalTick; }
 
 `TeamStats Compute(OutpostBalanceConfig b, int[] levels, OutpostProfile p, EquipmentCatalog cat, CardCatalog cards = null, int extraWorkers = 0)`.
 Базовые формулы ниже даны без карточек; их дополнительные множители, целочисленные бонусы
-и расчёты для конкретной цели описаны в §8.1.
+и расчёты для конкретной цели описаны в §8.1. Выпуск заводов (`FactoryOutput`, ТЗ 2.2) — не характеристика команды и в
+`TeamStats` не входит: его считает только `FactoryMath.UnitsPerCycle` (§16.6).
 
 - `Workers = StartWorkers + L[Team]` (с карточками: `+ Run.ExtraWorkers`, §8.1).
 - `Milestone(branch, L) = 2^count(L >= t for t in Milestones)`.
@@ -294,7 +298,11 @@ public sealed partial class OutpostSimulation {
 (сохраняются `SegmentStart/P0/Duration/Deadline`) дают побайтно одинаковый JSON. Если экономика остановлена
 (`ReadyToContinue`) — `Advance` только двигает `Now`.
 
-`NextEventTick` = минимум `Action.Deadline` работников и отметок запланированных команд.
+`NextEventTick` = минимум `Action.Deadline` работников, отметок повтора застрявшего движения (`LastMoveProgressTick +
+MoveStuckTicks`, после неудачного повтора — `LastChangeTick + WatchdogTicks + 1`), отметок запланированных команд и сроков
+заводов (ТЗ 2.2 §4.5, §16.5): в `Running`/`DrainingCargo` — минимальный `CycleEnd` заводов в `Working`, минимальный `ArriveTick`
+партий в трубах и, пока такие сроки есть и watchdog не сработал, отметка `LastChangeTick + WatchdogTicks + 1` (не раньше `Now`).
+В `ReadyToContinue` сроки заводов не входят. `long.MaxValue` — событий нет.
 
 ### 7.1 Отметка `ProcessTick(t)` — строго семь фаз
 
@@ -318,11 +326,15 @@ public sealed partial class OutpostSimulation {
 4. **Склад.** Места 0, 1: работник `Unloading` с `Deadline == t`: первая порция сумки → `Wallet += Value`, `TotalCredited += Value`,
    `DeliveredUnits++`, событие `CargoDeposited(workerId, slot, value)`. Если сумка не пуста — следующая порция; иначе место освобождается,
    работник нуждается в задаче.
+   **4б. Заводы** (ТЗ 2.2 §4.5, кроме `ReadyToContinue`): 4б-1 — партии с `ArriveTick ≤ t` на склад товаров по
+   `(ArriveTick, ID завода, Seq)`; 4б-2 — циклы с `CycleEnd ≤ t` по `(CycleEnd, ID завода)`: ручной завод → `Ready`,
+   автоматический — партия сразу в трубу и следующий цикл (§16.5). Отметка, на которой срабатывает только шаг 4б, проходит
+   все фазы 1–7. Циклы и прибытия не вызывают `Touch`.
 5. **Ворота и завершение.** Если цель ворот `Order == GatesOpened` уничтожена — `GatesOpened++`, `NavVersion++`, событие `SectorOpened`.
    `Running` и все `r/s/x` уничтожены и `GatesOpened == Gates.Count` → `DrainingCargo` (событие). `DrainingCargo` и нет партий,
    все сумки пусты, нет `Unloading` → награда (`StageProgressionService.ApplyCompletion`, один раз по ключу), `ReadyToContinue`,
    все таймеры работников сброшены (`Action = null`), очередь/места пусты, событие `StageCompleted`.
-6. **Команды**, запланированные на `t`, в порядке поступления.
+6. **Команды**, запланированные на `t`, в порядке поступления (в том числе `DeliverFactory`/`SellGoods`, §16.5).
 7. **Планирование.** (a) пересчитать `Stats`; у работников с `Edge` или `Unload`, если `Duration` изменилась:
    `p = P0 + (t - SegmentStart)/Duration` (точно, `min 1`); `p < 1` → `P0 = p`, `SegmentStart = t`, `Duration = new`,
    `Deadline = t + ceil((1-p) * new)`; `p == 1` — без изменений. (b) Назначить задачи нуждающимся (и `Idle`, если
@@ -361,11 +373,17 @@ BFS по 4 направлениям, порядок соседей: вверх (
 `WatchdogFired = true`, `WatchdogDiagnostic` (runId, зона, живые цели сектора, резервы, барьер, блокирующие клетки, режимы работников).
 Ничего не начисляется и не разрушается.
 
+Заводы (ТЗ 2.2 §4.5) watchdog не обманывают: циклы, прибытия, доставки и продажи сами `LastChangeTick` не трогают, а пока у заводов есть сроки,
+`NextEventTick` включает отметку `LastChangeTick + WatchdogTicks + 1` (принятое решение этапа 1 ТЗ 2.2). Поэтому застрявшие
+котики при работающем автоматическом заводе ловятся ровно через `WatchdogTicks` после последнего изменения, а не к концу цикла
+(до 8 ч); тест `FactorySimulationTests.Watchdog_AutoFactory8s_StuckCats_FiresAfterWatchdogTicks`.
+
 ## 8. Команды
 
 `OutpostCommand { CommandKind Kind; UpgradeBranch Branch; BuyMode Mode; string ItemId; EquipSlot Slot; int TargetId; }`:
 `BuyUpgrade(branch, mode)`, `Equip(itemId)`, `Unequip(slot)`, `EquipBest`, `UpgradeItem(itemId)`, `Strike(targetId)`,
-`UpgradeCard(cardId)` (§8.1), `StoreBuy(itemId, utcMs)` и `BonusGold(amount)` (§8.2).
+`UpgradeCard(cardId)` (§8.1), `StoreBuy(itemId, utcMs)` и `BonusGold(amount)` (§8.2), `DeliverFactory(targetId)` и
+`SellGoods(goodId)` (ТЗ 2.2, §16.5).
 `CommandResult { bool Ok; string Reason; int Levels; BigInteger Cost; }`. В `ReadyToContinue` покупки отклоняются (`"phase"`),
 экипировка разрешена (действует на следующую шахту). После команды фаза 7 пересчитывает `Stats` (смена обуви/разгрузки — пересчёт
 остатка ребра/обслуживания; новый урон — со следующего удара; вместимость не удаляет груз). Найм создаёт работника в `SpawnCell`
@@ -391,7 +409,8 @@ WorkerId −1) в `StrikeDropCell`: BFS по слоям от footprint (воро
   `CardsVersion`. `CardService`: `Grant` (первая копия → уровень 1), `Quote/Upgrade` (`Duplicates[L−1]`, `SoftCurrency[L−1]`,
   максимум 1 + длина), `StateOf` (Locked/Available/Collecting/Active/Upgradable/Max), `IsUnlocked` (`HighestZone ≥ MineUnlock`),
   `ReachZone`, `EffectSum/EffectWhole`, `MigrateProfile`, `ImportLegacy`.
-- Эффекты — `TeamStats.Compute(..., cards, extraWorkers)`: общие бонусы входят в `FinalDamage/FinalValue/FinalMoveSpeed/
+- Эффекты — `TeamStats.Compute(..., cards, extraWorkers)` (кроме `FactoryOutput` карточек заводов — его считает только
+  `FactoryMath.UnitsPerCycle`, §16.6): общие бонусы входят в `FinalDamage/FinalValue/FinalMoveSpeed/
   UnloadRate/Capacity/PickupTicks/TapDamageUnits`; по цели — `DamageUnitsFor(kind, typeId)`, `CoinValueFor(kind, typeId, vf)`
   (кэш `m_TargetDamage/m_TargetCoin` по индексу цели, обновляется при пересчёте Stats); крит — `CritChancePpm`, `CritMultiplier`,
   бросок `CritRoll(workerId, tick)` (SplitMix64 от seed профиля и RunId), `TargetHit.Extra` — число критов. Скидки и предел
@@ -504,13 +523,15 @@ PayloadSha256, инварианты); выбрать наибольший `Commi
 - Уровни в `[0, cap]`, cap «Команды» — с учётом `CardTeamCap` и уже выданных `ExtraWorkers`; число работников `== StartWorkers + ExtraWorkers + Levels[Team]`; цены/детали/эликсир неотрицательны; `Items` уровни в `[1, 20]`.
 - Карточки имеют известные ID, допустимый уровень по `CardUpgradeCosts` и неотрицательные копии; `CardKeys` уникальны, циклы наград допустимы. Старый профиль с `CardsVersion = 0` проверяется по правилам миграции.
 - `ReadyToContinue` ⇒ нет партий, сумки пусты, очередь и места пусты, `Action == null` у всех.
+- Заводы, трубы, склад и рынок (ТЗ 2.2 §10.2) — §16.4; в равенстве кошелька тогда `+ GoodsSoldGold`.
 
 ## 14. События для представления
 
 `OutpostEvent { OutpostEventType Type; long Tick; int WorkerId; int TargetId; int Cell; int Count; long BatchSeq; int Slot; BigInteger Value; int Branch; string ItemId; WorkerMode Mode; int Extra; string Detail; }`;
 типы: `WorkerModeChanged`, `TargetHit`, `CargoReleased`, `CargoPickedUp`, `CargoDeposited`, `TargetDestroyed`, `SectorOpened`,
 `DrainingStarted`, `StageCompleted`, `TeamUpgradePurchased`, `WorkerHired`, `EquipmentChanged`, `ItemUpgraded`, `WatchdogFired`,
-`TargetStruck` (удар игрока), `ChestOpened`, `ElixirFound`, `CardUpgraded` (§8.1), `StorePurchased` (`ItemId` — плитка, `Value` — выданное количество эликсира/гемов, у сундука 0), `BonusGold` (`Value` — золото за рекламу).
+`TargetStruck` (удар игрока), `ChestOpened`, `ElixirFound`, `CardUpgraded` (§8.1), `StorePurchased` (`ItemId` — плитка, `Value` — выданное количество эликсира/гемов, у сундука 0), `BonusGold` (`Value` — золото за рекламу);
+заводы (ТЗ 2.2) — `FactoryUnlocked`, `FactoryReady`, `FactoryAutomated`, `GoodsDispatched`, `GoodsArrived`, `GoodsSold` (§16.7).
 Представление не меняет состояние; начислением управляет только фаза 4.
 
 ## 15. Бот и прогоны (`OutpostBot`)
@@ -520,3 +541,195 @@ PayloadSha256, инварианты); выбрать наибольший `Commi
 следующего события) и подаёт команду через `Submit`. Лимит: 24 ч симуляции (`86_400_000_000` тиков) и 2 000 000 событий; timeout/watchdog — провал.
 `BotRunReport { Zone; Policy; EquipmentLabel; Seed; Outcome; FirstDeliverySec; FirstPurchaseSec (null если нет); ClearedSec; CompletedSec; Events;
 UnitsCreated; ValueCreated; Credited; Spent; MaxQueue; AvgQueueWaitSec; RewardItemId; RewardParts; WatchdogDiagnostic; FinalLevels }`.
+
+## 16. Заводы, трубы, склад и рынок (ТЗ 2.2)
+
+Источник правил — `Docs/TZ/Cat_Miners_Factories_TZ_v2.2.md` (далее «ТЗ 2.2»); при расхождении с разделами выше по заводам, товару,
+трубам, складу, рынку, карточкам заводов и сохранениям действует ТЗ 2.2. Здесь — типы, API и поведение ядра, на которые опираются
+Runtime, UI, бот и тесты. Всё описанное реализовано (этап 1: контракт WP0, ядро WP1, карта WP2); заглушек в ядре нет.
+
+### 16.1 Файлы
+
+| Файл (`Core/Outpost/…`) | Типы | Что |
+|---|---|---|
+| `Config/FactoryRules.cs` | `FactoryRules`, `FactoryGoodRule` | `factory_rules.json` (`factories-1`): `Version`, `PriceRate`, `PipeSpeedCellsPerSec`, `MinTransitSec` (дроби), `Goods[] { TypeId, GoodId, CycleSec (long), UnitsPerCycle (int), PriceFactor (Rational), Color ("cream4") }`; `Parse`/`Validate` (форма, уникальность TypeId/GoodId, `CycleSec ≥ 1`, `UnitsPerCycle ≥ 1`, `PriceFactor > 0`, `Color` = `<рампа><индекс>`), `ForType`, `ForGood`, `NumberOfGood`, `TrySplitTone`, `FactoryGoodRule.CycleTicks` |
+| `Factories/FactoryCatalog.cs` | `FactoryCatalog`, `FactoryType`, `FactoryToken` | Каталог: 20 типов MineShafts + товары + карточки заводов; `RequirementError`; `ScanTokens` |
+| `Factories/FactoryMath.cs` | `FactoryMath`, `FactoryQueries` | Формулы §4.4/§5/§6.4 (в том числе единственная функция выпуска `UnitsPerCycle`, §16.6) и чтение заводов/склада/цен из `OutpostRun`, причины отказа команд |
+| `Level/FactoryRoutes.cs` | `FactoryRoutes` | Маршруты труб по итоговой карте (§16.3) |
+| `Level/OutpostLevelAdapter.cs` | `MapFactory`; поля `OutpostMap.Factories`, `MapTarget.CardId/CardLevel` | Заводы карты и маршруты |
+| `Sim/OutpostSimulation.Factories.cs` | `OutpostSimulation` (partial) | Поведение §16.5: открытие, циклы, автодоставка, трубы, склад, продажа, шаг 4б, сроки, остановка, DEV-методы |
+| `Sim/StageProgressionService.cs` | `AddFactories` в `CreateRun` | Заводы новой шахты, снимок правил; переход — новый run |
+| `Sim/OutpostInvariants.cs` | `CheckFactories` | Инварианты §16.4 |
+
+Генератор конфигурации — `Tools/Factories/gen_factory_rules.py` (`--check` сверяет файл, `--price-rate n/d` — калибровка §9);
+встроенная копия — `OutpostConfigSet.DefaultFactoryRulesJson` (`Tools/gen_outpost_config_defaults.py`). Набор с другими правилами заводов
+(перебор `PriceRate` в аудите): `OutpostConfigSet.Parse(…8 текстов…).WithCards(repo)` — каталог сверяется заново.
+
+### 16.2 Конфигурация и каталог
+
+- `OutpostConfigSet.ResourcePaths` — восьмой путь `Outpost/factory_rules`; `Parse(…, storeJson, factoryRulesJson)` (8 текстов) и
+  `ParseResources(string[] texts)` (по порядку `ResourcePaths`, Runtime). Прежние перегрузки берут встроенные правила заводов.
+- `OutpostConfigSet.FactoryRules` — есть всегда; `FactoryRulesHash` — в `CatalogHash` не входит (значения снимаются в run).
+- `OutpostConfigSet.Factories` — `FactoryCatalog`, строится в `WithCards(repo)` вместе с `Cards` (`FactoryCatalog.Build(repo, FactoryRules)`);
+  `null` без источника (тесты ядра): тогда нет и каталога карточек, бонусов выпуска нет. `WithBalance/WithStore/WithTopologies` переносят оба поля.
+- `FactoryCatalog.Build` проверяет (§3.1): 20 записей `MineShafts`, у каждой footprint 2×3, `GenerationDelaySecMultiplier/Growth/FormulaType = 0`,
+  `GenerationDelaySecBase` — целое ≥ 1 и **равно** `CycleSec` правила (иначе `OutpostConfigException`); правила есть ровно у всех типов,
+  и `Goods[i]` — товар типа `MineShafts[i]` (тот же порядок: номер типа каталога = `FactoryRules.NumberOfGood`, порядок строк рынка);
+  карточки заводов — manager-карточки JSON с единственным `TargetId` = тип: ровно одна Rarity 1 (Common) и не больше одной Rarity 2
+  (Uncommon) на тип. `ca001` (`spawningcart`) — не завод.
+- `FactoryCatalog`: `Types` (по номеру 1…20 — порядок MineShafts, порядок строк рынка), `Get(typeId)`, `TryGet`, `ByGood(goodId)`,
+  `ByCard(cardId)` (null — не карточка завода), `IsFactoryCard`, `CardIds` (39: по номеру типа, Common перед Uncommon), `Rules`,
+  `SourceSha256`, `RequirementError(typeId, cardId, cardLevel)` → `null` или текст (тип есть; карточка — Common/Uncommon этого типа;
+  `1 ≤ cardLevel ≤` максимум редкости: Common 14, Uncommon 12). WP2 вызывает его в `SourceLevelImporter` с номером шахты и индексом токена.
+- `FactoryType { Number; TypeId; GoodId; CycleSec; CycleTicks; UnitsPerCycle; PriceFactor; Color; WidthCells; DepthCells; CommonCardId;
+  UncommonCardId (null у sunstone); CommonMaxLevel; UncommonMaxLevel; Rule; HasCard(id); MaxLevelOf(id) }`.
+- `FactoryCatalog.ScanTokens(repo)` → `List<FactoryToken { Zone; Index; TypeId; Level; RewardId; CardId; CardLevel }>` — все 1 232 токена
+  `s` зон 1…144 без override (649 требований Common, 583 Uncommon).
+
+### 16.3 Карта
+
+- `MapTarget.CardId`, `MapTarget.CardLevel` — требование автодоставки токена `s` (у прочих целей `null`/0); `MapTarget.IsFactory` (`Kind == 's'`).
+  Копируются `OutpostLevelAdapter.Build` и `MineTopologyAdapter.Apply`.
+- `OutpostMap.Factories : MapFactory[]` (по возрастанию `TargetId`, пусто — заводов нет), `OutpostMap.Factory(targetId)` → `MapFactory` или null.
+  Строятся в `OutpostMap.BuildIndex()` (последний шаг обоих адаптеров) вызовом `FactoryRoutes.Build(map)`; не сохраняются.
+- `MapFactory { TargetId; TypeId; RequiredCardId; RequiredCardLevel; OutletCell (−1 — нет); RouteSteps (рёбра, −1 — нет);
+  RouteCells (от OutletCell до IntakeCell включительно, длина RouteSteps + 1); HasRoute }`.
+- **Маршрут** (`Level/FactoryRoutes.cs`, ТЗ 2.2 §5): итоговая карта — стены только постоянная порода (`!IsPlayable`) и footprint всех
+  заводов; живые `r/x` и ворота не мешают, площадка лагеря проходима. Один BFS от `IntakeCell` (соседи: вверх, влево, вправо, вниз)
+  даёт расстояния. `OutletCell` — свободная соседняя с footprint клетка с наименьшим расстоянием, при равенстве — меньший индекс;
+  `RouteSteps` — это расстояние в рёбрах (`RouteCells` ТЗ §5); `RouteCells` — один из кратчайших путей: на каждом шаге соседняя
+  клетка на 1 ближе к `IntakeCell`, прямо, если можно, иначе первая в порядке вверх, влево, вправо, вниз. Нет такой клетки —
+  маршрута нет (`RouteSteps = −1`, `OutletCell = −1`). В топологии `wide-branching-mines-3` маршрут есть у всех 1 232 заводов
+  (`OutpostReachability`, случай 2; тест `FactoryCatalogTests.Map_AllZones_RoutesDeterministic_…`).
+- Время в пути: `FactoryMath.TransitTicks(rules, RouteSteps)` = `ceil(max(MinTransitSec, ceil(RouteSteps / PipeSpeedCellsPerSec)) × 10^6)`;
+  `RouteSteps < 0` считается как 0.
+
+### 16.4 Состояние (`Sim/OutpostState.cs`)
+
+```text
+OutpostRun += {
+  FactoryRules FactoryRules;              // снимок factory_rules.json при создании шахты (null — run без заводов)
+  List<FactoryState> Factories;           // по TargetId; пусто — заводов нет
+  List<PipeBatch> PipeBatches;            // по Seq; партия удаляется при прибытии
+  long NextPipeBatchSeq = 1;
+  Dictionary<string,long> Warehouse;      // GoodId → на складе
+  Dictionary<string,long> GoodsArrived;   // GoodId → пришло по трубам
+  Dictionary<string,long> GoodsSold;      // GoodId → продано
+  BigInteger GoodsSoldGold;               // золото продаж; в TotalCredited не входит
+  Dictionary<string,long> DebugGoods;     // GoodId → отладочная выдача (только debug-профиль)
+}
+RunCounters += { int ManualDeliveries; }  // выполненных DeliverFactory
+FactoryState { int TargetId; string TypeId; string GoodId; FactoryStatus Status /* Locked, Working, Ready, Stopped */; bool Automated;
+               long CycleStart = -1, CycleEnd = -1; int ReadyUnits; long Produced; long Dispatched; int Cycles; }
+PipeBatch { long Seq; int FactoryId; string GoodId; int Units; long DepartTick; long ArriveTick; }
+```
+
+Словари сериализуются по возрастанию ключа, `FactoryStatus` — именем. `CreateRun` кладёт нулевые записи `Warehouse`, `GoodsArrived`,
+`GoodsSold` для каждого товара заводов шахты (одинаковая форма снимка онлайн, офлайн и после загрузки).
+
+**Поля цикла — однозначно:** цикл `[CycleStart, CycleEnd)` есть только у `Working`, и всегда `CycleEnd = CycleStart + CycleTicks`. У
+`Locked`, `Ready` и `Stopped` оба поля `−1`. Готовая партия (`Ready`) цикла не имеет — и после полного цикла, и после досрочного
+DEV «Finish factory cycles» (§16.5); момент готовности — `Tick` события `FactoryReady`. UI рисует полный бар у `Ready` по `Status`,
+прогресс — только у `Working`: `(Now − CycleStart) / (CycleEnd − CycleStart)`.
+
+Инварианты (`OutpostInvariants.CheckFactories`, ТЗ 2.2 §10.2):
+
+- заводы по возрастанию `TargetId`, ровно по одному на `Map.Factories`, тип совпадает с картой, товар — с правилами; счётчики ≥ 0;
+  `Produced = ReadyUnits + Dispatched`;
+- `Locked`: HP > 0, `Produced = Cycles = 0`, поля цикла `−1`; открытый завод — HP = 0;
+- `Working`: не в `ReadyToContinue`, `ReadyUnits = 0`, `CycleEnd − CycleStart = CycleTicks`, `CycleEnd > Now`;
+- `Ready`: не в `ReadyToContinue`, `ReadyUnits > 0`, не `Automated`, `CycleStart = CycleEnd = −1`;
+- `Stopped`: только в `ReadyToContinue`, поля цикла `−1` (`ReadyUnits` может остаться — пропадёт при переходе);
+- партии: `Seq` по возрастанию в `[1, NextPipeBatchSeq)`, `Units > 0`, `DepartTick ≤ Now`, `ArriveTick ≥ DepartTick`, вне
+  `ReadyToContinue` — `ArriveTick > Now`; товар партии — товар завода;
+- по каждому товару: отправлено = в трубах + `GoodsArrived`; `GoodsArrived + DebugGoods = Warehouse + GoodsSold`; вне debug-профиля
+  `DebugGoods` пуст; `GoodsSoldGold = Σ GoodsSold × Price`;
+- `Wallet = TotalCredited + BonusCredited + GoodsSoldGold − TotalSpent`. «`Automated` не снимается» — свойство переходов (тесты).
+
+### 16.5 Поведение и команды (`Sim/OutpostSimulation.Factories.cs`, `Sim/OutpostSimulation.Commands.cs`)
+
+- **Создание и переход.** `StageProgressionService.CreateRun` → `AddFactories`: снимок `Run.FactoryRules` (глубокая копия
+  `configs.FactoryRules`) и по `FactoryState { Status = Locked }` на каждый `Map.Factories` (по `TargetId`). Run без правил (без
+  заводов) бывает только в синтетических тестах. `PrepareTransition` создаёт новый run — заводы, трубы, склад, счётчики товара и
+  `GoodsSoldGold` сбрасываются вместе с золотом (Р3); карточки профиля остаются.
+- **Открытие** (ТЗ 2.2 §4.2). Цепи — цель `s` без груза (`adapter-2`). Когда HP = 0, `DestroyTarget` на этой отметке по порядку:
+  `TargetDestroyed`; footprint **не** освобождается (стоящий завод — стена навигации, груз на нём не лежит); сундук `rewardId`;
+  `UnlockFactory` → `Working`, цикл `[t, t + CycleTicks)`, событие `FactoryUnlocked`; проверка автодоставки.
+- **Конец цикла** (шаг 4б-2, `CompleteCycle`): `Units = FactoryMath.UnitsPerCycle(rule, Profile, Cards)` по уровням карточек на этой
+  отметке; `Produced += Units`, `Cycles++`. Ручной завод → `Ready`, `ReadyUnits = Units`, поля цикла `−1`, событие `FactoryReady`.
+  Автоматический → партия сразу в трубу (`GoodsDispatched`, `Extra = 1`), следующий цикл `[CycleEnd, CycleEnd + CycleTicks)` — без
+  накопления сдвига. Повторный проход на той же отметке — только если срок отстал больше чем на цикл (в обычной работе не бывает).
+- **Отправка** (`Dispatch`): `PipeBatch { Seq = NextPipeBatchSeq++, FactoryId, GoodId, Units, DepartTick = t, ArriveTick = t +
+  FactoryTransitTicks(id) }`, `Dispatched += Units`, событие `GoodsDispatched` (`BatchSeq`, `Extra`: 1 — автодоставка, 0 — команда).
+- **Прибытие** (шаг 4б-1): `Warehouse += Units`, `GoodsArrived += Units`, событие `GoodsArrived`; партия удаляется, порядок остальных
+  по `Seq` сохраняется.
+- **Автодоставка** (§4.4, `CheckAutomation`): завод не `Locked`, флаг ещё не включён, уровень `RequiredCardId` в профиле ≥ 1 и ≥
+  `RequiredCardLevel` → `Automated = true` (в этой шахте не снимается), событие `FactoryAutomated` (`Detail` — карточка, `Count` — её
+  уровень). Если завод в `Ready` и фаза `Running`/`DrainingCargo`, его партия уходит в трубу на этой же отметке (`Extra = 1`), новый
+  цикл — с `t`. Проверка выполняется при открытии, при каждом росте уровня карточки (`OnCardsChanged`: первая копия из сундука цели,
+  выхода или магазина, учебная выдача, `UpgradeCard`) и в конструкторе `OutpostSimulation` (загрузка, пересоздание) — для снимка,
+  записанного ядром, она ничего не меняет.
+- **Сроки** (§4.5, `NextFactoryEventTick` внутри `NextEventTick`): только в `Running`/`DrainingCargo` — минимум `CycleEnd` заводов в
+  `Working` и `ArriveTick` партий; если такие сроки есть и `WatchdogFired = false`, ещё и `LastChangeTick + WatchdogTicks + 1`
+  (принятое решение: циклы и прибытия не вызывают `Touch`, поэтому без этой отметки застрявшие котики при цикле до 8 ч ловились бы
+  только к концу цикла, §7.4); результат не раньше `Now`. Ручной завод в `Ready` сроков не даёт.
+- **Завершение шахты** (§4.6, `Complete`): `StopFactories` до сундука выхода — открытые заводы → `Stopped`, поля цикла `−1`,
+  `ReadyUnits` остаётся; партии в трубах больше не приходят; шаг 4б не выполняется, сроки заводов в `NextEventTick` не входят, поэтому
+  `Advance` в `ReadyToContinue` с партией в трубе завершается и ничего не меняет. Карточка из сундука выхода может включить
+  `Automated`, но ничего не отправит. Непроданный товар пропадёт при переходе.
+- **Офлайн и тайм-скип** — то же ядро тем же `Advance`, пошагово (пакетного расчёта циклов нет; офлайн 3 ч шахты 140 с 15
+  автоматическими заводами — около 65 мс). Ручной завод делает не больше одной партии и ждёт.
+- **Команды** — `CommandKind.DeliverFactory` (`OutpostCommand.DeliverFactory(targetId)`, `TargetId`) и `CommandKind.SellGoods`
+  (`OutpostCommand.SellGoods(goodId)`, `ItemId`, null — «Sell all»). Фаза 6, немедленно через `Submit` (затем фаза 7); отказ ничего не
+  меняет.
+  - `DeliverFactory`: отказы (`DeliverBlockReason`, по порядку) `phase` (`ReadyToContinue`), `unknown` (не завод), `locked`, `not-ready`
+    (нет готовой партии). Успех: партия `ReadyUnits` в трубу (`GoodsDispatched`, `Extra = 0`), `ReadyUnits = 0`, `Working` с новым
+    циклом `[t, t + CycleTicks)`, `Counters.ManualDeliveries++`; `Levels` — единиц товара.
+  - `SellGoods`: отказы (`SellBlockReason`, по порядку) `no-factories` (в шахте нет заводов — раньше `phase`), `phase`, `unknown` (товара
+    нет среди заводов шахты), `no-goods`. Успех: весь остаток товара (null — каждого товара с остатком по порядку
+    `Run.FactoryRules.Goods`, то есть по номеру типа) по цене `FactoryQueries.Price`: `Warehouse[g] = 0`, `GoodsSold[g] += n`,
+    `GoodsSoldGold += n × Price`, `Wallet += n × Price`, событие `GoodsSold` на каждый товар; `TotalCredited` не меняется, бонусы цены
+    монет на товар не действуют. `Levels` — продано единиц (с насыщением до `int`), `Cost` — золото.
+- **Чтение** (контроллер, UI, бот): `FactoryById(targetId)`, `DeliverBlockReason(targetId)`, `SellBlockReason(goodId)`, `GoodsCount(goodId)`,
+  `GoodsPrice(goodId)`, `WarehouseValue(goodId = null)` — обёртки над `FactoryQueries` (`Find`, `HasGood`, `Stock`, `AnyStock`, `Price`,
+  `StockValue`, `DeliverBlockReason`, `SellBlockReason`). Цена постоянна в пределах run — UI кэширует её по `RunId`.
+  `FactoryUnitsPerCycle(targetId)` — выпуск за цикл сейчас, с бонусом карточек: `FactoryMath.UnitsPerCycle(Run.FactoryRules.ForType(тип),
+  Profile, Configs.Cards)` — ровно столько зафиксирует конец цикла на этой отметке; 0 — не завод или нет снимка правил.
+  `FactoryTransitTicks(targetId)` — `FactoryMath.TransitTicks(Run.FactoryRules, Map.Factory(id).RouteSteps)`; 0 — не завод или нет снимка.
+- **DEV** (ТЗ 2.2 §13, кнопки только в debug-профиле): `DebugFinishFactoryCycles()` — все `Working` досрочно заканчивают цикл на
+  `Now`: срок переносится на `Now`, дальше обычный шаг 4б (ручные → `Ready` с полями цикла `−1`, автоматические → партия в трубу и
+  новый полный цикл `[Now, Now + CycleTicks)`); укороченный цикл в состоянии не остаётся; в `ReadyToContinue` — 0.
+  `DebugGrantGoods(n)` — по `n` единиц каждого товара шахты на склад и в `DebugGoods`. `DebugUnlockFactories()` — только `Running`:
+  цепи всех закрытых заводов разбиваются с наградами по возрастанию ID, затем фазы 5 и 7. `DebugAutomateAll()` — `Automated` без
+  изменения карточек, готовые партии уходят в трубу.
+
+### 16.6 Формулы (`FactoryMath`)
+
+- **`UnitsPerCycle(rule, profile, cards)` — единственная функция правила выпуска** (§4.4, §7.1): `floor(UnitsPerCycle × (1 + Σ Output(L)))`,
+  `UnitsPerCycle` — строка снимка `Run.FactoryRules`, `Σ Output(L)` — `CardService.FactoryOutputBonus(profile, cards, typeId)`: эффекты
+  `CardEffectKind.FactoryOutput` Common и Uncommon карточек типа (`Base 1/10`, `PerLevel 1/20`; уровень 0 — 0; `cards = null` — 0).
+  `rule = null` → 0. Её вызывают ядро (конец цикла), `OutpostSimulation.FactoryUnitsPerCycle`, бот, аудит и UI; `TeamStats` этот эффект
+  не копит, своих копий формулы в коде нет (тест `FactoryCatalogTests.Units_SingleRuleFunction_NoCopiesInGameCode`). Контроль: 22 / 26 / 48.
+- `Units(unitsPerCycle, bonus) = floor(unitsPerCycle × (1 + bonus))` — арифметика правила для уже посчитанного бонуса (контрольные
+  значения, таблицы); отрицательный бонус — исключение.
+- `Price(balance, zone, priceFactor) = ceil(CoinBase × ZoneScale^(z−1) × PriceFactor)` — `CoinBase`/`ZoneScale` из `run.Balance`,
+  `PriceFactor` из `run.FactoryRules`; молоко в шахте 2 — 1 золото, сталь — 57.
+- `TransitTicks(rules, routeSteps)` — §16.3; 23 шага → 4 с.
+- `CycleTicks = CycleSec × 10^6` (`FactoryGoodRule.CycleTicks`, `FactoryType.CycleTicks`), без бонусов.
+
+### 16.7 События (`Sim/OutpostEvents.cs`)
+
+| Тип | Поля |
+|---|---|
+| `FactoryUnlocked` | `TargetId`, `Cell` — якорь, `ItemId` — GoodId, `Detail` — TypeId (после сундука `rewardId`, до проверки автодоставки) |
+| `FactoryReady` | `TargetId`, `ItemId`, `Count` — единиц (только ручной режим) |
+| `FactoryAutomated` | `TargetId`, `ItemId`, `Detail` — карточка требования, `Count` — её уровень |
+| `GoodsDispatched` | `TargetId`, `ItemId`, `Count`, `BatchSeq`, `Extra` — 1 автодоставка / 0 команда |
+| `GoodsArrived` | `TargetId` — завод, `ItemId`, `Count`, `BatchSeq` |
+| `GoodsSold` | `ItemId`, `Count`, `Value` — золото; «Sell all» — по событию на товар, по номеру типа |
+
+### 16.8 Версии (`Sim/OutpostIds.cs`, ТЗ 2.2 §10.1)
+
+`SchemaVersion = 3`, `RulesVersion = "outpost-2.2-r1"`, `BalanceVersion = "outpost-2.2-b5"`, `AdapterVersion = "adapter-2"`; `factories-1` —
+в `factory_rules.json`, `cards-3` — в `card_rules.json` (WP3), топология `wide-branching-mines-3` — `MineTopologyCatalog` (WP2).
+`CardEffectKind.FactoryOutput` добавлен в конец перечисления (`Config/CardRules.cs`).

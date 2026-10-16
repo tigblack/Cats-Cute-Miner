@@ -188,6 +188,9 @@ namespace CatMiners.Runtime.Outpost
                 if (run.Targets[i].Destroyed) destroyed++;
             m_Results.AddRow("icon_pickaxe", Loc.F("outpost.results.cleared", destroyed, sim.Map.RequiredCount), PixelUi.TextColor);
             m_Results.AddRow("icon_coin", Loc.F("outpost.results.gold", OutpostUiText.Money(run.TotalCredited)), PixelUi.TextAccentLight);
+            // ТЗ 2.2 §4.6: золото продаж товара (Run.GoodsSoldGold) — отдельной строкой под монетами, только если было.
+            if (run.GoodsSoldGold.Sign > 0)
+                m_Results.AddRow("icon_market", Loc.F("outpost.results.goods", OutpostUiText.Money(run.GoodsSoldGold)), PixelUi.TextAccentLight);
             if (reward != null && item != null)
             {
                 if (!reward.Duplicate)

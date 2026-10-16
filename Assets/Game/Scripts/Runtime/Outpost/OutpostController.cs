@@ -58,7 +58,6 @@ namespace CatMiners.Runtime.Outpost
         public OutpostBoardView Board { get; private set; }
         public OutpostHud Hud { get; private set; }
         public OutpostInput Input { get; private set; }
-        public OutpostTutorial Tutorial { get; private set; }
         public Sfx Sound { get; private set; }
         public MusicPlayer Music { get; private set; }
         public Ambience AmbienceSound { get; private set; }
@@ -113,7 +112,6 @@ namespace CatMiners.Runtime.Outpost
             Input = gameObject.AddComponent<OutpostInput>();
             Input.Init(this);
             Hud.OnWindowOpened += Input.CancelGesture;
-            Tutorial = new OutpostTutorial(this, Hud);
             try
             {
                 Balance = OutpostResources.LoadSource(boot.BalanceJson);
@@ -177,6 +175,9 @@ namespace CatMiners.Runtime.Outpost
             Sim = new OutpostSimulation(state, map, Configs);
             Selection = OutpostSelection.None;
             m_Events.Clear();
+            // Проверка автодоставки при создании симуляции (ТЗ 2.2 §4.4) может записать FactoryAutomated (выдача карточек вне ядра,
+            // DEV «Cards»): вид строится из состояния заново, поэтому такие события не показываются тостами при каждой загрузке.
+            Sim.Events.Clear();
             Board.Build(map, Sim, Balance);
             Rig.Cam.backgroundColor = PixelTheme.Dark;
             // SetBoard fits the new width first, then clamps to its base bound.
@@ -204,6 +205,13 @@ namespace CatMiners.Runtime.Outpost
             m_PlayTimeMonoUs = MonoUs;
             m_PlayTimeRemainderUs = 0;
             var loaded = m_Saves.Load(slot);
+            if (loaded.Status == OutpostLoadStatus.Outdated)
+            {
+                // ТЗ 2.2 §10.3 (WP6): сохранение схемы < 3 — архив pre-factories/ и новая кампания, без окна ошибки.
+                StartOverOutdated(slot, loaded);
+                Hud.RefreshNow();
+                return;
+            }
             if (loaded.Status == OutpostLoadStatus.Corrupt || loaded.Status == OutpostLoadStatus.Incompatible)
             {
                 Sim = null;
@@ -258,7 +266,6 @@ namespace CatMiners.Runtime.Outpost
         void OnDestroy()
         {
             InvalidatePurchases();
-            Tutorial?.Dispose();
             if (Hud != null && Input != null) Hud.OnWindowOpened -= Input.CancelGesture;
             if (Board != null && m_Audio != null) Board.Cue -= OnBoardCue;
             AudioListener.pause = false;

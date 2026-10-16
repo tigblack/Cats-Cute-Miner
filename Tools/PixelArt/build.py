@@ -37,7 +37,8 @@ from manifest import REQUIRED  # noqa: E402
 
 OUT = os.path.join(HERE, 'out')
 CS_PATH = os.path.join(ROOT, 'Assets', 'Game', 'Scripts', 'Runtime', 'Pixel', 'PixelAtlasData.g.cs')
-MODULES = ['env', 'rocks', 'structures', 'base', 'themes', 'cats', 'ui', 'icons', 'fx', 'tutorial', 'loot', 'cards', 'card_art']
+MODULES = ['env', 'rocks', 'structures', 'base', 'themes', 'cats', 'ui', 'icons', 'fx', 'tutorial', 'loot', 'cards', 'card_art',
+           'goods', 'factories']
 PAD = 2
 ATLAS_W = 1024
 

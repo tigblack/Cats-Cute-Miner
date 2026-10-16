@@ -121,7 +121,7 @@ namespace CatMiners.Runtime.Outpost
         float m_ScaleShown = -1f, m_ShadowScaleShown = -1f;
         int m_Order = int.MinValue;
 
-        /// <summary>Показанная точка котика (локально в корне поля): сюда смотрят эффекты, сведения и обучение.</summary>
+        /// <summary>Показанная точка котика (локально в корне поля): сюда смотрят эффекты и сведения.</summary>
         public Vector3 LocalPosition => m_Shown;
         /// <summary>Котик на экране идёт (ребро ядра или догонялка).</summary>
         public bool Moving { get; private set; }

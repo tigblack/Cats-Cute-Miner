@@ -280,7 +280,8 @@ namespace CatMiners.Tests.Outpost
                 int area = b.Target.Kind == 'p' ? 1 : b.Target.Cells.Length;
                 long hp = ExpectedMaxHp(zone, rank, area, b.Target.Kind);
                 Assert.AreEqual(hp, b.MaxHp, "MaxHp " + at);
-                Assert.AreEqual(ExpectedUnits(hp), b.Units, "TotalCargoUnits " + at);
+                // ТЗ 2.2 §4.2, §16.1 (а): adapter-2 — у цепей завода (s) груза нет.
+                Assert.AreEqual(ExpectedUnits(hp, b.Target.Kind), b.Units, "TotalCargoUnits " + at);
                 AssertExact(b.ValueFactor, TypeValueFactor(b.Target.Kind), "ValueFactor " + at);
             }
         }
@@ -477,6 +478,115 @@ namespace CatMiners.Tests.Outpost
         {
             AssertDataError(RepoWithGridText(1, g => g.Substring(0, g.LastIndexOf(','))), 1);
             AssertDataError(RepoWithGridText(1, g => g + ",."), 1);
+        }
+
+        // ───────────────────────────── Токены заводов (ТЗ 2.2 §3.1) ─────────────────────────────
+
+        // ТЗ 2.2 §3.1, §16.1: 1 232 токена s — в шахте 1 нет, в шахтах 2–144 от 1 до 15, каждый тип не больше раза в шахте;
+        // требования: 649 Common и 583 Uncommon, cardId — manager-карточка своего типа, уровень в пределах редкости
+        // (в данных Common 1–14, Uncommon 3–12); footprint 2×3.
+        [Test]
+        public void FactoryTokens_All1232Requirements_ValidAgainstIndependentCardTable()
+        {
+            int total = 0, common = 0, uncommon = 0, maxPerZone = 0;
+            int minCommon = int.MaxValue, maxCommon = 0, minUncommon = int.MaxValue, maxUncommon = 0;
+            var fifteen = new List<int>();
+            foreach (int zone in AllZones())
+            {
+                var factories = Source(zone).Tokens.Where(t => t != null && t.Kind == 's').ToList();
+                if (zone == 1) Assert.IsEmpty(factories, "в шахте 1 заводов нет");
+                else Assert.That(factories.Count, Is.InRange(1, 15), "zone" + zone);
+                Assert.AreEqual(factories.Count, factories.Select(t => t.TypeId).Distinct().Count(), "zone" + zone + ": тип не больше раза");
+                if (factories.Count == 15) fifteen.Add(zone);
+                maxPerZone = Math.Max(maxPerZone, factories.Count);
+                foreach (var t in factories)
+                {
+                    string at = "zone" + zone + "#" + t.Index;
+                    total++;
+                    Assert.AreEqual(6, t.Cells.Length, at + ": footprint 2×3");
+                    Assert.AreEqual(2, t.Cells.Select(c => c % Source(zone).Width).Distinct().Count(), at);
+                    var card = Repo.Cards[t.CardId];
+                    Assert.IsTrue(card.IsManager, at);
+                    CollectionAssert.AreEqual(new[] { t.TypeId }, card.TargetIds, at + ": карточка своего типа");
+                    Assert.IsNull(SourceLevelImporter.FactoryRequirementError(Repo, t.TypeId, t.CardId, t.CardLevel), at);
+                    if (card.Rarity == 1)
+                    {
+                        common++;
+                        minCommon = Math.Min(minCommon, t.CardLevel);
+                        maxCommon = Math.Max(maxCommon, t.CardLevel);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(2, card.Rarity, at);
+                        uncommon++;
+                        minUncommon = Math.Min(minUncommon, t.CardLevel);
+                        maxUncommon = Math.Max(maxUncommon, t.CardLevel);
+                    }
+                }
+            }
+            Assert.AreEqual(1232, total);
+            Assert.AreEqual((int)Audit["token_counts"]["s"], total, "аудит");
+            Assert.AreEqual((649, 583), (common, uncommon), "требования Common / Uncommon");
+            Assert.AreEqual((1, 14), (minCommon, maxCommon), "Common 1–14");
+            Assert.AreEqual((3, 12), (minUncommon, maxUncommon), "Uncommon 3–12");
+            Assert.AreEqual(15, maxPerZone);
+            CollectionAssert.AreEqual(new[] { 130, 140 }, fifteen, "по 15 заводов — в шахтах 130 и 140");
+        }
+
+        static string FactoryToken(string typeId, string cardId, int cardLevel) => "s:" + typeId + ":1:scg_m002_s01:" + cardId + ":" + cardLevel;
+
+        // ТЗ 2.2 §3.1: cardId — manager-карточка, TargetIds которой содержит typeId; иначе ошибка данных с шахтой и индексом токена.
+        [TestCase("ca003", "Common-карточка другого завода (citrine)")]
+        [TestCase("ca015", "Uncommon-карточка другого завода (citrine)")]
+        [TestCase("ca001", "ca001 — карточка тележки, не завода")]
+        [TestCase("ca026", "глобальная карточка Rare, не manager")]
+        [TestCase("ca999", "нет такой карточки")]
+        public void DataError_FactoryCardNotOfItsType_ThrowsWithZoneAndIndex(string cardId, string why)
+        {
+            int index = FirstIndex(2, "s:");
+            Assert.AreEqual("s:amethyst:1:scg_m002_s01:ca002:1", Repo.Zone(2).Grid.Split(',')[index], "приложение B п. 1");
+            var repo = RepoWithGrid(2, t => t[index] = FactoryToken("amethyst", cardId, 1));
+            AssertDataError(repo, 2, index);
+            StringAssert.Contains(cardId, Assert.Throws<OutpostDataException>(() => RunPipeline(repo, 2)).Message, why);
+        }
+
+        // ТЗ 2.2 §3.1: 1 ≤ cardLevel ≤ максимальный уровень редкости (CardUpgradeCosts: Common 14, Uncommon 12).
+        [TestCase("ca002", 0)]
+        [TestCase("ca002", -1)]
+        [TestCase("ca002", 15)]
+        [TestCase("ca014", 0)]
+        [TestCase("ca014", 13)]
+        public void DataError_FactoryCardLevelOutOfRarityRange_ThrowsWithZoneAndIndex(string cardId, int level)
+        {
+            int index = FirstIndex(2, "s:");
+            var repo = RepoWithGrid(2, t => t[index] = FactoryToken("amethyst", cardId, level));
+            AssertDataError(repo, 2, index);
+        }
+
+        // Граница диапазона допустима: Common 14, Uncommon 12, Uncommon 1 (в данных нет, но правило — от 1).
+        [TestCase("ca002", 14)]
+        [TestCase("ca014", 12)]
+        [TestCase("ca014", 1)]
+        public void Import_FactoryCardLevelAtRarityBounds_Accepted(string cardId, int level)
+        {
+            int index = FirstIndex(2, "s:");
+            var repo = RepoWithGrid(2, t => t[index] = FactoryToken("amethyst", cardId, level));
+            Assert.DoesNotThrow(() => RunPipeline(repo, 2));
+            var token = Import(repo, 2).Tokens[index];
+            Assert.AreEqual((cardId, level), (token.CardId, token.CardLevel));
+            var map = OutpostLevelAdapter.Build(repo, 2);
+            Assert.AreEqual((cardId, level), (map.Factory(index).RequiredCardId, map.Factory(index).RequiredCardLevel));
+        }
+
+        // ТЗ 2.2 §3.1: footprint завода 2×3; другой размер MineShafts — ошибка данных с шахтой и индексом токена.
+        [TestCase(3, 3)]
+        [TestCase(2, 2)]
+        public void DataError_FactoryFootprintNot2x3_ThrowsWithZoneAndIndex(int width, int depth)
+        {
+            var repo = FreshRepo();
+            repo.Shafts["amethyst"].WidthCells = width;
+            repo.Shafts["amethyst"].DepthCells = depth;
+            AssertDataError(repo, 2, FirstIndex(2, "s:"));
         }
 
         // ТЗ §8.4: повтор строки ворот — ошибка данных. Ставим вторые ворота на строку существующих.

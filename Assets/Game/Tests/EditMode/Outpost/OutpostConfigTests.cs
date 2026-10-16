@@ -148,20 +148,32 @@ namespace CatMiners.Tests.Outpost
         // ───────────────────────────── Версии ─────────────────────────────
 
         // ТЗ §17: b3 = b2 с общим пределом офлайна 3 часа; b4 = b3 после аудита баланса (удорожание по глубине, HP, разгрузка,
-        // предел «Оценки» 40); схема и совместимость прежних run сохранены.
+        // предел «Оценки» 40). ТЗ 2.2 §10.1 и §16.1 (б): b5 = числа b4 с новой версией; схема 3 (заводы; сохранения схемы < 3
+        // не переносятся, а сбрасываются по §10.3), правила outpost-2.2-r1, adapter-2 (цепи без груза), эталон аудита —
+        // профиль b5; cards-3, factories-1 и топология wide-branching-mines-3. Профиль b6 — b5 и множитель темпа шахт K(z)
+        // (решение владельца В4, 15 октября 2026).
         [Test]
         public void Versions_MatchTz()
         {
-            Assert.AreEqual("outpost-2.1-b4", Balance.Version);
             Assert.AreEqual("equip-1", Catalog.Version);
             Assert.AreEqual("rewards-1", Rewards.Version);
-            Assert.AreEqual("outpost-2.1-b4", (string)Audit["profile_version"], "профиль аудита совпадает с версией баланса");
+            Assert.AreEqual("outpost-2.2-b6", (string)Audit["profile_version"], "профиль аудита совпадает с версией баланса");
             Assert.AreEqual("CatOutpostV2", OutpostIds.ModeId);
-            Assert.AreEqual(2, OutpostIds.SchemaVersion, "денежные покупки требуют сохранения ledger в схеме 2");
-            Assert.AreEqual("outpost-2.1-r1", OutpostIds.RulesVersion);
-            Assert.AreEqual("outpost-2.1-b4", OutpostIds.BalanceVersion);
-            Assert.AreEqual("adapter-1", OutpostIds.AdapterVersion);
+            Assert.AreEqual(3, OutpostIds.SchemaVersion, "ТЗ 2.2 §10.1: схема 3 — заводы, трубы, склад (ledger платежей — с схемы 2)");
+            Assert.AreEqual("outpost-2.2-r1", OutpostIds.RulesVersion);
+            Assert.AreEqual("outpost-2.2-b6", OutpostIds.BalanceVersion);
+            Assert.AreEqual("adapter-2", OutpostIds.AdapterVersion);
             Assert.AreEqual(1_000_000L, OutpostIds.TicksPerSecond);
+            // ТЗ 2.2 §10.1: версии правил карточек, заводов и топологии (новые проверки, файлы — WP3, WP0/WP7, WP2).
+            Assert.AreEqual("cards-3", Configs.CardRules.Version);
+            Assert.AreEqual(CardRules.CurrentVersion, Configs.CardRules.Version);
+            Assert.AreEqual("factories-1", Configs.FactoryRules.Version);
+            Assert.AreEqual(FactoryRules.CurrentVersion, Configs.FactoryRules.Version);
+            Assert.AreEqual("wide-branching-mines-3", MineTopologyCatalog.SupportedVersion);
+            Assert.AreEqual(MineTopologyCatalog.SupportedVersion, OutpostConfigSet.LoadDefault().Topologies.Version);
+            // Профиль в файле outpost_balance.json (WP7: «числа b4, меняется только Version»). b6 — решение владельца В4
+            // (15 октября 2026): те же числа и множитель темпа шахт PaceScale (Docs/Rework/BALANCE_FACTORIES.md «Темп b6: 3 цикла»).
+            Assert.AreEqual("outpost-2.2-b6", Balance.Version, "outpost_balance.json");
         }
 
         // ───────────────────────────── Баланс: значения ТЗ ─────────────────────────────

@@ -17,6 +17,7 @@ FILES = [
     ('DefaultCardRulesJson', 'card_rules.json'),
     ('DefaultTopologyJson', 'mine_topology.json'),
     ('DefaultStoreJson', 'store_catalog.json'),
+    ('DefaultFactoryRulesJson', 'factory_rules.json'),
 ]
 
 

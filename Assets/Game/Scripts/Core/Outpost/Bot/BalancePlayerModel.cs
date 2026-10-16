@@ -21,6 +21,9 @@ namespace CatMiners.Core.Outpost
 
     /// <summary>
     /// Поведение игрока: частота заглядывания в «Базу», выбор покупок, удары киркой и действия между шахтами.
+    /// Заводы (ТЗ 2.2 §9): при каждой проверке (раз в <see cref="CheckIntervalSec"/>; free — 30 с, active — 5 с, idle — 5 мин)
+    /// игрок сначала доставляет все готовые партии и продаёт весь товар склада, затем покупает. Автодоставка включается
+    /// улучшением карточек между шахтами (<see cref="BetweenMines"/>) и копиями из сундуков.
     /// Детерминировано: одна модель и один seed профиля дают один прогон.
     /// </summary>
     public sealed class PlayerModel
@@ -48,6 +51,8 @@ namespace CatMiners.Core.Outpost
         public EquipSlot? SkipSlot;
         /// <summary>Карточки и детали тратятся только после каждой N-й шахты (1 — после каждой).</summary>
         public int MetaEveryMines = 1;
+        /// <summary>При каждой проверке доставлять готовые партии заводов и продавать весь товар (ТЗ 2.2 §9).</summary>
+        public bool ManageFactories = true;
 
         public PlayerModel Clone() => (PlayerModel)MemberwiseClone();
 
@@ -69,6 +74,13 @@ namespace CatMiners.Core.Outpost
 
         /// <summary>Сбросить состояние стратегии перед новой шахтой.</summary>
         public void BeginMine() => m_CycleIndex = 0;
+
+        /// <summary>
+        /// Заводы на проверке (ТЗ 2.2 §9): «Deliver» по всем готовым партиям и «Sell all» (<see cref="OutpostBot.TendFactories"/>),
+        /// если модель это делает. Вызывается перед <see cref="Buy"/>, чтобы золото продажи сразу шло в покупки.
+        /// </summary>
+        public (int Delivered, BigInteger Sold) Tend(OutpostSimulation sim) =>
+            ManageFactories ? OutpostBot.TendFactories(sim) : (0, BigInteger.Zero);
 
         /// <summary>Сделать покупки на текущей отметке; probe — доли времени котиков. Возвращает число покупок.</summary>
         public int Buy(OutpostSimulation sim, BalanceProbe probe)

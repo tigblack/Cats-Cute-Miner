@@ -7,10 +7,15 @@ namespace CatMiners.Core.Outpost
     /// Правила карточек Cat Miners (Resources/Outpost/card_rules.json): адаптация 61 карточки исходного json-data.json к режиму
     /// CatOutpostV2. Исходные поля карточек (Id, Rarity, MineUnlock, TargetIds, IsManager, модификаторы, CardUpgradeCosts) читаются
     /// из источника; здесь — только новые числа эффектов и сундуков, отдельно от исходного JSON (Docs/Rework/CARD_EFFECT_MAPPING.md).
+    /// cards-3 (ТЗ 2.2 §7.1): 39 manager-карточек заводов (manager-1 «Foreman», manager-2 «Manager») дают одинаковый
+    /// <see cref="CardEffectKind.FactoryOutput"/>; ca001 остаётся складом базы.
     /// </summary>
     [Serializable]
     public sealed class CardRules
     {
+        /// <summary>Версия правил в card_rules.json (ТЗ 2.2 §10.1).</summary>
+        public const string CurrentVersion = "cards-3";
+
         public string Version;
         /// <summary>Поток Pcg32 сундуков карточек (отдельно от наград экипировки, поток 5).</summary>
         public ulong CardRngStream = 6;
@@ -18,7 +23,7 @@ namespace CatMiners.Core.Outpost
         public string TutorialCard;
         /// <summary>
         /// Эффект по ключу: ID карточки (не manager) либо "manager-1"/"manager-2" (manager по редкости); ключ карточки важнее
-        /// общего ключа manager (ca001 — база, а не месторождение).
+        /// общего ключа manager (ca001 — склад базы, а не завод).
         /// </summary>
         public Dictionary<string, CardEffectRule> Effects = new Dictionary<string, CardEffectRule>(StringComparer.Ordinal);
         /// <summary>Шансы редкости одной случайной карты сундука, ppm по кодам 1…6 (сумма 1 000 000), по ID записи Gacha.</summary>
@@ -65,6 +70,8 @@ namespace CatMiners.Core.Outpost
                 if ((e.Kind == CardEffectKind.KindValue || e.Kind == CardEffectKind.KindDamage) &&
                     e.TargetKind != "r" && e.TargetKind != "x" && e.TargetKind != "s")
                     Fail(kv.Key + ": TargetKind должен быть r, x или s");
+                if (e.Kind == CardEffectKind.FactoryOutput && !string.IsNullOrEmpty(e.TargetKind))
+                    Fail(kv.Key + ": у FactoryOutput нет TargetKind (тип завода — TargetIds карточки)");
                 if (string.IsNullOrEmpty(e.Rule)) Fail(kv.Key + ": нет Rule (LegacyConfirmed / LegacyAssumed / CatMiners)");
             }
             if (ChestChances == null) ChestChances = new Dictionary<string, int[]>(StringComparer.Ordinal);
@@ -112,9 +119,12 @@ namespace CatMiners.Core.Outpost
     /// <summary>Что меняет карточка (Docs/Rework/CARD_EFFECT_MAPPING.md).</summary>
     public enum CardEffectKind
     {
-        /// <summary>+доля к цене новых порций целей с TypeId из TargetIds (месторождения ресурса).</summary>
+        /// <summary>
+        /// cards-2: +доля к цене новых порций целей с TypeId из TargetIds (месторождения ресурса). В cards-3 не используется
+        /// (manager-1 → <see cref="FactoryOutput"/>); оставлен для чтения прежних конфигов и тестов.
+        /// </summary>
         TargetValue,
-        /// <summary>+доля к урону котиков по целям с TypeId из TargetIds.</summary>
+        /// <summary>cards-2: +доля к урону котиков по целям с TypeId из TargetIds. В cards-3 не используется (manager-2 → FactoryOutput).</summary>
         TargetDamage,
         /// <summary>+доля к скорости разгрузки на складе.</summary>
         UnloadRate,
@@ -158,5 +168,11 @@ namespace CatMiners.Core.Outpost
         ChestCards,
         /// <summary>+доля к деталям экипировки за завершение шахты.</summary>
         CompletionParts,
+        /// <summary>
+        /// ТЗ 2.2 §7.1 (cards-3, manager-1/manager-2): +доля к выпуску товара за цикл заводов TypeId из TargetIds; бонусы Common и
+        /// Uncommon карточек типа складываются: Units = floor(UnitsPerCycle × (1 + Σ EffectAt(L))). Считает FactoryMath.UnitsPerCycle;
+        /// TeamStats его не копит (CORE_SPEC §16.5).
+        /// </summary>
+        FactoryOutput,
     }
 }

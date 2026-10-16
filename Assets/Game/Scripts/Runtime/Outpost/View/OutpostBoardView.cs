@@ -140,7 +140,7 @@ namespace CatMiners.Runtime.Outpost
         /// <summary>Точка над местом склада: «+N», полёт монет к кошельку (Hud.FlyLoot) — ТЗ 16, зачисление на базе.</summary>
         public Vector3 DepotIndicatorWorldPosition(int slot) => m_Camp != null ? Origin + m_Camp.SlotIndicatorLocal(slot) : BaseWorldPosition;
 
-        /// <summary>Постройка ветки улучшения в мире (подсказки обучения, вспышка).</summary>
+        /// <summary>Постройка ветки улучшения в мире (вспышка).</summary>
         public Vector3 BranchWorldPosition(UpgradeBranch branch) => m_Camp != null ? Origin + m_Camp.BranchLocal(branch) : BaseWorldPosition;
 
         /// <summary>Центр footprint цели (у ворот — рамки) в мире.</summary>
@@ -221,6 +221,7 @@ namespace CatMiners.Runtime.Outpost
             BuildFloorAndWalls();
             BuildDecor();
             BuildFog();
+            ResetFactories();
             m_TargetsRoot = new GameObject("Targets").transform;
             m_TargetsRoot.SetParent(m_Root, false);
             m_CargoRoot = new GameObject("Cargo").transform;
@@ -229,6 +230,7 @@ namespace CatMiners.Runtime.Outpost
             m_CatsRoot.SetParent(m_Root, false);
             BuildTargets();
             m_Camp = BaseCampView.Create(m_Root, map);
+            BuildFactoryNetwork();
             m_Flights = new CargoFlights(PixelWorld.Visual(m_Root, "Flights"));
             m_Strikes = new PlayerStrikeFx(PixelWorld.Visual(m_Root, "Strikes"));
             m_Debug = OutpostDebugOverlay.Create(m_Root);
@@ -246,8 +248,9 @@ namespace CatMiners.Runtime.Outpost
             for (int i = 0; i < targets.Length; i++)
             {
                 var mt = targets[i];
-                var v = OutpostTargetView.Create(m_TargetsRoot, m_Map, mt, i, m_Balance);
+                var v = OutpostTargetView.Create(m_TargetsRoot, m_Map, mt, i, m_Balance, FactoryGoodOf(mt));
                 m_Targets[i] = v;
+                AttachFactory(v, i);
                 if (mt.IsGate && m_Map.Topology == null)
                 {
                     for (int c = v.Column; c < v.Column + v.Width; c++) m_CellTarget[m_Map.Cell(c, mt.Row)] = i;
@@ -335,8 +338,8 @@ namespace CatMiners.Runtime.Outpost
         }
 
         /// <summary>
-        /// Выбор по клетке без коллайдеров (запасной путь ввода): котик в радиусе 0,45 клетки → цель под точкой → двор лагеря.
-        /// false — пустой пол.
+        /// Выбор по клетке без коллайдеров (запасной путь ввода): котик в радиусе 0,45 клетки → цель под точкой (открытый завод
+        /// тоже) → склад товаров → двор лагеря. false — пустой пол.
         /// </summary>
         public bool TryPickAtWorld(Vector3 world, out OutpostSelection selection)
         {
@@ -361,12 +364,14 @@ namespace CatMiners.Runtime.Outpost
             if (col < 0 || col >= m_Map.Width) return false;
             if (row >= m_Map.Rows && row < m_Map.Rows + StripRows)
             {
-                selection = new OutpostSelection { Kind = OutpostSelectionKind.Base, Id = -1 };
+                // Склад товаров — задний ряд двора (строки st0…st1) в своём столбце.
+                bool warehouse = m_Camp != null && m_Camp.HasWarehouse && col == Mathf.FloorToInt(m_Camp.WarehouseLocal.x) && row < m_Map.Rows + 2;
+                selection = new OutpostSelection { Kind = warehouse ? OutpostSelectionKind.Warehouse : OutpostSelectionKind.Base, Id = -1 };
                 return true;
             }
             if (row < 0 || row >= m_Map.Depth) return false;
             int ti = m_CellTarget[m_Map.Cell(col, row)];
-            if (ti < 0 || m_Sim.Run.Targets[ti].Destroyed) return false;
+            if (ti < 0 || (m_Sim.Run.Targets[ti].Destroyed && !m_Targets[ti].IsFactory)) return false;
             selection = new OutpostSelection { Kind = OutpostSelectionKind.Target, Id = m_Map.Targets[ti].Id };
             return true;
         }
@@ -395,6 +400,7 @@ namespace CatMiners.Runtime.Outpost
                 var ts = run.Targets[i];
                 int assigned = ts.Kind == 's' ? sim.AssignedTo(ts.Id) : 0;
                 m_Targets[i].ApplyState(ts, assigned, time, dt);
+                SyncFactoryView(run, i, time, dt);
             }
             for (int k = 0; k < m_Barriers.Length; k++)
             {
@@ -409,6 +415,7 @@ namespace CatMiners.Runtime.Outpost
             SyncCargo(run, dt, live);
             m_Flights.Tick(dt);
             m_Camp.Sync(sim, dt);
+            SyncFactoryNetwork(run, dt);
             m_Debug.Sync(sim, m_Map);
 
             UpdateLanterns();

@@ -25,6 +25,24 @@ namespace CatMiners.Runtime.Outpost
 
         static int Clamp(int rarity) => rarity < 1 ? 1 : rarity > CardRules.RarityCount ? CardRules.RarityCount : rarity;
 
+        static FactoryRules s_Factories;
+
+        /// <summary>
+        /// Правила заводов для имён товара в текстах карточек: встроенная копия factory_rules (соответствие тип → товар — утверждённый
+        /// список приложения A ТЗ 2.2, ID товаров — ключи данных и в балансе не меняются). Разбирается один раз.
+        /// </summary>
+        static FactoryRules Factories => s_Factories ?? (s_Factories = FactoryRules.Parse(OutpostConfigSet.DefaultFactoryRulesJson));
+
+        /// <summary>Карточка завода (cards-3, <see cref="CardEffectKind.FactoryOutput"/>): тип завода — первый TargetIds; иначе null.</summary>
+        public static string FactoryType(CardDef def) =>
+            def != null && def.IsFactoryOutput && def.TargetIds != null && def.TargetIds.Length > 0 ? def.TargetIds[0] : null;
+
+        /// <summary>Товар завода типа typeId («milk» для amethyst) или null.</summary>
+        public static string GoodOfType(string typeId) => typeId != null ? Factories.ForType(typeId)?.GoodId : null;
+
+        /// <summary>Имя товара карточки завода («Milk»): в её текстах подставляется товар, а не cards.res.* (имена самоцветов, ТЗ 2.2 §7.1).</summary>
+        static string FactoryGoodName(CardDef def) => FactoryText.GoodName(GoodOfType(FactoryType(def)));
+
         /// <summary>Ресурс специалиста («Amethyst»), или null у глобальных карточек.</summary>
         public static string Resource(CardDef def)
         {
@@ -33,7 +51,7 @@ namespace CatMiners.Runtime.Outpost
             return Loc.Has(key) ? Loc.T(key) : def.TargetIds[0];
         }
 
-        /// <summary>Эффект карточки на уровне level (≥ 1), например «Coin value from Amethyst deposits: +20%».</summary>
+        /// <summary>Эффект карточки на уровне level (≥ 1), например «Coin value from Amethyst deposits: +20%», «+10% Milk per cycle».</summary>
         public static string Effect(CardDef def, int level, CardRules rules = null)
         {
             if (def == null) return "";
@@ -57,12 +75,16 @@ namespace CatMiners.Runtime.Outpost
                 case CardEffectKind.CritPower:
                     var baseMult = rules != null ? rules.BaseCritMultiplier : Rational.Of(2, 1);
                     return Loc.F("cards.effect.CritPower", Number(baseMult + v));
+                case CardEffectKind.FactoryOutput:
+                    // ТЗ 2.2 §7.1: «+10% Milk per cycle» — величина из CardDef.EffectAt (тот же бонус, что CardService.FactoryOutputBonus
+                    // и FactoryMath.UnitsPerCycle).
+                    return Loc.F("cards.effect.FactoryOutput", FactoryGoodName(def), Percent(v));
                 default:
                     return Loc.F("cards.effect." + e.Kind, Percent(v));
             }
         }
 
-        /// <summary>Короткая строка эффекта для сетки («Unloading +15%», «Amethyst value +10%»); числа — те же CardDef.EffectAt.</summary>
+        /// <summary>Короткая строка эффекта для сетки («Unloading +15%», «Milk +10%»); числа — те же CardDef.EffectAt.</summary>
         public static string ShortEffect(CardDef def, int level, CardRules rules = null)
         {
             if (def == null) return "";
@@ -86,6 +108,8 @@ namespace CatMiners.Runtime.Outpost
                 case CardEffectKind.CritPower:
                     var baseMult = rules != null ? rules.BaseCritMultiplier : Rational.Of(2, 1);
                     return Loc.F("cards.short.CritPower", Number(baseMult + v));
+                case CardEffectKind.FactoryOutput:
+                    return Loc.F("cards.short.FactoryOutput", FactoryGoodName(def), Percent(v));
                 default:
                     return Loc.F("cards.short." + e.Kind, Percent(v));
             }

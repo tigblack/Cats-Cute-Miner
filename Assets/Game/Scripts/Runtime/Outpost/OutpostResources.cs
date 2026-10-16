@@ -16,7 +16,8 @@ namespace CatMiners.Runtime.Outpost
                 if (asset == null) throw new InvalidOperationException("Missing resource: " + OutpostConfigSet.ResourcePaths[i]);
                 texts[i] = asset.text;
             }
-            return OutpostConfigSet.Parse(texts[0], texts[1], texts[2], texts[3], texts[4], texts[5], texts[6]);
+            // Все файлы по порядку ResourcePaths, включая factory_rules (ТЗ 2.2 §3.2).
+            return OutpostConfigSet.ParseResources(texts);
         }
 
         public static BalanceRepository LoadSource(TextAsset source)

@@ -873,10 +873,13 @@ namespace CatMiners.Tests.Outpost
         public void AllZones_EveryTargetHasExactHpAndCargo_SumsMatchAudit()
         {
             // ТЗ §8.2 «Нельзя оставить обычные x навсегда неразрушимыми», §12.4: HP/порции фиксируются при создании шахты.
+            // Профиль b6: суммы аудита источника — базовые HP §12.4, поэтому run — на профиле без множителя темпа K(z) (решение
+            // владельца В4, 15 октября 2026); слой K проверяет OutpostBalanceRegressionTests.Pace_B6_RunTargetsAndPrices.
+            var rules = Configs.WithoutPace();
             for (int z = 1; z <= 144; z++)
             {
                 var map = Map(z);
-                var run = Real(z).NewState().Run;
+                var run = Real(z, rules).NewState().Run;
                 var audit = AuditZone(z);
                 Assert.AreEqual((long)audit["hp"], run.Targets.Sum(t => t.MaxHpUnits) / S, "zone" + z + ": Σ HP");
                 Assert.AreEqual((int)audit["cargo_units"], run.Targets.Sum(t => t.TotalUnits), "zone" + z + ": Σ порций");
@@ -888,8 +891,9 @@ namespace CatMiners.Tests.Outpost
                     Assert.AreEqual(0, t.MaxHpUnits % S, "MaxHpUnits = MaxHp·10^6");
                     Assert.AreEqual(t.MaxHpUnits, t.RemainingHpUnits);
                     Assert.AreEqual(0, t.ReleasedUnits);
-                    Assert.AreEqual(CargoUnitsOracle(t.MaxHpUnits / S), t.TotalUnits);
                     var mt = MT(map, t.Id);
+                    // ТЗ 2.2 §4.2, §16.1 (а): adapter-2 — у цепей заводов (s) груза нет, у r/x/p — прежняя формула.
+                    Assert.AreEqual(CargoUnitsOracle(t.MaxHpUnits / S, mt.Kind), t.TotalUnits);
                     if (mt.Kind == 'x')
                         Assert.AreEqual(AdaptedHpOracle(z, new FracB(1, 2), mt.Cells.Length, 'x') * S, t.MaxHpUnits, "zone" + z + " x " + t.Id);
                 }

@@ -368,7 +368,18 @@ CUES = {
     'ui:open': ('open', 0.30, 1.0, 0.02, 0.08, 'open'),
     'ui:close': ('close', 0.28, 1.0, 0.02, 0.08, 'close'),
     'ui:denied': ('denied', 0.38, 1.0, 0.0, 0.20, 'denied'),
+    # Factories (TZ 2.2; Sfx.cs): chain hits, the chain break, ready signal, automation jingle, pipe, warehouse, market.
+    'Hit:chains': ('hit_chain', 0.20, 1.0, 0.04, 0.10, 'hit'),
+    'PlayerStrike:chains': ('hit_chain', 0.30, 0.92, 0.05, 0.06, 'strike'),
+    'ChainBreak': ('chain_break', 0.45, 1.0, 0.03, 0.15, 'chainbreak'),
+    'FactoryReady': ('factory_ready', 0.22, 1.0, 0.0, 0.50, 'ready'),
+    'FactoryAutomated': ('unlock', 0.55, 1.0, 0.0, 0.50, 'jingle'),
+    'PipeSend': ('pipe_send', 0.26, 1.0, 0.04, 0.12, 'pipe'),
+    'PipeSend:auto': ('pipe_send', 0.13, 1.0, 0.04, 0.12, 'pipe'),
+    'GoodsArrive': ('goods_arrive', 0.24, 1.0, 0.04, 0.15, 'arrive'),
+    'GoodsSold': ('goods_sell', 0.50, 1.0, 0.02, 0.20, 'sell'),
 }
+MAX_AUDIBLE_AUTOMATED = 3            # OutpostAudio.MaxAudibleAutomated: quieter auto pipe sends are skipped when crowded
 _clips: Dict[str, List[np.ndarray]] = {}
 _shot_audio: Dict[str, np.ndarray] = {}
 
@@ -391,7 +402,14 @@ def shot_audio(shot: str) -> np.ndarray:
     last_variant: Dict[str, int] = {}
     for e in log(shot)['events']:
         if e['kind'] == 'sfx':
+            d = e.get('data') or {}
             key = e['name'] if e['name'] in CUES else '*'
+            if d.get('chains') and f"{e['name']}:chains" in CUES:
+                key = f"{e['name']}:chains"
+            elif e['name'] == 'PipeSend' and d.get('auto'):
+                if d.get('Count', 0) > MAX_AUDIBLE_AUTOMATED:
+                    continue
+                key = 'PipeSend:auto'
         elif e['kind'] == 'ui':
             key = 'ui:' + e['name']
         else:

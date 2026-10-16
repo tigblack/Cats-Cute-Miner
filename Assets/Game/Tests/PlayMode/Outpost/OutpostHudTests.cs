@@ -20,10 +20,10 @@ using Object = UnityEngine.Object;
 namespace CatMiners.Tests
 {
     /// <summary>
-    /// HUD нового режима (OutpostHud) и обучение (OutpostTutorial) через контракт IOutpostGame без контроллера: настоящее ядро
-    /// zone1 за поддельным контроллером. Окна «База», «Экипировка», сведения, настройки, итоги, офлайн, ошибка и модальное
-    /// окно открываются и закрываются Back, команды идут в ядро, шаги обучения показываются по событиям, словарь без
-    /// пропусков, повторное обновление без изменений не выделяет память.
+    /// HUD нового режима (OutpostHud) через контракт IOutpostGame без контроллера: настоящее ядро zone1 за поддельным
+    /// контроллером. Окна «База», «Экипировка», сведения, настройки, итоги, офлайн, ошибка и модальное окно открываются и
+    /// закрываются Back, команды идут в ядро, обучения нет (ни подсказок, ни кнопки пропуска, ни строки в настройках), словарь
+    /// без пропусков, повторное обновление без изменений не выделяет память.
     /// </summary>
     public class OutpostHudTests
     {
@@ -31,7 +31,7 @@ namespace CatMiners.Tests
         sealed class FakeOutpostGame : IOutpostGame
         {
             readonly List<OutpostEvent> m_Events = new List<OutpostEvent>();
-            public int TutorialSaves, Continues, Retries;
+            public int Continues, Retries;
 
             public OutpostSimulation Sim { get; set; }
             public OutpostGameState State => Sim != null ? Sim.State : null;
@@ -65,6 +65,24 @@ namespace CatMiners.Tests
             public int SkipMinutesInProgress { get; set; }
             public OfflineSummary PendingSkip { get; set; }
             public void DismissSkip() => PendingSkip = null;
+
+            // Заводы и рынок (ТЗ 2.2): команды и чтение — сразу в ядро, позиции — центры клеток.
+            public CommandResult DeliverFactory(int targetId) => Submit(OutpostCommand.DeliverFactory(targetId));
+            public CommandResult SellGoods(string goodId) => Submit(OutpostCommand.SellGoods(goodId));
+            public string DeliverBlockReason(int targetId) => Sim.DeliverBlockReason(targetId);
+            public string SellBlockReason(string goodId) => Sim.SellBlockReason(goodId);
+            public int MarketUnlockZone => 2;
+            public FactoryState FactoryOf(int targetId) => Sim.FactoryById(targetId);
+            public long GoodsCount(string goodId) => Sim.GoodsCount(goodId);
+            public System.Numerics.BigInteger GoodsPrice(string goodId) => Sim.GoodsPrice(goodId);
+            public System.Numerics.BigInteger WarehouseValue(string goodId) => Sim.WarehouseValue(goodId);
+            public void SelectWarehouse() => Selection = new OutpostSelection { Kind = OutpostSelectionKind.Warehouse, Id = -1 };
+            public bool TryGetFactoryWorldPosition(int targetId, out Vector3 world)
+            {
+                world = default;
+                return Map != null && Map.Factory(targetId) != null && TryGetTargetWorldPosition(targetId, out world);
+            }
+            public Vector3 WarehouseWorldPosition => CellCenter(Map.SpawnCell);
 
             CommandResult Submit(OutpostCommand cmd)
             {
@@ -127,7 +145,6 @@ namespace CatMiners.Tests
             public void SetReduceEffects(bool on) => State.Profile.Settings.ReduceEffects = on;
             public bool CanResetProgress => !SaveFailed && !InTransition && Phase == OutpostControllerPhase.Playing;
             public void ResetProgress() { }
-            public void SaveTutorialProgress() => TutorialSaves++;
             public event Action<OutpostEvent> EventPresented;
             public string ErrorText { get; set; }
 
@@ -171,7 +188,7 @@ namespace CatMiners.Tests
 
         /// <summary>
         /// HUD проверяется без сцены игры: сцена CoreGame, которую оставили загруженной предыдущие тесты (CoreGameSmokeTests
-        /// её не выгружают), выгружается — её камера и объекты иначе мешают подсказке ручного удара.
+        /// её не выгружают), выгружается — её камера и объекты не должны влиять на проверки HUD.
         /// </summary>
         [UnitySetUp]
         public IEnumerator UnloadLeftoverGameScene()
@@ -182,14 +199,8 @@ namespace CatMiners.Tests
             yield return SceneManager.UnloadSceneAsync(leftover);
         }
 
-        static IEnumerator WaitReal(float seconds)
-        {
-            float until = Time.realtimeSinceStartup + seconds;
-            while (Time.realtimeSinceStartup < until) yield return null;
-        }
-
         [UnityTest]
-        public IEnumerator HudWindowsCommandsAndTutorialWork()
+        public IEnumerator HudWindowsAndCommandsWork()
         {
             Loc.ResetReports();
             var repo = BalanceRepository.LoadFile(Path.Combine(Application.dataPath, "Game/Data/Source/json-data.json"));
@@ -206,7 +217,6 @@ namespace CatMiners.Tests
             camGo.transform.SetPositionAndRotation(new Vector3(map.Width * 0.5f, 30f, map.Depth * 0.5f - 6f), Quaternion.Euler(90f, 0f, 0f));
 
             var hud = OutpostHud.Create(game);
-            var tutorial = new OutpostTutorial(game, hud);
             int opened = 0;
             hud.OnWindowOpened += () => opened++;
             float insetTop = -1f;
@@ -219,22 +229,13 @@ namespace CatMiners.Tests
                 Assert.IsFalse(hud.AnyWindowOpen);
                 Assert.Greater(hud.TopInset, 0f);
                 Assert.Greater(hud.BottomInset, 0f);
-                Assert.IsNotNull(tutorial.Hint);
-                Assert.AreEqual(Loc.T("outpost.tutorial.auto"), tutorial.CurrentHint, "шаг 1: автодобыча");
-                state.Profile.Tutorial.Seen.Add(OutpostTutorial.StepAuto);
-                yield return WaitReal(0.35f);
-                Assert.AreEqual(Loc.T("outpost.tutorial.strike"), tutorial.CurrentHint, "отдельный шаг ручного удара");
-                Assert.GreaterOrEqual(tutorial.StrikeTargetId, 0, "указатель на доступном камне");
-                game.Advance(3);
-                Assert.IsFalse(tutorial.IsDone(OutpostTutorial.StepStrike), "удары котиков не засчитывают шаг игрока");
-                int targetId = tutorial.StrikeTargetId;
-                long hp = game.Sim.TargetById(targetId).RemainingHpUnits;
-                int tutorialSaves = game.TutorialSaves;
-                Assert.IsTrue(game.Strike(targetId).Ok);
-                Assert.Less(game.Sim.TargetById(targetId).RemainingHpUnits, hp);
-                Assert.IsTrue(tutorial.IsDone(OutpostTutorial.StepStrike));
-                Assert.Greater(game.TutorialSaves, tutorialSaves, "ручной удар сохраняет пройденный шаг");
-                Assert.Contains(OutpostTutorial.StepStrike, OutpostJson.DeepCopy(state.Profile).Tutorial.Seen);
+                // Обучения нет (удалено 15 октября 2026): ни подсказки наставника, ни кнопки «Skip tutorial».
+                Assert.IsEmpty(hud.GetComponentsInChildren<TutorialHint>(true), "в HUD нет подсказки обучения");
+                Assert.IsFalse(Array.Exists(hud.GetComponentsInChildren<Transform>(true), t => t.name == "TutorialSkip"), "нет кнопки пропуска обучения");
+                // Элементы HUD по именам (указатели квестов playable).
+                Assert.AreEqual(Find(hud, "Base").transform, hud.FindTarget(OutpostHud.TargetBase), "кнопка «База»");
+                Assert.AreEqual("buy", hud.FindTarget(OutpostHud.BranchTarget(UpgradeBranch.Pickaxes))?.name, "кнопка покупки «Кирок»");
+                Assert.IsNull(hud.FindTarget("ui.unknown"));
 
                 for (int i = 0; i < 40; i++)
                 {
@@ -312,11 +313,13 @@ namespace CatMiners.Tests
                 hud.ShowSettings();
                 hud.RefreshNow();
                 Assert.IsTrue(hud.SettingsOpen);
+                StringAssert.DoesNotContain("Tutorial", string.Join("|", Array.ConvertAll(hud.GetComponentsInChildren<TMPro.TextMeshProUGUI>(), t => t.text)),
+                    "в настройках нет строки подсказок обучения");
                 yield return null;
                 hud.HandleBack();
                 Assert.IsFalse(hud.SettingsOpen);
 
-                // Завершение шахты: итоги открываются сами, обучение показывает награду (шаг 7).
+                // Завершение шахты: итоги открываются сами.
                 for (int i = 0; i < 400 && state.Run.Phase != RunPhase.ReadyToContinue; i++)
                 {
                     state.Run.Wallet += 100000000;
@@ -327,8 +330,6 @@ namespace CatMiners.Tests
                 Assert.AreEqual(RunPhase.ReadyToContinue, state.Run.Phase, "zone1 завершена");
                 hud.RefreshNow();
                 Assert.IsTrue(hud.ResultsOpen, "итоги шахты открылись сами");
-                yield return WaitReal(0.4f);
-                Assert.AreEqual(Loc.T("outpost.tutorial.reward"), tutorial.CurrentHint, "шаг 7: награда и «Экипировка»");
                 hud.HideResults();
                 hud.RefreshNow();
                 Assert.IsFalse(hud.ResultsOpen, "итоги не открываются повторно сами");
@@ -412,19 +413,11 @@ namespace CatMiners.Tests
                 Assert.IsFalse(hud.ModalOpen);
                 Assert.IsFalse(hud.AnyWindowOpen);
 
-                // Старый профиль уже прошёл первую шахту до добавления ручного удара: новый урок не возвращает его назад.
-                state.Profile.Tutorial.Seen.Remove(OutpostTutorial.StepStrike);
-                if (!state.Profile.Tutorial.Seen.Contains(OutpostTutorial.StepReset)) state.Profile.Tutorial.Seen.Add(OutpostTutorial.StepReset);
+                // Шахта 2: HUD сбрасывает кэши нового run.
                 var transition = StageProgressionService.PrepareTransition(state, repo, configs, 0);
                 Assert.IsTrue(transition.Ok);
                 game.Sim = new OutpostSimulation(transition.State, transition.Map, configs);
                 hud.RefreshNow();
-                yield return WaitReal(0.35f);
-                Assert.IsTrue(tutorial.IsDone(OutpostTutorial.StepStrike), "пропущенный урок первой шахты завершён молча на шахте 2");
-                Assert.AreNotEqual(Loc.T("outpost.tutorial.strike"), tutorial.CurrentHint);
-                tutorial.Skip();
-                Assert.IsTrue(game.State.Profile.Tutorial.Dismissed);
-                Assert.Greater(game.TutorialSaves, 0);
 
                 // Обновление без изменений состояния не выделяет память (кэш по значению).
                 hud.RefreshNow();
@@ -440,7 +433,6 @@ namespace CatMiners.Tests
             }
             finally
             {
-                tutorial.Dispose();
                 Object.Destroy(hud.gameObject);
                 Object.Destroy(camGo);
             }

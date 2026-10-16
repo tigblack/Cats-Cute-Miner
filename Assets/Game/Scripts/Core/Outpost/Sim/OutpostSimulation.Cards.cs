@@ -48,18 +48,21 @@ namespace CatMiners.Core.Outpost
                 c.CardsGained = checked(c.CardsGained + result.TotalCopies);
                 c.ElixirGained = checked(c.ElixirGained + result.Elixir);
             }
-            if (result.NewCards.Count > 0) OnCardsChanged();
             Touch(t);
-            if (!RecordEvents) return;
-            var e = OutpostEvent.Create(OutpostEventType.ChestOpened, t);
-            e.TargetId = sourceTargetId;
-            e.Cell = cell;
-            e.ItemId = chest.Id;
-            e.Count = result.TotalCopies;
-            e.Value = result.Elixir;
-            e.Detail = result.Detail();
-            e.Extra = result.NewCards.Count;
-            m_Events.Add(e);
+            if (RecordEvents)
+            {
+                var e = OutpostEvent.Create(OutpostEventType.ChestOpened, t);
+                e.TargetId = sourceTargetId;
+                e.Cell = cell;
+                e.ItemId = chest.Id;
+                e.Count = result.TotalCopies;
+                e.Value = result.Elixir;
+                e.Detail = result.Detail();
+                e.Extra = result.NewCards.Count;
+                m_Events.Add(e);
+            }
+            // После события сундука: FactoryAutomated первой копии идёт за ChestOpened на той же отметке (ТЗ 2.2 §4.4).
+            if (result.NewCards.Count > 0) OnCardsChanged(t);
         }
 
         void GrantElixir(long amount, int targetId, int cell, long t)
@@ -91,15 +94,17 @@ namespace CatMiners.Core.Outpost
             profile.CardKeys.Add(CardService.TutorialKey);
             bool activated = CardService.Grant(profile, def, 1);
             Run.Counters.CardsGained++;
-            if (activated) OnCardsChanged();
             Touch(t);
-            if (!RecordEvents) return;
-            var e = OutpostEvent.Create(OutpostEventType.ChestOpened, t);
-            e.ItemId = "tutorial";
-            e.Count = 1;
-            e.Detail = cardId + ":1";
-            e.Extra = activated ? 1 : 0;
-            m_Events.Add(e);
+            if (RecordEvents)
+            {
+                var e = OutpostEvent.Create(OutpostEventType.ChestOpened, t);
+                e.ItemId = "tutorial";
+                e.Count = 1;
+                e.Detail = cardId + ":1";
+                e.Extra = activated ? 1 : 0;
+                m_Events.Add(e);
+            }
+            if (activated) OnCardsChanged(t);
         }
 
         /// <summary>Улучшение карточки одной транзакцией (копии и эликсир → уровень); разрешено и в ReadyToContinue.</summary>
@@ -110,20 +115,25 @@ namespace CatMiners.Core.Outpost
             if (def == null) return CommandResult.Fail("unknown");
             string reason = CardService.Upgrade(Profile, def, out var quote);
             if (reason != null) return CommandResult.Fail(reason);
-            OnCardsChanged();
             var e = OutpostEvent.Create(OutpostEventType.CardUpgraded, t);
             e.ItemId = def.Id;
             e.Count = quote.Level + 1;
             e.Value = quote.ElixirNeeded;
             Emit(e);
+            OnCardsChanged(t);
             return new CommandResult { Ok = true, Levels = 1, Cost = quote.ElixirNeeded };
         }
 
-        /// <summary>Набор активных карточек изменился: фаза 7 пересчитает характеристики (без потери груза и телепортации).</summary>
-        void OnCardsChanged()
+        /// <summary>
+        /// Уровень карточки вырос (первая копия из сундука цели, выхода или магазина, учебная выдача, UpgradeCard): фаза 7
+        /// пересчитает характеристики (без потери груза и телепортации); требование автодоставки заводов пересчитывается на этой
+        /// же отметке t (ТЗ 2.2 §4.4) — готовая партия ставшего автоматическим завода сразу уходит в трубу.
+        /// </summary>
+        void OnCardsChanged(long t)
         {
             m_StatsDirty = true;
             Run.PlanningDirty = true;
+            SyncFactoryAutomation(t);
         }
     }
 }

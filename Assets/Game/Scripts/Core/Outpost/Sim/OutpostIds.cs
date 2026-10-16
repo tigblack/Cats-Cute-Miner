@@ -6,13 +6,20 @@ namespace CatMiners.Core.Outpost
     public static class OutpostIds
     {
         public const string ModeId = "CatOutpostV2";
-        /// <summary>Версия формата снимка (первая схема нового режима).</summary>
-        public const int SchemaVersion = 2;
-        /// <summary>Версия поведения ядра.</summary>
-        public const string RulesVersion = "outpost-2.1-r1";
-        /// <summary>Версия профиля чисел по умолчанию.</summary>
-        public const string BalanceVersion = "outpost-2.1-b4";
-        public const string AdapterVersion = "adapter-1";
+        /// <summary>
+        /// Версия формата снимка. 3 — заводы ТЗ 2.2 (§10.1); сохранения схемы &lt; 3 не переносятся, а архивируются со сбросом
+        /// кампании (§10.3, WP6). 2 — журнал платежей.
+        /// </summary>
+        public const int SchemaVersion = 3;
+        /// <summary>Версия поведения ядра (ТЗ 2.2: заводы, трубы, склад, рынок).</summary>
+        public const string RulesVersion = "outpost-2.2-r1";
+        /// <summary>
+        /// Версия профиля чисел по умолчанию: b6 — числа b5 (= b4) и множитель темпа шахт K(z) (PaceScale, решение владельца В4
+        /// 15 октября 2026; Docs/Rework/BALANCE_FACTORIES.md «Темп b6: 3 цикла»).
+        /// </summary>
+        public const string BalanceVersion = "outpost-2.2-b6";
+        /// <summary>Версия адаптера уровня: adapter-2 — у цепей заводов (<c>s</c>) нет груза (ТЗ 2.2 §4.2, OutpostLevelBalanceAdapter — WP2).</summary>
+        public const string AdapterVersion = "adapter-2";
         public const int RewardRngVersion = 1;
 
         /// <summary>Логические тики в секунде (целые микросекунды, ТЗ 6.5).</summary>

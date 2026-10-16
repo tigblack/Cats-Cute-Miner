@@ -15,6 +15,8 @@ namespace CatMiners.Runtime.Outpost
         Worker,
         Target,
         Base,
+        /// <summary>Склад товаров во дворе лагеря (ТЗ 2.2 §6.1): HUD открывает рынок и снимает выбор (как Base → «База»).</summary>
+        Warehouse,
     }
 
     public struct OutpostSelection
@@ -42,7 +44,7 @@ namespace CatMiners.Runtime.Outpost
     }
 
     /// <summary>
-    /// Контракт контроллера режима CatOutpostV2 для UI, обучения и DevTools (Docs/Rework/RUNTIME_SPEC.md §3.3).
+    /// Контракт контроллера режима CatOutpostV2 для UI и DevTools (Docs/Rework/RUNTIME_SPEC.md §3.3).
     /// Реализует <see cref="OutpostController"/>. Все числа UI читает из ядра (Sim/State/Stats), а не считает сам (ТЗ 14).
     /// Методы-команды применяют изменение на текущей отметке ядра и сразу запрашивают запись (ТЗ 17).
     /// </summary>
@@ -87,6 +89,35 @@ namespace CatMiners.Runtime.Outpost
         OfflineSummary PendingSkip { get; }
         void DismissSkip();
 
+        // ---- Заводы, склад и рынок (ТЗ 2.2): состояние — State.Run.Factories/Warehouse, карта — Map.Factories ----
+        /// <summary>«Deliver»: готовая партия завода targetId уходит в трубу (команда ядра DeliverFactory), сразу запись.</summary>
+        CommandResult DeliverFactory(int targetId);
+        /// <summary>Продать весь остаток товара goodId; null — «Sell all» (команда ядра SellGoods), сразу запись. Cost — золото.</summary>
+        CommandResult SellGoods(string goodId);
+        /// <summary>Причина, по которой «Deliver» сейчас недоступна (коды CommandResult.Reason), или null.</summary>
+        string DeliverBlockReason(int targetId);
+        /// <summary>Причина, по которой продажа goodId (null — всего) недоступна: "no-factories", "phase", "unknown", "no-goods"; null — можно.</summary>
+        string SellBlockReason(string goodId);
+        /// <summary>
+        /// Первая шахта кампании с заводами — с неё открывается Market (до неё на кнопке замок, решение владельца 16.10.2026);
+        /// 0 — заводов нет ни в одной шахте.
+        /// </summary>
+        int MarketUnlockZone { get; }
+        /// <summary>Завод шахты по ID цели или null (не завод).</summary>
+        FactoryState FactoryOf(int targetId);
+        /// <summary>Количество товара на складе.</summary>
+        long GoodsCount(string goodId);
+        /// <summary>Цена единицы товара в текущей шахте (0 — товара нет).</summary>
+        System.Numerics.BigInteger GoodsPrice(string goodId);
+        /// <summary>Стоимость остатка: товара goodId или всего склада (null) — «Total value», «Sell all +X».</summary>
+        System.Numerics.BigInteger WarehouseValue(string goodId);
+        /// <summary>Тап по складу во дворе лагеря: <see cref="OutpostSelectionKind.Warehouse"/> (HUD открывает рынок).</summary>
+        void SelectWarehouse();
+        /// <summary>Мировая позиция здания завода (центр footprint; над ней кнопка «Deliver», стрелка края экрана); false — не завод.</summary>
+        bool TryGetFactoryWorldPosition(int targetId, out Vector3 world);
+        /// <summary>Мировая позиция склада товаров во дворе лагеря («+N» прибытия, старт полёта монет продажи).</summary>
+        Vector3 WarehouseWorldPosition { get; }
+
         // ---- Поле и камера (ТЗ 5) ----
         OutpostSelection Selection { get; }
         void SelectWorker(int workerId);
@@ -95,7 +126,7 @@ namespace CatMiners.Runtime.Outpost
         void ClearSelection();
         /// <summary>Кнопка «К базе»: плавно вернуть камеру к лагерю.</summary>
         void FocusBase();
-        /// <summary>Мировая позиция котика (для подсказок обучения и сведений); false, если котика нет.</summary>
+        /// <summary>Мировая позиция котика (для сведений); false, если котика нет.</summary>
         bool TryGetWorkerWorldPosition(int workerId, out Vector3 world);
         /// <summary>Мировая позиция центра лагеря / места склада slot (0, 1) / цели.</summary>
         Vector3 BaseWorldPosition { get; }
@@ -129,10 +160,7 @@ namespace CatMiners.Runtime.Outpost
         bool CanResetProgress { get; }
         void ResetProgress();
 
-        // ---- Обучение (ТЗ 15) ----
-        void SaveTutorialProgress();
-
-        /// <summary>Каждое событие ядра после применения к виду (для HUD, обучения, звука). Не меняет экономику.</summary>
+        /// <summary>Каждое событие ядра после применения к виду (для HUD и звука). Не меняет экономику.</summary>
         event Action<OutpostEvent> EventPresented;
         /// <summary>Текст фатальной ошибки загрузки/сохранения (для окна ошибки); null — ошибки нет.</summary>
         string ErrorText { get; }

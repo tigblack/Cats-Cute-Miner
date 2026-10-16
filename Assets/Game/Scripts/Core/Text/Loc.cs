@@ -10,7 +10,7 @@ namespace CatMiners.Core.Text
     /// в Backups/before-english-ui-2026-10-12.
     /// <para>
     /// Строки разложены по разделам — по файлу <c>Loc.&lt;Раздел&gt;.cs</c> на раздел: Core, Hud, Controller, Tutorial,
-    /// Catalog, Board, Outpost (режим CatOutpostV2), Cards, Playable (playable-сборка). Каждый файл реализует свой частичный метод <c>static partial void Register&lt;Раздел&gt;(Dictionary&lt;string, string&gt; d)</c>
+    /// Catalog, Board, Outpost (режим CatOutpostV2), Cards, Playable (playable-сборка), Factories (заводы ТЗ 2.2 на поле). Каждый файл реализует свой частичный метод <c>static partial void Register&lt;Раздел&gt;(Dictionary&lt;string, string&gt; d)</c>
     /// и добавляет строки через <c>d.Add("раздел.группа.имя", "Текст")</c>; общий файл при этом не правится.
     /// Ключ начинается с имени раздела в нижнем регистре и точки («hud.», «core.» …), иначе это проблема регистрации.
     /// </para>
@@ -26,7 +26,7 @@ namespace CatMiners.Core.Text
         public const string Language = "en";
 
         /// <summary>Разделы словаря в порядке регистрации (имя раздела = суффикс метода Register&lt;Раздел&gt;).</summary>
-        public static readonly IReadOnlyList<string> Sections = new[] { "Core", "Hud", "Controller", "Tutorial", "Catalog", "Board", "Outpost", "Cards", "Playable" };
+        public static readonly IReadOnlyList<string> Sections = new[] { "Core", "Hud", "Controller", "Tutorial", "Catalog", "Board", "Outpost", "Cards", "Playable", "Factories" };
 
         static readonly object s_Lock = new object();
         static Dictionary<string, string> s_Table;
@@ -48,6 +48,7 @@ namespace CatMiners.Core.Text
         static partial void RegisterOutpost(Dictionary<string, string> d);
         static partial void RegisterCards(Dictionary<string, string> d);
         static partial void RegisterPlayable(Dictionary<string, string> d);
+        static partial void RegisterFactories(Dictionary<string, string> d);
 
         /// <summary>Текст по ключу. Нет ключа — «[ключ]» и запись в <see cref="MissingKeys"/>.</summary>
         public static string T(string key)
@@ -176,6 +177,7 @@ namespace CatMiners.Core.Text
             AddSection(table, owner, problems, "Outpost", d => RegisterOutpost(d));
             AddSection(table, owner, problems, "Cards", d => RegisterCards(d));
             AddSection(table, owner, problems, "Playable", d => RegisterPlayable(d));
+            AddSection(table, owner, problems, "Factories", d => RegisterFactories(d));
             return table;
         }
 

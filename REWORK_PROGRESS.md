@@ -1,5 +1,581 @@
 # Переработка в CatOutpostV2: ход работы
 
+## Нижняя панель: пять кнопок и замок на Market (16 октября 2026)
+
+- **Состояние / точка продолжения.** Решение владельца 16 октября: кнопка «To base» убрана ради симметрии; панель —
+  Store · Cards · **Base** (ровно по центру) · Equipment · Market; до первой шахты с заводами на Market вместо весов замок
+  `icon_lock`, тап — тост «Market unlocks at mine 2». Ничего не закоммичено и не опубликовано.
+- **Код:**
+  - `OutpostHud.cs`: без `m_ToBaseButton`, `OnToBase`, `TargetToBase`; боковые кнопки снова 40 пикселей арта с зазором 3 (как до
+    заводов), «Base» между `BarPad + 2 × (40 + 3)` с обеих сторон — по центру (≈55 пикселей арта на 1080×2400, ≈84 на 1080×1920).
+  - `OutpostHud.Market.cs`: Market — крайняя правая; `RefreshMarketButton` ставит `icon_lock`, пока шахта раньше
+    `MarketUnlockZone` (состояние кнопки — бит 4, иконка меняется только при смене), `OnMarketButtonDenied` → `outpost.market.locked`.
+    В шахте без заводов после шахты 2 (сейчас таких нет) и в `ReadyToContinue` — прежние причины.
+  - `IOutpostGame.MarketUnlockZone` / `OutpostController.MarketUnlockZone`: первая шахта, на карте которой есть заводы
+    (`OutpostLevelAdapter.BuildMine`, источник + override + топология), считается один раз при первом запросе.
+  - `Loc.Outpost.cs`: новый `outpost.market.locked` «Market unlocks at mine {0}» (как «Unlocks at mine {0}» у карточек), ключ
+    `outpost.bottom.to_base` удалён. `IOutpostGame.FocusBase` оставлен (тесты и код); камера к лагерю — прокруткой.
+- **Тесты (правки с комментарием-ссылкой на решение 16.10.2026):** `OutpostStoreUiTests.BottomBar_StoreCardsBaseMarketEquipmentToBase`
+  → `BottomBar_StoreCardsBaseEquipmentMarket` (пять кнопок по порядку, «Base» по центру панели ±1 px, замок на Market в шахте 1);
+  `OutpostMarketUiTests.Mine1_…` — `MarketUnlockZone == 2`, замок и тост «Market unlocks at mine 2» вместо «No factories in this
+  mine»; `Mine2_…` — с шахты 2 весы вместо замка; `OutpostHudTests.FakeOutpostGame.MarketUnlockZone`.
+- **Документы:** ТЗ 2.2 §6.2 и строка Р5, `UI_API.md`, `RUNTIME_SPEC.md`, `ART_NAMES.md`.
+
+## ТЗ 2.2: правки по ответам владельца и темп b6 (15–16 октября 2026)
+
+- **Состояние / точка продолжения.** Ответы владельца 15 октября внесены: правки интерфейса и профиль темпа
+  `outpost-2.2-b6` сделаны, Unity компилируется без ошибок, затронутые тесты проходят. Ничего не закоммичено, не запушено и
+  не опубликовано; `json-data.json` не менялся. Дальше — проверка владельцем (Validate, BuildPlayable, полный PlayMode) и
+  ответы на вопросы В6–В8 ниже.
+- **Решения владельца 15 октября 2026** (ТЗ 2.2 §1.2, таблица «Ответы на вопросы реализации»; В1–В5 —
+  `Docs/Rework/BALANCE_FACTORIES.md`):
+  - В1 (шахта 37, seed 4 — 121,3 с без покупки): оставить, ограничение проверяется на seed 1;
+  - В2 (автодоставка у 0,9 % заводов): оставить уровни карточек;
+  - В3 (товар пропадает при завершении шахты): оставить (Р3);
+  - В4 (длинные циклы не окупаются): шахта длится около трёх циклов самого медленного завода — темп b6;
+  - В5 (`PriceRate = 4`): оставить;
+  - приняты перенос 17 заводов, отсутствие склада в шахте 1, звуки, фонари, трубы, цвет HP цепей и подписи кнопок; G5
+    (картинки и снимки) утверждён;
+  - «Deliver» в тесноте сокращается, подъём на один ряд над заводом остаётся; недоступная «Sell all» — просто серая; рынок —
+    окно.
+- **Интерфейс** (`FactoryOverlay.cs`, `OutpostHud.Market.cs`, тесты `OutpostMarketUiTests.cs`,
+  `OutpostEnglishUiEvidenceTests.cs`, `Docs/Rework/UI_API.md`):
+  - кнопки «Deliver» в тесноте — «×N»;
+  - исправлено отставание оверлея от камеры. Холст ScreenSpaceCamera переезжает за камерой только при отрисовке, а
+    `FactoryOverlay.ToLocal` бросал луч на прежнюю плоскость холста. Теперь точка переводится через прямоугольник корневого
+    Canvas, добавлен `[DefaultExecutionOrder(100)]` (после CameraRig). Правило раскладки и тест
+    `DeliverButtons_TopEdgeAndCameraSweep_StayOverOwnFactory` не менялись — после исправления он проходит;
+  - рынок — окно `PixelUi.Window` «Market · Warehouse» между верхней полосой HUD и нижней панелью, высота по числу строк,
+    прокрутка, «Sell all» внизу рамки, Back и крестик закрывают окно;
+  - недоступная «Sell all» — серая кнопка без причины и без тоста; строки «Sell» по-прежнему называют причину;
+  - правки тестов (с комментарием-ссылкой на решение 15.10.2026): путь шапки `Box/header/title` и строки
+    `Box/body/viewport/content/good0`. Вместо тоста «Nothing to sell» проверяются серая «Sell all» без тоста
+    (`AssertSellAllGray`) и рамка окна (`AssertMarketIsWindow`). Добавлен снимок `f17-market-nothing` (9:16, 9:19,5, 9:20).
+- **Темп b6** (ТЗ 2.2 §9.1, ТЗ 2.1 §12.6, `BALANCE_FACTORIES.md` — «Темп b6: 3 цикла»):
+  - `outpost_balance.json` — `Version outpost-2.2-b6` и `PaceScale` (144 дроби K(z): шахты 1–11 — 1, шахты 12–144 — от 1,92
+    до 250,68). `BaseCost`, `Growth`, `Cap` веток, циклы и цены товара не менялись. Встроенный
+    `OutpostConfigSet.Defaults.cs` сгенерирован во временный файл под `flock Temp/gen_defaults.lock` — совпадает побайтно;
+  - ядро:
+    - `OutpostBalanceConfig`: `PaceScale`, `ZonePace`, `PriceScale(z) = S·CostZoneFactor·K`, `WithoutPace`, проверка `K ≥ 1`;
+    - `OutpostConfigSet.WithoutPace`;
+    - `OutpostLevelBalanceAdapter.ApplyPace` (HP r/x/p × K, груз от нового HP, цепи `s` без изменений), вызов в
+      `StageProgressionService.CreateRun` на снимке `Run.Balance`;
+    - `TeamUpgradeService.NextCost` через `PriceScale`;
+    - `OutpostIds.BalanceVersion`;
+    - `OutpostBot.PaceLimitFactor` (пределы бота и `BalanceAudit` × ceil(K)), `BalanceAudit.RunMineFrom`;
+  - инструмент `Tools/BalanceAudit/pace_scale.py`, генератор `OutpostBalanceAuditTests.Audit_Pace`, данные
+    `Docs/Reports/balance-factories/pace/`. Три круга калибровки: `k0`/`kc13` → `r2` → `r3`;
+  - итог `r3` (`free` seed 1): кампания 49,1 дня (b5 — 19,63 ч); 133 шахты с K > 1, `D / 3C` 0,95–1,05 (медиана 1,00);
+    последняя покупка не раньше 86 % D; без доступной покупки — не больше 13,8 % D. Числа раздела BALANCE_FACTORIES сверены с
+    `pace_scale.py summary r3` и `report r3` — совпадают, правок не понадобилось;
+  - тест темпа `Campaign_FreePlayer_PacingWithinStageTargets`. Кампания на K = 1 возвращает ориентиры этапов §12.6, предел
+    2,2 для шахт 1–11 и `MaxUnaffordableSec < 120`. Шахты 19, 31, 47, 68, 93, 114, 134 и 144 проверяются на b6: `D / 3C`
+    0,75–1,25, покупки до 80 % D, отрезок без покупки короче `120·K` и 25 % D, товар продаётся. Новый тест слоя K —
+    `Pace_B6_RunTargetsAndPrices`;
+  - пересчитанные старые тесты:
+    - эталоны цен умножают на K(z), взятый прямо из массива `PaceScale` встроенного json, мимо `ZonePace`
+      (`NextCostOracle`, `ExpectedCost(paced)`). Так пересчитаны `OutpostUpgradeTests.BuyTen_*`, `BuyMax_*` и
+      `OutpostMathTests.CostZoneFactor_ExactPrices`, проверки «×10 = десять ×1», «точно сверх 2^53», «cap блокирует» прежние;
+    - контрольные числа аудита источника (`NextCost_Zone144_*`) проверяются на `BaseBalance` (без K), число прежнее;
+    - тесты правил, которым длительность не важна, идут на `WithoutPace`, пределы 24 ч / 2 000 000 событий и все проверки
+      прежние, причина — K(72) ≈ 48 и K(144) ≈ 151 растягивают шахту за эти пределы. Это `ConcurrentWorkers_…(72)`,
+      `All144Mines_*`, `BranchingCampaign_*`, `OutpostCoreSmokeTests.AllZones_PolicyA_Complete`, `OutpostCampaignSlowTests`
+      и `AllZones_EveryTargetHasExactHpAndCargo_SumsMatchAudit`;
+    - `LateMines_UpgradeTreeNotTriviallyCheap` считает груз после `ApplyPace`, как в run;
+    - ревью 16 октября: ослабленных несвязанных проверок не нашлось.
+- **Ревью диффа 16 октября:**
+  - проверены детерминизм (K — точные дроби, применяется один раз при создании run), снимок `Run.Balance` (цены и пределы
+    берутся из него), совпадение Defaults с Resources и граничные шахты. Шахты 1 и 11 — K = 1; 12 — первая с K = 2,44; 144 —
+    151,48. Шахт без заводов с K > 1 нет: при `C = 0` формула даёт K = 1;
+  - исправлено:
+    - DEV «Finish stage» (`OutpostController.CompleteStageNow`) ограничивал прогон 24 ч симуляции — глубокие шахты b6 за это
+      время не завершались. Теперь предел × `OutpostBot.PaceLimitFactor`, как у бота;
+    - в `OutpostBot` осиротевший комментарий `<summary>24 часа симуляции</summary>` возвращён к `DefaultTickLimit`;
+  - замечено без правки: playable копирует профиль b6 вместе с `PaceScale`. Шахты 1–11 там с K = 1, но игрок, дошедший в
+    playable до шахты 12+, получит K > 1 (в основной игре у `free` шахта 12 — 12,1 мин против 6,2 мин в b5). Версия playable осталась
+    `outpost-2.2-b5-playable` (связано с В8).
+- **Прогоны:**
+  - UI: Unity `Compile` — 0 ошибок CS; PlayMode `OutpostFactoryViewTests|OutpostMarketUiTests|OutpostFactoryScreensEvidence|
+    OutpostEnglishUiEvidenceTests|OutpostHudTests` — **24/24** (210 с); повтор `OutpostMarketUiTests|OutpostEnglishUiEvidenceTests`
+    после переноса рамки — **11/11**, обрезанных подписей 0;
+  - ядро темпа: фильтрованно 177/177, полное ядро **2 635 / 2 635** за 29,1 мин (`Docs/Reports/gate3/pc-core2.txt` на ПК);
+    `Audit_Pace` r3 — 9,4 мин;
+  - 16 октября: Unity `Compile -Target Ci` с ядром темпа (`r2-compile`) — exit 0, **0 ошибок CS**. После двух правок выше —
+    `r2-compile2`, exit 0, 0 ошибок CS (пересобраны `CatMiners.Core` и `CatMiners.Runtime`). Фильтрованный прогон ядра
+    `Pace_B6|OutpostUpgradeTests|OutpostBotTests` (`r2-core`) — **30 из 30**, 0 упали.
+- **Не запускалось по просьбе владельца** («добавь изменения, я сам проверю»): `OutpostValidatorCli` (144 шахты),
+  `Tools/unity.ps1 -Mode BuildPlayable` и полный PlayMode. PlayMode после темпа b6 не запускался: UI-прогоны 24/24 и 11/11
+  шли до сборки с ядром темпа. Тесты PlayMode с `CompleteStageNow` работают на шахтах 1–2 (K = 1), шахта 140 в них — снимки и
+  раскладка без завершения, поэтому влияния b6 там не ожидается.
+- **Открытые вопросы владельцу:**
+  - **офлайн-предел** (В7). `OfflineCapMs` = 3 ч и жёсткий `OutpostIds.MaxOfflineMs` = 3 ч, а шахты 12–144 теперь идут
+    0,5–24 ч. Ночь даёт только 3 ч, `OfflineHours` карточек предел не продлевает, офлайн не покупает улучшения, тайм-скипы
+    10/30/60 мин против шахт в 6–24 ч почти ничего не дают. **Рекомендация:**
+    - поднять общий предел до 12 ч (`OfflineCapMs` и `MaxOfflineMs`), чтобы `OfflineHours` карточек его продлевал;
+    - разрешить офлайну покупки по правилу модели `free`;
+    - для шахт с K > 1 вернуть длинные скипы (4 / 12 ч);
+  - В6 — самый медленный завод открывается на 61–99 % шахты и в 127 из 133 шахт не успевает ни одного цикла. Рекомендация —
+    перенести его цепь в первый сектор;
+  - В8 — шахты 7–11 и скачок 11 → 12 (3,0 при пределе 2,2);
+  - кнопка «Deliver» закрывает примерно 80 % ряда над полосой цикла: «не залезает на камни» — это «не выше одного ряда» (как
+    сейчас) или «вообще не на клетках с камнями»?
+- **Выделения памяти Editor:** рост суммарного GC Editor (717–732 КБ на кадр против 106–116 КБ 9 октября) с заводами не
+  связан. Он есть и в шахтах 50/101/144 с прежним тестом, узкие проверки «0 байт» (HUD, рынок, Deliver) проходят. Это
+  счётчик всего Editor вместе с test runner; рост зависит от окружения прогона (`qualityLevel` 0 → 1, нагрузка ПК) и
+  способа замера. Источник искать профайлером.
+
+## ТЗ 2.2: заводы вместо месторождений — итог этапов 2 и 3, финальная интеграция (Claude, 15 октября 2026)
+
+- **Состояние.** ТЗ 2.2 (`Docs/TZ/Cat_Miners_Factories_TZ_v2.2.md`) внедрено целиком: пакеты WP0–WP9 выполнены, ворота G1–G3
+  пройдены. G4 (баланс): калибровка в пределе, одно исключение вынесено владельцу (В1 ниже). G5: снимки и сводные листы
+  готовы и ждут утверждения владельца. G6: документы обновлены. Ничего не закоммичено, не запушено и не опубликовано; playable
+  не публиковался; `json-data.json` не менялся; обучения нет.
+- **Этап 2** (подробно — записи ворот G3 и WP7 ниже):
+  - доработки ядра по ревью этапа 1: единственная функция выпуска `FactoryMath.UnitsPerCycle` (копии в `TeamStats` удалены,
+    сканер `Units_SingleRuleFunction_NoCopiesInGameCode`); цикл есть только у `Working`; `FactoryCatalog.Build` проверяет
+    порядок товаров; `review_cards.py --check` строже;
+  - WP5a — вид заводов: цепи с трещинами, кадры работы, бар цикла, AUTO, трубы и жгуты, капсулы (пул 60), склад, тапы,
+    `FactoryOverlay` с кнопками «Deliver ×N» и стрелками у края, тосты, звуки;
+  - WP5b — HUD и рынок: шесть кнопок нижней панели, окно Market, сведения завода, тексты карточек заводов, строка «Goods sold»
+    в итогах;
+  - WP9, часть 1 — перенос ТЗ 2.2 в ТЗ 2.1 (список §0), PIXEL_STYLE_GUIDE, ART_NAMES, MINE_TOPOLOGY, спецификации;
+  - ворота G3 — сведение в Unity, фонари лагеря в `b ± 3`, раскладка кнопок «Deliver» без наложений, тест сохранения схемы 2,
+    54 снимка шахт.
+- **Этап 3:**
+  - WP7 — бот и модели аудита доставляют и продают товар (`OutpostBot.TendFactories`), калибровка `PriceRate`, замер b5,
+    тест темпа по §9, `PlayableBalance.Version = outpost-2.2-b5-playable`, отчёт `Docs/Rework/BALANCE_FACTORIES.md`;
+  - финальная интеграция (эта запись), список ниже.
+- **Сделано на финальной интеграции** (запросы WP7 и G3):
+  - ТЗ 2.2: приложение B п. 6 пересчитано под `PriceRate = 4` (молоко `8/5`, 10 золота за единицу в шахте 2, партия — 200;
+    сталь `120`, 720 золота); в §3.2 — итог калибровки; в §7.1 фраза «эффект считается в `TeamStats`» заменена на
+    `FactoryMath.UnitsPerCycle` (запрос ревью ядра); в §0 — статус реализации. ТЗ 2.1 §12.7 не менялся: правило `PriceFactor`
+    и `UnitsPerCycle = 20` прежние (запрос WP7);
+  - `Docs/Playable/PLAYABLE_TZ.md`: §3.2 — версия `outpost-2.2-b5-playable`, §5 — перемер на b5 (таблица из BALANCE_FACTORIES);
+  - `PlayableTests.cs:25`: в комментарии профиль `outpost-2.2-b5-playable` (проверки и раньше брали `PlayableBalance.Version`);
+  - старые расхождения из итогов WP9, часть 1: ТЗ 2.1 §16 — «все семь столбцов видны» заменено на «около десяти столбцов
+    широкой карты» (§8.5); PIXEL_STYLE_GUIDE §6.3а «Ячейка карты» — по `CardView` (126 UI-пикселей, один запечённый арт
+    48×44 на фоне 64×48, порядок строк);
+  - **§15 «Производительность» на воротах G3 не выполнялся** — сделано: в `OutpostPerformanceTests` добавлена шахта 140
+    (тест переименован в `EditorStress_Zones50_101_140_144_…`, тайм-аут 600 → 900 с). Все 15 заводов открыты и на автомате
+    (DEV «Unlock factories», «Auto all»), перед замером DEV «Finish factory cycles». В начале выборки в трубах 14 капсул.
+    Прежний отчёт сохранён как `Docs/Reports/outpost/performance-editor-pre-factories.json`, итог — VALIDATION_V2.md;
+  - генераторы `OutpostEnglishUiEvidenceTests` перезапущены (запрос G3): снимки `f01–f16` теперь с новой раскладкой стрелок и
+    кнопок «Deliver»;
+  - встроенные конфиги, палитра и атлас не пересобирались — нечего: генерация `OutpostConfigSet.Defaults.cs` и
+    `PixelPalette.g.cs` во временный файл совпала побайтно; после атласа `0befef2876ae0bde` менялись только описание группы в
+    `manifest.py` и проверка `review_cards.py` (на атлас не влияют);
+  - `Docs/Reports/gate3/wmi-core.ps1` — прогон ядра через WMI, как `wmi-run.ps1` у Unity: обрыв ssh его не убивает. Блокировку
+    `Temp/unity.lock` держит хаб. Ядро и Unity шли по очереди, одновременно не запускались.
+- **Итоговые проверки:**
+  - ядро без фильтра (`run.ps1 -Instance final`): **2 634 теста, 2 634 прошли, 0 упали**, 8 Explicit пропущены, 9,2 мин.
+    В том числе `Campaign_FreePlayer_PacingWithinStageTargets` (37 с), `Rules_Validate_RejectsBrokenRows`,
+    `Units_SingleRuleFunction_NoCopiesInGameCode`. У WP7 было 2 635 вместе с черновиком `PlayablePacingDraft`;
+  - `gen_factory_rules.py --check` — OK; `review_cards.py --check` — 22/22 прежних арта, атлас содержит все 61 актуальный арт;
+  - Unity `Compile -Target Ci`: exit 0, **0 ошибок CS**, 0 предупреждений CS в логе. Пересобрана только `CatMiners.Tests.PlayMode`:
+    правку `PlayableBalance.cs` Ci-копия уже собрала на воротах G3;
+  - Unity PlayMode одним запуском `PlayableTests|OutpostEnglishUiEvidenceTests|OutpostPerformanceTests`: **35 из 35**, 268 с.
+    PlayableTests 29/29, генераторы 5/5, производительность 1/1. В `text.tsv`, `store-text.tsv` и `factory-text.tsv` обрезанных
+    подписей нет; «small» — только прежние `ZonePlaque/sector` и `TopBar/cargo/label`;
+  - производительность (Editor, мс, медиана / p95): шахта 50 — 16,66 / 17,25; 101 — 16,65 / 17,30; **140 — 16,66 / 17,40**;
+    144 — 16,65 / 17,64. Требование §15 выполнено: медиана ≤ 16,7, p95 на 1,9 % выше базы шахты 144 (17,07) при допуске
+    10 %. Офлайн шахты 144 — 169,6 мс (бюджет Editor 3 000 мс).
+  - Замечание: суммарный счётчик Editor GC вырос во всех четырёх шахтах — 717–732 КБ на кадр против 106–116 КБ 9 октября, по
+    2 сборки gen0 за выборку. В том числе в шахтах 50, 101 и 144, где тест прежний. Это счётчик всего Editor вместе с test
+    runner, игре его целиком приписывать нельзя. Узкие проверки «0 байт» (HUD, рынок, кнопка Deliver) проходят. Источник
+    роста нужно искать профайлером. Между замерами также сменился `qualityLevel` (0 → 1);
+  - за этапы 2–3 прогоны Unity по §16.2 (ворота G3): 105 тестов в одном запуске, 104 прошли. Упавший тест схемы 2 исправлен,
+    затронутые наборы перезапущены (11/11 и 10/10).
+- **Не проверено:**
+  - сборка playable `Tools/unity.ps1 -Mode BuildPlayable` (ТЗ 2.2 §14) после ТЗ 2.2 не запускалась. Последняя сборка
+    `Builds/Playable` — 14 октября. Это тяжёлая WebGL-сборка, а на ПК свободно около 2 ГБ: у владельца открыт Unity Editor
+    (1,4 ГБ), в 19:44 ПК уже перезагружался под нагрузкой. PlayableTests проходят;
+  - устройство Android, звуки на слух.
+- **Баланс (WP7, `Docs/Rework/BALANCE_FACTORIES.md`):**
+  - `PriceRate = 4` (ориентир ТЗ был 5/16); `UnitsPerCycle = 20`, правило `PriceFactor` и цены веток b4 не менялись;
+  - медиана шахт 2–5 у `free` по 12 seed — **4,94 мин** при b4 4,96 (−0,4 %, предел 4,22–5,70). В предел попадают значения
+    `PriceRate` от 5/4 до 12;
+  - 24 кампании по 144 шахты, все успешны (тупиков нет); `free` seed 1: кампания 19,07 → 19,63 ч; `active` 18,45 → 17,96 ч;
+    `idle` 35,75 → 37,95 ч;
+  - `MaxUnaffordableSec`: у эталона seed 1 максимум 111,4 с (шахта 37), **у seed 4 — 121,3 с** (> 120, В1);
+  - доля товара в золоте `free`: 56 % на шахтах 2–10 → 48 / 27 / 12 / 8 % на поздних этапах;
+  - заводы типов 8–20 (цикл от 10 мин) у `free` не заканчивают ни одного цикла;
+  - автодоставка на шахтах 31–144 — 0,9 % заводов (порог предложений 25 %);
+  - ручных доставок у `active` не больше 10,3 в минуту (ориентир 12);
+  - при отсутствии 1 и 3 ч шахта всегда завершается без игрока, весь товар за это время пропадает;
+  - playable p3 на b5: 11 / 9 шахт за 30 мин (`active` / `free`), как на b4; пауза между покупками у `active` ≤ 20 с.
+- **Снимки и листы для владельца (G5):**
+  - шахты 2, 10, 30, 80, 140, 144 в 9:16 и 9:20, по пять видов — `Docs/Reports/factories/screens/` (54 PNG и `layout.txt`);
+  - английский UI с рынком, сведениями завода и окном карточки завода в 9:16 / 9:19,5 / 9:20 — `Docs/Reports/english-ui/`
+    (`f01–f16`, перезаписаны сегодня);
+  - сводные листы арта — `Docs/Reports/factories/art/`: `cards.png` (39 новых артов карточек), `factories.png`,
+    `factories_anim.png`, `goods.png`, `icons.png`, `pipes.png`; `cards_before.png` — прежние арты для сравнения;
+  - графики баланса b4 → b5 — `Docs/Reports/balance-factories/charts/`;
+  - PNG лежат на ПК, на хаб не синхронизируются.
+- **Вопросы владельцу:**
+  1. **Лист карточек** `Docs/Reports/factories/art/cards.png` — утвердить 39 артов карточек заводов (§16.3 «Карточки»).
+     Отличия от задания: у Fishery Manager ручной безмен, у Foundry Manager напольные весы; у Steel Mill Foreman очки поверх
+     каски, у Apiary Foreman шляпа пасечника поверх каски.
+  2. **Звуки заводов не прослушаны.** 11 новых звуков проверены только анализом сигнала. Кроме того:
+     - анимация работы у заводов общая, три вида дыма;
+     - на вывеске склада ящик с монетой, а не весы;
+     - атлас занят на 1 006 из 1 024 строк: следующее крупное добавление поднимет его до 2048×2048 (+8 МБ видеопамяти).
+  3. **Перенос 17 заводов.** При исправлении топологии 17 заводов в 15 шахтах переехали в соседнюю камеру через ствол, на 11–29
+     клеток. Шахты 6, 7, 13, 23, 37, 102, 118, 122, 126, 132, 133, 136, 139, 140, 142. Если заводы должны остаться в своей
+     камере, можно ограничить обмен расстоянием; тогда сработает проверенный запасной путь «прорезать проход».
+  4. **Баланс** (подробно — BALANCE_FACTORIES.md, «Вопросы владельцу»):
+     - В1: шахта 37 у seed 4 — 121,3 с без доступной покупки. Причина — цепи без груза (`adapter-2`), от `PriceRate` не зависит;
+     - В2: автодоставка у 0,9 % заводов на шахтах 31–144; варианты — `ManagerChanceMult`, `LowCardChanceMult`, `ChestChances`;
+     - В3: товар пропадает при завершении шахты: 14 % проданного онлайн и весь товар за время отсутствия;
+     - В4: длинные циклы (типы 8–20) не окупаются в шахтах по 6–10 мин;
+     - В5: при `PriceRate = 4` товар даёт 55 % золота шахт 2–5; можно выбрать меньшее значение из предела (от 5/4);
+     - в эталоне аудита `value_cap40_passes_necessary_bound_zone_count` упал с 61 до 0: цепи не дают монет.
+  5. **Вид и интерфейс:**
+     - кнопки «Deliver» соседних готовых заводов идут «ёлочкой», в 9:20 — тремя ступенями. Оставить так или в тесноте сокращать
+       подпись до иконки и «×24»?
+     - фонари лагеря у шкафа и стеллажа (`b ± 3`) — подходит?
+     - раскладка труб: по оси коридора через 4 px, жгут — больше 7 труб или от 2 в лагере;
+     - в шахте 1 нет склада;
+     - полоса HP цепей — стандартная золотая, а не красная, как в макете;
+     - капсулы в трубах в `ReadyToContinue` скрываются;
+     - недоступная «Sell all» показывает причину вместо суммы;
+     - подписи боковых кнопок разного размера (18 и 27);
+     - панель сведений завода — 76–86 px;
+     - строка «Auto delivery: on» после DEV «Auto all» при недостаточном уровне карточки;
+     - рынок открывается во весь экран, а не листом снизу.
+  6. **Ядро и сохранения** (решения приняты, владелец может отменить):
+     - отметка watchdog `LastChangeTick + WatchdogTicks + 1` в `NextEventTick` (записана в ТЗ §4.5);
+     - причина `no-factories` проверяется раньше `phase`: в шахте 1 после завершения — «No factories in this mine»;
+     - файл будущей схемы рядом с устаревшим даёт `Incompatible`, а не `Outdated`;
+     - после сброса гемы, в том числе купленные, и отложенная реклама не переносятся;
+     - при ошибке записи архива — `Fatal`, старые файлы не трогаются;
+     - сохранение схемы 3 из Editor- и dev-сборок этапа 1 с заводом в `Ready` загрузится как `Corrupt`; выпущенных сохранений
+       схемы 3 нет;
+     - добавлен ключ `cards.detail.mine_auto_missing` («(not collected)»), в §7.1 его нет.
+- **Как продолжить:**
+  - решения владельца по вопросам выше (G5 — утверждение снимков и листов);
+  - `Tools/unity.ps1 -Mode BuildPlayable`, когда на ПК будет свободна память;
+  - профайлер для роста счётчика Editor GC;
+  - новый баланс прохождения (Р1) — по данным BALANCE_FACTORIES.md.
+
+## ТЗ 2.2, этап 2: ворота G3 — интерфейс (Claude, агент ворот, 15 октября 2026)
+
+- Этап 2 ТЗ 2.2 сведён в Unity: WP5a (вид заводов), WP5b (HUD и рынок), WP9 часть 1 (документы) и доработки ядра по ревью
+  этапа 1. Баланс (WP7) идёт параллельно, его файлы ворота не трогали. Изменения не закоммичены, ничего не опубликовано.
+  Прежний агент ворот оборвался вместе с сессией. Его правки проверены и доведены, повторно не делались.
+- **Запросы пакетов:**
+  - стрелки у края и кнопки «Deliver ×N» (`FactoryOverlay`) не ложатся на открытые сведения завода: низ полосы поля
+    поднимается до `Hud.TryGetInfoTop`. Тест — `OutpostFactoryViewTests.InfoPanelOpen_DeliverButtonsAndArrowsStayAboveIt`;
+  - коды отказа заводов (`not-ready`, `locked`, `no-goods`, `no-factories`) `OutpostUiText.Reason` передаёт в
+    `FactoryText.Reason` (ключи `factories.reason.*`). Любой из двух вызовов даёт один текст;
+  - комментарии:
+    - `CardEffectKind.FactoryOutput` — «считает `FactoryMath.UnitsPerCycle`; `TeamStats` его не копит»;
+    - `OutpostCardText` — ссылка на `CardService.FactoryOutputBonus` и `FactoryMath.UnitsPerCycle` вместо удалённого поля
+      `TeamStats`;
+  - фонари лагеря `camp_lantern_*` перенесены в передний ряд столбцов `b − 3` и `b + 3`, перед шкафом и стеллажом:
+    - раньше они стояли на краях массива, а в картах 25–53 столбцов это порода за лагерем;
+    - в картах из 7 столбцов это те же места, что и раньше;
+    - `b ± 4` не подошли: в `b + 4` стоит склад товаров, и фонарь закрыл бы его дверь;
+    - ART_NAMES §3.2 и §8 поправлены;
+  - документы:
+    - RUNTIME_SPEC §5: шесть кнопок, Market;
+    - RUNTIME_SPEC §9: позиции из вида, `SetSimulation`, ветка `Outdated`, ввод и `FactoryOverlay`, тосты и звук, поля цикла,
+      тесты;
+    - UI_API §13: причины через `FactoryText`, поля цикла только у `Working`, элементы HUD рынка и сведений, ключи `Loc`, кто
+      показывает тосты;
+    - VIEW_API §4: приоритеты выбора — котик 0, цель 1, склад 2, база 3;
+    - VIEW_API §11: поля цикла, члены `OutpostBoardView`, склад и фонари, `FactoryOverlay`, новые `OutpostViewCue` и поля
+      аргументов, методы `Sfx`;
+    - SOUNDS.md: настоящие имена методов `Sfx`, флаг `Chains` вместо `HitMaterial.Chain`.
+- **Исправлено по снимкам:** у трёх готовых заводов подряд (шахты 30, 80, 140, 144) средняя кнопка «Deliver ×24» целиком
+  пряталась под соседней, а стрелка у правого края лежала на кнопке. Здание завода — два столбца, а кнопка шире.
+  - Теперь кнопка, которая легла бы на уже показанную, поднимается на ряд над ней (`FactoryOverlay.Unstack`).
+  - Порядок — по ID цели, поэтому раскладка не прыгает. В 9:16 кнопки идут «ёлочкой», в 9:20 кнопки шире и встают в три
+    ступени.
+  - Стрелка у края обходит кнопки (`AvoidButtons`).
+  - Новый тест `OutpostFactoryViewTests.DeliverButtons_AdjacentReadyFactories_DoNotOverlap`: шахта 140, поле и HUD рисуются в
+    портретную текстуру 1080×1920. Тест проверяет, что кнопки соседей пересекаются по ширине, но не накладываются, и что
+    стрелки не лежат на кнопках.
+  - Счётчик наложений в генераторе снимков считал в мировых координатах наклонной плоскости холста и всегда давал 0. Теперь
+    он считает в пикселях снимка и отдельно считает стрелки поверх кнопок.
+- **Правки существующих тестов.** У каждой правки комментарий-ссылка на ТЗ 2.2, ни одна проверка не ослаблена.
+  - Ядро, ревью этапа 1:
+    - `FactorySimulationTests.Units_BothCardsOfType_EveryUpgradeAddsAtLeastOne_ControlValues` — сверка «`TeamStats` = прямой
+      расчёт» заменена сверкой единственной функции выпуска с независимым floor-ожиданием; добавлена проверка, что чужой тип
+      не меняется (§4.4);
+    - `FactoryCatalogTests.State_FactoryFields_RoundTripByteIdentical` — невозможное состояние «Ready + Automated + цикл»
+      разделено на допустимые `Working`+AUTO и `Ready` с −1 (§4.3);
+    - `FactoryCatalogTests.Math_UnitsPriceTransit_ControlValues` — поправлен только комментарий;
+    - новые тесты: `Ready_HasNoCycle_AfterFullCycleAndDevFinish_AutoRestartsFullCycle`,
+      `Catalog_Build_RejectsGoodsOutOfMineShaftsOrder`, `Units_SingleRuleFunction_NoCopiesInGameCode`.
+  - WP5b: `OutpostStoreUiTests.BottomBar_StoreCardsBaseEquipmentToBase` переименован в
+    `BottomBar_StoreCardsBaseMarketEquipmentToBase` (§6.2, §16.2):
+    - проверка порядка не ослаблена;
+    - добавлены проверки: ровно 6 кнопок, «Base» не уже 44 px, подписи не мельче `FontSmall` и без многоточия, Market
+      неактивна в шахте 1;
+    - новый генератор `OutpostEnglishUiEvidenceTests.FactoryScreens` дописывает свои строки в `text.tsv`.
+  - Ворота: помощник выпуска в `OutpostCardTests` вызывает `FactoryMath.UnitsPerCycle(CardConfigs.Factories.Get(typeId).Rule,
+    profile, Cat)` и не повторяет формулу.
+- **Новые PlayMode-тесты и генераторы ворот:**
+  - `OutpostRuntimeTests.Schema2Save_LoadStartsNewCampaign_NoError_ResetToast` (§10.3, §16.2). Файл схемы 2 ядро узнаёт как
+    `Outdated`. Загрузка сцены даёт новую кампанию схемы 3, фаза не `Error`, есть тост `outpost.toast.save_reset`. Архив
+    `pre-factories/` совпадает с прежним файлом байт в байт, bak = main. Настройки и сыгранное время переносятся; гемы, детали,
+    предметы и пройденные шахты — нет. При первом прогоне тест упал на своей же проверке «RunId другой»: у новой кампании RunId
+    снова `run-1`. Теперь новый run узнаётся по времени шахты;
+  - `OutpostFactoryViewTests.InfoPanelOpen_DeliverButtonsAndArrowsStayAboveIt` и `…DeliverButtons_AdjacentReadyFactories_DoNotOverlap`;
+  - `OutpostFactoryScreensEvidence` (`[Explicit]`) — снимки для владельца, см. ниже.
+- **Проверки:**
+  - Unity `Compile -Target Ci`: exit 0, 0 ошибок.
+  - Один прогон PlayMode со всеми наборами §16.2 и генератором снимков: **105 тестов, 104 прошли, 1 упал** (новый тест схемы 2,
+    см. выше), 519 с:
+    - OutpostRuntimeTests 30/31, OutpostHudTests 2, OutpostStoreUiTests 5, OutpostCardsUiTests 4, CameraExplorationTests 4,
+      MineTopologyRuntimeTests 2, CoreGameSmokeTests 10, EdgeIndicatorTests 3, PlayableTests 29, OutpostFactoryViewTests 8,
+      OutpostMarketUiTests 6, OutpostFactoryScreensEvidence 1.
+  - Перезапуск после правок (только затронутое): `OutpostFactoryViewTests|OutpostRuntimeTests.Schema2Save|OutpostFactoryScreensEvidence`
+    — 11/11. После поправки допуска раскладки `OutpostFactoryViewTests|OutpostFactoryScreensEvidence` — 10/10.
+  - Наборы, кроме этих, после правки `FactoryOverlay` не перезапускались. Правка меняет только высоту кнопок, которые
+    накладывались бы друг на друга.
+  - Генераторы `OutpostEnglishUiEvidenceTests` ворота не перезапускали. WP5b прогнал их до правки стрелок: обрезанных подписей
+    нет в `text.tsv`, `store-text.tsv` и `factory-text.tsv`. Снимок `f06-factory-ready-*` ещё со старой стрелкой.
+  - Ядро не запускалось: ворота не меняли код ядра.
+- **Снимки для владельца** — `Docs/Reports/factories/screens/`, PNG на ПК и на хабе:
+  - шахты 2, 10, 30, 80, 140 и 144 в 9:16 (1080×1920) и 9:20 (1080×2400);
+  - на каждую шахту: `a-locked` (ближайший завод в цепях), `b-ready` (самое плотное место с кнопками «Deliver»), `c-base`
+    (лагерь, жгут, склад, фонари), `d-mid` (заводы на AUTO, капсулы) и `overview` (вся карта сверху);
+  - всего 54 PNG и `layout.txt`;
+  - сводка: заводов и труб — 1/1, 5/5, 9/9, 12/12, 15/15, 14/14; участков жгута — 0, 7, 9, 37, 24, 30; муфт — 0, 1, 1, 2, 2, 3;
+    наложений кнопок и стрелок на кнопки — 0 во всех шахтах. Просмотрены все.
+- **Как запускалась Unity.** Связь хаба с ПК за сессию дважды пропадала. В 19:44 UTC ПК перезагрузился: в журнале Windows —
+  «Power Action Reboot, Reason: Kernel API», перед этим OpenSSH «terminated unexpectedly». Открытый у владельца Unity Editor
+  при этом закрылся.
+  - `on-remote … unity.ps1` при обрыве теряет обёртку, а процесс, запущенный через `Start-Process`, sshd убивает вместе с
+    сеансом (прежний помощник `gate3/detached.ps1` поэтому не работал; удалён).
+  - Ворота запускали `Tools/unity.ps1` через `Docs/Reports/gate3/wmi-run.ps1`: процесс создаётся через WMI
+    (`Win32_Process.Create`) и не зависит от сеанса ssh.
+  - Блокировку `Temp/unity.lock` держит хаб (`Temp/g3/urun3.sh`), пока в `gate3/<tag>.txt` нет строки `EXIT`. Unity
+    по-прежнему одна.
+- **Вопросы владельцу:**
+  1. Кнопки «Deliver» соседних готовых заводов идут «ёлочкой», а в 9:20 — тремя ступенями над рядом руд (снимки `*-b-ready-*`).
+     Можно вместо этого сократить подпись до «×24» с иконкой, когда кнопки тесно. Какой вариант лучше?
+  2. Фонари лагеря стоят у шкафа и стеллажа (`b ± 3`), как в старой раскладке на 7 столбцов. Подходит?
+  3. Вопросы WP5a и WP5b из этапа 2 остаются открытыми:
+     - раскладка труб;
+     - склад в шахте 1;
+     - цвет HP цепей;
+     - капсулы в `ReadyToContinue`;
+     - причина на «Sell all»;
+     - размеры подписей боковых кнопок;
+     - высота сведений завода;
+     - «Auto delivery: on» после DEV;
+     - рынок во весь экран.
+
+## ТЗ 2.2, WP7 «Баланс»: калибровка PriceRate и замер b5 (Claude, агент WP7, 15 октября 2026)
+
+- Отчёт — `Docs/Rework/BALANCE_FACTORIES.md`, данные — `Docs/Reports/balance-factories/` (`calibration.*`, `tune/`, `b5/`,
+  `factories-summary.json`, `factories-tables.md`, `playable/`). Ничего не закоммичено и не опубликовано, Unity не запускался.
+- **Модели и бот с заводами (§9):** `OutpostBot.TendFactories` — «Deliver» по всем готовым партиям, затем «Sell all»; так
+  делают бот (все политики) и модели аудита `free` (раз в 30 с), `active` (5 с), `idle` (5 мин); между шахтами карточки
+  улучшаются, как раньше. Выпуск в отчётах — только `FactoryMath.UnitsPerCycle` (запрос ревью этапа 1). В отчёт шахты
+  добавлены золото товара, продажи, ручные доставки, пропавший товар, заводы (циклы, автодоставка в начале и в конце) и
+  опыты отсутствия 1 и 3 ч.
+- **`PriceRate = 4`** (ориентир 5/16): перебор 16 значений, медиана шахт 2–5 у `free` по 12 seed — 4,94 мин при b4 4,96
+  (предел 4,22–5,70). Записано `gen_factory_rules.py --price-rate 4` (значение по умолчанию генератора), встроенные копии
+  пересобраны. `UnitsPerCycle`, правило `PriceFactor` и цены веток b4 не менялись.
+- **Замер b5** (`Audit_After`, перемерен после последней правки аудита): 24 кампании по 144 шахты, все успешны; `free` seed 1 —
+  19,07 → 19,63 ч. Тест `Campaign_FreePlayer_PacingWithinStageTargets` по §9 проходит (максимум без покупки 111,4 с, шахта 37);
+  отключённые условия этапов фактически выполняются.
+- **Playable (§14):** `PlayableBalance.Version = outpost-2.2-b5-playable`, числа p3 прежние; `PlayablePacingDraft` — 11 / 9 шахт
+  за 30 мин у `active` / `free`, как на b4.
+- **Правки тестов (§16.1):**
+  - `OutpostBalanceRegressionTests.Campaign_FreePlayer_PacingWithinStageTargets` — по §9 и §16.1 (д);
+  - новые `Bot_DeliversAndSellsGoods_InvariantsEveryTick`, `AuditModels_TendFactories_ReportGoods_AbsenceIsolated`;
+  - `OutpostBalanceAuditTests`: `Audit_After` → `balance-factories/b5/`, `Audit_TuneFactories`;
+  - файлы WP1, сломанные калибровкой: `FactoryCatalogTests` (`Rules_FileMatchesEmbeddedCopy_Version_PipesAndPrices`,
+    `Rules_Validate_RejectsBrokenRows`, `State_FactoryFields_RoundTripByteIdentical`) и `FactorySimulationTests`
+    (`Market_Zone2_ControlPrices_SellAccounting_Refusals`, `Market_SellAll_ByTypeNumber_PricesFromRunSnapshot`) — контрольные
+    цены пересчитаны под `PriceRate = 4` по приложению B п. 6 (молоко 8/5, 10 золота в шахте 2; сталь 120, 720 золота).
+- **Проверки:** ядро без фильтра — 2 635 тестов с черновиком, 2 634 прошли, 1 упал (`Rules_Validate_RejectsBrokenRows`, строки
+  со старым «1/8»; исправлено, `FactoryCatalogTests` 16/16), 8 Explicit пропущены; `gen_factory_rules.py --check` — OK;
+  встроенные копии совпадают с `Resources`.
+- **Вопросы владельцу** (подробно — BALANCE_FACTORIES.md, «Вопросы владельцу»):
+  - В1: шахта 37 у seed 4 (`free`, `idle`) — 121,3 с без доступной покупки (> 120; seed 1 — 111,4 с). Причина — цепи без груза
+    (`adapter-2`), от `PriceRate` не зависит. Ограничение не ослаблено;
+  - В2: автодоставка на шахтах 31–144 — 0,9 % заводов (порог 25 %); варианты `ManagerChanceMult`, `LowCardChanceMult`,
+    `ChestChances`; эликсир не ограничивает;
+  - В3: товар пропадает при завершении шахты — 14 % проданного у `free` онлайн и весь товар, сделанный за время отсутствия;
+  - В4: заводы с циклом от 10 мин (типы 8–20) не заканчивают ни одного цикла;
+  - В5: при `PriceRate = 4` товар — 55 % золота шахт 2–5; в пределе и значения от 5/4.
+
+## ТЗ 2.2, этап 1 сведён: ворота G2 (Claude, агент ворот, 15 октября 2026)
+
+- Этап 1 ТЗ 2.2 (`Docs/TZ/Cat_Miners_Factories_TZ_v2.2.md`, §17) — WP0 контракты → WP1 ядро, WP2 карта, WP3 карточки, WP4a арт
+  и звук заводов, WP4b арты карточек, WP6 сохранения и DevTools — сведён в одно целое. Ядро и Unity компилируются, тесты ядра
+  проходят все, кроме теста темпа: его по §9 и §16.1 (д) правит WP7 вместе с калибровкой. Изменения не закоммичены, ничего не
+  опубликовано.
+- Что есть после этапа 1:
+  - **WP0:** `factory_rules.json` (`factories-1`, `PriceRate 5/16`, `UnitsPerCycle 20`, циклы из JSON) и генератор
+    `Tools/Factories/gen_factory_rules.py`; `FactoryRules`, `FactoryCatalog`, `FactoryMath`/`FactoryQueries`. Контракт
+    состояния, событий и команд (`DeliverFactory`, `SellGoods`). Версии: схема 3, `outpost-2.2-r1`, `outpost-2.2-b5`,
+    `adapter-2`. Члены `IOutpostGame` с заглушками в контроллере. CORE_SPEC §16, RUNTIME_SPEC §9, UI_API §13, VIEW_API §11.
+  - **WP1:** ядро заводов (`OutpostSimulation.Factories.cs`):
+    - заводы создаются в `CreateRun` и сбрасываются при переходе; цепи → `FactoryUnlocked` → проверка автодоставки;
+    - ручной буфер `Ready`, автодоставка (в том числе от первой копии карточки и при загрузке), трубы, шаг 4б, сроки в
+      `NextEventTick`, остановка в `ReadyToContinue`;
+    - команды `DeliverFactory`/`SellGoods`, `FactoryOutput` в `TeamStats`, инварианты §10.2, DEV-методы;
+    - `FactorySimulationTests` — 23 теста; офлайн 3 ч шахты 140 с 15 автоматическими заводами — 65 мс.
+  - **WP2:** топология `wide-branching-mines-3`:
+    - 38 шахт списка §4.1 исправлены 44 обменами «завод ↔ блок r/x того же сектора», остальные 106 шахт побайтно прежние;
+    - валидатор проверяет оба случая §4.1, `FactoryRoutes` окончательный — маршруты у 1 232 из 1 232 заводов;
+    - `adapter-2` (у цепей груз 0), проверки токенов §3.1;
+    - эталон аудита пересчитан скриптом, прежний сохранён как `outpost_v2_audit_2.1.json`.
+  - **WP3:** `cards-3` — `manager-1`/`manager-2` = `FactoryOutput` 1/10 + 1/20·(L−1), `CardService.FactoryOutputBonus`,
+    39 английских имён (приложение A), `CARD_EFFECT_MAPPING.md`.
+  - **WP4a:** 20 зданий с кадрами работы, цепи и трещины, детали труб, товары 16×16 и 8×8, склад, `fx_chain_break`,
+    5 иконок, `PixelPalette.ByName`, 11 звуков. Сводные листы — `Docs/Reports/factories/art/`.
+  - **WP4b:** 39 артов карточек заводов. 22 прежних арта побайтно те же (`review_cards.py --check`).
+  - **WP6:** статус загрузки `Outdated` и `OutpostSaveService.ResetOutdated` (архив `pre-factories/` и новая кампания), ветка в
+    `LoadProfile`, DEV-кнопки заводов, `debugProfile` в `Save`/`Load`.
+- **Сделано на воротах:**
+  - выполнены запросы пакетов: `Editor/OutpostSetup.cs` читает конфиги через `ParseResources` (8 файлов); добавлен ключ
+    `outpost.toast.save_reset`; поправлены тесты без владельца, сломанные изменениями WP2 (список ниже);
+  - `OutpostTestHelpersB.ExtraViolations`: кошелёк теперь учитывает `GoodsSoldGold`; добавлена проверка «котики, их пути и груз
+    не заходят на footprint открытого завода»;
+  - `.meta` для 11 новых звуков — по шаблону остальных SFX, GUID как в `gen_meta.py`;
+  - `outpost_balance.json`: `Version` → `outpost-2.2-b5` (числа b4 не тронуты, §9, §10.1). В тестах WP7 по §16.1 (б) обновлены
+    только ожидания версии. Калибровку, тест темпа и `PlayableBalance.Version` оставил WP7;
+  - пересобраны встроенные конфиги: изменилась только версия баланса. Атлас пересобран: 2048×1024, 3 731 спрайт
+    (2 136 разных), hash `0befef2876ae0bde` не изменился. `gen_factory_rules.py --check` — OK; `build_topology.py --check` —
+    up to date; `gen_card_mapping.py --check` — актуальна; `review_cards.py --check` — 22/22;
+  - вопрос WP2 о run без снимка правил: так и задумано. `CreateRun` всегда кладёт снимок, сохранения схемы < 3 сбрасываются,
+    поэтому run без заводов бывает только в синтетических тестах.
+- **Проверки:**
+  - Ядро без фильтра (`run.ps1 -Instance gate`): **2 629 тестов, 2 628 прошли, 1 упал**, 7 Explicit пропущены. Упал
+    `Campaign_FreePlayer_PacingWithinStageTargets`: `audit.Success` по 144 шахтам выполнено, но медиана этапа 2–10 — 7,39 мин
+    при пределе (3; 7). Темп упал, потому что цепи больше не дают монет, а бот ещё не продаёт товар; это работа WP7 (§9).
+  - Unity `Compile -Target Ci`: exit 0, **0 ошибок**. Собраны Core, Runtime, Playable, DevTools, Editor, Tests.EditMode и
+    Tests.PlayMode. Новых предупреждений нет: 14 прежних — FacebookSDK, `Haptics`, `GooglePaymentsRuntime`. 11 новых `.ogg`
+    импортированы AudioImporter. Лог — `Docs/Reports/unity-compile.log`.
+  - Не запускались: Unity PlayMode и EditMode (ворота G3, WP8) и Unity `Validate`: проверка 144 шахт со стоящими заводами и
+    кампании бота есть в ядре.
+- **Правки существующих тестов по §16.1.** Ни одна проверка не удалена; у каждой правки комментарий-ссылка на ТЗ 2.2.
+  - WP1: `FactoryCatalogTests.State_FactoryFields_RoundTripByteIdentical` — завод шахты 2 теперь создаётся в `CreateRun`, тест
+    проверяет его как `Locked` и убирает перед сериализацией. `…Readers_UnitsPerCycleAndTransit…` — добавлена проверка снимка
+    правил.
+  - WP2:
+    - (а) `OutpostKitA.ExpectedUnits(hp, kind)` и `OutpostTestHelpersB.CargoUnitsOracle(hp, kind)`: у `s` груз 0;
+    - (б) `NewProfile` в обеих фикстурах пишет `SchemaVersion = OutpostIds.SchemaVersion`;
+    - (г) `MineTopologyMigrationTests` дополнительно проверяет, что перенесённая карта проходит валидатор;
+    - `MineTopologyTests.CampaignGeometry` ужесточён: стоящие заводы, груз `s` = 0, оба случая валидатора;
+    - новые тесты в `MineTopologyTests` и `OutpostImportTests` (§3.1).
+  - WP3 (а), `OutpostCardTests`:
+    - `Catalog_All61…`: у ca002 и ca014 теперь `FactoryOutput`;
+    - `Effects_TeamStats_EachAppliedOnce…`: урон и цена `s` без бонуса, добавлены проверки выпуска;
+    - `Zone2_ShaftChest_…_AndManagerBonusRaisesThatResource` → `…_AndFactoryCardRaisesOnlyItsOutput`;
+    - три новых теста `FactoryCards_*`.
+  - WP6:
+    - (б) `OutpostConfigTests.Versions_MatchTz`, `OutpostSaveTests.Envelope_HasAllFields_AndValidChecksum`,
+      `OutpostCoreSmokeTests.ConfigFiles_MatchEmbeddedDefaults_AndExactParsing`, `OutpostRewardTests.NewProfile_RewardRngIsStream5OfSeed`;
+    - (в) `PaymentDeliveryTests.V1MigratesLedgerAndV2RejectsNullLedger` заменён на
+      `OutdatedSchema1And2StartOverWithLedgerAndNullLedgerIsRejected(1|2)`; его последняя проверка перенесена без изменений.
+      Добавлены ещё два теста;
+    - новые тесты `OutpostSaveTests` по §10.2, §10.3 и §13.
+  - Ворота:
+    - `OutpostMathTests.Zone144_MaxStageGold_SumIsExactAbove2Pow53`: 13206982907366054057 → 7421129543330699456 — `controls`
+      нового эталона, §4.2;
+    - `OutpostSimulationTests.AllZones_EveryTargetHasExactHpAndCargo_SumsMatchAudit`: `CargoUnitsOracle(hp, kind)`, §16.1 (а);
+    - `OutpostTestHelpersB.ExtraViolations`: кошелёк с `GoodsSoldGold` (§6.4) и новая проверка footprint открытого завода (§4.1);
+    - `FactoryCatalogTests.Map_AllZones_RoutesDeterministic_…` ужесточён до «маршрут есть у всех 1 232 заводов»;
+    - `OutpostBalanceRegressionTests.ProfileB4_Values` и `B3SaveMidMine_…`: версия b5, §16.1 (б).
+- **Вопросы владельцу** (из результатов пакетов):
+  1. `NextEventTick` при работающих заводах дополнительно учитывает отметку `LastChangeTick + WatchdogTicks + 1`. Без неё при
+     застрявших котиках watchdog сработал бы только к концу цикла, а цикл длится до 8 ч. ТЗ §4.5 называет только `CycleEnd` и
+     `ArriveTick` (WP1).
+  2. Если у продажи несколько причин отказа, `no-factories` проверяется раньше `phase`: в шахте 1 после завершения кнопка
+     показывает «No factories in this mine», а не «Mine complete» (WP0).
+  3. В эталоне аудита `value_cap40_passes_necessary_bound_zone_count` упал с 61 до 0. Цепи больше не дают монет, и бюджета не
+     хватает, чтобы гарантированно довести «Оценку» до 40. Это данные для нового баланса (WP2).
+  4. При исправлении топологии 17 заводов в 15 шахтах переехали в соседнюю камеру через ствол, на 11–29 клеток. Шахты: 6, 7,
+     13, 23, 37, 102, 118, 122, 126, 132, 133, 136, 139, 140, 142; посчитано воротами по
+     `Docs/Reports/topology/factories.json`. Если заводы должны оставаться в своей камере, обмен можно ограничить расстоянием;
+     тогда сработает запасной путь «прорезать проход», он проверен (WP2).
+  5. Сохранения (WP6):
+     - если рядом с устаревшим файлом лежит файл будущей схемы, загрузка даёт `Incompatible`, а не `Outdated`;
+     - гемы прежней кампании, в том числе купленные, и отложенная реклама после сброса не переносятся;
+     - если не удалось записать архив, игра показывает `Fatal` и старые файлы не трогает.
+  6. Арт карточек (WP4b):
+     - у Fishery Manager — ручной безмен, у Foundry Manager — напольные весы, а не весы оценщика;
+     - у Steel Mill Foreman — очки поверх каски, у Apiary Foreman — шляпа пасечника поверх каски;
+     - лист `cards.png` ждёт утверждения (G5).
+  7. Арт и звук заводов (WP4a):
+     - атлас занят на 1 006 из 1 024 строк: следующее заметное добавление поднимет его до 2048×2048 (+8 МБ видеопамяти);
+     - анимация работы общая: три вида дыма;
+     - на вывеске склада ящик с монетой, а не весы;
+     - звуки проверены только анализом сигнала, на слух не прослушаны.
+  8. Для карточки уровня 0 добавлен ключ `cards.detail.mine_auto_missing` («(not collected)»); в §7.1 такого текста нет (WP3).
+- **Известные незакрытые места этапа 2:**
+  - `OutpostCardText` не знает `FactoryOutput`: окно карточки завода пока покажет сырой шаблон и пишет в `Loc.FormatErrors`
+    (WP5);
+  - позиции завода и склада в контроллере — заглушки; вида заводов, труб, склада и рынка нет; HUD не обрабатывает
+    `Selection.Warehouse`; после `SetSimulation` не снимаются `sim.Events` (WP5);
+  - бот и аудит не доставляют и не продают товар; `PlayableBalance.Version` ещё `outpost-2.1-b4-playable` (WP7, §9, §14);
+  - PlayMode-наборы не запускались (WP8);
+  - спецификации и ТЗ 2.1 не обновлены (WP9).
+- **Точка продолжения — этап 2:**
+  - WP5: вид заводов, труб и склада, `OutpostPickKind.Warehouse`, Market и окно рынка, нижняя панель из 6 кнопок, сведения
+    завода, окно карточки, стрелки, тосты, звук, ключи `Loc`, квесты playable;
+  - затем WP7: бот и аудит с заводами, калибровка `PriceRate`, тест темпа по §9, `PlayableBalance.Version`,
+    `BALANCE_FACTORIES.md`;
+  - WP8: PlayMode по §16.2 и снимки;
+  - WP9: ТЗ 2.1, спецификации, `PIXEL_STYLE_GUIDE`, `ART_NAMES.md`.
+  - Запросы пакетов этапа 1 к WP5, WP7, WP8 и WP9 — в их результатах.
+
+## ТЗ 2.2: заводы вместо месторождений — черновик (Claude, 15 октября 2026)
+
+- Запрос пользователя: написать ТЗ для Opus 5.5 (ultracode) — месторождения `s` (аметист, цитрин…) становятся заводами
+  товаров (молоко, дерево, сталь, корм…), закованными в цепи; у каждого своя труба до склада базы; рынок продаёт товар
+  за золото; прогресс-бар цикла из `MineShafts` JSON, кнопка «Deliver»; автодоставка — по уровню Common/Uncommon карточки
+  из токена `s` (`cardId`, `cardLevel`).
+- Файл: `Docs/TZ/Cat_Miners_Factories_TZ_v2.2.md`. **Не реализовано.** Решения владельца 15 октября внесены (§1.2): циклы —
+  как в JSON (8 с – 8 ч), баланс прохождения владелец меняет отдельно; цепи монет не дают, вся ценность — в продаже товара;
+  Common и Uncommon одинаково увеличивают выпуск товара, автодоставка — по уровню карточки из токена каждой шахты;
+  непроданный товар при переходе пропадает; Market — шестая кнопка нижней панели; список 20 заводов, товаров и 39 карточек
+  утверждён, названия на английском (приложение A).
+- Многоагентная проверка ТЗ (5 направлений, объединение, опровергающая перепроверка): 68 замечаний → 39 после объединения →
+  29 подтверждено, 10 опровергнуто. Главное: в 38 из 144 шахт стоящий завод перекрывает проход (топология
+  `wide-branching-mines-3` обязательна); шестая кнопка не помещалась (новые ширины нижней панели); автодоставка должна
+  включаться и от первой копии из сундука; сроки циклов — события ядра (`NextEventTick`); склад — постройка вида, маршрут
+  до `IntakeCell`; `UnitsPerCycle = 20`; цена через `CoinBase`; правила теста темпа и калибровки шахт 2–5; владение файлами.
+  Решение владельца Р9: игры нет в сторе — старые сохранения архивируются, игра начинается заново, миграций нет. Добавлен
+  §7.2 — картинки 39 карточек заводов. Второй и третий круги проверки (13 и 2 новых подтверждённых недочёта) внесены; ТЗ
+  готово. По команде пользователя начато внедрение (этап 1: WP0 → WP1/WP2/WP3/WP4/WP6 → ворота G2).
+
+## Обучение убрано из игры (Claude, 15 октября 2026)
+
+- Запрос пользователя: «Убери все туторы с игры». Убрано всё обучение основной игры: `OutpostTutorial` (10 шагов §15 —
+  автодобыча, ручной удар, сумка, золото, «Кирки», найм, выбор целей, награда, сброс, сохранённый бонус), подсказка
+  `TutorialHint` в HUD (наставник, лапка, рамка), кнопка «Skip tutorial», строка «Tutorial hints» в настройках (окно — 8 строк),
+  `IOutpostGame.SaveTutorialProgress`, ключи `outpost.tutorial.*` и `outpost.settings.tutorial`; из текстов Reset Progress и
+  DEV-сброса убрано «the tutorial will start again». Новая игра и сброс сразу запускают шахту 1.
+- Остаётся: учебная карточка ca001 первой доставки (награда и тост «First card», баланс не меняется); `Profile.Tutorial` в
+  сохранении — только совместимость, не читается (миграции нет, старые сохранения читаются); класс `TutorialHint` — для квестов
+  playable и старого режима. Старый режим (`GameController`/`TutorialController`, только редактор с `LegacyMode`) не тронут.
+- Playable: `PlayableDirector` больше ничего не выключает; `PlayableGuide` находит кнопки HUD через новый
+  `OutpostHud.FindTarget(id)` (имена `Target*` прежние). Квесты и подсказки playable не менялись.
+- Тесты: `OutpostHudTests.HudWindowsAndCommandsWork` (было `…AndTutorialWork`) проверяет, что в HUD нет подсказки, кнопки пропуска
+  и строки настроек; `PointerTapOnRock…` выбирает ближайший к базе камень без подсказки; `PlayableHooks…` и `PlayableTests` —
+  в HUD нет подсказки основной игры; генератор `OutpostStrikeEvidenceTests` больше не снимает `tutorial-player-strike.png`;
+  из остальных тестов убраны `Game.Tutorial.Skip()`.
+- Документы: ТЗ (вводная 15 октября, §4, §11.2, §14, §15 «Обучения нет», §17, §21), RUNTIME_SPEC §1–§6 и §8, UI_API §1–§3,
+  §10 и §12, CORE_SPEC §5, README_REWORK, VIEW_API, PLAYABLE_TZ, PIXEL_STYLE_GUIDE §6.5. Исходное состояние — коммит `a483c56`
+  репозитория `tigblack/Cats-Cute-Miner`; изменения не закоммичены. Сайт (GitHub Pages) не пересобирался — в нём обучение ещё есть.
+- Проверки (Unity 6000.3.11f1, `build/ci`): компиляция — 0 ошибок, новых предупреждений нет; PlayMode
+  `OutpostHudTests|OutpostRuntimeTests|OutpostStoreUiTests|OutpostCardsUiTests|EdgeIndicatorTests|CoreGameSmokeTests|
+  CameraExplorationTests|MineTopologyRuntimeTests|PlayableTests` + генераторы `OutpostEnglishUiEvidenceTests.SettingsScreens|
+  EnglishScreens` — **91/91**; после правки фокуса камеры `PointerTapOnRock` — 1/1; ядро (`Tools/CoreTests/run.ps1` без фильтра) —
+  **2 551/2 551**. Снимки `Docs/Reports/english-ui/01-hud.png`, `13-settings-play-time.png`, `14-settings-reset.png` просмотрены:
+  подсказки и кнопки пропуска нет, в настройках нет «Tutorial hints», в диалоге сброса нет фразы об обучении.
+- Замечание по инструменту: при длинном `-TestFilter` `unity.ps1` падает на архивации XML (`PathTooLongException`, имя файла
+  из фильтра > 260 символов) и возвращает код 1 даже при 91/91 — смотреть строку `tests total=…`.
+
 ## Магазин: скидка на гемы убрана (Claude, 14 октября 2026)
 
 - Запрос пользователя: «Убери в магазине скидку на кристаллы, на хард валюту». Скидкой был бонус первой покупки пакетов

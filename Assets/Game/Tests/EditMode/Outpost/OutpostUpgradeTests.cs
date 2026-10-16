@@ -11,8 +11,8 @@ namespace CatMiners.Tests.Outpost
     /// <summary>
     /// Локальные улучшения и смена экипировки во время шахты (ТЗ §6.5, §7.3, §9, §10.3, §12.2, §12.5, §14, §20
     /// «Обычные улучшения», «Пакетная покупка», «Замена полной сумки», «Смена шляпы»). Цены сверяются с независимой
-    /// формулой ceil(S(z)·CostZoneFactor(z)·BaseCost·Growth^L) профиля b4; золото для покупок даёт фикстура GiveGold
-    /// (согласованно с инвариантами §13).
+    /// формулой ceil(S(z)·CostZoneFactor(z)·BaseCost·Growth^L) профиля b4, с профиля b6 — ещё × K(z) из PaceScale (решение
+    /// владельца В4, 15 октября 2026; шахты 1–11 — K = 1); золото для покупок даёт фикстура GiveGold (согласованно с инвариантами §13).
     /// </summary>
     public class OutpostUpgradeTests
     {
@@ -82,7 +82,7 @@ namespace CatMiners.Tests.Outpost
             var batch = fx.Load(start);
             var q = Quote(batch, branch, BuyMode.Ten);
             Assert.AreEqual(10, q.Levels);
-            Assert.AreEqual(expected, q.Cost, "×10 = Σ ceil(S(z)·CostZoneFactor(z)·Base·Growth^L), L = 0..9");
+            Assert.AreEqual(expected, q.Cost, "×10 = Σ ceil(S(z)·CostZoneFactor(z)·K(z)·Base·Growth^L), L = 0..9");
             var r = batch.Submit(Buy(branch, BuyMode.Ten));
             Assert.IsTrue(r.Ok, r.Reason);
             Assert.AreEqual(10, r.Levels);
@@ -111,7 +111,8 @@ namespace CatMiners.Tests.Outpost
         public void BuyMax_ReachesCap_ExactCostBeyond2Pow53_ThenCapBlocks(UpgradeBranch branch)
         {
             // ТЗ §9: «Макс покупает все доступные уровни до cap… Покупка выше максимума невозможна»; zone144 — суммы > 2^53
-            // списываются точно (§12.2, §20 «Большие целые»).
+            // списываются точно (§12.2, §20 «Большие целые»). Профиль b6 (решение владельца В4, 15 октября 2026): цены × K(144),
+            // эталон NextCostOracle учитывает K; пределы веток прежние.
             const int zone = 144;
             var fx = Real(zone);
             var sim = WithGold(fx, Rich, 10 * S);

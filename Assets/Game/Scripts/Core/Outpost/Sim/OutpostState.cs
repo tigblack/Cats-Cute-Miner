@@ -38,6 +38,7 @@ namespace CatMiners.Core.Outpost
         public long NextRunSeq = 1;
         /// <summary>Реальное время активной игры (мс), без офлайна и тайм-скипов; сохраняется при начале заново.</summary>
         public long PlayTimeMs;
+        /// <summary>Прогресс удалённого обучения (до 15 октября 2026): поле только для совместимости сохранений, игра его не читает.</summary>
         public TutorialState Tutorial = new TutorialState();
         public OutpostSettings Settings = new OutpostSettings();
 
@@ -111,6 +112,7 @@ namespace CatMiners.Core.Outpost
         public bool Guaranteed;
     }
 
+    /// <summary>Формат прежнего обучения (удалено 15 октября 2026); хранится в сохранениях без изменений.</summary>
     [Serializable]
     public sealed class TutorialState
     {
@@ -189,6 +191,97 @@ namespace CatMiners.Core.Outpost
         public string WatchdogDiagnostic;
         /// <summary>Ключ выданной награды завершения (ReadyToContinue).</summary>
         public string CompletionRewardKey;
+
+        // ── Заводы, трубы, склад товаров (ТЗ 2.2 §4, §5, §6, §10.2; создаёт и сбрасывает WP1 в CreateRun/PrepareTransition) ──
+        /// <summary>
+        /// Снимок factory_rules.json на момент создания шахты (как <see cref="Balance"/>): цикл, выпуск, цена и трубы идущей шахты
+        /// берутся отсюда, правка конфигурации на неё не влияет. null — run создан без заводов (до ТЗ 2.2).
+        /// </summary>
+        public FactoryRules FactoryRules;
+        /// <summary>Заводы шахты (цели <c>s</c>) по возрастанию <see cref="FactoryState.TargetId"/>; пусто — в шахте заводов нет.</summary>
+        public List<FactoryState> Factories = new List<FactoryState>();
+        /// <summary>Партии в трубах по <see cref="PipeBatch.Seq"/>; партия удаляется в момент прибытия на склад.</summary>
+        public List<PipeBatch> PipeBatches = new List<PipeBatch>();
+        /// <summary>Номер следующей партии трубы (сквозной на шахту, с 1).</summary>
+        public long NextPipeBatchSeq = 1;
+        /// <summary>Склад товаров: GoodId → количество на складе (целое, без лимита). Нулевые записи допустимы.</summary>
+        public Dictionary<string, long> Warehouse = new Dictionary<string, long>(StringComparer.Ordinal);
+        /// <summary>GoodId → сколько единиц пришло на склад по трубам за шахту.</summary>
+        public Dictionary<string, long> GoodsArrived = new Dictionary<string, long>(StringComparer.Ordinal);
+        /// <summary>GoodId → сколько единиц продано за шахту.</summary>
+        public Dictionary<string, long> GoodsSold = new Dictionary<string, long>(StringComparer.Ordinal);
+        /// <summary>
+        /// Золото от продажи товара за шахту (§6.4): Wallet = TotalCredited + BonusCredited + GoodsSoldGold − TotalSpent.
+        /// В <see cref="TotalCredited"/> не входит (там только монеты).
+        /// </summary>
+        public BigInteger GoodsSoldGold;
+        /// <summary>GoodId → отладочная выдача на склад (DevTools «Goods ×100», только debug-профиль); вне debug пусто.</summary>
+        public Dictionary<string, long> DebugGoods = new Dictionary<string, long>(StringComparer.Ordinal);
+    }
+
+    /// <summary>Состояние завода (ТЗ 2.2 §4.3).</summary>
+    public enum FactoryStatus
+    {
+        /// <summary>Цепи целы: цель для котиков и ударов, HP &gt; 0.</summary>
+        Locked,
+        /// <summary>Идёт цикл [CycleStart, CycleEnd).</summary>
+        Working,
+        /// <summary>
+        /// Цикл окончен, партия ReadyUnits ждёт команды DeliverFactory (только ручной режим). Цикла нет: CycleStart = CycleEnd = −1;
+        /// отметка готовности — Tick события FactoryReady.
+        /// </summary>
+        Ready,
+        /// <summary>Шахта завершена (ReadyToContinue): циклов и отправок нет.</summary>
+        Stopped,
+    }
+
+    /// <summary>
+    /// Завод шахты (ТЗ 2.2 §10.2). Инвариант: Produced = ReadyUnits + Dispatched. Тип, товар и требование автодоставки —
+    /// в карте (<see cref="OutpostMap.Factory"/>); TypeId и GoodId скопированы сюда для учёта без карты.
+    /// </summary>
+    [Serializable]
+    public sealed class FactoryState
+    {
+        /// <summary>ID цели <c>s</c> (индекс якоря) — она же ID завода.</summary>
+        public int TargetId;
+        /// <summary>Тип JSON ("amethyst").</summary>
+        public string TypeId;
+        /// <summary>Товар ("milk").</summary>
+        public string GoodId;
+        public FactoryStatus Status;
+        /// <summary>Автодоставка включена (уровень карточки требования ≥ cardLevel токена). Включившись, в этой шахте не выключается.</summary>
+        public bool Automated;
+        /// <summary>
+        /// Тик начала идущего цикла. Цикл есть только в Working: [CycleStart, CycleEnd), CycleEnd = CycleStart + CycleTicks; в Locked,
+        /// Ready и Stopped оба поля −1 (ТЗ 2.2 §4.3; CORE_SPEC §16.4).
+        /// </summary>
+        public long CycleStart = -1;
+        /// <summary>Тик конца идущего цикла (CycleStart + CycleTicks, только Working); −1 — цикла нет.</summary>
+        public long CycleEnd = -1;
+        /// <summary>Готовая партия в состоянии Ready (единиц, зафиксировано в конце цикла); 0 — партии нет.</summary>
+        public int ReadyUnits;
+        /// <summary>Единиц товара произведено за шахту (накопительно).</summary>
+        public long Produced;
+        /// <summary>Единиц товара отправлено в трубу за шахту (накопительно).</summary>
+        public long Dispatched;
+        /// <summary>Завершённых циклов за шахту (отчёты баланса §9).</summary>
+        public int Cycles;
+    }
+
+    /// <summary>Партия товара в трубе (ТЗ 2.2 §5, §10.2).</summary>
+    [Serializable]
+    public sealed class PipeBatch
+    {
+        /// <summary>Номер партии (Run.NextPipeBatchSeq).</summary>
+        public long Seq;
+        /// <summary>Завод-отправитель (ID цели).</summary>
+        public int FactoryId;
+        public string GoodId;
+        public int Units;
+        /// <summary>Тик отправки в трубу.</summary>
+        public long DepartTick;
+        /// <summary>Тик прибытия на склад: DepartTick + TransitTicks маршрута завода.</summary>
+        public long ArriveTick;
     }
 
     [Serializable]
@@ -215,6 +308,8 @@ namespace CatMiners.Core.Outpost
         public int CardsGained;
         /// <summary>Эликсира получено в этой шахте.</summary>
         public long ElixirGained;
+        /// <summary>Выполненных команд DeliverFactory (ручных доставок) в этой шахте (отчёт §9).</summary>
+        public int ManualDeliveries;
     }
 
     [Serializable]

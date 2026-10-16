@@ -1,11 +1,11 @@
-# Вид поля режима CatOutpostV2 — API для контроллера, HUD, обучения и DevTools
+# Вид поля режима CatOutpostV2 — API для контроллера, HUD и DevTools
 
 > Дополнение 10 октября 2026: для новых шахт правила геометрии, ворот, масок навигации/затемнения и сохранений задаёт [MINE_TOPOLOGY.md](MINE_TOPOLOGY.md). Описания барьера по строке и исходного прямоугольного поля ниже применяются к старым сохранённым шахтам без `MapTopology`.
 
 Код: `Assets/Game/Scripts/Runtime/Outpost/View/` (пространство имён `CatMiners.Runtime.Outpost`, сборка `CatMiners.Runtime`).
 Контракты: `Docs/Rework/RUNTIME_SPEC.md` §2, §4; ТЗ 2.1 §5, §7, §8, §16. Имена спрайтов: `Docs/Rework/ART_NAMES.md`.
 Вид **только читает** `OutpostSimulation` и события `OutpostEvent`: экономику не меняет, анимация ничего не начисляет.
-`IOutpostGame` не расширялся.
+`IOutpostGame` для вида не расширялся; заводы и склад (ТЗ 2.2) добавили в него члены — RUNTIME_SPEC §9, здесь §11.
 
 ## 1. Файлы
 
@@ -92,11 +92,11 @@ Board.SetSelection(Selection);
 | `Vector3 BaseWorldPosition` | Центр лагеря → `IOutpostGame.BaseWorldPosition` |
 | `Vector3 DepotWorldPosition(int slot)` | Центр места склада → `IOutpostGame.DepotWorldPosition` |
 | `Vector3 DepotIndicatorWorldPosition(int slot)` | Над местом склада: «+N» и **старт полёта монет к кошельку** (`FlyLoot`) |
-| `Vector3 BranchWorldPosition(UpgradeBranch b)` | Постройка ветки (подсказки обучения) |
+| `Vector3 BranchWorldPosition(UpgradeBranch b)` | Постройка ветки в мире |
 | `bool TryGetWorkerWorldPosition(int id, out Vector3)` | Показанная точка котика → `IOutpostGame.TryGetWorkerWorldPosition` |
 | `bool TryGetTargetWorldPosition(int targetId, out Vector3)` | Центр footprint цели (у ворот — рамки) → `IOutpostGame.TryGetTargetWorldPosition` |
 | `Vector3 GateWorldPosition(int order)` | Центр рамки ворот (камера к воротам на `SectorOpened`: `order = e.Count − 1`) |
-| `OutpostCatView CatViewOf(int id)`, `OutpostTargetView TargetViewOf(int targetId)`, `BaseCampView Camp` | Виды (для сведений и обучения) |
+| `OutpostCatView CatViewOf(int id)`, `OutpostTargetView TargetViewOf(int targetId)`, `BaseCampView Camp` | Виды (для сведений) |
 
 ## 4. Выбор тапом
 
@@ -106,7 +106,8 @@ Board.SetSelection(Selection);
   |---|---|---|---|---|
   | `Worker` | WorkerId | 0 | клетка котика + голова (0,8 × 1) | `SelectWorker(id)` |
   | `Target` | Id цели (индекс якоря) | 1 | footprint (у ворот — 5 клеток рамки); снимается при разрушении | `SelectTarget(id)` |
-  | `Base` | 0 | 2 | двор построек (строки `Depth+3..Depth+5`) | `SelectBase()` → панель «База» |
+  | `Warehouse` | 0 | 2 | склад товаров (ТЗ 2.2, только в шахте с заводами), поверх двора | `SelectWarehouse()` → окно рынка |
+  | `Base` | 0 | 3 | двор построек (строки `Depth+3..Depth+5`) | `SelectBase()` → панель «База» |
 
   Груз на земле коллайдеров не имеет (ТЗ 5).
 - `static bool OutpostPickable.TryPickBest(Ray ray, out OutpostPickable best, float maxDistance = 500f)` — `RaycastNonAlloc`,
@@ -201,3 +202,60 @@ Board.SetSelection(Selection);
 - `CameraRig` не менялся: при подъёме корня на 6 он работает как есть; «камера кратко к воротам» и возврат — у контроллера.
 - Анимации на устройстве не проверены (ТЗ 16): ходьба с грузом, очередь, смена комплекта, расчистка водопада.
 - Экспорт сведений о цели (русское имя типа, причины недоступности) — у HUD через `PresentationCatalog`/`Loc`; вид имён не даёт.
+
+## 11. Заводы и трубы (ТЗ 2.2, контракт WP0; вид — WP5)
+
+Правила — `Docs/TZ/Cat_Miners_Factories_TZ_v2.2.md` §4, §5, §6.1, §11; ядро — CORE_SPEC §16. Вид по-прежнему только читает ядро.
+
+- **Что читать.** Завод = цель `s`: `Map.Factories[]` (`TargetId`, `TypeId`, `RouteCells` — клетки трубы от `OutletCell` до `IntakeCell`
+  включительно, `HasRoute`), состояние — `Run.Factories` (`Status` Locked/Working/Ready/Stopped, `Automated`, `CycleStart`, `CycleEnd`,
+  `ReadyUnits`), товар и цвет полосы — `Run.FactoryRules.ForGood(goodId).Color` (тон палитры, `PixelPalette.ByName`, WP4), партии в пути —
+  `Run.PipeBatches` (`FactoryId`, `GoodId`, `DepartTick`, `ArriveTick`): доля пути `(Now − DepartTick) / (ArriveTick − DepartTick)`, только
+  для отображения. HP цепей — `TargetState` цели, как у остальных целей.
+- **Footprint открытого завода** остаётся занят зданием (ядро WP1/WP2): цель с `Destroyed = true` и `Map.Factory(id) != null` не исчезает,
+  а меняет вид с цепей на здание (`factory_<good>`, `factory_<good>_work_0..3`, `factory_chains*`, ART_NAMES — WP4).
+- **События.** `FactoryUnlocked` — разлёт цепей (`fx_chain_break_*`), прокладка трубы (≤ 1 с); `FactoryReady` — полный бар и кнопка
+  «Deliver»; `GoodsDispatched` — капсула выходит из заглушки (`BatchSeq`); `GoodsArrived` — капсула исчезает у склада, «+N» с иконкой
+  `goods_<good>_8`; `FactoryAutomated` — значок AUTO; `GoodsSold` — монеты от склада к кошельку (HUD). Поля событий — CORE_SPEC §16.7.
+- **Поля цикла.** `CycleStart`/`CycleEnd` заданы только у `Working`; у `Ready`, `Locked` и `Stopped` оба −1 (CORE_SPEC §16.4). Полоса
+  `FactoryView`: `Working` — `(Now − CycleStart) / (CycleEnd − CycleStart)`, `Ready` — полная по `Status`, без деления. Момент готовности
+  партии — `Tick` события `FactoryReady`.
+- **Позиции и члены `OutpostBoardView` (`OutpostBoardView.Factories.cs`, WP5a):**
+
+  | Член | Назначение |
+  |---|---|
+  | `bool TryGetFactoryWorldPosition(int targetId, out Vector3)` | Центр footprint завода → `IOutpostGame.TryGetFactoryWorldPosition`; false — не завод |
+  | `bool TryGetFactoryTopWorldPosition(int targetId, out Vector3)` | Точка над полосой завода: под ней здание, над ней кнопка «Deliver ×N» и якорь стрелки |
+  | `Vector3 WarehouseWorldPosition` | Над входом труб склада: «+N» прибытия и старт полёта монет продажи → `IOutpostGame.WarehouseWorldPosition`; без склада — `BaseWorldPosition` |
+  | `Vector3 WarehouseCenterWorldPosition` | Середина здания склада (луч выбора, камера) |
+  | `PipeNetworkView Pipes` | Трубы и капсулы шахты: `Layout` (`PipeLayout`: `Pipes`, `MaxShared`, `Bands`, `Couplings`), `ActiveCapsules`, `HasPipe`, `IsShown`, `RevealProgress`, `VisibleCapsules`, `TryGetCapLocal` |
+  | `IReadOnlyList<FactoryView> FactoryViews`, `FactoryView FactoryViewOf(int targetId)` | Виды заводов шахты по возрастанию ID цели |
+  | `int GoodsPopupsActive` | Всплывающих «+N» у склада сейчас |
+
+  Склад — `BaseCampView`: столбец `baseCol + 4` заднего ряда, вход труб `fpipe_inlet` в пикселе (16, 4) холста склада (ART_NAMES §3.2);
+  в шахте без заводов склада нет. Фонари лагеря `camp_lantern_*` с ворот G3 стоят в переднем ряду столбцов `b − 3` и `b + 3` (перед
+  шкафом и стеллажом), а не на краях массива: в широких картах края — порода за девятью столбцами лагеря.
+- **Выбор тапом:** новый `OutpostPickKind.Warehouse` (коллайдер склада, приоритет 2 — между `Target` 1 и `Base` 3) →
+  `OutpostSelectionKind.Warehouse` → `SelectWarehouse()`; завод — `Target` с footprint и после открытия. Тапы разбирает
+  `OutpostInput.Tap(selection, world)`: ручной `Ready` — доставка, цепи закрытого завода — удар кирки, остальные открытые — сведения.
+- **Экранная часть (`FactoryOverlay`, `OutpostInput.Factories`):** кнопки «Deliver ×N» над готовыми ручными заводами (до 15) и стрелки у
+  четырёх краёв поля к готовым заводам за экраном (иконка товара, число); тап по стрелке подводит камеру. Живёт в `SafeArea` HUD перед
+  `ToastBg`; полоса стрелок — между нижним и верхним отступами HUD, при открытых сведениях её низ поднят до `Hud.TryGetInfoTop`.
+  Здание завода — два столбца, а кнопка «Deliver ×N» шире. Правило раскладки (решение владельца 15 октября 2026 «сокращать в
+  тесноте»; прежняя «ёлочка» на 2–3 ряда снята): кнопка стоит над полосой своего завода, у верхнего края полосы поля — ниже, на
+  своём здании; если полная кнопка легла бы на полную кнопку соседнего готового завода, обе сокращаются до иконки и «×N»
+  (`factories.deliver_count`) и остаются на месте — не выше одного ряда клеток над зданием; задевающие соседей кнопки (завод у
+  края экрана) сдвигаются по горизонтали в пределах ширины здания и экрана, вверх — никогда; кнопка, которой и так не нашлось
+  места, не показывается (`DroppedButtons`; на шахтах кампании 0 — тест обхода камеры). Стрелка у края обходит кнопки и заводы на
+  экране — полосу цикла, колесо, здание (`OutpostBoardView.TryGetFactoryWorldBounds`; свой завод не мешает): боковая уходит по
+  высоте, верхняя и нижняя — вбок, в ближайшее свободное место; нет места — остаётся против завода (`ArrowBlocked`). Тосты
+  «<Factory> unlocked!» и «<Factory> now delivers automatically» показывает он же (`Hud.Toast`). Тексты и иконки — `FactoryText`
+  (`FactoryName`, `GoodName`, `GoodIcon`, `GoodIconSmall`, `DeliverLabel`, `DeliverCount`, `Reason`) по разделу `Loc` Factories
+  (`Loc.Factories.cs`).
+- **Звук.** Новые `OutpostViewCue`: `ChainBreak` (`FactoryUnlocked`), `FactoryReady` (только ручной режим, не чаще 0,5 с),
+  `FactoryAutomated`, `PipeSend` (`GoodsDispatched`; `Automatic`, `Count` — автоматических заводов в кадре), `GoodsArrive` (`Count` — единиц),
+  `GoodsSold` (`Value` — золото). Новые поля `OutpostViewCueArgs`: `Chains` (удар `Hit`/`PlayerStrike` по цепям закрытого завода — звук
+  цепей; `Material` цели остаётся `Metal`), `Automatic`, `ItemId` (товар). `OutpostAudio` → `Sfx.HitChain`, `StrikeChain`, `ChainBreak`,
+  `FactoryReady`, `PipeSend(bool automatic)`, `GoodsArrive`, `GoodsSell`; `FactoryAutomated` — `Sfx.Unlock`.
+- **Порядок слоёв:** трубы над полом, под котиками и грузом; под неразрушенными камнями скрыты их спрайтом; капсулы — пул ≤ 60, без
+  выделений в кадре.

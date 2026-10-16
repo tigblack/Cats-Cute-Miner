@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
-using CatMiners.Core.Text;
 using CatMiners.Core.Sim;
 using CatMiners.Runtime;
 using CatMiners.Runtime.Outpost;
@@ -108,54 +107,9 @@ namespace CatMiners.Tests
             }
         }
 
-        IEnumerator RenderTutorial()
-        {
-            var camera = Game.Rig.Cam;
-            var canvas = Game.Hud.GetComponent<Canvas>();
-            var scaler = Game.Hud.GetComponent<CanvasScaler>();
-            var texture = new RenderTexture(1080, 1920, 24) { filterMode = FilterMode.Point };
-            var previous = camera.targetTexture;
-            bool controllerEnabled = Game.enabled, hudEnabled = Game.Hud.enabled;
-            try
-            {
-                // Сохраняем выбранный шаг при смене технического viewport для рендера; TutorialHint сам перепроецирует указатель.
-                Game.enabled = false;
-                Game.Hud.enabled = false;
-                camera.targetTexture = texture;
-                scaler.enabled = false;
-                canvas.renderMode = RenderMode.ScreenSpaceCamera;
-                canvas.worldCamera = camera;
-                canvas.planeDistance = 1;
-                // Подсказка поля проецируется в LateUpdate: ждём перерасчёта рамки и лапки в размере portrait.
-                yield return PlayModeUtil.WaitReal(0.4f);
-                Game.Hud.RefreshNow();
-                Canvas.ForceUpdateCanvases();
-                yield return null;
-                Render("tutorial-player-strike.png");
-            }
-            finally
-            {
-                camera.targetTexture = previous;
-                canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-                canvas.worldCamera = null;
-                scaler.enabled = true;
-                Game.Hud.enabled = hudEnabled;
-                Game.enabled = controllerEnabled;
-                texture.Release();
-                UnityEngine.Object.Destroy(texture);
-            }
-        }
-
         [UnityTest]
         public IEnumerator Zone1Arena_And_PlayerStrikeFrames()
         {
-            Game.State.Profile.Tutorial.Seen.Add(OutpostTutorial.StepAuto);
-            yield return PlayModeUtil.WaitReal(1.2f);
-            Game.Hud.RefreshNow();
-            Assert.That(Game.Tutorial.CurrentHint, Is.EqualTo(Loc.T("outpost.tutorial.strike")));
-            Assert.That(Game.Tutorial.StrikeTargetId, Is.GreaterThanOrEqualTo(0));
-            yield return RenderTutorial();
-            Game.Tutorial.Skip();
             yield return Advance(14);
             // Обзор арены: середина карты zone1.
             Game.Rig.FocusOn(Game.Board.BaseFocusZ + 7f);

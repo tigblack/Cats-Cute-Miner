@@ -96,6 +96,9 @@ namespace CatMiners.Tests.Outpost
         // MineTopologyTests covers the current branching campaign separately.
         public static OutpostConfigSet Configs => s_Configs ?? (s_Configs = OutpostConfigSet.LoadDefault().WithTopologies(null));
         public static OutpostBalanceConfig Balance => Configs.Balance;
+        static OutpostBalanceConfig s_BaseBalance;
+        /// <summary>Профиль без множителя темпа шахт K(z) (b6 → числа b5): базовые формулы §12 и аудит источника.</summary>
+        public static OutpostBalanceConfig BaseBalance => s_BaseBalance ?? (s_BaseBalance = Balance.WithoutPace());
         public static EquipmentCatalog Catalog => Configs.Equipment;
         public static StageRewardConfig Rewards => Configs.Rewards;
         public static LevelOverrides Overrides => Configs.Overrides;
@@ -258,8 +261,13 @@ namespace CatMiners.Tests.Outpost
             return (long)root;
         }
 
-        /// <summary>ТЗ §12.4: TotalCargoUnits = max(2, ceil(MaxHp / 10)).</summary>
+        /// <summary>ТЗ §12.4: TotalCargoUnits = max(2, ceil(MaxHp / 10)) — для r/x/p (у цепей завода s груза нет, см. перегрузку с видом).</summary>
         public static int ExpectedUnits(long maxHp) => (int)Math.Max(2, (maxHp + 9) / 10);
+
+        /// <summary>
+        /// ТЗ 2.2 §4.2 и §16.1 (а), адаптер adapter-2: цепи завода (s) монет не дают — TotalCargoUnits = 0; r/x/p — max(2, ceil(MaxHp / 10)).
+        /// </summary>
+        public static int ExpectedUnits(long maxHp, char kind) => kind == 's' ? 0 : ExpectedUnits(maxHp);
 
         /// <summary>ТЗ §12.4: CargoGoldValue = max(1, ceil(5 · 1.2^(z-1) · BaseCoinValueFactor · FinalValueMultiplier)).</summary>
         public static BigInteger ExpectedCoinValue(int zone, FracA valueFactor, FracA finalValue)
@@ -272,8 +280,25 @@ namespace CatMiners.Tests.Outpost
         /// ТЗ §12.2 и профиль b4: NextCost(z, L) = ceil(S(z) · CostZoneFactor(z) · BaseCost · Growth^L), S(z) = 1.2^(z−1),
         /// CostZoneFactor(z) = 1 + (z−1)/10; одно итоговое округление.
         /// </summary>
-        public static BigInteger ExpectedCost(int zone, FracA baseCost, FracA growth, int level) =>
-            (FracA.Of(6, 5).Pow(zone - 1) * (FracA.Of(1) + FracA.Of(zone - 1, 10)) * baseCost * growth.Pow(level)).Ceil();
+        /// <summary>
+        /// Независимая цена уровня: ceil(1.2^(z−1) · (1 + (z−1)/10) · BaseCost · Growth^L), с paced — ещё × K(z) профиля b6
+        /// (<see cref="ExpectedPace"/>; решение владельца В4, 15 октября 2026).
+        /// </summary>
+        public static BigInteger ExpectedCost(int zone, FracA baseCost, FracA growth, int level, bool paced = false) =>
+            (FracA.Of(6, 5).Pow(zone - 1) * (FracA.Of(1) + FracA.Of(zone - 1, 10)) * baseCost * growth.Pow(level) *
+             (paced ? ExpectedPace(zone) : FracA.Of(1))).Ceil();
+
+        static JArray s_PaceScale;
+
+        /// <summary>
+        /// K(z) профиля b6 прямо из массива PaceScale встроенного outpost_balance.json (элемент z−1; нет элемента — 1), мимо
+        /// OutpostBalanceConfig.ZonePace (Docs/Rework/BALANCE_FACTORIES.md, «Темп b6: 3 цикла»).
+        /// </summary>
+        public static FracA ExpectedPace(int zone)
+        {
+            if (s_PaceScale == null) s_PaceScale = (JArray)JObject.Parse(OutpostConfigSet.DefaultBalanceJson)["PaceScale"] ?? new JArray();
+            return zone >= 1 && zone <= s_PaceScale.Count ? FracA.Parse((string)s_PaceScale[zone - 1]) : FracA.Of(1);
+        }
 
         public static BigInteger ISqrt(BigInteger n)
         {
@@ -321,7 +346,8 @@ namespace CatMiners.Tests.Outpost
             return new OutpostProfile
             {
                 ModeId = "CatOutpostV2",
-                SchemaVersion = 1,
+                // ТЗ 2.2 §10.1 и §16.1 (б): фикстура пишет текущую схему (3), как StageProgressionService.NewGame.
+                SchemaVersion = OutpostIds.SchemaVersion,
                 Seed = seed,
                 RewardRng = new Pcg32(seed, 5),
                 RewardRngVersion = 1,

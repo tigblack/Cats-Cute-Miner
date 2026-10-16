@@ -5,13 +5,18 @@ using System.Numerics;
 namespace CatMiners.Core.Outpost
 {
     /// <summary>
-    /// Инварианты учёта (ТЗ 7.3, 17; CORE_SPEC §13): проверяются в тестах после событий и save/load, при загрузке и записи.
-    /// Возвращает список нарушений (пусто — состояние согласовано). Карта и каталог необязательны: без них
+    /// Инварианты учёта (ТЗ 7.3, 17; CORE_SPEC §13; заводы — ТЗ 2.2 §10.2): проверяются в тестах после событий и save/load, при
+    /// загрузке и записи. Возвращает список нарушений (пусто — состояние согласовано). Карта и каталог необязательны: без них
     /// пропускаются проверки, которым нужны рабочие клетки/ворота или уровни предметов.
     /// </summary>
     public static class OutpostInvariants
     {
-        public static List<string> Check(OutpostGameState state, OutpostMap map = null, EquipmentCatalog catalog = null, CardCatalog cards = null)
+        /// <param name="debugProfile">
+        /// Снимок debug-профиля (слот Debug): разрешена отладочная выдача товара <see cref="OutpostRun.DebugGoods"/> (DevTools
+        /// «Goods ×100», ТЗ 2.2 §13). Вне debug-профиля DebugGoods должен быть пуст.
+        /// </param>
+        public static List<string> Check(OutpostGameState state, OutpostMap map = null, EquipmentCatalog catalog = null, CardCatalog cards = null,
+            bool debugProfile = false)
         {
             var errors = new List<string>();
             if (state == null)
@@ -21,7 +26,11 @@ namespace CatMiners.Core.Outpost
             }
             CheckProfile(state.Profile, catalog, errors);
             CheckCards(state.Profile, cards, errors);
-            if (state.Run != null) CheckRun(state.Run, map, errors, TeamCapBonus(state.Profile, cards));
+            if (state.Run != null)
+            {
+                CheckRun(state.Run, map, errors, TeamCapBonus(state.Profile, cards));
+                CheckFactories(state.Run, map, errors, debugProfile);
+            }
             return errors;
         }
 
@@ -118,7 +127,9 @@ namespace CatMiners.Core.Outpost
                 return;
             }
             // Кошелёк и учёт.
-            if (run.Wallet != run.TotalCredited + run.BonusCredited - run.TotalSpent) errors.Add("run.Wallet ≠ TotalCredited + BonusCredited − TotalSpent");
+            // ТЗ 2.2 §6.4: золото продажи товара — отдельное слагаемое; TotalCredited остаётся золотом монет.
+            if (run.Wallet != run.TotalCredited + run.BonusCredited + run.GoodsSoldGold - run.TotalSpent)
+                errors.Add("run.Wallet ≠ TotalCredited + BonusCredited + GoodsSoldGold − TotalSpent");
             if (run.BonusCredited.Sign < 0) errors.Add("run.BonusCredited < 0");
             if (run.Wallet.Sign < 0) errors.Add("run.Wallet < 0");
             if (run.TotalSpent.Sign < 0) errors.Add("run.TotalSpent < 0");
@@ -360,6 +371,150 @@ namespace CatMiners.Core.Outpost
                     if (w.Action != null) errors.Add("ReadyToContinue: таймер работника " + w.Id);
                 }
             }
+        }
+
+        /// <summary>
+        /// Заводы, трубы, склад и рынок (ТЗ 2.2 §10.2): у завода Produced = ReadyUnits + Dispatched; по товару отправлено = в трубах +
+        /// GoodsArrived; GoodsArrived + DebugGoods = Warehouse + GoodsSold; вне debug DebugGoods пуст; GoodsSoldGold = Σ проданного ×
+        /// цена шахты; у Locked HP &gt; 0, у открытого HP = 0; состояния согласованы с фазой и сроками (цикл [CycleStart, CycleEnd)
+        /// длиной CycleTicks — только у Working, у Locked/Ready/Stopped оба поля −1). Кошелёк — в CheckRun.
+        /// «Automated не снимается» — свойство переходов, его проверяют тесты (в снимке видно только значение флага).
+        /// </summary>
+        static void CheckFactories(OutpostRun run, OutpostMap map, List<string> errors, bool debugProfile)
+        {
+            if (run.GoodsSoldGold.Sign < 0) errors.Add("run.GoodsSoldGold < 0");
+            if (run.Counters != null && run.Counters.ManualDeliveries < 0) errors.Add("Counters.ManualDeliveries < 0");
+            var factories = run.Factories;
+            var pipes = run.PipeBatches;
+            if (factories == null || pipes == null || run.Warehouse == null || run.GoodsArrived == null || run.GoodsSold == null || run.DebugGoods == null)
+            {
+                errors.Add("run: нет полей заводов (Factories, PipeBatches, Warehouse, GoodsArrived, GoodsSold, DebugGoods)");
+                return;
+            }
+            var rules = run.FactoryRules;
+            if (rules == null && (factories.Count > 0 || pipes.Count > 0)) errors.Add("run.FactoryRules: null при заводах");
+            bool stopped = run.Phase == RunPhase.ReadyToContinue;
+
+            var targetById = new Dictionary<int, TargetState>();
+            foreach (var t in run.Targets) targetById[t.Id] = t;
+            var byId = new Dictionary<int, FactoryState>();
+            var dispatched = new Dictionary<string, long>(System.StringComparer.Ordinal);
+            for (int i = 0; i < factories.Count; i++)
+            {
+                var f = factories[i];
+                string who = "factory " + (f == null ? "null" : S(f.TargetId));
+                if (f == null)
+                {
+                    errors.Add("run.Factories: null");
+                    continue;
+                }
+                if (i > 0 && factories[i - 1] != null && f.TargetId <= factories[i - 1].TargetId) errors.Add("run.Factories: не по возрастанию TargetId");
+                byId[f.TargetId] = f;
+                var rule = rules?.ForType(f.TypeId);
+                if (rules != null && rule == null) errors.Add(who + ": тип " + f.TypeId + " не в factory_rules");
+                if (rule != null && rule.GoodId != f.GoodId) errors.Add(who + ": товар " + f.GoodId + " ≠ " + rule.GoodId);
+                if (f.ReadyUnits < 0 || f.Produced < 0 || f.Dispatched < 0 || f.Cycles < 0) errors.Add(who + ": отрицательные счётчики");
+                if (f.Produced != f.ReadyUnits + f.Dispatched) errors.Add(who + ": Produced " + S(f.Produced) + " ≠ ReadyUnits + Dispatched " + S(f.ReadyUnits + f.Dispatched));
+                if (f.GoodId != null) AddTo(dispatched, f.GoodId, f.Dispatched);
+
+                if (!targetById.TryGetValue(f.TargetId, out var ts)) errors.Add(who + ": нет цели");
+                else
+                {
+                    if (ts.Kind != 's') errors.Add(who + ": цель вида " + ts.Kind + ", ожидался s");
+                    if (f.Status == FactoryStatus.Locked && ts.RemainingHpUnits <= 0) errors.Add(who + ": Locked при HP = 0");
+                    if (f.Status != FactoryStatus.Locked && ts.RemainingHpUnits != 0) errors.Add(who + ": открыт при HP > 0");
+                }
+                if (map != null)
+                {
+                    var mf = map.Factory(f.TargetId);
+                    if (mf == null) errors.Add(who + ": нет завода в карте");
+                    else if (mf.TypeId != f.TypeId) errors.Add(who + ": тип " + f.TypeId + " ≠ карте " + mf.TypeId);
+                }
+
+                switch (f.Status)
+                {
+                    case FactoryStatus.Locked:
+                        if (f.Produced != 0 || f.Cycles != 0 || f.CycleStart != -1 || f.CycleEnd != -1) errors.Add(who + ": Locked с циклами или выпуском");
+                        break;
+                    case FactoryStatus.Working:
+                        if (stopped) errors.Add(who + ": Working в ReadyToContinue");
+                        if (f.ReadyUnits != 0) errors.Add(who + ": Working с готовой партией");
+                        if (f.CycleStart < 0 || f.CycleEnd <= f.CycleStart) errors.Add(who + ": цикл [" + S(f.CycleStart) + ", " + S(f.CycleEnd) + ")");
+                        else if (rule != null && f.CycleEnd - f.CycleStart != rule.CycleTicks) errors.Add(who + ": длительность цикла ≠ CycleSec × 10^6");
+                        if (!stopped && f.CycleEnd <= run.Now) errors.Add(who + ": просроченный конец цикла " + S(f.CycleEnd) + " ≤ Now " + S(run.Now));
+                        break;
+                    case FactoryStatus.Ready:
+                        if (stopped) errors.Add(who + ": Ready в ReadyToContinue");
+                        if (f.ReadyUnits <= 0) errors.Add(who + ": Ready без партии");
+                        if (f.Automated) errors.Add(who + ": автоматический завод ждёт доставки");
+                        // Цикл есть только в Working (CORE_SPEC §16.4): у готовой партии CycleStart = CycleEnd = −1.
+                        if (f.CycleStart != -1 || f.CycleEnd != -1) errors.Add(who + ": Ready с циклом [" + S(f.CycleStart) + ", " + S(f.CycleEnd) + ")");
+                        break;
+                    case FactoryStatus.Stopped:
+                        if (!stopped) errors.Add(who + ": Stopped вне ReadyToContinue");
+                        if (f.CycleStart != -1 || f.CycleEnd != -1) errors.Add(who + ": Stopped с циклом");
+                        break;
+                }
+            }
+            if (map != null && rules != null)
+                foreach (var mf in map.Factories)
+                    if (!byId.ContainsKey(mf.TargetId)) errors.Add("factory " + S(mf.TargetId) + ": завод карты без состояния");
+
+            // Трубы.
+            var inPipes = new Dictionary<string, long>(System.StringComparer.Ordinal);
+            long prev = 0;
+            foreach (var b in pipes)
+            {
+                string who = "pipe " + (b == null ? "null" : S(b.Seq));
+                if (b == null)
+                {
+                    errors.Add("run.PipeBatches: null");
+                    continue;
+                }
+                if (b.Seq <= prev) errors.Add("run.PipeBatches: не по возрастанию Seq");
+                prev = b.Seq;
+                if (b.Seq < 1 || b.Seq >= run.NextPipeBatchSeq) errors.Add(who + ": Seq вне [1, NextPipeBatchSeq)");
+                if (b.Units <= 0) errors.Add(who + ": Units ≤ 0");
+                if (b.ArriveTick < b.DepartTick) errors.Add(who + ": ArriveTick < DepartTick");
+                if (b.DepartTick > run.Now) errors.Add(who + ": отправлена в будущем");
+                if (!stopped && b.ArriveTick <= run.Now) errors.Add(who + ": просроченное прибытие " + S(b.ArriveTick) + " ≤ Now " + S(run.Now));
+                if (!byId.TryGetValue(b.FactoryId, out var f)) errors.Add(who + ": неизвестный завод " + S(b.FactoryId));
+                else if (f.GoodId != b.GoodId) errors.Add(who + ": товар " + b.GoodId + " ≠ товару завода " + f.GoodId);
+                if (b.GoodId != null) AddTo(inPipes, b.GoodId, b.Units);
+            }
+            if (run.NextPipeBatchSeq < 1) errors.Add("run.NextPipeBatchSeq < 1");
+
+            // Учёт товара по каждому товару.
+            var goods = new SortedSet<string>(System.StringComparer.Ordinal);
+            foreach (var d in new[] { dispatched, inPipes, run.Warehouse, run.GoodsArrived, run.GoodsSold, run.DebugGoods })
+                foreach (var kv in d)
+                {
+                    if (kv.Key == null) continue;
+                    goods.Add(kv.Key);
+                    if (kv.Value < 0) errors.Add("товар " + kv.Key + ": отрицательное количество");
+                }
+            var soldGold = System.Numerics.BigInteger.Zero;
+            foreach (string g in goods)
+            {
+                long sent = Get(dispatched, g), pipe = Get(inPipes, g), arrived = Get(run.GoodsArrived, g), debug = Get(run.DebugGoods, g);
+                long stock = Get(run.Warehouse, g), sold = Get(run.GoodsSold, g);
+                if (sent != pipe + arrived) errors.Add("товар " + g + ": отправлено " + S(sent) + " ≠ в трубах " + S(pipe) + " + пришло " + S(arrived));
+                if (arrived + debug != stock + sold)
+                    errors.Add("товар " + g + ": пришло " + S(arrived) + " + отладка " + S(debug) + " ≠ на складе " + S(stock) + " + продано " + S(sold));
+                if (!debugProfile && debug != 0) errors.Add("товар " + g + ": DebugGoods вне debug-профиля");
+                if (rules != null && rules.ForGood(g) == null) errors.Add("товар " + g + ": нет в factory_rules");
+                if (sold > 0) soldGold += sold * FactoryQueries.Price(run, g);
+            }
+            if (rules != null && run.Balance != null && soldGold != run.GoodsSoldGold)
+                errors.Add("run.GoodsSoldGold " + run.GoodsSoldGold + " ≠ Σ проданного × цена " + soldGold);
+        }
+
+        static long Get(Dictionary<string, long> d, string key) => d.TryGetValue(key, out long v) ? v : 0;
+
+        static void AddTo(Dictionary<string, long> d, string key, long value)
+        {
+            d.TryGetValue(key, out long v);
+            d[key] = v + value;
         }
 
         static void CheckUnit(CargoUnit u, string where, Dictionary<int, TargetState> targets, HashSet<long> keys, List<string> errors)

@@ -2,9 +2,15 @@ using UnityEngine;
 
 namespace CatMiners.Runtime.Outpost
 {
-    /// <summary>Presentation-only cues. Frequent logistics have dedicated, bounded voices.</summary>
+    /// <summary>
+    /// Presentation-only cues. Frequent logistics have dedicated, bounded voices. Factory cues (TZ 2.2 §11) go through Sfx limits:
+    /// chain hits, chain break, ready ping (≥ 0.5 s), pipe send (automatic quieter, silent above three automated factories on
+    /// screen), arrival (≥ 0.15 s) and one sale sound per command.
+    /// </summary>
     public sealed class OutpostAudio
     {
+        /// <summary>Автодоставка молчит, когда в кадре больше стольких автоматических заводов (короткие циклы не шумят фоном).</summary>
+        public const int MaxAudibleAutomated = 3;
         readonly Sfx m_Sfx;
         readonly AudioSource m_Step;
         readonly AudioSource[] m_Deposit = new AudioSource[2];
@@ -50,8 +56,23 @@ namespace CatMiners.Runtime.Outpost
                     int slot = Mathf.Clamp(args.Slot, 0, 1);
                     float pitch = 0.95f + Mathf.Min(0.2f, (float)System.Numerics.BigInteger.Log(System.Numerics.BigInteger.Max(1, args.Value), 10) * 0.03f);
                     PlayVoice(m_Deposit[slot], m_Coin, 0.28f, pitch); break;
-                case OutpostViewCue.Hit: m_Sfx.Hit(args.Material); break;
-                case OutpostViewCue.PlayerStrike: m_Sfx.PlayerStrike(args.Material); break;
+                case OutpostViewCue.Hit:
+                    if (args.Chains) m_Sfx.HitChain();
+                    else m_Sfx.Hit(args.Material);
+                    break;
+                case OutpostViewCue.PlayerStrike:
+                    if (args.Chains) m_Sfx.StrikeChain();
+                    else m_Sfx.PlayerStrike(args.Material);
+                    break;
+                case OutpostViewCue.ChainBreak: m_Sfx.ChainBreak(); break;
+                case OutpostViewCue.FactoryReady: m_Sfx.FactoryReady(); break;
+                case OutpostViewCue.FactoryAutomated: m_Sfx.Unlock(); break;
+                case OutpostViewCue.PipeSend:
+                    if (args.Automatic && args.Count > MaxAudibleAutomated) return;
+                    m_Sfx.PipeSend(args.Automatic);
+                    break;
+                case OutpostViewCue.GoodsArrive: m_Sfx.GoodsArrive(); break;
+                case OutpostViewCue.GoodsSold: m_Sfx.GoodsSell(); break;
                 case OutpostViewCue.TargetBroken: m_Sfx.Break(); break;
                 case OutpostViewCue.SectorOpened: m_Sfx.GateOpen(); break;
                 case OutpostViewCue.TeamGathered: m_Sfx.ExitOpen(); break;

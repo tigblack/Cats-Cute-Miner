@@ -9,7 +9,9 @@ namespace CatMiners.Runtime.Outpost
     /// жёлоба, приёмный склад со светом приёма, индикатор обслуживания над каждым местом (доля текущего Unload-действия,
     /// иконка склада и фиксированная стоимость обслуживаемой порции), ящики с монетами по доле доставленного груза шахты,
     /// доска найма / верстак / стеллаж / вагонетка по ступеням локальных веток, шкаф (открыт, когда есть ненадетые предметы),
-    /// фонари и вывеска. Тап по постройкам — выбор «База». Лагерь не перекрашивается темами. Только вид: склад и золото — ядро.
+    /// фонари и вывеска. Тап по постройкам — выбор «База». Склад товаров (ТЗ 2.2 §6.1, только в шахте с заводами) — столбец
+    /// baseCol + 4 заднего ряда: пустой или с товаром, вход труб на коньке, свой коллайдер <see cref="OutpostPickKind.Warehouse"/>
+    /// (тап — рынок). Лагерь не перекрашивается темами. Только вид: склад и золото — ядро.
     /// Координаты — локальные в корне поля (строки лагеря z = −0,5…−2,5, двор −3…−6).
     /// </summary>
     public sealed class BaseCampView : MonoBehaviour
@@ -36,6 +38,10 @@ namespace CatMiners.Runtime.Outpost
         HpBar[] m_SlotBar = new HpBar[OutpostIds.DepotSlotCount];
         Label3D[] m_SlotValue = new Label3D[OutpostIds.DepotSlotCount];
         SpriteRenderer m_Depot, m_DepotGlow, m_Hire, m_Bench, m_Rack, m_Cart, m_Wardrobe, m_Select;
+        // Склад товаров (ТЗ 2.2 §6.1): null — в шахте нет заводов.
+        SpriteRenderer m_Warehouse, m_WarehouseInlet;
+        int m_WarehouseFull = -1;
+        float m_WarehouseBump;
         SpriteRenderer[] m_Lanterns = new SpriteRenderer[2];
         float[] m_LanternNext = new float[2];
         int[] m_LanternFrame = new int[2];
@@ -63,6 +69,16 @@ namespace CatMiners.Runtime.Outpost
         /// <summary>Перед доской найма: отсюда новый котик выходит к клетке спавна.</summary>
         public Vector3 HireExitLocal { get; private set; }
         public Vector3 DepotCenterLocal { get; private set; }
+        /// <summary>Склад товаров построен (в шахте есть заводы).</summary>
+        public bool HasWarehouse => m_Warehouse != null;
+        /// <summary>Опора склада товаров (низ спрайта) локально в корне поля.</summary>
+        public Vector3 WarehouseLocal { get; private set; }
+        /// <summary>Вход труб на коньке склада (центр fpipe_inlet) локально в корне поля: сюда приходят трубы и капсулы.</summary>
+        public Vector3 WarehouseInletLocal { get; private set; }
+        /// <summary>Точка «+N» прибытия товара и начала полёта монет продажи — над складом.</summary>
+        public Vector3 WarehouseIndicatorLocal { get; private set; }
+        /// <summary>Центр склада (середина спрайта) локально в корне поля.</summary>
+        public Vector3 WarehouseCenterLocal { get; private set; }
 
         public static BaseCampView Create(Transform parent, OutpostMap map)
         {
@@ -138,8 +154,11 @@ namespace CatMiners.Runtime.Outpost
             m_Cart = Decor("cart", "cart_0", Mathf.Min(width - 1, baseCol + 2) + 0.5f, FrontFeetZ);
             m_Buildings[(int)Building.Cart] = m_Cart.transform;
             Decor("sign", "camp_sign", Mathf.Max(0, baseCol - 2) + 0.5f, FrontFeetZ);
-            m_Lanterns[0] = Decor("lantern0", s_Lantern[0], 0.5f, FrontFeetZ);
-            m_Lanterns[1] = Decor("lantern1", s_Lantern[0], width - 0.5f, FrontFeetZ);
+            if (map.Factories != null && map.Factories.Length > 0) BuildWarehouse(Mathf.Min(width - 1, baseCol + 4));
+            // Фонари — передний ряд столбцов b − 3 и b + 3 (перед шкафом и стеллажом), как в прежней раскладке на 7 столбцов,
+            // где это были края массива. В широких картах края массива — порода далеко за девятью столбцами лагеря (ворота G3).
+            m_Lanterns[0] = Decor("lantern0", s_Lantern[0], Mathf.Max(0, baseCol - 3) + 0.5f, FrontFeetZ);
+            m_Lanterns[1] = Decor("lantern1", s_Lantern[0], Mathf.Min(width - 1, baseCol + 3) + 0.5f, FrontFeetZ);
             for (int i = 0; i < 2; i++) m_LanternNext[i] = Time.time + Random.Range(0.3f, 0.8f);
             for (int i = 0; i < m_ScaleShown.Length; i++)
             {
@@ -152,6 +171,37 @@ namespace CatMiners.Runtime.Outpost
             col.center = new Vector3(width / 2f, 0.4f, -4.5f);
             col.size = new Vector3(width, 0.8f, 3f);
             OutpostPickable.Add(gameObject, OutpostPickKind.Base, 0);
+        }
+
+        /// <summary>
+        /// Склад товаров в столбце <paramref name="col"/> заднего ряда (ноги на нижней кромке st1, как у построек 1×2): здание
+        /// warehouse_empty/_full, вход труб fpipe_inlet в пикселе (16, 4) холста от левого верхнего угла (над крышей) и коллайдер
+        /// склада поверх общего коллайдера двора (приоритет выше «Базы»).
+        /// </summary>
+        void BuildWarehouse(int col)
+        {
+            float x = col + 0.5f;
+            m_Warehouse = Decor("warehouse", "warehouse_empty", x, BackFeetZ);
+            WarehouseLocal = new Vector3(PixelWorld.Snap(x), 0f, BackFeetZ);
+            float inletZ = BackFeetZ + (64f - 4f) * Px;
+            WarehouseInletLocal = new Vector3(PixelWorld.Snap(x), 0f, inletZ);
+            WarehouseCenterLocal = new Vector3(PixelWorld.Snap(x), 0f, BackFeetZ + 1f);
+            WarehouseIndicatorLocal = new Vector3(PixelWorld.Snap(x), 0f, inletZ + 10f * Px);
+            if (PixelArt.Has("fpipe_inlet"))
+                m_WarehouseInlet = PixelWorld.Sprite(m_Visual, "warehouseInlet", "fpipe_inlet", new Vector2(PixelWorld.Snap(x), inletZ), m_Warehouse.sortingOrder + 1);
+
+            var pick = new GameObject("warehousePick");
+            pick.transform.SetParent(transform, false);
+            var box = pick.AddComponent<BoxCollider>();
+            box.center = new Vector3(x, 0.45f, BackFeetZ + 1f);
+            box.size = new Vector3(0.95f, 0.9f, 2f);
+            OutpostPickable.Add(pick, OutpostPickKind.Warehouse, 0);
+        }
+
+        /// <summary>Партия пришла на склад: здание подпрыгивает на пиксель.</summary>
+        public void OnGoodsArrived()
+        {
+            if (m_Warehouse != null) m_WarehouseBump = CrateBumpSeconds;
         }
 
         /// <summary>Постройка с опорой в (x, z): порядок по z опоры, как декор поля.</summary>
@@ -249,6 +299,16 @@ namespace CatMiners.Runtime.Outpost
                 m_DepotGlow.enabled = anyServing;
             }
 
+            if (m_Warehouse != null)
+            {
+                int full = FactoryQueries.AnyStock(run) ? 1 : 0;
+                if (full != m_WarehouseFull)
+                {
+                    m_WarehouseFull = full;
+                    PixelWorld.SetSprite(m_Warehouse, full > 0 ? "warehouse_full" : "warehouse_empty");
+                }
+            }
+
             UpdateLanterns();
             UpdateFlash(dt);
         }
@@ -309,6 +369,14 @@ namespace CatMiners.Runtime.Outpost
                 m_ScaleShown[i] = s;
                 t.localScale = new Vector3(s, s, 1f);
             }
+            if (m_WarehouseBump > 0f && m_Warehouse != null)
+            {
+                m_WarehouseBump = Mathf.Max(0f, m_WarehouseBump - dt);
+                var p = m_Warehouse.transform.localPosition;
+                float baseZ = PixelWorld.Snap(BackFeetZ);
+                p.y = m_WarehouseBump > CrateBumpSeconds * 0.5f ? baseZ + Px : baseZ;
+                m_Warehouse.transform.localPosition = p;
+            }
             for (int s = 0; s < m_CrateBump.Length; s++)
             {
                 if (m_CrateBump[s] <= 0f || m_Crate[s] == null) continue;
@@ -358,7 +426,7 @@ namespace CatMiners.Runtime.Outpost
             fx.Glow(at, PixelPalette.Amber4, 1.2f, 0.5f);
         }
 
-        /// <summary>Мировая точка постройки ветки (подсказки обучения, камера).</summary>
+        /// <summary>Мировая точка постройки ветки (камера).</summary>
         public Vector3 BranchLocal(UpgradeBranch branch)
         {
             Transform t;

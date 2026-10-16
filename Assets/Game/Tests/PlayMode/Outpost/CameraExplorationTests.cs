@@ -133,7 +133,6 @@ namespace CatMiners.Tests
             Assert.That(Game.Map.Topology, Is.Not.Null);
             Assert.That(Game.Rig.FreeExploration, Is.True);
             Assert.That(Game.Map.Width, Is.GreaterThan(11));
-            Game.Tutorial.Skip();
             Game.enabled = false; // Freeze simulation; pointer input and camera still receive real frame updates.
             yield return null;
         }

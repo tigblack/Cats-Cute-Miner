@@ -200,17 +200,67 @@ namespace CatMiners.Tests.Outpost
             Assert.ThrowsAsync<PaymentException>(async () => await second.Item3.ValidateAndDeliver(Proof(), true));
             Assert.IsEmpty(second.Item1.Profile.Payments);
         }
-        [Test]
-        public void V1MigratesLedgerAndV2RejectsNullLedger()
+        // ТЗ 2.2 §10.3, §16.1 (в): вместо миграции V1 → V2 — сброс сохранений схемы 1 и 2 (Outdated → архив pre-factories/ и новая
+        // кампания схемы 3 методом ядра) с переносом журнала Payments. Последняя проверка прежнего теста V1MigratesLedgerAndV2RejectsNullLedger —
+        // запись профиля с Payments = null отклоняется — перенесена без изменений.
+        static void StartOverOutdated(Progress p, int schema)
+        {
+            // Карта — из снимка run: новая кампания строит шахту 1 с override арены, фикстуры SaveKitA — без него.
+            p.Saves.MapResolver = s => OutpostLevelAdapter.ForRun(OutpostKitA.Repo, s.Run);
+            foreach (var path in new[] { SaveKitA.Main, SaveKitA.Bak })
+                if (p.Files.Get(path) != null) OutdatedSaveKit.Downgrade(p.Files, path, schema);
+            var loaded = p.Saves.Load();
+            Assert.AreEqual(OutpostLoadStatus.Outdated, loaded.Status, string.Join("; ", loaded.Messages));
+            p.State = p.Saves.ResetOutdated(OutpostSaveSlot.Main, OutpostKitA.Repo, OutpostKitA.Configs, 99UL, 5_000L, out var saved);
+            Assert.IsTrue(saved.Ok, saved.Error);
+            Assert.IsNotNull(p.Files.Get(OutdatedSaveKit.PreFactories + "/state.json"), "архив прежнего main");
+            p.Relaunch();
+            Assert.AreEqual(OutpostIds.SchemaVersion, p.Profile.SchemaVersion);
+            Assert.AreEqual(1, p.State.Run.Zone);
+            Assert.AreEqual(99UL, p.Profile.Seed, "новая кампания");
+        }
+        [TestCase(1)]
+        [TestCase(2)]
+        public void OutdatedSchema1And2StartOverWithLedgerAndNullLedgerIsRejected(int schema)
         {
             var p = new Progress();
-            var envelope = SaveKitA.ReadEnvelope(p.Files, SaveKitA.Main);
-            var payload = SaveKitA.Payload(envelope);
-            envelope["SchemaVersion"] = 1; payload["Profile"]["SchemaVersion"] = 1;
-            ((JObject)payload["Profile"]).Remove("Payments"); ((JObject)payload["Profile"]).Remove("PendingPurchase");
-            SaveKitA.SetPayload(envelope, payload, true); SaveKitA.WriteEnvelope(p.Files, SaveKitA.Main, envelope);
-            p.Files.Delete(SaveKitA.Bak); p.Relaunch(); Assert.AreEqual(2, p.Profile.SchemaVersion); Assert.IsEmpty(p.Profile.Payments);
+            p.Files.Delete(SaveKitA.Bak);
+            StartOverOutdated(p, schema);
+            Assert.IsEmpty(p.Profile.Payments); Assert.IsNull(p.Profile.PendingPurchase);
             p.Profile.Payments = null; Assert.IsFalse(p.Saves.Save(p.State).Ok);
+        }
+        [Test]
+        public async Task OutdatedSchema2WithConfirmedPaymentStartsOverAndReplayGrantsNothing()
+        {
+            var (p, b, pipe) = await Prepared();
+            var d = await pipe.ValidateAndDeliver(Proof(), false); await pipe.Claim(d); await pipe.Confirmed(d.TokenHash);
+            Assert.IsFalse(PaymentRules.Pending(p.Profile));
+            string ledger = OutpostKitA.JsonOf(p.Profile.Payments);
+            StartOverOutdated(p, 2);
+            Assert.AreEqual(ledger, OutpostKitA.JsonOf(p.Profile.Payments), "журнал перенесён как есть");
+            Assert.IsNull(p.Profile.PendingPurchase);
+            long gems = p.Profile.Gems;
+            await pipe.ValidateAndDeliver(Proof(), false);
+            Assert.AreEqual(gems, p.Profile.Gems, "повторная доставка того же платежа кристаллы не выдаёт");
+            Assert.AreEqual(1, p.Profile.Payments.Count);
+            p.Relaunch(); Assert.AreEqual(gems, p.Profile.Gems);
+        }
+        [Test]
+        public async Task OutdatedSchema2WithPendingPurchaseIsNotBlockedAndCompletesOnceInNewCampaign()
+        {
+            var (p, b, pipe) = await Prepared();
+            Assert.IsTrue(PaymentRules.Pending(p.Profile), "незавершённая покупка");
+            string intent = OutpostKitA.JsonOf(p.Profile.PendingPurchase);
+            StartOverOutdated(p, 2);
+            Assert.AreEqual(intent, OutpostKitA.JsonOf(p.Profile.PendingPurchase), "намерение перенесено как есть");
+            Assert.IsEmpty(p.Profile.Payments);
+            long gems = p.Profile.Gems;
+            var d = await pipe.ValidateAndDeliver(Proof(), false);
+            Assert.AreEqual(gems + 160, p.Profile.Gems); Assert.AreEqual(1, p.Profile.Payments.Count); Assert.IsNull(p.Profile.PendingPurchase);
+            await pipe.Claim(d); await pipe.Confirmed(d.TokenHash); p.Relaunch();
+            Assert.IsFalse(PaymentRules.Pending(p.Profile));
+            await pipe.ValidateAndDeliver(Proof(), false);
+            Assert.AreEqual(gems + 160, p.Profile.Gems, "покупка зачтена один раз");
         }
         [Test]
         public void V2MissingLedgerIsRejectedEvenWithValidChecksum()

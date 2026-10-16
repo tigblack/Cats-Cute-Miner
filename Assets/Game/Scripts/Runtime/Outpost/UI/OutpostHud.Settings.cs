@@ -10,24 +10,23 @@ using AudioGroup = CatMiners.Core.Sim.AudioGroup;
 namespace CatMiners.Runtime.Outpost
 {
     /// <summary>
-    /// Настройки (ТЗ 14): громкость (общая), музыка, звуки, атмосфера, вибрация, «меньше эффектов» и подсказки обучения.
+    /// Настройки (ТЗ 14): громкость (общая), музыка, звуки, атмосфера, вибрация, «меньше эффектов», время игры и «Reset Progress».
     /// Раскладка — копия окна настроек старого HUD (HudWindows.BuildSettings). Значения — из профиля нового режима
     /// (OutpostSettings), изменения — командами контракта (SetVolume/SetVibration/SetReduceEffects), применяются сразу.
     /// </summary>
     public sealed partial class OutpostHud
     {
         const float SettingsRowHeight = 26 * Px, SettingsRowGap = 2 * Px;
-        const int SettingsRows = 9;
+        const int SettingsRows = 8;
 
         PixelWindow m_Settings;
         WindowEntry m_SettingsEntry;
-        PixelToggle m_VibroToggle, m_ReduceToggle, m_TutorialToggle;
+        PixelToggle m_VibroToggle, m_ReduceToggle;
         Image m_VibroIcon;
-        GameObject m_TutorialRow;
         TextMeshProUGUI m_PlayTimeText;
         Ui.ButtonRefs m_SettingsReset;
         long m_PlayTimeMinutesShown = -1;
-        int m_VibroShown = -1, m_ReduceShown = -1, m_SettingsTutorialShown = -1;
+        int m_VibroShown = -1, m_ReduceShown = -1;
         // Ползунки громкости: Master, Music, Sfx, Ambience (порядок — AudioGroup).
         readonly PixelSlider[] m_Volume = new PixelSlider[4];
 
@@ -55,9 +54,7 @@ namespace CatMiners.Runtime.Outpost
             m_Volume[(int)AudioGroup.Ambience] = VolumeRow(3, "icon_ambience", Loc.T("outpost.settings.ambience"), AudioGroup.Ambience);
             m_VibroToggle = SettingsRow(4, "icon_vibro_on", Loc.T("outpost.settings.vibration"), OnVibrationToggle, out m_VibroIcon);
             m_ReduceToggle = SettingsRow(5, "icon_effects", Loc.T("outpost.settings.reduce_effects"), OnReduceEffectsToggle, out _);
-            m_TutorialToggle = SettingsRow(6, "icon_info", Loc.T("outpost.settings.tutorial"), OnTutorialToggle, out _);
-            m_TutorialRow = m_TutorialToggle.Rect.parent.gameObject;
-            var timeRow = SettingsRowBase(7, "icon_info", Loc.T("outpost.settings.play_time"), out _, 96 * Px);
+            var timeRow = SettingsRowBase(6, "icon_info", Loc.T("outpost.settings.play_time"), out _, 96 * Px);
             m_PlayTimeText = PixelUi.Text(timeRow.transform, "playTime", "", PixelUi.FontLarge, PixelUi.TextColor,
                 TextAlignmentOptions.Right, true, true);
             m_PlayTimeText.rectTransform.Anchor(0.55f, 0, 1, 1, new Vector2(0, 0), new Vector2(-6 * Px, 0));
@@ -69,10 +66,10 @@ namespace CatMiners.Runtime.Outpost
             {
                 var privacy = PixelUi.Button(m_Settings.Body, "PrivacyChoices", "Privacy choices", PixelButton.Dark,
                     () => CatMiners.Runtime.Integrations.NeutralAgeFlow.OpenChoices(gameObject));
-                float privacyTop = 9 * (SettingsRowHeight + SettingsRowGap);
+                float privacyTop = 8 * (SettingsRowHeight + SettingsRowGap);
                 privacy.Rect.Anchor(0, 1, 1, 1, new Vector2(0, -(privacyTop + SettingsRowHeight)), new Vector2(0, -privacyTop));
             }
-            float resetTop = 8 * (SettingsRowHeight + SettingsRowGap);
+            float resetTop = 7 * (SettingsRowHeight + SettingsRowGap);
             m_SettingsReset.Image.rectTransform.Anchor(0, 1, 1, 1,
                 new Vector2(0, -(resetTop + SettingsRowHeight)), new Vector2(0, -resetTop));
         }
@@ -128,7 +125,7 @@ namespace CatMiners.Runtime.Outpost
         /// <summary>Окно настроек (шестерёнка): значения из профиля, применяются сразу.</summary>
         public void ShowSettings()
         {
-            m_VibroShown = m_ReduceShown = m_SettingsTutorialShown = -1;
+            m_VibroShown = m_ReduceShown = -1;
             var s = CurrentSettings;
             for (int g = 0; g < m_Volume.Length; g++) m_Volume[g].SetValue(SettingsVolume(s, (AudioGroup)g));
             RefreshSettings();
@@ -164,13 +161,6 @@ namespace CatMiners.Runtime.Outpost
             {
                 m_ReduceShown = reduce;
                 m_ReduceToggle.SetOn(reduce == 1);
-            }
-            int tutorial = m_Tutorial == null ? -2 : (m_Tutorial.Enabled ? 1 : 0);
-            if (tutorial != m_SettingsTutorialShown)
-            {
-                m_SettingsTutorialShown = tutorial;
-                if (m_TutorialRow.activeSelf != (tutorial != -2)) m_TutorialRow.SetActive(tutorial != -2);
-                if (tutorial != -2) m_TutorialToggle.SetOn(tutorial == 1);
             }
         }
 
@@ -208,13 +198,6 @@ namespace CatMiners.Runtime.Outpost
         {
             if (m_Game != null) m_Game.SetReduceEffects(on);
             m_ReduceShown = -1;
-            RefreshSettings();
-        }
-
-        void OnTutorialToggle(bool on)
-        {
-            m_Tutorial?.SetEnabled(on);
-            m_SettingsTutorialShown = -1;
             RefreshSettings();
         }
     }

@@ -100,19 +100,17 @@ namespace CatMiners.Tests
             Assert.That(Game.Phase, Is.EqualTo(OutpostControllerPhase.Playing));
         }
 
-        /// <summary>Debug-профиль (LoadZone, SimSpeed, наборы) на шахте <paramref name="zone"/>, обучение выключено.</summary>
+        /// <summary>Debug-профиль (LoadZone, SimSpeed, наборы) на шахте <paramref name="zone"/>.</summary>
         IEnumerator StartDebug(int zone)
         {
             Game.SwitchProfile(true);
             yield return WaitPlaying();
-            Game.Tutorial.Skip();
             if (zone != Game.State.Run.Zone)
             {
                 Game.LoadZone(zone);
                 yield return WaitPlaying();
             }
             Assert.That(Game.State.Run.Zone, Is.EqualTo(zone));
-            Game.Tutorial.Skip();
             Game.SetVolume(AudioGroup.Master, 1);
             Game.SetVolume(AudioGroup.Sfx, 1);
             Game.SetVolume(AudioGroup.Music, 0);
@@ -336,7 +334,6 @@ namespace CatMiners.Tests
             // 6. Шахта 16 (медная пещера): та же армия, другой цвет пещеры.
             Game.LoadZone(16);
             yield return WaitPlaying();
-            Game.Tutorial.Skip();
             Game.Hud.CloseAllWindows();
             BuyLevels(UpgradeBranch.Team, 10);
             BuyLevels(UpgradeBranch.Pickaxes, 6);
@@ -481,7 +478,6 @@ namespace CatMiners.Tests
             // 2. Ворота шахты 13: запись с первых ударов команды до открытия сектора.
             Game.LoadZone(13);
             yield return WaitPlaying();
-            Game.Tutorial.Skip();
             Game.Hud.CloseAllWindows();
             BuyLevels(UpgradeBranch.Team, 10);
             BuyLevels(UpgradeBranch.Pickaxes, 4);
@@ -552,6 +548,247 @@ namespace CatMiners.Tests
                     if (b != null && b.interactable) m_Rec.TapUi(b);
                 }
             });
+            Game.Hud.CloseAllWindows();
+        }
+
+        // ───────────── заводы (ТЗ 2.2, ролик 4): цепи, «Deliver», трубы, рынок, автодоставка по карточке ─────────────
+
+        FactoryOverlay Overlay => Game.Input.Factories;
+
+        Vector2 FactoryFocus(int id)
+        {
+            Assert.That(Game.TryGetFactoryWorldPosition(id, out var w), Is.True);
+            return new Vector2(w.x, w.z);
+        }
+
+        FactoryState FactoryOf(int id) => Game.State.Run.Factories.First(f => f.TargetId == id);
+
+        int CardLevel(string id) => Game.State.Profile.Cards.TryGetValue(id, out var c) ? c.Level : 0;
+
+        Button BottomButton(string name) => Game.Hud.GetComponentsInChildren<Button>(true)
+            .Single(b => b.name == name && b.transform.parent != null && b.transform.parent.name == "BottomBar");
+
+        Button SellAll() => Game.Hud.GetComponentsInChildren<Transform>(true)
+            .First(t => t.name == "Market" && t.parent != null && t.parent.name == "SafeArea")
+            .GetComponentsInChildren<Button>(true).First(b => b.name == "sellAll");
+
+        /// <summary>Нажать «Deliver» завода лапкой (кнопка должна быть на экране); false — кнопки нет.</summary>
+        bool TapDeliver(int id)
+        {
+            var b = Overlay.DeliverButtonOf(id);
+            if (b == null) return false;
+            m_Rec.TapUi(b);
+            m_Rec.Mark("deliver:" + id);
+            return true;
+        }
+
+        /// <summary>Завод с наибольшим числом соседних заводов (полоса ±4 клетки по x, ±2 по z) — кадр «много заводов».</summary>
+        List<int> FactoryCluster(int max)
+        {
+            var at = Game.Map.Factories.Select(f => (id: f.TargetId, p: FactoryFocus(f.TargetId))).ToList();
+            var best = at.OrderByDescending(a => at.Count(b => Mathf.Abs(b.p.x - a.p.x) <= 4.5f && Mathf.Abs(b.p.y - a.p.y) <= 2.5f))
+                .ThenBy(a => a.id).First();
+            return at.Where(b => Mathf.Abs(b.p.x - best.p.x) <= 4.5f && Mathf.Abs(b.p.y - best.p.y) <= 2.5f)
+                .OrderBy(b => Vector2.Distance(b.p, best.p)).Take(max).OrderBy(b => b.p.x).Select(b => b.id).ToList();
+        }
+
+        Vector2 Center(IEnumerable<int> ids)
+        {
+            var ps = ids.Select(FactoryFocus).ToList();
+            return new Vector2(ps.Average(p => p.x), ps.Average(p => p.y));
+        }
+
+        [UnityTest, Timeout(2_400_000)]
+        public IEnumerator Factories()
+        {
+            // 1. Шахта 10: команда и лапка разбивают цепи завода — разлёт звеньев, тост «… unlocked!», труба к складу.
+            yield return StartDebug(10);
+            BuyLevels(UpgradeBranch.Team, 6);
+            BuyLevels(UpgradeBranch.Pickaxes, 4);
+            BuyLevels(UpgradeBranch.Boots, 3);
+            BuyLevels(UpgradeBranch.Bags, 2);
+            Game.Hud.CloseAllWindows();
+            yield return m_Rec.Settle();
+            int fid = -1;
+            yield return m_Rec.FastForwardUntil(() =>
+            {
+                fid = Game.Map.Factories.Where(f => FactoryOf(f.TargetId).Status == FactoryStatus.Locked && Game.Sim.CanStrike(f.TargetId)
+                        && HpShare(f.TargetId) < 0.95)
+                    .OrderBy(f => HpShare(f.TargetId)).Select(f => f.TargetId).DefaultIfEmpty(-1).First();
+                return fid >= 0;
+            }, 1500, 5);
+            Assert.That(fid, Is.GreaterThanOrEqualTo(0), "котики бьют цепи завода шахты 10");
+            yield return m_Rec.FastForwardUntil(() => HpShare(fid) < 0.7 || FactoryOf(fid).Status != FactoryStatus.Locked, 600, 2);
+            Assert.That(FactoryOf(fid).Status, Is.EqualTo(FactoryStatus.Locked), "цепи ещё целы к началу записи");
+            Game.Hud.CloseAllWindows();
+            m_Rec.ZoomPixelPerfect(4);
+            var chainsFocus = FactoryFocus(fid) + new Vector2(0f, -0.6f);
+            int unlockedAt = -1;
+            yield return Shot("f10_chains", 20, f =>
+            {
+                m_Rec.Focus(chainsFocus);
+                if (unlockedAt < 0 && FactoryOf(fid).Status != FactoryStatus.Locked) { unlockedAt = f; m_Rec.Mark("unlocked"); }
+                if (unlockedAt < 0 && f >= 10 && f % 12 == 5 && Game.CanStrike(fid)) m_Rec.Tap(fid, new Vector3(0f, 0f, 0.3f));
+            }, f => unlockedAt >= 0 && f >= unlockedAt + 135);
+            Assert.That(unlockedAt, Is.GreaterThanOrEqualTo(0), "цепи разбиты в кадре");
+            m_Rec.Zoom(null);
+
+            // 2. Цикл завода (полоса над зданием), «Deliver ×N» лапкой, партия едет по трубе на склад во дворе.
+            yield return m_Rec.FastForwardUntil(() => FactoryOf(fid).Status == FactoryStatus.Ready, 900, 2);
+            Assert.That(FactoryOf(fid).Status, Is.EqualTo(FactoryStatus.Ready), "партия готова");
+            Game.Hud.CloseAllWindows();
+            var factoryView = FactoryFocus(fid) + new Vector2(0f, -1.5f);
+            m_Rec.Focus(factoryView);
+            yield return m_Rec.Settle();
+            int sentAt = -1, arrivedAt = -1;
+            long arrivedBefore = Game.State.Run.GoodsArrived.Values.Sum();
+            yield return Shot("f10_deliver", 14, f =>
+            {
+                if (f == 60 && TapDeliver(fid)) sentAt = f;
+                if (sentAt >= 0 && arrivedAt < 0 && Game.State.Run.GoodsArrived.Values.Sum() > arrivedBefore) { arrivedAt = f; m_Rec.Mark("arrived"); }
+                if (sentAt < 0 || f < sentAt + 6) m_Rec.Focus(factoryView);
+                else m_Rec.FocusEase(factoryView, CampFocus() + new Vector2(0f, 1.5f), f - sentAt - 6, 75);
+            }, f => arrivedAt >= 0 && f >= arrivedAt + 45 && f >= sentAt + 240);
+            Assert.That(sentAt, Is.GreaterThanOrEqualTo(0), "кнопка «Deliver» нажата");
+
+            // 3. Шахта 3: карточка «Dairy Foreman» на уровень, который просит завод, — завод переходит на автодоставку.
+            Game.LoadZone(3);
+            yield return WaitPlaying();
+            Game.Hud.CloseAllWindows();
+            Game.GrantTestCards();
+            yield return null;
+            BuyLevels(UpgradeBranch.Team, 4);
+            BuyLevels(UpgradeBranch.Pickaxes, 3);
+            Game.DebugUnlockFactories();
+            yield return null;
+            var dairy = Game.Map.Factories.OrderByDescending(f => f.RequiredCardLevel).First(f => f.RequiredCardLevel >= 2);
+            string card = dairy.RequiredCardId;
+            for (int i = 0; i < 12 && CardLevel(card) < dairy.RequiredCardLevel - 1; i++) if (!Game.UpgradeCard(card).Ok) break;
+            Assert.That(CardLevel(card), Is.EqualTo(dairy.RequiredCardLevel - 1), "карточке не хватает одного уровня");
+            Assert.That(FactoryOf(dairy.TargetId).Automated, Is.False);
+            Game.Hud.CloseAllWindows();
+            yield return m_Rec.Settle();
+            yield return m_Rec.FastForward(20, 2);
+            Game.Hud.ShowCard(card);
+            yield return m_Rec.Settle();
+            int autoAt = -1;
+            yield return Shot("f3_card", 7, f =>
+            {
+                if (f == 45)
+                {
+                    var b = Game.Hud.GetComponentsInChildren<Button>().FirstOrDefault(x => x.name == "cardUpgrade");
+                    if (b != null && b.interactable) m_Rec.TapUi(b);
+                }
+                if (autoAt < 0 && FactoryOf(dairy.TargetId).Automated) { autoAt = f; m_Rec.Mark("automated"); }
+            });
+            Assert.That(FactoryOf(dairy.TargetId).Automated, Is.True, "карточка нужного уровня включила автодоставку");
+            Game.Hud.CloseAllWindows();
+
+            // 4. Тот же завод сам отправляет партии: значок AUTO, капсулы по трубе без нажатий.
+            var dairyView = FactoryFocus(dairy.TargetId) + new Vector2(0f, -1.5f);
+            m_Rec.Focus(dairyView);
+            yield return m_Rec.Settle();
+            yield return Shot("f3_auto", 14, f =>
+            {
+                if (f < 150) m_Rec.Focus(dairyView);
+                else m_Rec.FocusEase(dairyView, CampFocus() + new Vector2(0f, 1.5f), f - 150, 90);
+            });
+
+            // 5. Шахта 30: три соседних завода готовы — лапка нажимает «Deliver» у каждого; затем рынок и «Sell all».
+            Game.LoadZone(30);
+            yield return WaitPlaying();
+            Game.Hud.CloseAllWindows();
+            BuyLevels(UpgradeBranch.Team, 8);
+            BuyLevels(UpgradeBranch.Pickaxes, 4);
+            Game.DebugUnlockFactories();
+            yield return null;
+            Game.DebugFinishFactoryCycles();
+            yield return null;
+            var trio = FactoryCluster(3);
+            Assert.That(trio.Count, Is.GreaterThanOrEqualTo(2), "соседние заводы шахты 30");
+            var trioView = Center(trio) + new Vector2(0f, -1.2f);
+            m_Rec.Focus(trioView);
+            yield return m_Rec.Settle();
+            yield return Shot("f30_deliver", 8, f =>
+            {
+                m_Rec.Focus(trioView);
+                for (int k = 0; k < trio.Count; k++) if (f == 24 + 16 * k) TapDeliver(trio[k]);
+            });
+            foreach (var mf in Game.Map.Factories) if (FactoryOf(mf.TargetId).Status == FactoryStatus.Ready) Overlay.ClickDeliver(mf.TargetId);
+            yield return m_Rec.FastForwardUntil(() => Game.State.Run.PipeBatches.Count == 0, 120, 2);
+            Game.Hud.CloseAllWindows();
+            m_Rec.Focus(CampFocus() + new Vector2(0f, 1.5f));
+            yield return m_Rec.Settle();
+            int soldAt = -1;
+            yield return Shot("f30_market", 9, f =>
+            {
+                if (f == 15) m_Rec.TapUi(BottomButton("Market"));
+                if (f == 75) { var b = SellAll(); if (b.interactable) m_Rec.TapUi(b); }
+                if (soldAt < 0 && Game.State.Run.GoodsSoldGold.Sign > 0) { soldAt = f; m_Rec.Mark("sold"); }
+            }, f => soldAt >= 0 && f >= soldAt + 75);
+            Assert.That(soldAt, Is.GreaterThanOrEqualTo(0), "товар продан");
+            Game.Hud.CloseAllWindows();
+
+            // 6. Шахта 140: 15 заводов на автодоставке — сеть труб, капсулы, склад, рынок с большими суммами.
+            Game.LoadZone(140);
+            yield return WaitPlaying();
+            Game.Hud.CloseAllWindows();
+            Game.GrantTestKit();
+            yield return null;
+            BuyLevels(UpgradeBranch.Team, 10);
+            BuyLevels(UpgradeBranch.Pickaxes, 6);
+            BuyLevels(UpgradeBranch.Boots, 6);
+            BuyLevels(UpgradeBranch.Bags, 6);
+            Game.DebugUnlockFactories();
+            yield return null;
+            Game.DebugAutomateAll();
+            yield return null;
+            Game.Hud.CloseAllWindows();
+            yield return m_Rec.Settle();
+            yield return m_Rec.FastForward(150, 5);
+            Game.Hud.CloseAllWindows();
+
+            m_Rec.Hud(false);
+            float top = Game.Rig.MaxZ, bottom = Game.Rig.MinZ, midX = (Game.Rig.MinX + Game.Rig.MaxX) * 0.5f;
+            yield return Shot("f140_overview", 8, f =>
+            {
+                float t = f / (8f * AdRecorder.Fps - 1);
+                float e = t * t * (3f - 2f * t);
+                m_Rec.Zoom(Mathf.Lerp(26f, 10f, e));
+                m_Rec.Focus(new Vector2(midX, Mathf.Lerp(top, bottom, e)));
+            });
+            m_Rec.Zoom(null);
+            m_Rec.Hud(true);
+
+            var cluster = FactoryCluster(4);
+            var clusterView = Center(cluster) + new Vector2(0f, -1.2f);
+            m_Rec.Focus(clusterView);
+            yield return m_Rec.Settle();
+            yield return Shot("f140_factories", 10, f => m_Rec.Focus(clusterView));
+
+            m_Rec.ZoomPixelPerfect(4);
+            var yard = CampFocus() + new Vector2(1.5f, 1.2f);
+            m_Rec.Focus(yard);
+            yield return m_Rec.Settle();
+            yield return Shot("f140_yard", 10, f => m_Rec.Focus(yard));
+            m_Rec.Zoom(null);
+
+            Game.Hud.CloseAllWindows();
+            m_Rec.Focus(CampFocus() + new Vector2(0f, 1.5f));
+            yield return m_Rec.Settle();
+            soldAt = -1;
+            ScrollRect list = null;
+            yield return Shot("f140_market", 11, f =>
+            {
+                if (f == 15) m_Rec.TapUi(BottomButton("Market"));
+                if (f == 30) list = Game.Hud.GetComponentsInChildren<ScrollRect>().FirstOrDefault(x => x.gameObject.activeInHierarchy);
+                // Список 15 товаров: вниз и обратно вверх, к «Sell all».
+                if (list != null && f >= 30 && f < 150)
+                    list.verticalNormalizedPosition = f < 90 ? 1f - Mathf.SmoothStep(0f, 1f, (f - 30) / 60f) : Mathf.SmoothStep(0f, 1f, (f - 90) / 60f);
+                if (f == 165) { var b = SellAll(); if (b.interactable) m_Rec.TapUi(b); }
+                if (soldAt < 0 && f > 165 && Game.State.Run.GoodsSoldGold.Sign > 0) { soldAt = f; m_Rec.Mark("sold"); }
+            }, f => soldAt >= 0 && f >= soldAt + 90);
+            Assert.That(soldAt, Is.GreaterThanOrEqualTo(0), "товар шахты 140 продан");
             Game.Hud.CloseAllWindows();
         }
     }
@@ -639,7 +876,6 @@ namespace CatMiners.Tests
             if (m_HudGroup == null) m_HudGroup = m_Game.Hud.gameObject.AddComponent<CanvasGroup>();
             Hud(true);
             HideNode("SafeArea/Settings");
-            HideNode("SafeArea/TutorialSkip");
             m_Game.Hud.CloseAllWindows();
             m_Game.ClearSelection();
             Subscribe();
@@ -854,7 +1090,7 @@ namespace CatMiners.Tests
         void OnCue(OutpostViewCueArgs c)
         {
             var p = ToImage(c.Position);
-            Log("sfx", c.Cue.ToString(), new { x = p.x, y = p.y, c.TargetId, c.WorkerId, c.Slot, c.Branch });
+            Log("sfx", c.Cue.ToString(), new { x = p.x, y = p.y, c.TargetId, c.WorkerId, c.Slot, c.Branch, chains = c.Chains, auto = c.Automatic, c.Count });
         }
 
         public void Mark(string name) => Log("mark", name);

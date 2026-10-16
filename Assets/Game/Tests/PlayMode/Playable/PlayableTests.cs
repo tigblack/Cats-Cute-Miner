@@ -22,7 +22,7 @@ namespace CatMiners.Tests
 {
     /// <summary>
     /// Playable-режим на настоящей сцене CoreGame (Docs/Playable/PLAYABLE_TZ.md §3, §6): <see cref="PlayableMode.Install"/> до
-    /// загрузки — профиль «outpost-2.1-b4-playable» (3 котика), своё сохранение, обучение выключено, место под баннер,
+    /// загрузки — профиль «outpost-2.2-b5-playable» (3 котика), своё сохранение, только подсказки квестов, место под баннер,
     /// автопереход после итогов, догон офлайна без окна, конец отрезка, «Play again» без архивов; квесты (панель, удары, окно
     /// награды, золото BonusGold, следующий квест, лапка, пропуск недостижимых целей, перезагрузка), надписи «NEW CAT!» /
     /// «PICKAXES ×2!», баннер CTA под нижней панелью, ссылка магазина и финальный экран (Keep playing / Play again); правки
@@ -37,7 +37,7 @@ namespace CatMiners.Tests
             "{\"StartWorkers\":3,\"CoinBase\":\"10\",\"CostZoneStep\":\"0\",\"TapDamageFactor\":\"1/2\",\"Branches\":[{\"Growth\":\"3/2\"},{\"Milestones\":[5,10]}]}";
 
         [UnityTest]
-        public IEnumerator Install_PlayableBalance_ThreeCats_OwnSave_TutorialOff()
+        public IEnumerator Install_PlayableBalance_ThreeCats_OwnSave()
         {
             Assert.That(Director, Is.Not.Null, "режиссёр на контроллере после загрузки сцены");
             Assert.That(Game.Configs.Balance.Version, Is.EqualTo(PlayableBalance.Version));
@@ -46,12 +46,10 @@ namespace CatMiners.Tests
             Assert.That(Game.State.Run.Workers.Count, Is.EqualTo(3));
             Assert.That(Game.SaveDirectory, Is.EqualTo(m_Dir));
             yield return Advance(5);
-            Assert.That(Game.Tutorial.Enabled, Is.False, "обучение основной игры выключено — его заменяют квесты");
-            Assert.That(Game.Tutorial.Active, Is.False);
-            Assert.That(Game.Hud.Hint.Visible, Is.False);
+            // Обучения в игре нет: в HUD только своя подсказка квестов playable.
+            Assert.That(Game.Hud.GetComponentsInChildren<TutorialHint>(true).Select(h => h.name).ToArray(), Is.EqualTo(new[] { "PlayableHint" }));
             var saved = new OutpostSaveService(m_Dir) { Configs = Game.Configs }.Load().State;
             Assert.That(saved, Is.Not.Null);
-            Assert.That(saved.Profile.Tutorial.Dismissed, Is.True);
             Assert.That(saved.Run.Balance.Version, Is.EqualTo(PlayableBalance.Version));
         }
 
@@ -257,7 +255,6 @@ namespace CatMiners.Tests
             Assert.That(Game.State.Profile.PlayTimeMs, Is.LessThan(60_000));
             Assert.That(Game.State.Run.Zone, Is.EqualTo(1));
             Assert.That(Game.State.Run.Workers.Count, Is.EqualTo(3));
-            Assert.That(Game.Tutorial.Enabled, Is.False);
             Assert.That(saves.Load().State.Profile.Elixir, Is.Not.EqualTo(marker));
             Assert.That(Directory.GetDirectories(m_Dir, "restart-*", SearchOption.AllDirectories), Is.Empty, "без архивов ResetProgress");
         }
@@ -339,13 +336,12 @@ namespace CatMiners.Tests
             Assert.That(counterLeft - stepRight, Is.InRange(0f, 4 * PixelUi.Px + 0.01f), "счётчик сразу за шагом");
             Assert.That(panel.StepText.isTextTruncated, Is.False);
 
-            // Реплика наставника своей подсказкой (не подсказкой обучения HUD) и лапка на камне с рудой под удар.
+            // Реплика наставника своей подсказкой квестов и лапка на камне с рудой под удар.
             if (!quests.Guide.ToastVisible)
             {
                 Assert.That(quests.Guide.LineVisible, Is.True);
                 Assert.That(quests.Guide.Hint.Text, Is.EqualTo(Loc.T("playable.quest.strike.line")));
             }
-            Assert.That(Game.Hud.Hint.Visible, Is.False);
             yield return WaitFrames(() => quests.Guide.PawVisible);
             Assert.That(quests.Guide.PawTarget, Is.GreaterThanOrEqualTo(0), "лапка на камне");
             Assert.That(Game.CanStrike(quests.Guide.PawTarget), Is.True);
@@ -423,7 +419,7 @@ namespace CatMiners.Tests
 
             // Покупка по карману: лапка на «Базе», в открытой панели — на строке «Кирок»; касание у правого нижнего угла кнопки.
             yield return WaitFrames(() => quests.Guide.PawUi != null);
-            var baseButton = Game.Hud.Hint.FindTarget(OutpostHud.TargetBase);
+            var baseButton = Game.Hud.FindTarget(OutpostHud.TargetBase);
             Assert.That(quests.Guide.PawUi, Is.SameAs(baseButton));
             // Кнопка нижней панели: лапка сверху пальцем вниз — над полем, соседние кнопки не закрыты.
             Assert.That(quests.Guide.Hint.TipAnchor, Is.EqualTo(PlayableGuide.BarTip));
@@ -432,10 +428,8 @@ namespace CatMiners.Tests
             yield return null;
             Assert.That(hand.localScale.y, Is.LessThan(0f), "лапка отражена: палец вниз");
             Assert.That(ScreenRect(hand).center.y, Is.GreaterThan(ScreenRect(baseButton).yMax), "лапка над кнопкой");
-            Assert.That(Game.Hud.Hint.TipAnchor, Is.EqualTo(new Vector2(0.5f, 0.5f)), "подсказка основной игры — по центру");
-            Assert.That(Game.Hud.Hint.PointDown, Is.False);
             Game.Hud.ShowBase();
-            var row = Game.Hud.Hint.FindTarget(OutpostHud.BranchTarget(UpgradeBranch.Pickaxes));
+            var row = Game.Hud.FindTarget(OutpostHud.BranchTarget(UpgradeBranch.Pickaxes));
             yield return WaitFrames(() => quests.Guide.PawUi == row);
             Assert.That(quests.Guide.PawUi, Is.SameAs(row), "лапка внутри окна «База»");
             Assert.That(quests.Guide.Hint.TipAnchor, Is.EqualTo(PlayableGuide.ButtonTip), "лапка у угла: подпись и цена видны");

@@ -14,22 +14,23 @@ using BigInteger = System.Numerics.BigInteger;
 namespace CatMiners.Runtime.Outpost
 {
     /// <summary>
-    /// HUD режима CatOutpostV2 (Docs/Rework/RUNTIME_SPEC.md §5, ТЗ 5, 9–11, 13–15) на пиксельном ките, только через контракт
+    /// HUD режима CatOutpostV2 (Docs/Rework/RUNTIME_SPEC.md §5, ТЗ 5, 9–11, 13–14) на пиксельном ките, только через контракт
     /// <see cref="IOutpostGame"/>. Холст, CanvasScaler, SafeArea и доли панелей — как у старого Hud (Docs/Rework/map/ui.md §1, §4).
     /// Верх: табличка «Шахта N» (+ «сектор k/m»), полоса: доставленное золото | несданный груз (icon_sack, «в пути») |
-    /// прогресс расчистки «разрушено/всего» (с воротами) | число котиков; шестерёнка настроек. Низ: «Экипировка», широкая
-    /// золотая «База» с бейджем доступных покупок, «К базе»; над ними — строка фазы («Доставляем оставшиеся монеты»,
+    /// прогресс расчистки «разрушено/всего» (с воротами) | число котиков; шестерёнка настроек. Низ (ТЗ 2.2 §6.2): Store · Cards ·
+    /// широкая золотая «База» с бейджем доступных покупок · Market · Equipment · To base; над ними — строка фазы («Доставляем оставшиеся монеты»,
     /// «Перейти на следующую шахту», «Повторить сохранение», расчёт офлайна). Окна: «База», «Экипировка», сведения о котике/цели, «Итоги шахты»,
     /// «Пока вас не было», конец кампании, ошибка, настройки; стек окон и Back (верхнее окно → выбор).
     /// Тексты обновляются не чаще 10 раз в секунду и только при смене исходных значений (кэш по значению, ТЗ 19).
-    /// Части класса: OutpostHud.BasePanel.cs, .Equipment.cs, .Info.cs, .Results.cs, .Settings.cs. API — Docs/Rework/UI_API.md.
+    /// Части класса: OutpostHud.BasePanel.cs, .Equipment.cs, .Info.cs, .Results.cs, .Settings.cs, .Cards.cs, .Store.cs, .Market.cs.
+    /// API — Docs/Rework/UI_API.md.
     /// </summary>
     public sealed partial class OutpostHud : MonoBehaviour
     {
         // Эталон CanvasScaler — как у старого Hud и ProjectSetup.
         const float RefWidth = 1080f, RefHeight = 1920f, RefMatch = 0.5f;
 
-        // ── Раскладка, единицы Canvas (1 пиксель арта = 4 единицы). Высоты панелей передаются камере и обучению через Safe Area.
+        // ── Раскладка, единицы Canvas (1 пиксель арта = 4 единицы). Высоты панелей передаются камере через Safe Area.
         const float Px = PixelUi.Px;
         const float Margin = 2 * Px;
         const float TopBarHeight = 30 * Px;
@@ -38,7 +39,14 @@ namespace CatMiners.Runtime.Outpost
         const float BarHeight = 52 * Px, BarPad = 5 * Px;
         /// <summary>Кнопки нижней панели занимают всю высоту внутри рамки.</summary>
         const float BottomButtonHeight = BarHeight - 2 * BarPad;
+        /// <summary>
+        /// Пять кнопок, по две с каждой стороны «Базы» (решение владельца 16.10.2026: «To base» убрана ради симметрии): боковые —
+        /// 40 пикселей арта с зазором 3, как до заводов; «База» по центру занимает остаток — ≈ 55 пикселей арта на 1080×2400 и
+        /// ≈ 84 на 1080×1920 (не меньше <see cref="BaseMinWidth"/>).
+        /// </summary>
         const float SideButtonWidth = 40 * Px, SlotGap = 3 * Px;
+        /// <summary>Минимальная ширина «Базы» между боковыми кнопками (ТЗ 2.2 §6.2).</summary>
+        public const float BaseMinWidth = 44 * Px;
         /// <summary>Полоса над панелью: строка фазы или крупная кнопка перехода/повтора.</summary>
         const float StripHeight = 44 * Px, PillHeight = 16 * Px;
         /// <summary>Верхний край нижней части HUD от низа safe area — <see cref="BottomInset"/>.</summary>
@@ -49,9 +57,7 @@ namespace CatMiners.Runtime.Outpost
         /// при 9:20 «56/56» и «144/144» цифрами Pixeloid помещаются без многоточия (текст ≈74 ед.).
         /// </summary>
         const float GoldSegment = 0.27f, CargoSegment = 0.53f, ProgressSegment = 0.80f;
-        /// <summary>Кнопка «Пропустить обучение» под табличкой.</summary>
-        const float SkipHeight = 16 * Px;
-        /// <summary>Тост — под верхней полосой и кнопкой пропуска обучения.</summary>
+        /// <summary>Тост — под верхней полосой: отступ Margin и ещё 28 пикселей арта.</summary>
         const float ToastTop = TopUnits + Margin + 24 * Px + 4 * Px;
         /// <summary>Поля окна кита: тело на 14 пикселей арта ниже верха рамки, низ — 12 пикселей.</summary>
         const float WindowTop = 14 * Px, WindowBottom = 12 * Px;
@@ -60,10 +66,9 @@ namespace CatMiners.Runtime.Outpost
         const string DebugMarker = "<color=#FF9070>[DEBUG]</color>";
         const string BadTag = "<color=#FF9070>", ColorClose = "</color>";
 
-        // ── Имена целей подсказок обучения (TutorialHint.RegisterTarget). Не ключи словаря.
+        // ── Имена элементов HUD для указателей (FindTarget; подсказки квестов playable). Не ключи словаря.
         public const string TargetBase = "ui.base";
         public const string TargetEquipment = "ui.equipment";
-        public const string TargetToBase = "ui.to_base";
         public const string TargetGold = "ui.gold";
         public const string TargetCargo = "ui.cargo";
         public const string TargetStripAction = "ui.strip_action";
@@ -73,7 +78,7 @@ namespace CatMiners.Runtime.Outpost
         static readonly string[] s_BranchTargets =
             { "ui.branch.team", "ui.branch.pickaxes", "ui.branch.boots", "ui.branch.bags", "ui.branch.unload", "ui.branch.value" };
 
-        /// <summary>Цель подсказки — кнопка покупки ветки в панели «База».</summary>
+        /// <summary>Элемент для указателя — кнопка покупки ветки в панели «База».</summary>
         public static string BranchTarget(UpgradeBranch branch) => s_BranchTargets[(int)branch];
 
         /// <summary>Набор исходных значений текста: строка собирается заново, только когда набор изменился.</summary>
@@ -116,12 +121,11 @@ namespace CatMiners.Runtime.Outpost
         TextMeshProUGUI m_Gold, m_GoldLabel, m_Cargo, m_CargoLabel, m_Progress, m_Workers;
         RectTransform m_GoldSegment, m_CargoSegment, m_GoldIcon;
         Ui.ButtonRefs m_SettingsButton;
-        Ui.ButtonRefs m_SkipButton;
         bool m_ZoneTwoLines = true;
 
         // Низ.
         RectTransform m_Bottom;
-        Ui.ButtonRefs m_BaseButton, m_EquipButton, m_ToBaseButton;
+        Ui.ButtonRefs m_BaseButton, m_EquipButton;
         RectTransform m_Strip;
         Image m_StatusPill;
         TextMeshProUGUI m_StatusText;
@@ -162,7 +166,8 @@ namespace CatMiners.Runtime.Outpost
         int m_BackFrame = -1;
         bool m_BackResult;
 
-        OutpostTutorial m_Tutorial;
+        // Элементы HUD по именам Target* (заполняются в Build).
+        readonly Dictionary<string, RectTransform> m_Targets = new Dictionary<string, RectTransform>(StringComparer.Ordinal);
 
         // ───────────── Публичное API ─────────────
 
@@ -178,11 +183,9 @@ namespace CatMiners.Runtime.Outpost
         /// <summary>Камера для перевода мировых точек в экранные (полёт монет); null — Rig.Cam или Camera.main.</summary>
         public Camera WorldCamera { get; set; }
 
-        /// <summary>Подсказка обучения (пузырь, лапка, рамка); цели HUD зарегистрированы (константы Target*).</summary>
-        public TutorialHint Hint { get; private set; }
-
-        /// <summary>Обучение, подключённое к HUD (<see cref="OutpostTutorial"/> подключается само в конструкторе).</summary>
-        public OutpostTutorial Tutorial => m_Tutorial;
+        /// <summary>Элемент HUD по имени из констант Target* (кнопки панели, сегменты, строки «Базы», кнопки итогов); null — нет.</summary>
+        public RectTransform FindTarget(string id) =>
+            id != null && m_Targets.TryGetValue(id, out var rt) && rt != null ? rt : null;
 
         /// <summary>
         /// Опрашивать системную кнопку Back (Android Back = Escape в Input System, действие UI/Cancel модуля ввода) самому.
@@ -308,14 +311,6 @@ namespace CatMiners.Runtime.Outpost
         void OnDestroy()
         {
             if (m_Game != null) m_Game.EventPresented -= OnGameEvent;
-            m_Tutorial?.Dispose();
-        }
-
-        /// <summary>Подключить обучение (вызывает конструктор <see cref="OutpostTutorial"/>): HUD сам зовёт его Update.</summary>
-        internal void AttachTutorial(OutpostTutorial tutorial)
-        {
-            m_Tutorial = tutorial;
-            m_SettingsTutorialShown = -1;
         }
 
         void Build(RectTransform root)
@@ -326,36 +321,33 @@ namespace CatMiners.Runtime.Outpost
             if (m_SafeArea == null) m_SafeArea = m_Safe.gameObject.AddComponent<SafeArea>();
             m_SafeArea.BottomReserve = Reserve;
 
-            // Порядок детей SafeArea — порядок слоёв: панели HUD, сведения, тост, подсказка обучения, полёт монет, окна.
+            // Порядок детей SafeArea — порядок слоёв: панели HUD, сведения, тост, полёт монет, окна.
             BuildTopBar();
             BuildBottom();
             BuildInfo();
             BuildToast();
-
-            Hint = TutorialHint.Create(m_Safe);
-            Hint.SetReserved(BottomUnits, TopUnits);
-
             BuildLootFly();
 
             BuildEquipment();
             BuildCards();
             BuildStore();
+            BuildMarket();
             BuildBase();
             BuildSettings();
             BuildDialogs();
 
-            Hint.RegisterTarget(TargetBase, m_BaseButton.Rect);
-            Hint.RegisterTarget(TargetEquipment, m_EquipButton.Rect);
-            Hint.RegisterTarget(TargetCards, m_CardsButton.Rect);
-            Hint.RegisterTarget(TargetStore, m_StoreButton.Rect);
-            Hint.RegisterTarget(TargetToBase, m_ToBaseButton.Rect);
-            Hint.RegisterTarget(TargetGold, m_GoldSegment);
-            Hint.RegisterTarget(TargetCargo, m_CargoSegment);
-            Hint.RegisterTarget(TargetStripAction, m_StripButton.Rect);
-            Hint.RegisterTarget(TargetEquipBest, m_EquipBestButton.Rect);
-            for (int i = 0; i < m_Rows.Length; i++) Hint.RegisterTarget(s_BranchTargets[i], m_Rows[i].Buy.Rect);
-            Hint.RegisterTarget(TargetResultsEquipment, m_Results.ButtonAt(0).Rect);
-            Hint.RegisterTarget(TargetResultsNext, m_Results.ButtonAt(1).Rect);
+            m_Targets[TargetBase] = m_BaseButton.Rect;
+            m_Targets[TargetEquipment] = m_EquipButton.Rect;
+            m_Targets[TargetCards] = m_CardsButton.Rect;
+            m_Targets[TargetStore] = m_StoreButton.Rect;
+            m_Targets[TargetMarket] = m_MarketButton.Rect;
+            m_Targets[TargetGold] = m_GoldSegment;
+            m_Targets[TargetCargo] = m_CargoSegment;
+            m_Targets[TargetStripAction] = m_StripButton.Rect;
+            m_Targets[TargetEquipBest] = m_EquipBestButton.Rect;
+            for (int i = 0; i < m_Rows.Length; i++) m_Targets[s_BranchTargets[i]] = m_Rows[i].Buy.Rect;
+            m_Targets[TargetResultsEquipment] = m_Results.ButtonAt(0).Rect;
+            m_Targets[TargetResultsNext] = m_Results.ButtonAt(1).Rect;
         }
 
         // ───────────── Верх ─────────────
@@ -420,12 +412,6 @@ namespace CatMiners.Runtime.Outpost
             srt.pivot = new Vector2(1f, 1f);
             srt.sizeDelta = new Vector2(TopBarHeight, TopBarHeight);
             srt.anchoredPosition = new Vector2(-Margin, -Margin);
-
-            // Пропуск обучения (ТЗ 15): временная кнопка под табличкой, видна, пока показана подсказка.
-            m_SkipButton = PixelUi.Button(m_Safe, "TutorialSkip", Loc.T("outpost.tutorial.skip"), PixelButton.Dark, OnSkipTutorial, PixelUi.FontSmall);
-            m_SkipButton.Rect.Anchor(0, 1, 0.46f, 1, new Vector2(Margin, -(TopUnits + Margin + SkipHeight)), new Vector2(0, -(TopUnits + Margin)));
-            m_SkipButton.Label.textWrappingMode = TextWrappingModes.NoWrap;
-            m_SkipButton.SetActive(false);
         }
 
         /// <summary>
@@ -478,7 +464,8 @@ namespace CatMiners.Runtime.Outpost
             var bar = PixelUi.Panel(m_Bottom, "BottomBar", PixelPanel.Dark).rectTransform;
             bar.Anchor(0, 0, 1, 0, new Vector2(Margin, Margin), new Vector2(-Margin, Margin + BarHeight));
 
-            // Порядок: Store · Cards · Base · Equipment · To base — по две боковые кнопки с каждой стороны от «Базы».
+            // Порядок (решение владельца 16.10.2026): Store · Cards · Base · Equipment · Market — по две кнопки с каждой стороны,
+            // «База» ровно по центру; «To base» убрана (камера к лагерю — прокруткой поля).
             m_StoreButton = SideButton(bar, "Store", "icon_store", Loc.T("outpost.bottom.store"), false, ShowStore);
             m_StoreButton.Badge = PixelUi.Badge(m_StoreButton.Image.transform, "badge");
             m_StoreButton.Badge.PlaceAtCorner(new Vector2(1f, 1f), PixelUi.BadgeCornerOffset);
@@ -490,7 +477,7 @@ namespace CatMiners.Runtime.Outpost
             m_EquipButton.Badge = PixelUi.Badge(m_EquipButton.Image.transform, "badge");
             m_EquipButton.Badge.PlaceAtCorner(new Vector2(1f, 1f), PixelUi.BadgeCornerOffset);
             m_EquipButton.Badge.SetDot(false);
-            m_ToBaseButton = SideButton(bar, "ToBase", "icon_base", Loc.T("outpost.bottom.to_base"), true, OnToBase);
+            BuildMarketButton(bar);
 
             // «База»: главная кнопка экрана, бейдж — сколько покупок ×1 доступно по доставленному золоту.
             m_BaseButton = PixelUi.Button(bar, "Base", Loc.T("outpost.bottom.base"), PixelButton.Gold, ToggleBase, PixelUi.FontTitle);
@@ -542,14 +529,9 @@ namespace CatMiners.Runtime.Outpost
             b.Icon.rectTransform.anchoredPosition = new Vector2(0f, 6 * Px);
             b.Label.rectTransform.Anchor(0, 0, 1, 0, new Vector2(2 * Px, 3 * Px), new Vector2(-2 * Px, 13 * Px));
             b.Label.textWrappingMode = TextWrappingModes.NoWrap;
-            Ui.AutoSize(b.Label, PixelUi.FontSmall * 0.8f, PixelUi.FontBody);
+            // Подписи боковых кнопок не мельче FontSmall (ТЗ 2.2 §6.2).
+            Ui.AutoSize(b.Label, PixelUi.FontSmall, PixelUi.FontBody);
             return b;
-        }
-
-        void OnToBase()
-        {
-            if (m_Game == null) return;
-            m_Game.FocusBase();
         }
 
         // ───────────── Тост ─────────────
@@ -617,6 +599,8 @@ namespace CatMiners.Runtime.Outpost
         int m_FlyCount;
         bool m_Pulse;
         float m_PulseAge, m_LastFly = -10f;
+        /// <summary>Что «пульсирует» по прилёте монет: кошелёк верхней полосы или строка золота окна рынка.</summary>
+        RectTransform m_PulseIcon;
 
         void BuildLootFly()
         {
@@ -651,13 +635,19 @@ namespace CatMiners.Runtime.Outpost
             if (AnyWindowOpen || now - m_LastFly < FlyMinInterval || screen.z < 0f ||
                 !RectTransformUtility.ScreenPointToLocalPointInRectangle(m_FlyLayer, screen, UiCamera, out var from))
             {
-                Pulse();
+                Pulse(m_GoldIcon);
                 return;
             }
             m_LastFly = now;
             var r = m_FlyLayer.rect;
             from = new Vector2(Mathf.Clamp(from.x, r.xMin, r.xMax), Mathf.Clamp(from.y, r.yMin, r.yMax));
             Vector2 end = m_FlyLayer.InverseTransformPoint(m_GoldIcon.position);
+            LaunchCoins(from, end, count, m_GoldIcon);
+        }
+
+        /// <summary>Запуск до <paramref name="count"/> монет из пула по дуге (локальные точки слоя полёта); по прилёте — пульс <paramref name="pulse"/>.</summary>
+        void LaunchCoins(Vector2 from, Vector2 end, int count, RectTransform pulse)
+        {
             var toward = (end - from) * 0.25f;
             count = Mathf.Clamp(count, 1, FlyMaxPerDrop);
             int launched = 0;
@@ -676,17 +666,34 @@ namespace CatMiners.Runtime.Outpost
             }
             if (launched == 0)
             {
-                Pulse();
+                Pulse(pulse);
                 return;
             }
+            SetPulseIcon(pulse);
             m_FlyCount += launched;
             m_FlyLayer.SetAsLastSibling();
         }
 
+        void Pulse(RectTransform icon)
+        {
+            SetPulseIcon(icon);
+            m_PulseAge = 0f;
+            m_Pulse = true;
+        }
+
+        /// <summary>Пульс текущей цели (монета долетела).</summary>
         void Pulse()
         {
             m_PulseAge = 0f;
-            m_Pulse = true;
+            m_Pulse = m_PulseIcon != null;
+        }
+
+        /// <summary>Сменить цель пульса: прежняя возвращается к обычному масштабу.</summary>
+        void SetPulseIcon(RectTransform icon)
+        {
+            if (icon == null || icon == m_PulseIcon) return;
+            if (m_PulseIcon != null) m_PulseIcon.localScale = Vector3.one;
+            m_PulseIcon = icon;
         }
 
         void UpdateLootFly(float dt)
@@ -711,13 +718,13 @@ namespace CatMiners.Runtime.Outpost
                 float k = t * t * (3f - 2f * t), u = 1f - k;
                 img.rectTransform.anchoredPosition = PixelUi.Snap(u * u * f.From + 2f * u * k * f.Ctrl + k * k * f.To);
             }
-            if (!m_Pulse || m_GoldIcon == null) return;
+            if (!m_Pulse || m_PulseIcon == null) return;
             m_PulseAge += dt;
             float p = m_PulseAge / PulseTime;
             float s = 1f;
             if (p >= 1f) m_Pulse = false;
             else s = 1f + PulseGrow * Mathf.Sin(p * Mathf.PI);
-            m_GoldIcon.localScale = new Vector3(s, s, 1f);
+            m_PulseIcon.localScale = new Vector3(s, s, 1f);
         }
 
         // ───────────── Доли панелей ─────────────
@@ -784,21 +791,6 @@ namespace CatMiners.Runtime.Outpost
             }
         }
 
-        /// <summary>Элемент UI лежит в верхнем окне стека (обучение показывает лапку поверх этого окна).</summary>
-        internal bool IsInTopWindow(RectTransform rt)
-        {
-            Prune();
-            if (rt == null || m_Stack.Count == 0) return false;
-            var top = m_Stack[m_Stack.Count - 1].Root;
-            return top != null && rt.IsChildOf(top);
-        }
-
-        /// <summary>Подсказку обучения и кнопку пропуска — поверх окон (цель подсказки в верхнем окне).</summary>
-        internal void BringHintToFront()
-        {
-            if (Hint != null && Hint.Rect.GetSiblingIndex() != m_Safe.childCount - 1) Hint.Rect.SetAsLastSibling();
-        }
-
         /// <summary>
         /// Системная кнопка Back (ТЗ 14): закрывает верхнее окно (окно предмета → «Экипировка» → …), затем снимает выбор.
         /// Окно, требующее решения (ошибка, расчёт офлайна, вопрос), Back поглощает без закрытия; во время перехода — тоже.
@@ -848,6 +840,7 @@ namespace CatMiners.Runtime.Outpost
             HideEquipment();
             HideCards();
             HideStore();
+            HideMarket();
             HideBase();
             HideSettings();
             HideResults();
@@ -874,7 +867,6 @@ namespace CatMiners.Runtime.Outpost
             SetTransitionFade(0f);
             m_TransitionCover.gameObject.SetActive(true);
             m_TransitionCover.rectTransform.SetAsLastSibling();
-            if (Hint != null && Hint.Visible) Hint.Hide();
             CloseAllWindows();
             HideInfo();
         }
@@ -902,8 +894,8 @@ namespace CatMiners.Runtime.Outpost
         {
             if (m_ToastBg.gameObject.activeSelf && Time.unscaledTime > m_ToastUntil) m_ToastBg.gameObject.SetActive(false);
             FlushCardToasts();
+            FlushGoodsSold();
             if (PollBackButton && BackPressedThisFrame()) HandleBack();
-            m_Tutorial?.Update();
             if (InTransition) return;
             if (m_FlyCount > 0 || m_Pulse) UpdateLootFly(FrameTime.Delta);
             RelayoutDialogs();
@@ -945,12 +937,12 @@ namespace CatMiners.Runtime.Outpost
             RefreshTopBar(sim);
             RefreshBottom(sim);
             RefreshStrip(sim);
-            RefreshSkip();
             RefreshInfo(sim);
             if (BaseOpen) RefreshBase(sim);
             if (EquipmentOpen) RefreshEquipment();
             if (CardsOpen) RefreshCards();
             if (StoreOpen) RefreshStore();
+            if (MarketOpen) RefreshMarket();
             if (SettingsOpen) RefreshSettings();
             if (ResultsOpen) RefreshResultsButtons();
         }
@@ -961,7 +953,7 @@ namespace CatMiners.Runtime.Outpost
             m_CacheRun = run;
             m_ZoneShown = m_ZoneGates = m_ZoneGateCount = m_ZoneDebug = -1;
             m_ReleasedShown = m_DeliveredShown = m_DestroyedShown = m_RequiredShown = m_WorkersShown = -1;
-            m_BaseBadgeShown = m_EquipBadgeShown = m_BottomEnabledShown = -1;
+            m_BaseBadgeShown = m_EquipBadgeShown = m_BottomEnabledShown = m_MarketButtonShown = -1;
             m_StripState = m_StripPercent = -1;
             m_MoneyValid = false;
             for (int i = 0; i < m_NextCostLevel.Length; i++) m_NextCostLevel[i] = int.MinValue;
@@ -969,6 +961,7 @@ namespace CatMiners.Runtime.Outpost
             InvalidateBase();
             InvalidateEquipment();
             InvalidateInfo();
+            InvalidateMarket();
             if (newRun)
             {
                 m_Flow.Reset();
@@ -979,16 +972,20 @@ namespace CatMiners.Runtime.Outpost
             }
         }
 
-        /// <summary>Тап по постройке лагеря (Selection = Base): открыть панель «База» и снять выбор.</summary>
+        /// <summary>
+        /// Тап по постройке лагеря (Selection = Base): открыть панель «База» и снять выбор. Тап по складу товаров
+        /// (Selection = Warehouse, ТЗ 2.2 §6.1) — так же открыть рынок.
+        /// </summary>
         void CheckBaseSelection()
         {
             var kind = m_Game.Selection.Kind;
             if (kind == m_SelKindSeen) return;
             m_SelKindSeen = kind;
-            if (kind != OutpostSelectionKind.Base) return;
+            if (kind != OutpostSelectionKind.Base && kind != OutpostSelectionKind.Warehouse) return;
             m_Game.ClearSelection();
             m_SelKindSeen = OutpostSelectionKind.None;
-            ShowBase();
+            if (kind == OutpostSelectionKind.Warehouse) ShowMarket();
+            else ShowBase();
         }
 
         /// <summary>Команды игрока доступны: идёт обычная игра (не офлайн-расчёт, не переход, не загрузка).</summary>
@@ -1089,6 +1086,7 @@ namespace CatMiners.Runtime.Outpost
                 m_CardsButton.SetInteractable(allowed);
                 m_StoreButton.SetInteractable(allowed);
             }
+            RefreshMarketButton(allowed);
             RefreshStoreBadge(allowed);
             int badge = allowed ? AffordableCount(sim) : 0;
             if (badge != m_BaseBadgeShown)
@@ -1218,28 +1216,6 @@ namespace CatMiners.Runtime.Outpost
             }
         }
 
-        // ───────────── Обучение ─────────────
-
-        int m_SkipShown = -1;
-
-        void RefreshSkip()
-        {
-            bool on = m_Tutorial != null && m_Tutorial.Active && Hint != null && Hint.Visible && !AnyWindowOpen;
-            int v = on ? 1 : 0;
-            if (v == m_SkipShown) return;
-            m_SkipShown = v;
-            m_SkipButton.SetActive(on);
-        }
-
-        void OnSkipTutorial()
-        {
-            if (m_Tutorial == null) return;
-            m_Tutorial.Skip();
-            m_SkipShown = -1;
-            RefreshSkip();
-            Toast(Loc.T("outpost.tutorial.skipped"), 3f);
-        }
-
         // ───────────── События ядра ─────────────
 
         /// <summary>
@@ -1250,6 +1226,7 @@ namespace CatMiners.Runtime.Outpost
         {
             OnStoreEvent(e);
             OnCardEvent(e);
+            OnMarketEvent(e);
             var sim = m_Game != null ? m_Game.Sim : null;
             m_Flow.OnEvent(e, sim);
             switch (e.Type)

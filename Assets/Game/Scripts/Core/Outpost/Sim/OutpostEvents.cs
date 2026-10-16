@@ -30,6 +30,35 @@ namespace CatMiners.Core.Outpost
         StorePurchased,
         /// <summary>Золото награды за рекламу: Value — сумма.</summary>
         BonusGold,
+
+        // ── Заводы и рынок (ТЗ 2.2; порядок внутри отметки — §4.5, шаг 4б и фаза 6) ──
+        /// <summary>
+        /// Цепи разбиты, завод открыт (сразу после сундука rewardId, до проверки автодоставки): TargetId — завод, Cell — якорь
+        /// цели, ItemId — GoodId, Detail — TypeId.
+        /// </summary>
+        FactoryUnlocked,
+        /// <summary>
+        /// Цикл ручного завода окончен, партия ждёт «Deliver» (Status → Ready; у автоматического вместо него GoodsDispatched):
+        /// TargetId, ItemId — GoodId, Count — единиц в партии.
+        /// </summary>
+        FactoryReady,
+        /// <summary>
+        /// Включилась автодоставка (уровень карточки требования ≥ cardLevel токена; при открытии, получении копии, улучшении,
+        /// загрузке): TargetId, ItemId — GoodId, Detail — ID карточки требования, Count — её уровень сейчас.
+        /// </summary>
+        FactoryAutomated,
+        /// <summary>
+        /// Партия ушла в трубу: TargetId — завод, ItemId — GoodId, Count — единиц, BatchSeq — номер партии
+        /// (<see cref="PipeBatch.Seq"/>, ArriveTick — в Run.PipeBatches), Extra — 1 автодоставка, 0 команда DeliverFactory.
+        /// </summary>
+        GoodsDispatched,
+        /// <summary>Партия пришла на склад: TargetId — завод-отправитель, ItemId — GoodId, Count — единиц, BatchSeq — номер партии.</summary>
+        GoodsArrived,
+        /// <summary>
+        /// Товар продан (команда SellGoods): ItemId — GoodId, Count — продано единиц, Value — золото. SellGoods(null) даёт по
+        /// одному событию на каждый товар с ненулевым остатком, по номеру типа; сумма Value одной команды — «+X gold».
+        /// </summary>
+        GoodsSold,
     }
 
     /// <summary>

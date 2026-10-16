@@ -315,7 +315,9 @@ namespace CatMiners.Tests.Outpost
             AssertSameRng(expected, p.RewardRng, "RewardRng = Pcg32(Seed, 5)");
             Assert.AreEqual(1, p.RewardRngVersion);
             Assert.AreEqual("CatOutpostV2", p.ModeId);
-            Assert.AreEqual(2, p.SchemaVersion);
+            // ТЗ 2.2 §10.1, §16.1 (б): новый профиль пишется схемой 3.
+            Assert.AreEqual(3, p.SchemaVersion);
+            Assert.AreEqual(OutpostIds.SchemaVersion, p.SchemaVersion);
             Assert.AreEqual(1, p.CurrentZone);
             Assert.AreEqual(0L, p.Parts);
             Assert.IsTrue(p.Equipped.All(e => e == null));

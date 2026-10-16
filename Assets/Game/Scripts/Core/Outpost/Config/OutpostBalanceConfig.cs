@@ -30,6 +30,15 @@ namespace CatMiners.Core.Outpost
         /// (Docs/Rework/BALANCE_AUDIT.md). Снимки run до профиля b4 получают 0 — прежние цены.
         /// </summary>
         public Rational CostZoneStep;
+        /// <summary>
+        /// K(z) — множитель темпа шахты z (профиль b6, решение владельца В4 15 октября 2026: шахта с медленными заводами длится
+        /// около трёх циклов самого медленного завода этой шахты; Docs/Rework/BALANCE_FACTORIES.md, «Темп b6: 3 цикла»).
+        /// Элемент z−1 — шахта z; нет элемента или списка (снимки run до b6) — K = 1. K умножает HP целей r/x/p при создании
+        /// run (груз монет следует за HP, <see cref="OutpostLevelBalanceAdapter.ApplyPace"/>) и цены всех веток
+        /// (<see cref="PriceScale"/>): шахта — растянутая во времени копия прежней, покупки идут всю шахту, а доход товара за
+        /// шахту растёт вместе с её длительностью. Цепи заводов (s), циклы и цены товара не меняются.
+        /// </summary>
+        public List<Rational> PaceScale;
         /// <summary>Ветки по порядку <see cref="UpgradeBranch"/>.</summary>
         public List<UpgradeBranchConfig> Branches = new List<UpgradeBranchConfig>();
         public Rational MilestoneMultiplier;
@@ -78,8 +87,19 @@ namespace CatMiners.Core.Outpost
         readonly Dictionary<int, Rational> m_PriceScale = new Dictionary<int, Rational>();
         Rational m_PriceScaleZoneScale, m_PriceScaleStep;
 
-        /// <summary>S(z)·CostZoneFactor(z) — общий множитель цены любой ветки в зоне z.</summary>
+        /// <summary>K(z) — множитель темпа шахты (<see cref="PaceScale"/>); 1, если для шахты нет значения.</summary>
+        public Rational ZonePace(int zone) =>
+            PaceScale != null && zone >= 1 && zone <= PaceScale.Count ? PaceScale[zone - 1] : Rational.One;
+
+        /// <summary>S(z)·CostZoneFactor(z)·K(z) — общий множитель цены любой ветки в зоне z.</summary>
         public Rational PriceScale(int zone)
+        {
+            var k = ZonePace(zone);
+            var v = ZonePriceScale(zone);
+            return k == Rational.One ? v : v * k;
+        }
+
+        Rational ZonePriceScale(int zone)
         {
             lock (m_PriceScale)
             {
@@ -117,6 +137,17 @@ namespace CatMiners.Core.Outpost
 
         public OutpostBalanceConfig Clone() => OutpostJson.DeepCopy(this);
 
+        /// <summary>
+        /// Копия без множителя темпа (K = 1 во всех шахтах, числа b5): основа калибровки темпа b6 и тестов правил, которым
+        /// длительность шахты не важна (Docs/Rework/BALANCE_FACTORIES.md, «Темп b6: 3 цикла»).
+        /// </summary>
+        public OutpostBalanceConfig WithoutPace()
+        {
+            var b = Clone();
+            b.PaceScale = null;
+            return b;
+        }
+
         public static OutpostBalanceConfig Parse(string json)
         {
             OutpostBalanceConfig cfg;
@@ -146,6 +177,12 @@ namespace CatMiners.Core.Outpost
             if (WatchdogTicks <= 0) Fail("WatchdogTicks ≤ 0");
             if (ZoneScale.Sign <= 0) Fail("ZoneScale ≤ 0");
             if (CostZoneStep.Sign < 0) Fail("CostZoneStep < 0");
+            if (PaceScale != null)
+            {
+                if (PaceScale.Count > OutpostIds.LastZone) Fail("PaceScale: больше " + OutpostIds.LastZone + " шахт");
+                for (int i = 0; i < PaceScale.Count; i++)
+                    if (PaceScale[i] < Rational.One) Fail("PaceScale[" + i + "] (шахта " + (i + 1) + ") < 1");
+            }
             if (Branches == null || Branches.Count != OutpostIds.BranchCount) Fail("ожидалось 6 веток");
             for (int i = 0; i < OutpostIds.BranchCount; i++)
             {

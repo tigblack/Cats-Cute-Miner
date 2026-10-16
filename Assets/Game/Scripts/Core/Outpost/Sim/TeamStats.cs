@@ -8,6 +8,8 @@ namespace CatMiners.Core.Outpost
     /// Эффективные характеристики команды (ТЗ 9, 12.2, 12.3): единственное место расчёта из базовых значений,
     /// локальных уровней run, надетого постоянного комплекта и активных карточек (CARD_EFFECT_MAPPING.md). Каждый бонус
     /// карточки суммируется здесь один раз; без карточек все величины совпадают с прежними. Все величины точные.
+    /// Исключение — выпуск заводов (FactoryOutput, ТЗ 2.2 §4.4): это не характеристика команды, его считает только
+    /// <see cref="FactoryMath.UnitsPerCycle"/>.
     /// </summary>
     public sealed class TeamStats
     {
@@ -170,6 +172,11 @@ namespace CatMiners.Core.Outpost
                     case CardEffectKind.TargetDamage:
                         foreach (var t in def.TargetIds) AddTo(CardTypeDamage, t, v);
                         HasTargetBonuses = true;
+                        break;
+                    case CardEffectKind.FactoryOutput:
+                        // ТЗ 2.2 §7.1: карточки заводов не дают ни цены порций, ни урона — только выпуск товара своего типа. Его
+                        // считает единственная функция FactoryMath.UnitsPerCycle прямо по профилю на отметке конца цикла (эти
+                        // характеристики пересчитываются только фазой 7), поэтому здесь эффект не копится.
                         break;
                     case CardEffectKind.KindValue:
                         AddTo(CardKindValue, def.Effect.TargetKind[0], v);

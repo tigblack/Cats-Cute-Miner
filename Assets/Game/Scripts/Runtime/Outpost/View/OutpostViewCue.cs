@@ -38,6 +38,18 @@ namespace CatMiners.Runtime.Outpost
         TeamGathered,
         /// <summary>Кирка игрока ударила цель (кадр удара успешной команды Strike): материал — <see cref="OutpostViewCueArgs.Material"/>.</summary>
         PlayerStrike,
+        /// <summary>Цепи завода разбиты (FactoryUnlocked, ТЗ 2.2 §4.2): разлёт звеньев.</summary>
+        ChainBreak,
+        /// <summary>Партия ждёт доставки (FactoryReady, только ручной режим): тихий сигнал не чаще раза в 0,5 с.</summary>
+        FactoryReady,
+        /// <summary>Завод перешёл на автодоставку (FactoryAutomated).</summary>
+        FactoryAutomated,
+        /// <summary>Партия ушла в трубу (GoodsDispatched): <see cref="OutpostViewCueArgs.Automatic"/> — автодоставка, Count — автоматических заводов в кадре.</summary>
+        PipeSend,
+        /// <summary>Партия пришла на склад (GoodsArrived): Count — единиц товара.</summary>
+        GoodsArrive,
+        /// <summary>Товар продан на рынке (GoodsSold): одна команда «Sell all» — один звук (интервал Sfx).</summary>
+        GoodsSold,
     }
 
     /// <summary>Аргументы подсказки вида: структура, передаётся без выделений памяти.</summary>
@@ -58,8 +70,14 @@ namespace CatMiners.Runtime.Outpost
         public int Count;
         /// <summary>Материал цели для звука удара/разлома.</summary>
         public HitMaterial Material;
-        /// <summary>Стоимость порции (Deposit, SackPop); иначе 0.</summary>
+        /// <summary>Стоимость порции (Deposit, SackPop), золото продажи (GoodsSold); иначе 0.</summary>
         public BigInteger Value;
+        /// <summary>Удар пришёлся по цепям закрытого завода (Hit, PlayerStrike): звук цепей вместо материала.</summary>
+        public bool Chains;
+        /// <summary>Партия отправлена автодоставкой (PipeSend).</summary>
+        public bool Automatic;
+        /// <summary>Товар события заводов (GoodId) или null.</summary>
+        public string ItemId;
 
         public static OutpostViewCueArgs Create(OutpostViewCue cue, Vector3 position) => new OutpostViewCueArgs
         {

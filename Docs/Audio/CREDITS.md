@@ -7,20 +7,23 @@
 
 | Источник | Автор | Лицензия | Ссылка | Что взято |
 |---|---|---|---|---|
-| Impact Sounds 1.0 | Kenney (kenney.nl) | CC0 (License.txt в архиве) | <https://kenney.nl/assets/impact-sounds> | `impactMining_000/001/002/003/004`, `impactMetal_light_001/004`, `impactWood_light_000/002` → hit, hit_crystal, hit_wood, hit_metal, weapon_hammer, weapon_crusher, weapon_saw, weapon_dualpick, break, coin, payout, denied, land |
-| RPG Audio | Kenney (kenney.nl) | CC0 (License.txt в архиве) | <https://kenney.nl/assets/rpg-audio> | `cloth2`, `bookClose` → open, close, cannon, land, hit_wood |
+| Impact Sounds 1.0 | Kenney (kenney.nl) | CC0 (License.txt в архиве) | <https://kenney.nl/assets/impact-sounds> | `impactMining_000/001/002/003/004`, `impactMetal_light_001/004`, `impactWood_light_000/002` → hit, hit_crystal, hit_wood, hit_metal, weapon_hammer, weapon_crusher, weapon_saw, weapon_dualpick, break, coin, payout, denied, land, hit_chain, chain_break, goods_arrive, goods_sell |
+| RPG Audio | Kenney (kenney.nl) | CC0 (License.txt в архиве) | <https://kenney.nl/assets/rpg-audio> | `cloth2`, `bookClose` → open, close, cannon, land, hit_wood, goods_arrive |
 | Music Jingles | Kenney (kenney.nl) | CC0 (License.txt в архиве) | <https://kenney.nl/assets/music-jingles> | `jingles_PIZZI08/10/16`, `jingles_STEEL04/10` → upgrade, unlock, chest, exit, gate |
 | Meow cat #6, #7, #11 (`s1894`, `s1895`, `s1899`) | Joseph Sardin, BigSoundBank.com | CC0 («CC0 (public domain): Free and royalty-free») | <https://bigsoundbank.com/meow-cat-6-s1894.html>, <https://bigsoundbank.com/meow-cat-7-s1895.html>, <https://bigsoundbank.com/meow-cat-11-s1899.html>; условия: <https://bigsoundbank.com/licenses.html> | meow_0..2 |
 | Meow | IgnasD, OpenGameArt.org | CC0 | <https://opengameart.org/content/meow> | meow_3 |
-| Various Sound Effects | Spring Spring (Julie Damsgaard), <https://spring-enterprises.neocities.org> | CC0 | <https://opengameart.org/content/various-sound-effects-0> | `small_amber`, `big_amber`, `bup`, `dull_explosion` → chime, merge, click, select, dynamite, cannon |
-| 80 CC0 RPG SFX | rubberduck, OpenGameArt.org | CC0 | <https://opengameart.org/content/80-cc0-rpg-sfx> | `item_coins_02/03`, `stones_04` → payout, break |
+| Various Sound Effects | Spring Spring (Julie Damsgaard), <https://spring-enterprises.neocities.org> | CC0 | <https://opengameart.org/content/various-sound-effects-0> | `small_amber`, `big_amber`, `bup`, `dull_explosion` → chime, merge, click, select, dynamite, cannon, chain_break, pipe_send, goods_arrive, goods_sell |
+| 80 CC0 RPG SFX | rubberduck, OpenGameArt.org | CC0 | <https://opengameart.org/content/80-cc0-rpg-sfx> | `item_coins_02/03`, `stones_04` → payout, break, goods_sell |
 | 75 CC0 breaking / falling / hit sfx | rubberduck, OpenGameArt.org | CC0 | <https://opengameart.org/content/75-cc0-breaking-falling-hit-sfx> | `bfh1_rock_falling_02/07` → break, dynamite |
 
 **Оригинальное, без сторонних материалов** — синтез и аранжировка кодом в проекте, права у проекта:
 - музыка `music_warm` «Тёплая штольня», `music_crystal` «Кристальная глубина» — `Tools/Audio/music.py`;
 - атмосфера `amb_bed`, `amb_drip_*`, `amb_creak_*`, `amb_pebbles_*`, `amb_machine_*` — `Tools/Audio/ambience.py`;
 - стеклянный «тинь» в `hit_crystal_*` — `Docs/Audio/build_sfx.py` (`r_hit_crystal`);
-- звуки оружия: «тело» молота, хруст дробилки, моторы и визг пилы, бура и бензопилы, «пиу» лазера — `Docs/Audio/build_sfx.py` (`r_weapon_*`).
+- звуки оружия: «тело» молота, хруст дробилки, моторы и визг пилы, бура и бензопилы, «пиу» лазера — `Docs/Audio/build_sfx.py` (`r_weapon_*`);
+- заводы (ТЗ 2.2): сигнал готовности партии `factory_ready_0` («маримба»), шорох воздуха в трубе `pipe_send_*`, расстановка
+  звяканий звеньев в `hit_chain_*` и `chain_break_*` — `Docs/Audio/build_sfx.py` (`r_factory_ready`, `r_pipe_send`, `r_hit_chain`,
+  `r_chain_break`).
 
 Строка для титров (необязательно): «Звуки: Kenney (kenney.nl), Joseph Sardin (BigSoundBank.com), Spring Spring,
 rubberduck, IgnasD (OpenGameArt.org) — CC0».

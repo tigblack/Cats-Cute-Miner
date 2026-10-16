@@ -250,11 +250,13 @@ namespace CatMiners.Tests.Outpost
             Assert.AreEqual(expected, ExpectedCost(144, 30, FracA.Of(31, 25), 39), "самопроверка эталона");
             Assert.AreEqual(expected, AuditBig(Audit["controls"]["value_cost_zone144_L39"]), "самопроверка аудита");
             Assert.IsTrue((bool)Audit["controls"]["value_cost_zone144_L39_exceeds_2_pow_53"]);
-            var actual = NextCost(144, UpgradeBranch.Value, 39);
+            // Профиль b6: точность больших целых проверяется на базовой цене аудита (без множителя темпа K(z), решение владельца
+            // В4, 15 октября 2026); цена с K — NextCost_MatchesIndependentFormula.
+            var actual = NextCost(144, UpgradeBranch.Value, 39, BaseBalance);
             Assert.IsTrue(actual.HasValue);
             Assert.AreEqual(expected, actual.Value);
             Assert.That(actual.Value, Is.GreaterThan(TwoPow53));
-            Assert.IsFalse(NextCost(144, UpgradeBranch.Value, 40).HasValue, "L40 — cap «Оценки», цены нет");
+            Assert.IsFalse(NextCost(144, UpgradeBranch.Value, 40, BaseBalance).HasValue, "L40 — cap «Оценки», цены нет");
         }
 
         [Test]
@@ -266,8 +268,9 @@ namespace CatMiners.Tests.Outpost
                 audit, "самопроверка аудита");
             Assert.AreEqual(ExpectedCost(144, 20, FracA.Of(59, 50), 0), audit[0], "самопроверка эталона");
             Assert.AreEqual(ExpectedCost(144, 20, FracA.Of(59, 50), 19), audit[1], "самопроверка эталона");
-            Assert.AreEqual(BigInteger.Parse("64363493905441", CultureInfo.InvariantCulture), NextCost(144, UpgradeBranch.Pickaxes, 0).Value);
-            Assert.AreEqual(BigInteger.Parse("1494162216779089", CultureInfo.InvariantCulture), NextCost(144, UpgradeBranch.Pickaxes, 19).Value);
+            // Профиль b6: базовая цена аудита (без K(z), решение владельца В4); цена с K — NextCost_MatchesIndependentFormula.
+            Assert.AreEqual(BigInteger.Parse("64363493905441", CultureInfo.InvariantCulture), NextCost(144, UpgradeBranch.Pickaxes, 0, BaseBalance).Value);
+            Assert.AreEqual(BigInteger.Parse("1494162216779089", CultureInfo.InvariantCulture), NextCost(144, UpgradeBranch.Pickaxes, 19, BaseBalance).Value);
         }
 
         [Test]
@@ -275,12 +278,13 @@ namespace CatMiners.Tests.Outpost
         {
             // Σ L = 0..39 (cap 40, профиль b4).
             BigInteger sum = 0, expected = 0;
+            // Профиль b6: базовые цены аудита (без K(z), решение владельца В4, 15 октября 2026).
             for (int level = 0; level < 40; level++)
             {
-                sum += NextCost(144, UpgradeBranch.Value, level).Value;
+                sum += NextCost(144, UpgradeBranch.Value, level, BaseBalance).Value;
                 expected += ExpectedCost(144, 30, FracA.Of(31, 25), level);
             }
-            Assert.IsFalse(NextCost(144, UpgradeBranch.Value, 40).HasValue, "cap 40");
+            Assert.IsFalse(NextCost(144, UpgradeBranch.Value, 40, BaseBalance).HasValue, "cap 40");
             Assert.AreEqual(BigInteger.Parse("2194357721314998705", CultureInfo.InvariantCulture), expected, "самопроверка эталона");
             Assert.AreEqual(expected, AuditBig(Audit["controls"]["value_branch_total_zone144_L0_L39"]), "самопроверка аудита");
             Assert.AreEqual(BigInteger.Parse("2194357721314998705", CultureInfo.InvariantCulture), sum);
@@ -328,7 +332,9 @@ namespace CatMiners.Tests.Outpost
             foreach (var b in Balances(144)) total += CoinValue(stats, 144, b.ValueFactor) * b.Units;
             var expected = AuditBig(Audit["controls"]["maximum_stage_gold_upper_bound"]);
             Assert.AreEqual("zone144", (string)Audit["controls"]["maximum_stage_gold_upper_bound_zone"]);
-            Assert.AreEqual(BigInteger.Parse("13206982907366054057", CultureInfo.InvariantCulture), expected);
+            // ТЗ 2.2 §4.2, §16.1: adapter-2 — у цепей заводов груза нет; значение — controls.maximum_stage_gold_upper_bound
+            // нового эталона (прежнее 13206982907366054057 — в outpost_v2_audit_2.1.json).
+            Assert.AreEqual(BigInteger.Parse("7421129543330699456", CultureInfo.InvariantCulture), expected);
             Assert.AreEqual(expected, total);
             Assert.IsTrue((bool)Audit["controls"]["maximum_stage_gold_upper_bound_exceeds_2_pow_53"]);
             Assert.That(total, Is.GreaterThan(TwoPow53));
@@ -603,7 +609,8 @@ namespace CatMiners.Tests.Outpost
             for (int b = 0; b < 6; b++)
             {
                 for (int level = 0; level < caps[b]; level++)
-                    Assert.AreEqual(ExpectedCost(zone, bases[b], growth[b], level), NextCost(zone, (UpgradeBranch)b, level).Value,
+                    // Профиль b6 (решение владельца В4, 15 октября 2026): цена × K(z) из PaceScale (paced).
+                    Assert.AreEqual(ExpectedCost(zone, bases[b], growth[b], level, paced: true), NextCost(zone, (UpgradeBranch)b, level).Value,
                         "zone" + zone + " " + BranchIds[b] + " L" + level);
                 Assert.IsFalse(NextCost(zone, (UpgradeBranch)b, caps[b]).HasValue, "zone" + zone + " " + BranchIds[b] + ": на cap цены нет");
             }

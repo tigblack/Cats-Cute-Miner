@@ -46,7 +46,9 @@ namespace CatMiners.Core.Outpost
 
         /// <summary>
         /// Новый run: RunId = "run-{NextRunSeq++}", уровни 0, StartWorkers в SpawnCell, кошелёк 0, HP/порции из адаптера,
-        /// снимок текущего профиля чисел; затем фаза 7 на Now = 0.
+        /// снимок текущего профиля чисел и правил заводов (ТЗ 2.2 §3.2), заводы карты в цепях (Locked), пустые трубы и склад
+        /// товаров; затем фаза 7 на Now = 0. Переход и перезапуск шахты создают run заново — заводы, трубы, склад и счётчики
+        /// товара сбрасываются вместе с золотом (ТЗ 2.2 §4.6, Р3).
         /// </summary>
         public static OutpostRun CreateRun(OutpostProfile profile, int zone, OutpostMap map, OutpostConfigSet configs, BalanceRepository repo, long nowUtcMs)
         {
@@ -54,7 +56,8 @@ namespace CatMiners.Core.Outpost
             if (map == null) throw new ArgumentNullException(nameof(map));
             if (map.Number != zone) throw new ArgumentException("Карта " + map.ZoneId + " не соответствует зоне " + zone);
             var balance = configs.Balance.Clone();
-            var tb = OutpostLevelBalanceAdapter.Compute(map, balance, repo);
+            // Профиль b6: базовые HP §12.4, затем множитель темпа шахты K(z) для r/x/p (OutpostBalanceConfig.PaceScale).
+            var tb = OutpostLevelBalanceAdapter.ApplyPace(map, balance, OutpostLevelBalanceAdapter.Compute(map, balance, repo));
             CardService.ReachZone(profile, zone);
             // «Плакат найма»: котики сразу с начала шахты, из предела «Команды» (TeamUpgradeService.Quote уменьшает покупаемые уровни).
             int extraWorkers = CardService.EffectWhole(profile, configs.Cards, CardEffectKind.StartWorkers);
@@ -94,6 +97,7 @@ namespace CatMiners.Core.Outpost
                     ValueFactor = b.ValueFactor,
                 });
             }
+            AddFactories(run, map, configs);
             for (int i = 0; i < balance.StartWorkers + extraWorkers; i++)
             {
                 int id = run.NextWorkerId++;
@@ -108,6 +112,33 @@ namespace CatMiners.Core.Outpost
             var sim = new OutpostSimulation(new OutpostGameState { Profile = profile, Run = run }, map, configs) { RecordEvents = false };
             sim.PlanNow();
             return run;
+        }
+
+        /// <summary>
+        /// Заводы шахты (ТЗ 2.2 §10.2): снимок factory_rules в run и по заводу на каждую цель <c>s</c> карты (по TargetId, Locked);
+        /// склад, пришедшее и проданное — нулевые записи всех товаров шахты (одинаковая форма снимка онлайн, офлайн и после
+        /// загрузки). Без правил в наборе run создаётся без заводов.
+        /// </summary>
+        static void AddFactories(OutpostRun run, OutpostMap map, OutpostConfigSet configs)
+        {
+            if (configs?.FactoryRules == null) return;
+            run.FactoryRules = OutpostJson.DeepCopy(configs.FactoryRules);
+            foreach (var mf in map.Factories)
+            {
+                var rule = run.FactoryRules.ForType(mf.TypeId);
+                if (rule == null)
+                    throw new OutpostConfigException("factory_rules: нет товара для завода " + mf.TypeId + " (" + map.ZoneId + ", цель " + mf.TargetId + ")");
+                run.Factories.Add(new FactoryState
+                {
+                    TargetId = mf.TargetId,
+                    TypeId = mf.TypeId,
+                    GoodId = rule.GoodId,
+                    Status = FactoryStatus.Locked,
+                });
+                run.Warehouse[rule.GoodId] = 0;
+                run.GoodsArrived[rule.GoodId] = 0;
+                run.GoodsSold[rule.GoodId] = 0;
+            }
         }
 
         /// <summary>
@@ -183,7 +214,7 @@ namespace CatMiners.Core.Outpost
 
         /// <summary>
         /// Перезапуск текущей шахты на актуальной карте (геометрия зоны изменилась, ТЗ 8.5): новый run той же зоны с уровнями 0,
-        /// двумя котиками и пустым кошельком; профиль, предметы, детали, награды, обучение и настройки сохраняются.
+        /// двумя котиками и пустым кошельком; профиль, предметы, детали, награды и настройки сохраняются.
         /// Завершённую шахту (ReadyToContinue) не перезапускает — возвращает false; её карта восстанавливается по копии override.
         /// </summary>
         public static bool RestartRunIfMapChanged(OutpostGameState state, BalanceRepository repo, OutpostConfigSet configs, long nowUtcMs,

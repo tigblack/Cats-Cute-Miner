@@ -190,7 +190,6 @@ namespace CatMiners.Tests
             catalog.Zones.Add("zone1", topology);
             var state = StageProgressionService.NewGame(Game.Balance, Game.Configs.WithTopologies(catalog), 31337, m_Clock.UtcNowMs);
             state.Profile.CardKeys.Add(CardService.LegacyImportKey);
-            state.Profile.Tutorial.Dismissed = true;
             var map = OutpostLevelAdapter.ForRun(Game.Balance, state.Run);
             new OutpostSimulation(state, map, Game.Configs).Advance(20 * OutpostIds.TicksPerSecond);
             var saves = new OutpostSaveService(m_Dir, m_Files) { Configs = Game.Configs };
@@ -324,8 +323,7 @@ namespace CatMiners.Tests
             m_Files.FailWrites = false;
             int retryIndex = m_Files.AttemptPayloads.Count;
             Game.RetrySave();
-            // Presentation after the successful retry may save a tutorial step.
-            // The retried economic commit itself must still be byte-for-byte identical.
+            // Other saves may follow the successful retry; the retried economic commit itself must be byte-for-byte identical.
             Assert.That(m_Files.AttemptPayloads[retryIndex], Is.EqualTo(snapshot));
             Assert.That(Game.State.Run.TotalSpent, Is.EqualTo(state.Run.TotalSpent));
             Assert.That(Game.SaveFailed, Is.False);
@@ -476,7 +474,7 @@ namespace CatMiners.Tests
         /// <summary>
         /// Крючки playable-сборки по умолчанию выключены: профиль b4 с двумя котиками, safe area без резерва снизу, доли панелей
         /// как прежде, окно «While you were away» после отсутствия, режиссёра playable на контроллере нет; магазин целиком (с «+»
-        /// валют и плитками не по карману), лапка обучения — по центру цели и под пальцем.
+        /// валют и плитками не по карману); подсказок с лапкой нет — обучения в игре нет.
         /// </summary>
         [UnityTest]
         public IEnumerator PlayableHooks_OffByDefault_MainBalanceLayoutOfflineUnchanged()
@@ -488,12 +486,11 @@ namespace CatMiners.Tests
             Assert.That(Game.Configs.Balance.StartWorkers, Is.EqualTo(2));
             Assert.That(Game.State.Run.Workers.Count, Is.EqualTo(2));
             Assert.That(Game.GetComponents<MonoBehaviour>().Any(b => b.GetType().Namespace == "CatMiners.Playable"), Is.False);
-            // Магазин основной игры целиком, «Reset progress» — обычный сброс, лапка обучения — в центре цели.
+            // Магазин основной игры целиком, «Reset progress» — обычный сброс, подсказки обучения нет.
             Assert.That(Game.Configs.Store.Items.Any(d => d.Kind == StoreItemKind.Gems), Is.True);
             Assert.That(Game.Configs.Store.Version, Is.EqualTo(OutpostResources.LoadConfigs().Store.Version));
             Assert.That(Game.Hud.ResetProgressOverride, Is.Null);
-            Assert.That(Game.Hud.Hint.TipAnchor, Is.EqualTo(new Vector2(0.5f, 0.5f)));
-            Assert.That(Game.Hud.Hint.PointDown, Is.False, "лапка под пальцем, как всегда");
+            Assert.That(Game.Hud.GetComponentsInChildren<TutorialHint>(true), Is.Empty, "в HUD нет подсказки обучения");
             Assert.That(Game.Hud.StoreHideUnpayable, Is.False);
             yield return Advance(0.5);
             // Магазин основной игры: «+» эликсира и гемов и все плитки на месте (в том числе те, что не по карману).
@@ -595,7 +592,6 @@ namespace CatMiners.Tests
             Assert.That(state.Profile.Items, Is.Empty);
             Assert.That(state.Profile.Equipped.All(id => id == null), Is.True);
             Assert.That(state.Profile.Parts, Is.Zero);
-            Assert.That(state.Profile.Tutorial.Dismissed, Is.False);
             Assert.That(state.Run.Levels, Is.EqualTo(new int[6]));
             Assert.That(state.Run.Workers.Count, Is.EqualTo(2));
             Assert.That(state.Run.Wallet.IsZero, Is.True);
@@ -618,8 +614,6 @@ namespace CatMiners.Tests
             Game.CompleteStageNow();
             yield return WaitPlaying();
             var progressed = OutpostJson.DeepCopy(Game.State);
-            progressed.Profile.Tutorial.Dismissed = true;
-            progressed.Profile.Tutorial.Seen.Add(OutpostTutorial.StepReset);
             progressed.Profile.Settings.Music = 0.25f;
             var saves = new OutpostSaveService(m_Dir) { Configs = Game.Configs };
             Assert.That(saves.Save(progressed, OutpostSaveSlot.Main, Game.Map).Ok, Is.True);
@@ -649,7 +643,6 @@ namespace CatMiners.Tests
             var confirm = Game.Hud.GetComponentsInChildren<UnityEngine.UI.Button>().Single(b => b.GetComponentInChildren<TMPro.TextMeshProUGUI>()?.text == Loc.T("outpost.dev.reset_confirm"));
             confirm.onClick.Invoke();
             AssertFreshProgress();
-            Assert.That(Game.State.Profile.Tutorial.Seen, Is.Empty);
             Assert.That(Game.State.Profile.Settings.Music, Is.EqualTo(0.25f));
             Assert.That(Game.Hud.ModalOpen, Is.False);
             Assert.That(Game.Hud.transform.Find("SafeArea/OutpostDevPanel").gameObject.activeSelf, Is.False);
@@ -669,7 +662,6 @@ namespace CatMiners.Tests
             yield return null;
             yield return WaitPlaying();
             AssertFreshProgress();
-            Assert.That(Game.Tutorial.Active, Is.True);
             Assert.That(Game.State.Profile.Settings.Music, Is.EqualTo(0.25f));
             Assert.That(File.ReadAllBytes(saves.MainPath(OutpostSaveSlot.Debug)), Is.EqualTo(debugSave));
         }
@@ -837,7 +829,6 @@ namespace CatMiners.Tests
             var touch = InputSystem.AddDevice<Touchscreen>();
             try
             {
-                Game.Tutorial.Skip();
                 yield return null;
                 var ids = Game.Map.Targets.Where(t => Game.CanStrike(t.Id)).OrderByDescending(t => t.Id).Take(2).Select(t => t.Id).ToArray();
                 Assert.That(ids.Length, Is.EqualTo(2));
@@ -904,16 +895,23 @@ namespace CatMiners.Tests
             var mouse = InputSystem.AddDevice<Mouse>();
             try
             {
-                Game.State.Profile.Tutorial.Seen.Add(OutpostTutorial.StepAuto);
                 yield return null;
-                yield return PlayModeUtil.WaitReal(1.2f);
-                Assert.That(Game.Tutorial.CurrentHint, Is.EqualTo(Loc.T("outpost.tutorial.strike")));
                 Assert.That(Game.Map.RequiredCount, Is.EqualTo(56), "zone1 с override арены");
-                // Ближайшая к базе цель: нижний ряд завалов zone1.
-                int id = Game.Tutorial.StrikeTargetId;
-                Assert.That(id, Is.GreaterThanOrEqualTo(0), "камень, отмеченный подсказкой");
-                Assert.That(Game.TryGetTargetWorldPosition(id, out var world), Is.True);
-                Game.Rig.FocusOn(world.z);
+                // Ближайшая к базе цель под удар: нижний ряд завалов zone1.
+                Vector3 world = default;
+                float best = float.MaxValue;
+                int id = -1;
+                foreach (var t in Game.Map.Targets)
+                {
+                    if (t.IsGate || !Game.CanStrike(t.Id) || !Game.TryGetTargetWorldPosition(t.Id, out var p)) continue;
+                    float d = (p - Game.BaseWorldPosition).sqrMagnitude;
+                    if (d >= best) continue;
+                    best = d;
+                    id = t.Id;
+                    world = p;
+                }
+                Assert.That(id, Is.GreaterThanOrEqualTo(0), "камень под удар у базы");
+                Game.Rig.FocusOn(new Vector2(world.x, world.z));
                 yield return null;
                 Vector2 point = Game.Rig.Cam.WorldToScreenPoint(world);
                 var target = Game.Sim.TargetById(id);
@@ -931,7 +929,6 @@ namespace CatMiners.Tests
                 Assert.That(Game.Board.ActiveStrikes, Is.EqualTo(0), "анимация закончилась");
                 Assert.That(target.RemainingHpUnits, Is.EqualTo(hp - Game.Stats.TapDamageUnits), "урон нанесён один раз в кадр удара");
                 Assert.That(Game.State.Run.Wallet, Is.EqualTo(wallet), "удар не начисляет золото");
-                Assert.That(Game.Tutorial.IsDone(OutpostTutorial.StepStrike), Is.True, "реальное нажатие завершило урок ручного удара");
                 Assert.That(OutpostInvariants.Check(Game.State, Game.Map, Game.Configs.Equipment), Is.Empty);
 
                 hp = target.RemainingHpUnits;
@@ -959,14 +956,13 @@ namespace CatMiners.Tests
             // A run predating the content override adopts wide tunnels with only its original content.
             var repo = Game.Balance;
             var configs = Game.Configs;
-            // Выгрузить запущенную игру: её автосохранение или запись обучения не должны перекрыть подготовленный файл.
+            // Выгрузить запущенную игру: её автосохранение не должно перекрыть подготовленный файл.
             var prep = SceneManager.CreateScene("OutpostLegacyPrep-" + Guid.NewGuid().ToString("N"));
             SceneManager.SetActiveScene(prep);
             yield return SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName("CoreGame"));
             var profile = StageProgressionService.NewProfile(configs, 7, 1);
             profile.Parts = 42;
             profile.Items["hat.rare"] = 2;
-            profile.Tutorial.Seen.Add(OutpostTutorial.StepAuto);
             var legacyMap = OutpostLevelAdapter.Build(repo, 1);
             var legacy = new OutpostGameState { Profile = profile, Run = StageProgressionService.CreateRun(profile, 1, legacyMap, configs, repo, m_Clock.UtcNowMs) };
             Assert.That(legacy.Run.MapOverride, Is.Null);
@@ -992,13 +988,102 @@ namespace CatMiners.Tests
             CollectionAssert.AreEqual(hp, Game.State.Run.Targets.Select(t => t.RemainingHpUnits).ToArray());
             Assert.That(Game.State.Profile.Parts, Is.EqualTo(42));
             Assert.That(Game.State.Profile.ItemLevel("hat.rare"), Is.EqualTo(2));
-            Assert.That(Game.State.Profile.Tutorial.Seen, Does.Contain(OutpostTutorial.StepAuto));
             Assert.That(Game.State.Run.RunId, Is.EqualTo(runId));
             var reread = new OutpostSaveService(m_Dir) { Configs = configs, MapResolver = s => OutpostLevelAdapter.ForRun(repo, s.Run) }.Load(OutpostSaveSlot.Main);
             Assert.That(reread.State, Is.Not.Null);
             Assert.That(reread.State.Run.MapOverride, Is.Null);
             Assert.That(reread.State.Run.MapTopology.Version, Is.EqualTo(MineTopologyCatalog.SupportedVersion));
             Assert.That(Directory.GetDirectories(service.SlotDirectory(OutpostSaveSlot.Main), "pre-wide-topology-*").Length, Is.EqualTo(1));
+        }
+
+        /// <summary>
+        /// ТЗ 2.2 §10.3, §16.2 (ворота G3): сохранение схемы 2 (до заводов) при запуске игры — не Corrupt/Incompatible и не окно
+        /// ошибки, а архив &lt;слот&gt;/pre-factories/ и новая кампания схемы 3 с тостом «The game was updated: progress started
+        /// over». Настройки и сыгранное время переносятся, прогресс (шахты, гемы, детали, предметы) — нет.
+        /// </summary>
+        [UnityTest]
+        public IEnumerator Schema2Save_LoadStartsNewCampaign_NoError_ResetToast()
+        {
+            yield return Advance(20);
+            Assert.That(Game.State.Run.Wallet.Sign, Is.GreaterThan(0), "прежняя игра успела заработать");
+            var configs = Game.Configs;
+            var old = OutpostJson.DeepCopy(Game.State);
+            var oldMap = Game.Map;
+            old.Profile.Settings.Music = 0.25f;
+            old.Profile.PlayTimeMs = 4_321_000L;
+            long oldNow = old.Run.Now;
+            Assert.That(oldNow, Is.GreaterThan(0L), "прежний run шёл 20 с");
+            // Выгрузить игру: её автосохранение не должно перекрыть подготовленный файл.
+            var prep = SceneManager.CreateScene("OutpostSchema2Prep-" + Guid.NewGuid().ToString("N"));
+            SceneManager.SetActiveScene(prep);
+            yield return SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName("CoreGame"));
+            var service = new OutpostSaveService(m_Dir) { Configs = configs };
+            string main = service.MainPath(OutpostSaveSlot.Main);
+            foreach (var path in new[] { main, service.BakPath(OutpostSaveSlot.Main), service.TmpPath(OutpostSaveSlot.Main) })
+                if (File.Exists(path)) File.Delete(path);
+            Assert.That(service.Save(old, OutpostSaveSlot.Main, oldMap).Ok, Is.True);
+
+            // Файл прежней версии: конверт и профиль схемы 2, правила 2.1, adapter-1, топология v2, без полей заводов ТЗ 2.2.
+            var env = JObject.Parse(File.ReadAllText(main));
+            var payload = JObject.Parse((string)env["Payload"]);
+            env["SchemaVersion"] = 2;
+            env["RulesVersion"] = "outpost-2.1-r1";
+            env["BalanceVersion"] = "outpost-2.1-b4";
+            var profile = (JObject)payload["Profile"];
+            profile["SchemaVersion"] = 2;
+            profile["Gems"] = 999;
+            profile["Parts"] = 42;
+            profile["CurrentZone"] = 4;
+            profile["CompletedZones"] = new JArray(1, 2, 3);
+            profile["Items"] = new JObject { ["pickaxe.rare"] = 3 };
+            var run = (JObject)payload["Run"];
+            run["RulesVersion"] = "outpost-2.1-r1";
+            run["AdapterVersion"] = "adapter-1";
+            if (run["Balance"] is JObject balance) balance["Version"] = "outpost-2.1-b4";
+            if (run["MapTopology"] is JObject topology) topology["Version"] = "wide-branching-mines-2";
+            foreach (var field in new[] { "FactoryRules", "Factories", "PipeBatches", "NextPipeBatchSeq", "Warehouse", "GoodsArrived", "GoodsSold", "GoodsSoldGold", "DebugGoods" })
+                run.Remove(field);
+            string text = payload.ToString(Newtonsoft.Json.Formatting.None);
+            env["Payload"] = text;
+            env["PayloadSha256"] = OutpostJson.Sha256Hex(text);
+            File.WriteAllText(main, env.ToString(Newtonsoft.Json.Formatting.None));
+            byte[] oldBytes = File.ReadAllBytes(main);
+            Assert.That(service.Load(OutpostSaveSlot.Main).Status, Is.EqualTo(OutpostLoadStatus.Outdated), "ядро узнаёт схему 2");
+
+            yield return SceneManager.LoadSceneAsync("CoreGame");
+            yield return null;
+            yield return WaitPlaying();
+            Assert.That(Game.Phase, Is.Not.EqualTo(OutpostControllerPhase.Error));
+            Assert.That(Game.ErrorText, Is.Null.Or.Empty);
+            string toast = Loc.T("outpost.toast.save_reset");
+            var toastText = Game.Hud.GetComponentsInChildren<TMPro.TextMeshProUGUI>(true).First(t => t.name == "Toast");
+            for (int frame = 0; frame < 60 && !(toastText.gameObject.activeInHierarchy && toastText.text == toast); frame++) yield return null;
+            Assert.That(toastText.gameObject.activeInHierarchy, Is.True, "тост сброса показан");
+            Assert.That(toastText.text, Is.EqualTo(toast));
+
+            var state = Game.State;
+            Assert.That(state.Profile.SchemaVersion, Is.EqualTo(OutpostIds.SchemaVersion));
+            // RunId новой кампании снова «run-1» (NextRunSeq начинается заново), поэтому новый run узнаётся по времени шахты:
+            // часы теста стоят, новый run не прожил прежние 20 с.
+            Assert.That(state.Run.Now, Is.LessThan(oldNow), "новая кампания: run начат заново");
+            Assert.That(state.Run.Zone, Is.EqualTo(1));
+            Assert.That(state.Profile.CompletedZones, Is.Empty);
+            Assert.That(state.Profile.Gems, Is.Not.EqualTo(999), "прогресс не переносится");
+            Assert.That(state.Profile.Parts, Is.Zero);
+            Assert.That(state.Profile.ItemLevel("pickaxe.rare"), Is.Zero);
+            Assert.That(state.Profile.Settings.Music, Is.EqualTo(0.25f), "настройки переносятся");
+            Assert.That(state.Profile.PlayTimeMs, Is.GreaterThanOrEqualTo(4_321_000L), "сыгранное время переносится");
+            Assert.That(OutpostInvariants.Check(state, Game.Map, Game.Configs.Equipment, Game.Configs.Cards), Is.Empty);
+
+            string archived = Path.Combine(service.PreFactoriesDirectory(OutpostSaveSlot.Main), Path.GetFileName(main));
+            Assert.That(File.Exists(archived), Is.True, "архив pre-factories/");
+            Assert.That(File.ReadAllBytes(archived), Is.EqualTo(oldBytes), "архив — прежний файл байт в байт");
+            Assert.That((int)JObject.Parse(File.ReadAllText(main))["SchemaVersion"], Is.EqualTo(OutpostIds.SchemaVersion), "записана схема 3");
+            Assert.That(File.ReadAllBytes(main), Is.EqualTo(File.ReadAllBytes(service.BakPath(OutpostSaveSlot.Main))), "resetBackup: прежний main не остался в bak");
+            var repo = Game.Balance;
+            var reread = new OutpostSaveService(m_Dir) { Configs = Game.Configs, MapResolver = st => OutpostLevelAdapter.ForRun(repo, st.Run) }.Load(OutpostSaveSlot.Main);
+            Assert.That(reread.Status, Is.EqualTo(OutpostLoadStatus.Loaded), string.Join("; ", reread.Messages));
+            Assert.That(reread.State.Run.RunId, Is.EqualTo(state.Run.RunId));
         }
 
         [UnityTest]

@@ -10,6 +10,9 @@ namespace CatMiners.Core.Outpost
     /// footprint r/s/x — якорь в нижней левой клетке: occupied = (col + dx, row − dz).
     /// Репозиторий уже проверил SHA-256 источника. Override зоны (ТЗ 8.5) добавляет цели r/s/x на якоря "." до разбора:
     /// их footprint проверяется теми же правилами и не может пересекать исходные объекты, выход e и строки ворот p.
+    /// Токен завода <c>s:typeId:level:rewardId:cardId:cardLevel</c> (ТЗ 2.2 §3.1): typeId есть в MineShafts, footprint 2×3;
+    /// cardId — manager-карточка, TargetIds которой содержит typeId; 1 ≤ cardLevel ≤ максимальный уровень её редкости
+    /// (CardUpgradeCosts: Common 14, Uncommon 12). Ошибка — <see cref="OutpostDataException"/> с номером шахты и индексом токена.
     /// </summary>
     public static class SourceLevelImporter
     {
@@ -92,6 +95,11 @@ namespace CatMiners.Core.Outpost
                         if (!repo.Shafts.TryGetValue(t.TypeId, out var shaft)) throw new OutpostDataException(zoneId, index, "нет MineShafts." + t.TypeId);
                         w = shaft.WidthCells;
                         d = shaft.DepthCells;
+                        if (w != FactoryCatalog.FootprintWidth || d != FactoryCatalog.FootprintDepth)
+                            throw new OutpostDataException(zoneId, index, "завод " + t.TypeId + ": footprint " + w + "×" + d + ", ожидался " +
+                                                                           FactoryCatalog.FootprintWidth + "×" + FactoryCatalog.FootprintDepth);
+                        string requirement = FactoryRequirementError(repo, t.TypeId, t.CardId, t.CardLevel);
+                        if (requirement != null) throw new OutpostDataException(zoneId, index, "токен \"" + token + "\": " + requirement);
                         break;
                     case 'x':
                         if (!repo.Obstructions.TryGetValue(t.TypeId, out var obs)) throw new OutpostDataException(zoneId, index, "нет Obstructions." + t.TypeId);
@@ -186,6 +194,28 @@ namespace CatMiners.Core.Outpost
                         throw new OutpostDataException(zone.ZoneId, t.Index, "override " + name + ": footprint в строке ворот " + cell / zone.Width);
                 }
             }
+        }
+
+        /// <summary>
+        /// Ошибка требования автодоставки завода (ТЗ 2.2 §3.1) или null: cardId — manager-карточка источника, TargetIds которой
+        /// содержит typeId, и 1 ≤ cardLevel ≤ максимальный уровень её редкости по CardUpgradeCosts.
+        /// </summary>
+        public static string FactoryRequirementError(BalanceRepository repo, string typeId, string cardId, int cardLevel)
+        {
+            if (repo == null) throw new ArgumentNullException(nameof(repo));
+            if (string.IsNullOrEmpty(cardId) || !repo.Cards.TryGetValue(cardId, out var card) || card == null)
+                return "нет карточки " + (string.IsNullOrEmpty(cardId) ? "(пусто)" : cardId) + " в Cards";
+            if (!card.IsManager) return "карточка " + cardId + " не manager-карточка";
+            if (card.TargetIds == null || Array.IndexOf(card.TargetIds, typeId) < 0)
+                return "карточка " + cardId + " не относится к заводу " + typeId + " (TargetIds: " +
+                       (card.TargetIds == null ? "нет" : string.Join(", ", card.TargetIds)) + ")";
+            if (!repo.CardUpgradeCosts.TryGetValue(card.Rarity, out var cost) || cost?.Duplicates == null)
+                return "CardUpgradeCosts: нет редкости " + card.Rarity.ToString(CultureInfo.InvariantCulture) + " карточки " + cardId;
+            int max = cost.Duplicates.Length + 1;
+            if (cardLevel < 1 || cardLevel > max)
+                return "уровень карточки " + cardId + " " + cardLevel.ToString(CultureInfo.InvariantCulture) + " вне 1…" +
+                       max.ToString(CultureInfo.InvariantCulture);
+            return null;
         }
 
         /// <summary>Число полей токена: r=3, s=6, x=2, p/e=4, c=3; −1 — неизвестный вид.</summary>

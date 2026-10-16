@@ -20,6 +20,13 @@ namespace CatMiners.Tests.Outpost
     {
         static IEnumerable<int> AllZones() => Enumerable.Range(1, 144);
 
+        // Профиль b6 (решение владельца В4, 15 октября 2026): множитель темпа шахт K(z) растягивает поздние шахты до часов и
+        // суток (HP и груз ×K). Проверки ТЗ §20 — лимит 24 ч и 2 000 000 событий у двух бесплатных котиков, суммы аудита
+        // источника §12.4 — идут на том же профиле без множителя (K = 1, числа b5); темп b6 проверяет
+        // OutpostBalanceRegressionTests.Campaign_FreePlayer_PacingWithinStageTargets, слой K — Pace_B6_* там же.
+        static OutpostConfigSet s_Configs;
+        static OutpostConfigSet Configs => s_Configs ?? (s_Configs = OutpostTestHelpersB.Configs.WithoutPace());
+
         [TestCaseSource(nameof(AllZones))]
         public void EveryZone_PolicyA_NoEquipment_CompletesWithinLimits(int zone)
         {
@@ -27,7 +34,7 @@ namespace CatMiners.Tests.Outpost
             // разрушения… Лимит каждой карты — 24 часа симуляционного времени и 2 000 000 обработанных событий. Успех — достигнуто
             // ReadyToContinue, весь груз сдан, все обязательные цели уничтожены, ворота открыты, резервы/очередь пусты, награда
             // выдана один раз. Timeout или watchdog — провал с диагностикой».
-            var fx = Real(zone);
+            var fx = Real(zone, Configs);
             var sim = fx.NewSim();
             var audit = AuditZone(zone);
             Assert.AreEqual((long)audit["hp"], sim.State.Run.Targets.Sum(t => t.MaxHpUnits) / S, "Σ HP = аудит");
@@ -70,7 +77,7 @@ namespace CatMiners.Tests.Outpost
         {
             // ТЗ §20: «Отдельный последовательный прогон кампании проверяет награды 1–4/10/25/50, конвертацию дубликатов, экипировку
             // и reset между всеми 144 шахтами»; §10.2, §10.3, §11.2, §11.3 (после zone144 — CampaignComplete, zone145 нет).
-            var state = Real(1).NewState();
+            var state = Real(1, Configs).NewState();
             var oracle = new Pcg32(Seed, 5);
             var owned = new Dictionary<string, int>();
             long parts = 0;

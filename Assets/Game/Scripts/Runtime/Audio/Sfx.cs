@@ -56,6 +56,8 @@ namespace CatMiners.Runtime
         Cue m_LootDrop;
         /// <summary>Удар кирки игрока по материалам: громче удара котика и с коротким интервалом — каждый тап слышен.</summary>
         Cue m_StrikeStone, m_StrikeCrystal, m_StrikeWood, m_StrikeMetal;
+        /// <summary>Заводы ТЗ 2.2 §11 (Docs/Audio/SOUNDS.md, «Заводы»): цепи, готовность, труба, склад, рынок.</summary>
+        Cue m_HitChain, m_StrikeChain, m_ChainBreak, m_FactoryReady, m_PipeSend, m_PipeSendAuto, m_GoodsArrive, m_GoodsSell;
 
         /// <summary>Звук включён (настройка игрока). Выключение глушит то, что уже звучит.</summary>
         public bool Enabled
@@ -126,6 +128,16 @@ namespace CatMiners.Runtime
             s.m_StrikeCrystal = Variant(s.m_HitCrystal, 0.3f, 0.92f, 0.05f, 0.06f, PrioNormal);
             s.m_StrikeWood = Variant(s.m_HitWood, 0.34f, 0.9f, 0.05f, 0.06f, PrioNormal);
             s.m_StrikeMetal = Variant(s.m_HitMetal, 0.3f, 0.92f, 0.05f, 0.06f, PrioNormal);
+            // Заводы (ТЗ 2.2 §11): громкость, разброс, интервал и приоритет — по таблице SOUNDS.md «Заводы». Удар игрока по цепям —
+            // те же клипы громче и с коротким интервалом (как кирка по камню); автодоставка — вдвое тише ручной отправки.
+            s.m_HitChain = Load("hit_chain", 0.2f, 0.04f, 0.1f, PrioFrequent);
+            s.m_StrikeChain = Variant(s.m_HitChain, 0.3f, 0.92f, 0.05f, 0.06f, PrioNormal);
+            s.m_ChainBreak = Load("chain_break", 0.45f, 0.03f, 0.15f, PrioNormal);
+            s.m_FactoryReady = Load("factory_ready", 0.22f, 0f, 0.5f, PrioNormal);
+            s.m_PipeSend = Load("pipe_send", 0.26f, 0.04f, 0.12f, PrioFrequent);
+            s.m_PipeSendAuto = Variant(s.m_PipeSend, 0.13f, 1f, 0.04f, 0.12f, PrioFrequent);
+            s.m_GoodsArrive = Load("goods_arrive", 0.24f, 0.04f, 0.15f, PrioFrequent);
+            s.m_GoodsSell = Load("goods_sell", 0.5f, 0.02f, 0.2f, PrioNormal);
 
             // Кит UI зовёт UiSound, не зная о Sfx; делегаты храним, чтобы снять ровно свои при уничтожении.
             UiSound.Click = s.m_UiClick = s.Click;
@@ -187,6 +199,23 @@ namespace CatMiners.Runtime
 
         /// <summary>Выбор котика или объекта на поле: короткий мягкий «тик».</summary>
         public void Select() => Play(m_Select);
+
+        // ───────────── Заводы (ТЗ 2.2 §11) ─────────────
+
+        /// <summary>Удар котика по цепям закрытого завода: металл со звяканьем звеньев, не чаще раза в 0,1 с.</summary>
+        public void HitChain() => Play(m_HitChain);
+        /// <summary>Удар кирки игрока по цепям: те же клипы ниже и громче, не чаще раза в 0,06 с.</summary>
+        public void StrikeChain() => Play(m_StrikeChain);
+        /// <summary>Цепи завода разорваны (FactoryUnlocked).</summary>
+        public void ChainBreak() => Play(m_ChainBreak);
+        /// <summary>Партия ждёт доставки (FactoryReady): тихий сигнал, не чаще раза в 0,5 с.</summary>
+        public void FactoryReady() => Play(m_FactoryReady);
+        /// <summary>Партия ушла в трубу (GoodsDispatched); <paramref name="automatic"/> — автодоставка, вдвое тише.</summary>
+        public void PipeSend(bool automatic) => Play(automatic ? m_PipeSendAuto : m_PipeSend);
+        /// <summary>Партия пришла на склад (GoodsArrived), не чаще раза в 0,15 с.</summary>
+        public void GoodsArrive() => Play(m_GoodsArrive);
+        /// <summary>Продажа на рынке (GoodsSold): «Sell all» по нескольким товарам звучит один раз (интервал 0,2 с).</summary>
+        public void GoodsSell() => Play(m_GoodsSell);
         /// <summary>Камень (ворота, завал шахты) рассыпался.</summary>
         public void Break() => Play(m_Break);
         /// <summary>Награда золотом.</summary>

@@ -132,10 +132,10 @@ namespace CatMiners.Tests.Outpost
             var (fs, _) = TwoCommits();
             var env = SaveKitA.ReadEnvelope(fs, SaveKitA.Main);
             Assert.AreEqual("CatOutpostV2", (string)env["ModeId"]);
+            // ТЗ 2.2 §10.1, §16.1 (б): схема 3, правила outpost-2.2-r1, профиль outpost-2.2-b5.
+            Assert.AreEqual(3, (int)env["SchemaVersion"]);
             Assert.AreEqual(OutpostIds.SchemaVersion, (int)env["SchemaVersion"]);
-            Assert.AreEqual("outpost-2.1-r1", (string)env["RulesVersion"]);
-            Assert.AreEqual("outpost-2.1-b4", (string)env["BalanceVersion"]);
-            Assert.AreEqual(OutpostIds.BalanceVersion, (string)env["BalanceVersion"]);
+            Assert.AreEqual("outpost-2.2-r1", (string)env["RulesVersion"]);
             Assert.AreEqual(SourceSha256, (string)env["SourceSha256"]);
             Assert.IsTrue(IsSha256Hex((string)env["CatalogHash"]));
             Assert.AreEqual(EnvelopeCatalogHash(Configs), (string)env["CatalogHash"], "hash экипировки+наград текущих конфигураций");
@@ -147,6 +147,17 @@ namespace CatMiners.Tests.Outpost
             Assert.IsNotNull(state["Profile"]);
             Assert.IsNotNull(state["Run"]);
             Assert.AreEqual("CatOutpostV2", (string)state["Profile"]["ModeId"]);
+            // ТЗ 2.2 §10.2: состояние заводов, труб, склада и снимок factory_rules — в payload (новые проверки).
+            var run = (JObject)state["Run"];
+            foreach (var field in new[] { "FactoryRules", "Factories", "PipeBatches", "NextPipeBatchSeq", "Warehouse", "GoodsArrived", "GoodsSold", "GoodsSoldGold", "DebugGoods" })
+                Assert.IsNotNull(run.Property(field), "поле run " + field);
+            Assert.AreEqual("factories-1", (string)run["FactoryRules"]["Version"]);
+            Assert.AreEqual(JTokenType.String, run["GoodsSoldGold"].Type, "золото продаж — десятичная строка");
+            Assert.IsNotNull(((JObject)run["Counters"]).Property("ManualDeliveries"));
+            // BalanceVersion конверта — версия снимка профиля run (outpost_balance.json, WP7).
+            // Профиль b6 (решение владельца В4, 15 октября 2026: множитель темпа шахт K(z), Docs/Rework/BALANCE_FACTORIES.md).
+            Assert.AreEqual("outpost-2.2-b6", (string)env["BalanceVersion"]);
+            Assert.AreEqual(OutpostIds.BalanceVersion, (string)env["BalanceVersion"]);
         }
 
         // ТЗ §17: «монотонный commitSequence»; main — новый commit, bak — предыдущий.
@@ -583,6 +594,477 @@ namespace CatMiners.Tests.Outpost
             var fresh = CreateRun(NewProfile(9), 1, changed, 0);
             Assert.AreEqual(40L * 1_000_000, fresh.Targets.Single(t => t.Id == 16).MaxHpUnits, "новый баланс применяется к новой шахте");
             Assert.AreEqual("outpost-2.1-b3", fresh.Balance.Version);
+        }
+
+        // ───────────────────────────── Заводы в сохранении (ТЗ 2.2 §10.2) ─────────────────────────────
+
+        static OutpostSimulation Zone2WithOpenFactories(out OutpostGameState state)
+        {
+            var profile = NewProfile(31);
+            state = new OutpostGameState { Profile = profile, Run = CreateRun(profile, 2, Configs, 5_000) };
+            var sim = new OutpostSimulation(state, Map(2), Configs) { RecordEvents = false };
+            Assert.That(sim.Run.Factories.Count, Is.GreaterThan(0), "в шахте 2 есть завод (приложение A: Dairy)");
+            Assert.That(sim.DebugUnlockFactories(), Is.EqualTo(sim.Run.Factories.Count), "цепи всех заводов разбиты");
+            Assert.IsTrue(sim.Run.Factories.All(f => f.Status == FactoryStatus.Working && !f.Automated), "ручные заводы в работе");
+            return sim;
+        }
+
+        /// <summary>Запись через сервис и загрузка новым сервисом: тот же JSON, симуляция после загрузки идёт так же.</summary>
+        static OutpostSimulation SaveLoadEqual(MemoryFileSystemA fs, OutpostSimulation sim, string context)
+        {
+            var service = SaveKitA.NewService(fs);
+            var written = service.Save(sim.State);
+            Assert.IsTrue(written.Ok, context + ": " + written.Error);
+            var loaded = SaveKitA.NewService(fs).Load();
+            Assert.AreEqual(OutpostLoadStatus.Loaded, loaded.Status, context + ": " + string.Join("; ", loaded.Messages));
+            Assert.AreEqual(OutpostSaveService.SerializeState(sim.State), OutpostSaveService.SerializeState(loaded.State), context + ": без нового округления");
+            return new OutpostSimulation(loaded.State, sim.Map, Configs) { RecordEvents = false };
+        }
+
+        // ТЗ 2.2 §10.2: «Сохранение и загрузка посреди цикла, во время пути по трубе и в состоянии Ready восстанавливают состояние
+        // без нового округления» — через конверт и файлы сервиса, с проверкой инвариантов при записи и загрузке.
+        [Test]
+        public void Factories_SaveLoadThroughService_MidCycleReadyAndInPipe_ByteIdentical()
+        {
+            var fs = new MemoryFileSystemA();
+            var sim = Zone2WithOpenFactories(out _);
+            var f = sim.Run.Factories[0];
+            long cycleEnd = f.CycleEnd;
+            Assert.That(cycleEnd, Is.GreaterThan(sim.Now));
+
+            // Посреди цикла.
+            sim.Advance(sim.Now + (cycleEnd - sim.Now) / 2);
+            var copy = SaveLoadEqual(fs, sim, "посреди цикла");
+            Assert.AreEqual(cycleEnd, copy.Run.Factories[0].CycleEnd);
+
+            // Готовая партия (ручной режим): Ready, единицы зафиксированы.
+            sim.Advance(cycleEnd);
+            copy.Advance(cycleEnd);
+            Assert.AreEqual(OutpostSaveService.SerializeState(sim.State), OutpostSaveService.SerializeState(copy.State), "загрузка не меняет ход цикла");
+            Assert.AreEqual(FactoryStatus.Ready, sim.Run.Factories[0].Status);
+            Assert.That(sim.Run.Factories[0].ReadyUnits, Is.GreaterThan(0));
+            copy = SaveLoadEqual(fs, sim, "Ready");
+
+            // Партия в трубе.
+            var delivered = sim.Submit(OutpostCommand.DeliverFactory(f.TargetId));
+            Assert.IsTrue(delivered.Ok, delivered.Reason);
+            Assert.AreEqual(1, sim.Run.PipeBatches.Count);
+            long arrive = sim.Run.PipeBatches[0].ArriveTick;
+            Assert.That(arrive, Is.GreaterThan(sim.Now));
+            sim.Advance(sim.Now + (arrive - sim.Now) / 2);
+            copy = SaveLoadEqual(fs, sim, "партия в трубе");
+            Assert.AreEqual(arrive, copy.Run.PipeBatches[0].ArriveTick);
+
+            // После прибытия: склад и продажа; GoodsSoldGold входит в кошелёк.
+            sim.Advance(arrive);
+            copy.Advance(arrive);
+            Assert.That(sim.Run.Warehouse[f.GoodId], Is.GreaterThan(0));
+            Assert.IsTrue(sim.Submit(OutpostCommand.SellGoods(null)).Ok);
+            Assert.IsTrue(copy.Submit(OutpostCommand.SellGoods(null)).Ok);
+            Assert.That(sim.Run.GoodsSoldGold.Sign, Is.GreaterThan(0));
+            copy = SaveLoadEqual(fs, sim, "после продажи");
+            Assert.AreEqual(sim.Run.GoodsSoldGold, copy.Run.GoodsSoldGold);
+            sim.Advance(sim.Now + 30 * Tps);
+            copy.Advance(copy.Now + 30 * Tps);
+            Assert.AreEqual(OutpostSaveService.SerializeState(sim.State), OutpostSaveService.SerializeState(copy.State));
+        }
+
+        // ТЗ 2.2 §10.2, §13: DebugGoods (DEV «Goods ×100») допустим только в debug-профиле: запись и загрузка слота Debug проходят,
+        // слот Main такую запись отклоняет, а тот же файл в main при загрузке отвергается (инварианты).
+        [Test]
+        public void DebugGoods_SavedOnlyInDebugSlot()
+        {
+            var fs = new MemoryFileSystemA();
+            var sim = Zone2WithOpenFactories(out _);
+            Assert.That(sim.DebugGrantGoods(100), Is.GreaterThan(0));
+            var good = sim.Run.Factories[0].GoodId;
+            Assert.AreEqual(100L, sim.Run.DebugGoods[good]);
+            Assert.AreEqual(100L, sim.Run.Warehouse[good]);
+
+            var debug = SaveKitA.NewService(fs, debug: true);
+            var ok = debug.Save(sim.State);
+            Assert.IsTrue(ok.Ok, ok.Error);
+            var loaded = SaveKitA.NewService(fs, debug: true).Load();
+            Assert.AreEqual(OutpostLoadStatus.Loaded, loaded.Status, string.Join("; ", loaded.Messages));
+            Assert.AreEqual(100L, loaded.State.Run.DebugGoods[good]);
+
+            var main = SaveKitA.NewService(fs).Save(sim.State);
+            Assert.IsFalse(main.Ok, "Main не принимает отладочный товар");
+            StringAssert.Contains("DebugGoods", main.Error);
+            Assert.IsFalse(fs.Files.ContainsKey(SaveKitA.Main));
+
+            fs.Put(SaveKitA.Main, fs.Get(SaveKitA.DebugMain));
+            var rejected = SaveKitA.NewService(fs).Load();
+            Assert.AreEqual(OutpostLoadStatus.Corrupt, rejected.Status, "файл debug с DebugGoods в слоте Main отвергнут");
+        }
+
+        // ───────────────────────────── Сохранения прежней схемы (ТЗ 2.2 §10.3, Р9) ─────────────────────────────
+
+        static string Ctx(OutpostLoadResult r) => r.Status + ": " + string.Join("; ", r.Messages);
+
+        /// <summary>Старое состояние шахты 1 записано в main и bak (два commit), затем оба файла переведены в прежнюю схему.</summary>
+        static MemoryFileSystemA OldSave(int schema, RunPhase phase = RunPhase.Running, bool debug = false, bool replaceUnsupported = false)
+        {
+            var fs = new MemoryFileSystemA { ReplaceUnsupported = replaceUnsupported };
+            var state = OutdatedSaveKit.StateIn(phase);
+            var svc = SaveKitA.NewService(fs, debug);
+            Assert.IsTrue(SaveKitA.TrySave(svc, state), "commit 1");
+            Assert.IsTrue(SaveKitA.TrySave(svc, state), "commit 2");
+            string main = debug ? SaveKitA.DebugMain : SaveKitA.Main;
+            foreach (var path in new[] { main, main + ".bak" })
+                OutdatedSaveKit.Downgrade(fs, path, schema, OutdatedSaveKit.OldProgress);
+            return fs;
+        }
+
+        // ТЗ 2.2 §10.3, §16.1: сохранения схемы 2 в Running, DrainingCargo и ReadyToContinue и сохранение схемы 1 — статус Outdated
+        // (не Incompatible и не Corrupt, ничего не перезаписано), затем метод ядра: архив pre-factories/, новая кампания схемы 3 с
+        // переносом Settings, PlayTimeMs и ключом LegacyImportKey, стартовый набор магазина, запись с resetBackup; без ошибок инвариантов.
+        [TestCase(2, RunPhase.Running)]
+        [TestCase(2, RunPhase.DrainingCargo)]
+        [TestCase(2, RunPhase.ReadyToContinue)]
+        [TestCase(1, RunPhase.Running)]
+        public void Outdated_LoadReportsOutdated_ResetArchivesAndStartsSchema3Campaign(int schema, RunPhase phase)
+        {
+            var fs = OldSave(schema, phase);
+            var before = Snapshot(fs);
+            long oldSeq = (long)SaveKitA.ReadEnvelope(fs, SaveKitA.Main)["CommitSequence"];
+            var service = OutdatedSaveKit.Service(fs);
+
+            var r = service.Load();
+            Assert.AreEqual(OutpostLoadStatus.Outdated, r.Status, Ctx(r));
+            Assert.IsNull(r.State);
+            Assert.AreEqual(schema, r.Envelope.SchemaVersion);
+            Assert.AreEqual(oldSeq, r.CommitSequence, "старший commit старой схемы");
+            Assert.IsNull(r.QuarantineDirectory, "устаревший файл не уходит в карантин");
+            Assert.AreEqual(before.Count, fs.Files.Count, "загрузка ничего не создаёт");
+            AssertOriginalsUntouched(before, fs);
+
+            var cfg = OutdatedSaveKit.GameConfigs;
+            var fresh = service.ResetOutdated(OutpostSaveSlot.Main, Repo, cfg, 4242UL, 9_000_000L, out var saved);
+            Assert.IsTrue(saved.Ok, saved.Error);
+
+            // Архив: побайтные копии main и bak.
+            CollectionAssert.AreEqual(before[SaveKitA.Main], fs.Get(OutdatedSaveKit.PreFactories + "/state.json"));
+            CollectionAssert.AreEqual(before[SaveKitA.Bak], fs.Get(OutdatedSaveKit.PreFactories + "/state.json.bak"));
+
+            // Новая кампания: шахта 1, схема 3, прогресс прежней игры не перенесён.
+            var p = fresh.Profile;
+            Assert.AreEqual(OutpostIds.SchemaVersion, p.SchemaVersion);
+            Assert.AreEqual(1, p.CurrentZone);
+            Assert.AreEqual(1, fresh.Run.Zone);
+            Assert.AreEqual(4242UL, p.Seed);
+            Assert.AreEqual(OutpostIds.RulesVersion, fresh.Run.RulesVersion);
+            Assert.AreEqual(OutpostIds.AdapterVersion, fresh.Run.AdapterVersion);
+            Assert.IsNotNull(fresh.Run.FactoryRules, "снимок factory_rules");
+            Assert.IsEmpty(p.CompletedZones);
+            Assert.IsEmpty(p.Items);
+            Assert.IsEmpty(p.RewardLog);
+            Assert.AreEqual(0L, p.Elixir);
+            Assert.AreEqual(BigInteger.Zero, fresh.Run.Wallet);
+            Assert.AreEqual(1, p.StoreVersion, "стартовый набор магазина выдан");
+            Assert.AreEqual(cfg.Store.StartGems, p.Gems, "гемы — только стартовые");
+            // Перенесено: Settings целиком, PlayTimeMs; карточки прежнего режима не импортируются.
+            Assert.AreEqual(OutdatedSaveKit.OldPlayTimeMs, p.PlayTimeMs);
+            Assert.AreEqual(0.5f, p.Settings.Master);
+            Assert.AreEqual(0.25f, p.Settings.Music);
+            Assert.AreEqual(0.75f, p.Settings.Sfx);
+            Assert.AreEqual(0.125f, p.Settings.Ambience);
+            Assert.IsFalse(p.Settings.Vibration);
+            Assert.IsTrue(p.Settings.ReduceEffects);
+            Assert.IsTrue(p.Settings.LegacySettingsImported);
+            CollectionAssert.Contains(p.CardKeys, CardService.LegacyImportKey);
+            Assert.IsNotNull(p.Payments);
+            if (schema == 1) Assert.IsEmpty(p.Payments, "в схеме 1 журнала нет");
+            Assert.IsNull(p.PendingPurchase);
+            var map = OutpostLevelAdapter.ForRun(Repo, fresh.Run);
+            CollectionAssert.IsEmpty(OutpostInvariants.Check(fresh, map, cfg.Equipment, cfg.Cards));
+
+            // На диске: схема 3, main = bak (resetBackup), номер commit продолжает старый.
+            var env = SaveKitA.ReadEnvelope(fs, SaveKitA.Main);
+            Assert.AreEqual(OutpostIds.SchemaVersion, (int)env["SchemaVersion"]);
+            Assert.AreEqual(OutpostIds.RulesVersion, (string)env["RulesVersion"]);
+            Assert.AreEqual(oldSeq + 1, (long)env["CommitSequence"]);
+            Assert.AreEqual(saved.CommitSequence, (long)env["CommitSequence"]);
+            CollectionAssert.AreEqual(fs.Get(SaveKitA.Main), fs.Get(SaveKitA.Bak), "старый main не остался в bak");
+            var again = OutdatedSaveKit.Service(fs).Load();
+            Assert.AreEqual(OutpostLoadStatus.Loaded, again.Status, Ctx(again));
+            Assert.AreEqual(OutpostSaveService.SerializeState(fresh), OutpostSaveService.SerializeState(again.State));
+
+            // Повторный сброс невозможен: в слоте уже схема 3.
+            Assert.Throws<InvalidOperationException>(() => OutdatedSaveKit.Service(fs).ResetOutdated(OutpostSaveSlot.Main, Repo, cfg, 1UL, 0L));
+        }
+
+        // ТЗ 2.2 §10.3: прежняя схема распознаётся сразу после разбора и контрольной суммы — раньше RulesVersion, AdapterVersion,
+        // карты и инвариантов: старые правила, adapter-1, топология v2, кошелёк вне инварианта и недоступная карта не делают файл
+        // Incompatible/Corrupt. Слоты независимы (Debug сбрасывается в debug/pre-factories, Main не трогается).
+        [TestCase(false)]
+        [TestCase(true)]
+        public void Outdated_RecognizedBeforeRulesAdapterMapAndInvariants_SlotsIndependent(bool debug)
+        {
+            var fs = OldSave(2, debug: debug);
+            string main = debug ? SaveKitA.DebugMain : SaveKitA.Main;
+            foreach (var path in new[] { main, main + ".bak" })
+                OutdatedSaveKit.Rewrite(fs, path, payload =>
+                {
+                    payload["Run"]["Wallet"] = "12345";
+                    payload["Run"]["Zone"] = 999;
+                    payload["Run"]["SourceSha256"] = new string('0', 64);
+                    payload["Run"]["Targets"] = new JArray();
+                });
+            var before = Snapshot(fs);
+            var slot = debug ? OutpostSaveSlot.Debug : OutpostSaveSlot.Main;
+            var service = new OutpostSaveService(SaveKitA.Root, fs)
+            {
+                Configs = OutdatedSaveKit.GameConfigs,
+                MapResolver = s => throw new InvalidOperationException("карта устаревшего сохранения не строится"),
+            };
+            var r = service.Load(slot);
+            Assert.AreEqual(OutpostLoadStatus.Outdated, r.Status, Ctx(r));
+            Assert.AreEqual(OutpostLoadStatus.NoSave, service.Load(debug ? OutpostSaveSlot.Main : OutpostSaveSlot.Debug).Status, "другой слот пуст");
+
+            var fresh = service.ResetOutdated(slot, Repo, OutdatedSaveKit.GameConfigs, 77UL, 1_000L, out var saved);
+            Assert.IsTrue(saved.Ok, saved.Error);
+            string archive = debug ? OutdatedSaveKit.DebugPreFactories : OutdatedSaveKit.PreFactories;
+            CollectionAssert.AreEqual(before[main], fs.Get(archive + "/state.json"));
+            Assert.IsFalse(fs.Files.Keys.Any(k => k.Contains(debug ? "/main/" : "/debug/")), "другой слот не тронут");
+            var loaded = OutdatedSaveKit.Service(fs).Load(slot);
+            Assert.AreEqual(OutpostLoadStatus.Loaded, loaded.Status, Ctx(loaded));
+            Assert.AreEqual(1, loaded.State.Run.Zone);
+            Assert.AreEqual(OutpostSaveService.SerializeState(fresh), OutpostSaveService.SerializeState(loaded.State));
+        }
+
+        // ТЗ 2.2 §10.3: «Файл с неверной контрольной суммой или без обязательных платёжных полей схемы 2 по-прежнему Corrupt, если
+        // валидного кандидата нет»; повреждённый журнал и payload без профиля — тоже. Сброс такой файл не трогает.
+        [TestCase("checksum")]
+        [TestCase("no-payments")]
+        [TestCase("no-pending-field")]
+        [TestCase("bad-ledger")]
+        [TestCase("no-profile")]
+        public void Outdated_BadChecksumOrLedger_StaysCorrupt_AndResetRefuses(string damage)
+        {
+            var fs = OldSave(2);
+            fs.Remove(SaveKitA.Bak);
+            var env = SaveKitA.ReadEnvelope(fs, SaveKitA.Main);
+            var payload = SaveKitA.Payload(env);
+            var profile = (JObject)payload["Profile"];
+            switch (damage)
+            {
+                case "checksum": profile["Parts"] = 999; break;
+                case "no-payments": profile.Remove("Payments"); break;
+                case "no-pending-field": profile.Remove("PendingPurchase"); break;
+                case "bad-ledger":
+                    profile["Payments"] = new JArray(new JObject { ["TokenHash"] = "zz", ["Sku"] = "gems_handful", ["Gems"] = 160, ["Granted"] = true });
+                    break;
+                case "no-profile": payload.Remove("Profile"); break;
+            }
+            SaveKitA.SetPayload(env, payload, rehash: damage != "checksum");
+            SaveKitA.WriteEnvelope(fs, SaveKitA.Main, env);
+            var before = Snapshot(fs);
+            var service = OutdatedSaveKit.Service(fs);
+            var r = service.Load();
+            Assert.AreEqual(OutpostLoadStatus.Corrupt, r.Status, Ctx(r));
+            Assert.IsNull(r.State);
+            AssertOriginalsUntouched(before, fs);
+            AssertQuarantined(fs, before[SaveKitA.Main], "main");
+            Assert.Throws<InvalidOperationException>(() => service.ResetOutdated(OutpostSaveSlot.Main, Repo, OutdatedSaveKit.GameConfigs, 1UL, 0L));
+            AssertOriginalsUntouched(before, fs);
+            Assert.IsFalse(fs.Files.Keys.Any(k => k.Contains("/pre-factories/")), "архив не создан");
+        }
+
+        // Выбор между кандидатами: валидная схема 3 важнее устаревшего файла (сбой после замены main при сбросе); устаревший файл
+        // рядом с повреждённым — Outdated; будущая схема важнее устаревшей (Incompatible, ничего не сбрасывается); из двух
+        // устаревших берётся старший CommitSequence.
+        [Test]
+        public void Outdated_CandidateSelection_ValidWins_FutureIsIncompatible_HighestOutdatedSequence()
+        {
+            // main — схема 3 (маркер 200), bak — схема 2.
+            var fs = new MemoryFileSystemA();
+            var svc = SaveKitA.NewService(fs);
+            Assert.IsTrue(SaveKitA.TrySave(svc, SaveKitA.MakeState(100)));
+            Assert.IsTrue(SaveKitA.TrySave(svc, SaveKitA.MakeState(200)));
+            OutdatedSaveKit.Downgrade(fs, SaveKitA.Bak, 2);
+            var bak = fs.Get(SaveKitA.Bak);
+            var r = SaveKitA.NewService(fs).Load();
+            Assert.AreEqual(OutpostLoadStatus.Loaded, r.Status, Ctx(r));
+            Assert.AreEqual(200, SaveKitA.Marker(r.State));
+            AssertQuarantined(fs, bak, "устаревший bak рядом с валидным main");
+
+            // main — схема 2, bak — мусор.
+            fs = OldSave(2);
+            fs.Put(SaveKitA.Bak, "{{{ corrupt");
+            r = OutdatedSaveKit.Service(fs).Load();
+            Assert.AreEqual(OutpostLoadStatus.Outdated, r.Status, Ctx(r));
+
+            // main — будущая схема, bak — схема 2.
+            fs = OldSave(2);
+            var env = SaveKitA.ReadEnvelope(fs, SaveKitA.Main);
+            env["SchemaVersion"] = OutpostIds.SchemaVersion + 1;
+            SaveKitA.WriteEnvelope(fs, SaveKitA.Main, env);
+            var before = Snapshot(fs);
+            var service = OutdatedSaveKit.Service(fs);
+            r = service.Load();
+            Assert.AreEqual(OutpostLoadStatus.Incompatible, r.Status, Ctx(r));
+            Assert.Throws<InvalidOperationException>(() => service.ResetOutdated(OutpostSaveSlot.Main, Repo, OutdatedSaveKit.GameConfigs, 1UL, 0L));
+            AssertOriginalsUntouched(before, fs);
+
+            // Оба устаревшие: старший номер — bak.
+            fs = OldSave(2);
+            byte[] main = fs.Get(SaveKitA.Main), older = fs.Get(SaveKitA.Bak);
+            fs.Put(SaveKitA.Main, older);
+            fs.Put(SaveKitA.Bak, main);
+            r = OutdatedSaveKit.Service(fs).Load();
+            Assert.AreEqual(OutpostLoadStatus.Outdated, r.Status, Ctx(r));
+            Assert.AreEqual((long)JObject.Parse(Utf8(main))["CommitSequence"], r.CommitSequence);
+            Assert.AreEqual(SaveKitA.Bak, MemoryFileSystemA.Norm(r.SourcePath));
+        }
+
+        // ТЗ §20 «Аварийная запись» для сброса §10.3: сбой на каждом шаге (архив, tmp, замена, bak) оставляет либо прежнее
+        // устаревшее сохранение (повторный сброс проходит), либо новую кампанию; в архиве всегда есть побайтные копии main и bak.
+        [TestCase(false)]
+        [TestCase(true)]
+        public void Outdated_ResetCrashAtEveryStep_KeepsOldSaveOrNewCampaign(bool replaceUnsupported)
+        {
+            var probe = OldSave(2, replaceUnsupported: replaceUnsupported);
+            int start = probe.Steps;
+            Assert.IsTrue(OutdatedSaveKit.Service(probe).ResetOutdated(OutpostSaveSlot.Main, Repo, OutdatedSaveKit.GameConfigs, 4242UL, 1_000L, out var probeSaved) != null);
+            Assert.IsTrue(probeSaved.Ok, probeSaved.Error);
+            int total = probe.Steps - start;
+            Assert.That(total, Is.GreaterThanOrEqualTo(4), "архив main и bak, tmp и замена main: " + string.Join("; ", probe.Journal));
+
+            int sawOld = 0, sawNew = 0;
+            for (int step = 1; step <= total; step++)
+                foreach (bool torn in new[] { false, true })
+                {
+                    var fs = OldSave(2, replaceUnsupported: replaceUnsupported);
+                    byte[] oldMain = fs.Get(SaveKitA.Main), oldBak = fs.Get(SaveKitA.Bak);
+                    fs.ArmCrash(step, torn);
+                    bool reported = false;
+                    try
+                    {
+                        OutdatedSaveKit.Service(fs).ResetOutdated(OutpostSaveSlot.Main, Repo, OutdatedSaveKit.GameConfigs, 4242UL, 1_000L, out var saved);
+                        reported = saved.Ok;
+                    }
+                    catch (System.IO.IOException)
+                    {
+                        // сбой при записи архива — до любой замены сохранения
+                    }
+                    var disk = fs.CrashImage();
+                    string ctx = "шаг " + step + "/" + total + (torn ? " (обрыв)" : "") + "; журнал: " + string.Join("; ", fs.Journal);
+                    var r = OutdatedSaveKit.Service(disk).Load();
+                    Assert.That(r.Status, Is.EqualTo(OutpostLoadStatus.Outdated).Or.EqualTo(OutpostLoadStatus.Loaded).Or.EqualTo(OutpostLoadStatus.LoadedFromBackup), ctx + "; " + Ctx(r));
+                    if (reported) Assert.AreNotEqual(OutpostLoadStatus.Outdated, r.Status, "сервис сообщил об успехе: " + ctx);
+                    if (r.Status == OutpostLoadStatus.Outdated)
+                    {
+                        sawOld++;
+                        var again = OutdatedSaveKit.Service(disk).ResetOutdated(OutpostSaveSlot.Main, Repo, OutdatedSaveKit.GameConfigs, 4242UL, 1_000L, out var retry);
+                        Assert.IsTrue(retry.Ok, ctx + ": " + retry.Error);
+                        Assert.AreEqual(1, again.Run.Zone);
+                        r = OutdatedSaveKit.Service(disk).Load();
+                    }
+                    else sawNew++;
+                    Assert.That(r.Status, Is.EqualTo(OutpostLoadStatus.Loaded).Or.EqualTo(OutpostLoadStatus.LoadedFromBackup), ctx + "; " + Ctx(r));
+                    Assert.AreEqual(1, r.State.Run.Zone, ctx);
+                    Assert.AreEqual(4242UL, r.State.Profile.Seed, "новая кампания: " + ctx);
+                    var archived = disk.Files.Where(kv => kv.Key.Contains("/pre-factories/")).Select(kv => kv.Value).ToList();
+                    Assert.IsTrue(archived.Any(b => b.SequenceEqual(oldMain)), "архив содержит прежний main: " + ctx);
+                    Assert.IsTrue(archived.Any(b => b.SequenceEqual(oldBak)), "архив содержит прежний bak: " + ctx);
+                }
+            Assert.That(sawOld, Is.GreaterThan(0));
+            Assert.That(sawNew, Is.GreaterThan(0));
+        }
+    }
+
+    /// <summary>
+    /// Сохранения прежних схем для проверок сброса ТЗ 2.2 §10.3 (OutpostSaveTests, PaymentDeliveryTests): файл текущей схемы
+    /// приводится к виду файла схемы 1 или 2 — версии конверта и run прежние, полей заводов нет, контрольная сумма пересчитана.
+    /// </summary>
+    public static class OutdatedSaveKit
+    {
+        public const string PreFactories = SaveKitA.Root + "/CatOutpostV2/main/pre-factories";
+        public const string DebugPreFactories = SaveKitA.Root + "/CatOutpostV2/debug/pre-factories";
+        public const long OldPlayTimeMs = 4_321_000L;
+
+        static OutpostConfigSet s_Game;
+
+        /// <summary>Конфигурации, как у игры: топология wide-branching-mines-3, карточки и заводы из источника.</summary>
+        public static OutpostConfigSet GameConfigs => s_Game ?? (s_Game = OutpostConfigSet.LoadDefault().WithCards(OutpostKitA.Repo));
+
+        /// <summary>Сервис слотов с картой из снимка run (подходит и для старой геометрии фикстур, и для новой кампании).</summary>
+        public static OutpostSaveService Service(MemoryFileSystemA fs) => new OutpostSaveService(SaveKitA.Root, fs)
+        {
+            Configs = GameConfigs,
+            MapResolver = s => OutpostLevelAdapter.ForRun(OutpostKitA.Repo, s.Run),
+        };
+
+        /// <summary>Шахта 1 (фикстуры OutpostKitA) в нужной фазе: Running — 20 с работы; иначе — по событиям до фазы.</summary>
+        public static OutpostGameState StateIn(RunPhase phase)
+        {
+            var state = SaveKitA.MakeState(100);
+            var sim = new OutpostSimulation(state, OutpostKitA.Map(1), OutpostKitA.Configs) { RecordEvents = false };
+            if (phase == RunPhase.Running) sim.Advance(sim.Now + 20 * OutpostKitA.Tps);
+            else
+                for (int i = 0; i < 5_000_000 && sim.Run.Phase != phase; i++)
+                    if (!sim.AdvanceToNextEvent()) break;
+            Assert.AreEqual(phase, sim.Run.Phase, sim.Run.WatchdogDiagnostic);
+            return sim.State;
+        }
+
+        /// <summary>Прогресс прежней игры (не переносится) и переносимые поля: настройки и сыгранное время.</summary>
+        public static void OldProgress(JObject payload)
+        {
+            var profile = (JObject)payload["Profile"];
+            profile["Gems"] = 999;
+            profile["Elixir"] = 77;
+            profile["CurrentZone"] = 4;
+            profile["CompletedZones"] = new JArray(1, 2, 3);
+            profile["Items"] = new JObject { ["pickaxe.rare"] = 3 };
+            profile["PlayTimeMs"] = OldPlayTimeMs;
+            profile["Settings"] = new JObject
+            {
+                ["Master"] = 0.5, ["Music"] = 0.25, ["Sfx"] = 0.75, ["Ambience"] = 0.125,
+                ["Vibration"] = false, ["ReduceEffects"] = true, ["LegacySettingsImported"] = false,
+            };
+        }
+
+        /// <summary>
+        /// Перевести файл в схему schema: конверт (SchemaVersion, RulesVersion outpost-2.1-r1, BalanceVersion outpost-2.1-b4),
+        /// профиль, run (правила, adapter-1, профиль b4, топология v2) без полей заводов ТЗ 2.2; схема 1 — без журнала платежей.
+        /// </summary>
+        public static void Downgrade(MemoryFileSystemA fs, string path, int schema, Action<JObject> edit = null)
+        {
+            var env = SaveKitA.ReadEnvelope(fs, path);
+            var payload = SaveKitA.Payload(env);
+            env["SchemaVersion"] = schema;
+            env["RulesVersion"] = "outpost-2.1-r1";
+            env["BalanceVersion"] = "outpost-2.1-b4";
+            var profile = (JObject)payload["Profile"];
+            profile["SchemaVersion"] = schema;
+            if (schema < 2)
+            {
+                profile.Remove("Payments");
+                profile.Remove("PendingPurchase");
+            }
+            var run = (JObject)payload["Run"];
+            run["RulesVersion"] = "outpost-2.1-r1";
+            run["AdapterVersion"] = "adapter-1";
+            if (run["Balance"] is JObject balance) balance["Version"] = "outpost-2.1-b4";
+            if (run["MapTopology"] is JObject topology) topology["Version"] = "wide-branching-mines-2";
+            foreach (var field in new[] { "FactoryRules", "Factories", "PipeBatches", "NextPipeBatchSeq", "Warehouse", "GoodsArrived", "GoodsSold", "GoodsSoldGold", "DebugGoods" })
+                run.Remove(field);
+            (run["Counters"] as JObject)?.Remove("ManualDeliveries");
+            edit?.Invoke(payload);
+            SaveKitA.SetPayload(env, payload, rehash: true);
+            SaveKitA.WriteEnvelope(fs, path, env);
+        }
+
+        /// <summary>Правка payload файла с пересчётом контрольной суммы (версии конверта не меняются).</summary>
+        public static void Rewrite(MemoryFileSystemA fs, string path, Action<JObject> edit)
+        {
+            var env = SaveKitA.ReadEnvelope(fs, path);
+            var payload = SaveKitA.Payload(env);
+            edit(payload);
+            SaveKitA.SetPayload(env, payload, rehash: true);
+            SaveKitA.WriteEnvelope(fs, path, env);
         }
     }
 }

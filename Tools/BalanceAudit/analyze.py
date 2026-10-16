@@ -7,6 +7,12 @@
 Запуск из корня проекта:
   Tools/.venv/bin/python Tools/BalanceAudit/analyze.py before [after]
 Выход: Docs/Reports/balance-audit/summary-<tag>.json, outliers-<tag>.json, charts/*.png, tables-<tag>.md.
+
+Тег — имя каталога в Docs/Reports/balance-audit/ или «тег=путь» (путь от корня проекта); --out DIR — куда писать сводки и
+графики. Заводы ТЗ 2.2 (профиль b5 против эталона b4, Docs/Rework/BALANCE_FACTORIES.md):
+  Tools/.venv/bin/python Tools/BalanceAudit/analyze.py b4=Docs/Reports/balance-audit/after \
+      b5=Docs/Reports/balance-factories/b5 --out Docs/Reports/balance-factories
+Таблицы заводов (товар, циклы, автодоставка, офлайн) — Tools/BalanceAudit/factories.py.
 """
 import glob
 import json
@@ -17,6 +23,13 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 AUDIT = os.path.join(ROOT, 'Docs', 'Reports', 'balance-audit')
+OUT = AUDIT
+DIRS = {}
+
+
+def tag_dir(tag):
+    """Каталог данных тега: «тег=путь» из командной строки или Docs/Reports/balance-audit/<тег>."""
+    return DIRS.get(tag, os.path.join(AUDIT, tag))
 MODES = ['ChoosingTask', 'MovingToWork', 'Mining', 'MovingToCargo', 'PickingUp', 'Returning',
          'WaitingDepot', 'Unloading', 'Idle', 'GoingHome']
 
@@ -40,12 +53,12 @@ def stage_of(z):
 
 def load(tag):
     runs = {}
-    for path in sorted(glob.glob(os.path.join(AUDIT, tag, 'campaign-*.json'))):
+    for path in sorted(glob.glob(os.path.join(tag_dir(tag), 'campaign-*.json'))):
         with open(path, encoding='utf-8') as f:
             d = json.load(f)
         runs[(d['Scenario'], int(d['Seed']))] = d
     sat = []
-    sp = os.path.join(AUDIT, tag, 'saturation.json')
+    sp = os.path.join(tag_dir(tag), 'saturation.json')
     if os.path.exists(sp):
         with open(sp, encoding='utf-8') as f:
             sat = json.load(f)
@@ -119,6 +132,16 @@ def mine_row(m):
         'start': m.get('Start'),
         'equipped': m.get('Equipped'),
         'equippedLevels': m.get('EquippedLevels'),
+        # Заводы (ТЗ 2.2 §9): золото товара отдельно от монет, ручные доставки, автодоставка.
+        'goodsSoldBase': m.get('GoodsSoldBase') or 0,
+        'goodsShare': (m.get('GoodsSoldBase') or 0) / ((m.get('GoodsSoldBase') or 0) + (m.get('CreditedBase') or 0))
+        if ((m.get('GoodsSoldBase') or 0) + (m.get('CreditedBase') or 0)) > 0 else 0,
+        'manualDeliveries': m.get('ManualDeliveries') or 0,
+        'factories': len(m.get('Factories') or []),
+        'factoriesAutoStart': sum(1 for f in (m.get('Factories') or []) if f.get('AutoAtStart')),
+        'factoriesAutoEnd': sum(1 for f in (m.get('Factories') or []) if f.get('AutoAtEnd')),
+        'factoryCycles': sum(f.get('Cycles') or 0 for f in (m.get('Factories') or [])),
+        'goodsLostBase': m.get('GoodsLostBase') or 0,
     }
 
 
@@ -185,6 +208,8 @@ def stage_summary(rows):
             'medianAvgBusy': statistics.median([r['avgBusy'] or 0 for r in sel]),
             'gateWaitShare': statistics.mean(r['gateWaitShare'] for r in sel),
             'longestTargetShare': statistics.mean(r['longestTargetShare'] for r in sel),
+            'goodsShare': (sum(r['goodsSoldBase'] for r in sel) / sum(r['goodsSoldBase'] + (r['creditedBase'] or 0) for r in sel))
+            if sum(r['goodsSoldBase'] + (r['creditedBase'] or 0) for r in sel) > 0 else 0,
             'consecutiveRatioMax': max((sel[i]['min'] / sel[i - 1]['min'] for i in range(1, len(sel))), default=float('nan')),
             'consecutiveRatioMin': min((sel[i]['min'] / sel[i - 1]['min'] for i in range(1, len(sel))), default=float('nan')),
         })
@@ -215,9 +240,9 @@ def summarize(tag):
             'best': totals[0], 'worst': totals[-1],
             'medianSeed': totals[len(totals) // 2][1], 'worstSeed': totals[-1][1],
         }
-    with open(os.path.join(AUDIT, 'summary-%s.json' % tag), 'w', encoding='utf-8') as f:
+    with open(os.path.join(OUT, 'summary-%s.json' % tag), 'w', encoding='utf-8') as f:
         json.dump(summary, f, ensure_ascii=False, indent=1)
-    with open(os.path.join(AUDIT, 'outliers-%s.json' % tag), 'w', encoding='utf-8') as f:
+    with open(os.path.join(OUT, 'outliers-%s.json' % tag), 'w', encoding='utf-8') as f:
         json.dump(all_outliers, f, ensure_ascii=False, indent=1)
     return summary, all_outliers
 
@@ -242,14 +267,14 @@ def tables_md(summary):
             continue
         lines.append('## %s по этапам' % key)
         lines.append('')
-        lines.append('| Этап | Цель, мин | Медиана | Мин–макс | В цели/ниже/выше | Добыча | Ходьба | Разгрузка | Очередь | Подбор | Простой | Ворота | Макс. пауза покупки (мед.), с | Котиков к концу (мед.) | Занято в среднем |')
-        lines.append('|---|---|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|')
+        lines.append('| Этап | Цель, мин | Медиана | Мин–макс | В цели/ниже/выше | Добыча | Ходьба | Разгрузка | Очередь | Подбор | Простой | Ворота | Макс. пауза покупки (мед.), с | Котиков к концу (мед.) | Занято в среднем | Доля товара в золоте |')
+        lines.append('|---|---|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|')
         for s in sc['stages']:
-            lines.append('| %s | %g–%g | %s | %s–%s | %d/%d/%d | %s%% | %s%% | %s%% | %s%% | %s%% | %s%% | %s%% | %s | %s | %s |' % (
+            lines.append('| %s | %g–%g | %s | %s–%s | %d/%d/%d | %s%% | %s%% | %s%% | %s%% | %s%% | %s%% | %s%% | %s | %s | %s | %s%% |' % (
                 s['stage'], s['targetMin'][0], s['targetMin'][1], fmt(s['medianMin']), fmt(s['minMin']), fmt(s['maxMin']),
                 s['inTarget'], s['below'], s['above'], fmt(100 * s['mining'], 0), fmt(100 * s['walking'], 0), fmt(100 * s['unloading'], 0), fmt(100 * s['queue'], 0),
                 fmt(100 * s['pickup'], 0), fmt(100 * s['idle'], 0), fmt(100 * s['gateWaitShare'], 0), fmt(s['medianMaxGap'], 0),
-                fmt(s['medianWorkersEnd'], 0), fmt(s['medianAvgBusy'], 1)))
+                fmt(s['medianWorkersEnd'], 0), fmt(s['medianAvgBusy'], 1), fmt(100 * s.get('goodsShare', 0), 0)))
         lines.append('')
     if summary.get('luck'):
         l = summary['luck']
@@ -290,7 +315,7 @@ def charts(before, after=None):
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
-    out = os.path.join(AUDIT, 'charts')
+    out = os.path.join(OUT, 'charts')
     os.makedirs(out, exist_ok=True)
     c = LIGHT
     plt.rcParams.update({'font.size': 10, 'axes.edgecolor': c['grid'], 'axes.labelcolor': c['text2'], 'xtick.color': c['text2'],
@@ -309,13 +334,13 @@ def charts(before, after=None):
         fig, ax = plt.subplots(figsize=(11, 4.2))
         band(ax)
         rb = before['scenarios'][key]['rows']
-        ax.plot([r['zone'] for r in rb], [r['min'] for r in rb], color=c['before'], linewidth=1.6, label='до правок')
+        ax.plot([r['zone'] for r in rb], [r['min'] for r in rb], color=c['before'], linewidth=1.6, label=LABELS[0])
         if after and key in after['scenarios']:
             ra = after['scenarios'][key]['rows']
-            ax.plot([r['zone'] for r in ra], [r['min'] for r in ra], color=c['after'], linewidth=2, label='после правок')
-            ax.annotate('после: %.1f ч' % after['scenarios'][key]['totalHours'], (ra[-1]['zone'], ra[-1]['min']), xytext=(6, 0),
+            ax.plot([r['zone'] for r in ra], [r['min'] for r in ra], color=c['after'], linewidth=2, label=LABELS[1])
+            ax.annotate('%s: %.1f ч' % (SHORT[1], after['scenarios'][key]['totalHours']), (ra[-1]['zone'], ra[-1]['min']), xytext=(6, 0),
                         textcoords='offset points', color=c['text'], va='center', fontsize=9)
-        ax.annotate('до: %.1f ч' % before['scenarios'][key]['totalHours'], (rb[-1]['zone'], rb[-1]['min']), xytext=(6, -12),
+        ax.annotate('%s: %.1f ч' % (SHORT[0], before['scenarios'][key]['totalHours']), (rb[-1]['zone'], rb[-1]['min']), xytext=(6, -12),
                     textcoords='offset points', color=c['text2'], va='center', fontsize=9)
         ax.set_xlim(0, 152)
         ax.set_ylim(bottom=0)
@@ -344,9 +369,9 @@ def charts(before, after=None):
 
     n = 2 if after else 1
     fig, axes = plt.subplots(1, n, figsize=(6 * n, 4), squeeze=False)
-    stack(before, axes[0][0], 'До правок (free seed 1)')
+    stack(before, axes[0][0], '%s (free seed 1)' % LABELS[0].capitalize())
     if after:
-        stack(after, axes[0][1], 'После правок (free seed 1)')
+        stack(after, axes[0][1], '%s (free seed 1)' % LABELS[1].capitalize())
     axes[0][-1].legend(frameon=False, loc='upper left', bbox_to_anchor=(1.0, 1.0))
     fig.tight_layout()
     fig.savefig(os.path.join(out, 'time-structure.png'), dpi=130)
@@ -364,25 +389,26 @@ def charts(before, after=None):
         ax.set_ylabel('Ускорение относительно 2 котиков')
         ax.set_title(label, loc='left', color=c['text'], fontsize=11)
 
-    fig, axes = plt.subplots(1, n, figsize=(6 * n, 4.2), squeeze=False)
-    sat_plot(before, axes[0][0], 'Отдача от котиков — до')
-    if after:
-        sat_plot(after, axes[0][1], 'Отдача от котиков — после')
-    axes[0][-1].legend(frameon=False, fontsize=8, loc='upper left', bbox_to_anchor=(1.0, 1.0))
-    fig.tight_layout()
-    fig.savefig(os.path.join(out, 'saturation.png'), dpi=130)
-    plt.close(fig)
+    if before.get('saturation') or (after and after.get('saturation')):
+        fig, axes = plt.subplots(1, n, figsize=(6 * n, 4.2), squeeze=False)
+        sat_plot(before, axes[0][0], 'Отдача от котиков — %s' % SHORT[0])
+        if after:
+            sat_plot(after, axes[0][1], 'Отдача от котиков — %s' % SHORT[1])
+        axes[0][-1].legend(frameon=False, fontsize=8, loc='upper left', bbox_to_anchor=(1.0, 1.0))
+        fig.tight_layout()
+        fig.savefig(os.path.join(out, 'saturation.png'), dpi=130)
+        plt.close(fig)
 
     # Удача seed: суммарное время кампании free.
     if before.get('luck'):
         fig, ax = plt.subplots(figsize=(8, 3.4))
         lb = before['luck']['totalsHours']
         seeds = sorted(lb, key=int)
-        ax.scatter([int(s) for s in seeds], [lb[s] for s in seeds], color=c['before'], s=36, label='до правок', zorder=3)
+        ax.scatter([int(s) for s in seeds], [lb[s] for s in seeds], color=c['before'], s=36, label=LABELS[0], zorder=3)
         if after and after.get('luck'):
             la = after['luck']['totalsHours']
             ax.scatter([int(s) for s in seeds if s in la], [la[s] for s in seeds if s in la], color=c['after'], s=36,
-                       label='после правок', zorder=3)
+                       label=LABELS[1], zorder=3)
         ax.set_xlabel('Seed профиля (карточки и экипировка)')
         ax.set_ylabel('Часов на кампанию')
         ax.set_ylim(bottom=0)
@@ -393,12 +419,34 @@ def charts(before, after=None):
         plt.close(fig)
 
 
+LABELS = ['до правок', 'после правок']
+SHORT = ['до', 'после']
+
+
 def main():
-    tags = sys.argv[1:] or ['before']
+    global OUT
+    args = sys.argv[1:]
+    if '--out' in args:
+        i = args.index('--out')
+        OUT = os.path.join(ROOT, args[i + 1])
+        del args[i:i + 2]
+    os.makedirs(OUT, exist_ok=True)
+    tags = []
+    for a in args or ['before']:
+        if '=' in a:
+            t, path = a.split('=', 1)
+            DIRS[t] = os.path.join(ROOT, path)
+            tags.append(t)
+        else:
+            tags.append(a)
+    if tags != ['before', 'after'][:len(tags)]:
+        # Свои теги (например b4 и b5): подписи графиков — по тегам.
+        LABELS[:] = ['профиль %s' % t for t in tags] + LABELS[len(tags):]
+        SHORT[:] = tags + SHORT[len(tags):]
     sums = []
     for t in tags:
         s, o = summarize(t)
-        with open(os.path.join(AUDIT, 'tables-%s.md' % t), 'w', encoding='utf-8') as f:
+        with open(os.path.join(OUT, 'tables-%s.md' % t), 'w', encoding='utf-8') as f:
             f.write(tables_md(s))
         print('%s: %d scenarios, %d outlier rows' % (t, len(s['scenarios']), len(o)))
         sums.append(s)

@@ -9,12 +9,24 @@ anchors, their footprints may not overlap source objects, cover the exit e or
 lie in a gate row p; the effective zone is audited with the same rules and
 reported under "level_overrides". Per-zone "zones" entries stay source-only.
 
-Balance profile: outpost-2.1-b4 (HP step (z-1)/25, local upgrade prices with
-the depth factor 1 + (z-1)/10, unload step 1/5, Value cap 40 with milestones
-10/25/40). Card
-effects are not modelled. Fields prefixed "original_v2_0" are a historical
-statement about the original v2.0 rules (HP step (z-1)/200, no depth factor,
-Value cap 60) and are evaluated entirely under those rules.
+Balance profile: outpost-2.2-b6 = the numbers of outpost-2.1-b4 (HP step (z-1)/25,
+local upgrade prices with the depth factor 1 + (z-1)/10, unload step 1/5, Value cap
+40 with milestones 10/25/40) plus the mine pace multiplier K(z) of b6, which is applied
+when a run is created and is not part of these base HP/cargo/price figures. Card effects are not modelled. Fields prefixed
+"original_v2_0" are a historical statement about the original v2.0 rules (HP step
+(z-1)/200, no depth factor, Value cap 60) and are evaluated entirely under those rules.
+
+TZ 2.2 rules (factories instead of deposits; adapter-2):
+- factory chains (former deposits "s") carry no coin cargo: cargo_units, base_gold,
+  maximum_gold_upper_bound and the base resource budget count s as 0 units
+  (TotalCargoUnits = max(2, ceil(HP/10)) only for r/x/p);
+- an opened factory keeps its 2x3 footprint as a building: the static clearance never
+  frees factory cells (case 1 of OutpostReachability), and the final source map
+  (r/x removed, gates open, factories standing) must keep every floor cell connected
+  to the base, at every gate stage, and give every factory a free connected neighbour
+  (case 2). The wide campaign topology is validated by Tools/Topology/build_topology.py.
+The previous reference (v2.1 rules, profile outpost-2.1-b4) is kept as
+outpost_v2_audit_2.1.json next to this script.
 """
 import argparse
 from collections import Counter, deque
@@ -29,8 +41,11 @@ EXPECTED_SHA = "8975a5a09dce8e2675d06b751c50b5cac80da3988f8ed098910492c442f85ee5
 TYPE_HP = {"r": Fraction(1), "x": Fraction(4, 5), "s": Fraction(2), "p": Fraction(5, 2)}
 TYPE_VALUE = {"r": Fraction(1), "x": Fraction(1, 2), "s": Fraction(2), "p": Fraction(1)}
 FIELDS = {"r": 3, "s": 6, "x": 2, "p": 4, "e": 4, "c": 3}
-PROFILE_VERSION = "outpost-2.1-b4"
-# Profile b4. Profiles b1-b3: HP step 1/200, no depth price factor, unload step 3/20, Value cap 50, milestones 10/25/50.
+PROFILE_VERSION = "outpost-2.2-b6"
+# Profile b6 = b5 numbers plus the mine pace multiplier K(z) (PaceScale, owner decision V4 2026-10-15); the audit keeps the base HP of §12.4.
+# Profile b5 = numbers of b4. Profiles b1-b3: HP step 1/200, no depth price factor, unload step 3/20, Value cap 50, milestones 10/25/50.
+# TZ 2.2 §4.2 (adapter-2): factory chains release no cargo.
+NO_CARGO_KINDS = frozenset("s")
 ZONE_HP_STEP = Fraction(1, 25)
 COST_ZONE_STEP = Fraction(1, 10)
 UNLOAD_STEP = Fraction(1, 5)
@@ -224,7 +239,7 @@ def audit_zone(source, zone, geometry):
         hp = adapted_hp(number, rank, area, kind)
         if (zone_id, obj["index"]) == ("zone13", 78):
             selected_target_controls[str(obj["index"])] = hp
-        units = max(2, (hp + 9) // 10)
+        units = 0 if kind in NO_CARGO_KINDS else max(2, (hp + 9) // 10)
         base_value = ceil_fraction(5 * scale * TYPE_VALUE[kind])
         max_coin_value = ceil_fraction(5 * scale * TYPE_VALUE[kind] * max_value)
         totals["hp"] += hp
@@ -238,7 +253,8 @@ def audit_zone(source, zone, geometry):
         obj["sector"] = sum(g["row"] > obj["row"] for g in gates)
         crossing_count += sum(min(r for _, r in obj["cells"]) < g["row"] <= obj["row"] for g in gates) if obj["cells"] else 0
 
-    # Monotone topological clearance, NOT a time/worker simulation.
+    # Monotone topological clearance, NOT a time/worker simulation. TZ 2.2 §4.1: an opened factory stays a wall.
+    factory_cells = {cell for obj in objects if obj["kind"] == "s" for cell in obj["cells"]}
     remaining = {obj["index"]: obj for obj in objects if obj["kind"] in "rxs"}
     cleared, waves = 0, 0
     for sector in range(len(gates) + 1):
@@ -252,8 +268,9 @@ def audit_zone(source, zone, geometry):
             if not available:
                 raise ValueError(f"{zone_id}: unreachable targets in sector {sector}: {[o['index'] for o in pending]}")
             for obj in available:
-                for cell in obj["cells"]:
-                    del occupied[cell]
+                if obj["kind"] != "s":
+                    for cell in obj["cells"]:
+                        del occupied[cell]
                 del remaining[obj["index"]]
                 cleared += 1
             waves += 1
@@ -263,6 +280,20 @@ def audit_zone(source, zone, geometry):
                 raise ValueError(f"{zone_id}: no gate working position in row {gate_row}")
     if remaining or not all(exit_cell in reachable(width, depth, occupied, None) for exit_cell in exits):
         raise ValueError(f"{zone_id}: incomplete clearance or unreachable exit")
+    # Final map with standing factories: every floor cell of the open rows is connected to the base at every gate
+    # stage, every factory keeps a free connected neighbour cell (pipe outlet, TZ 2.2 §5).
+    standing = dict.fromkeys(factory_cells, -1)
+    for stage in range(len(gates) + 1):
+        gate_row = gates[stage]["row"] if stage < len(gates) else None
+        free = reachable(width, depth, standing, gate_row)
+        for row in range(depth + 3):
+            for col in range(width):
+                if (gate_row is None or row >= gate_row) and (col, row) not in standing and (col, row) not in free:
+                    raise ValueError(f"{zone_id}: cell {(col, row)} cut off by standing factories with {stage} gates open")
+    free = reachable(width, depth, standing, None)
+    for obj in objects:
+        if obj["kind"] == "s" and not work_cells(obj["cells"]) - factory_cells & free:
+            raise ValueError(f"{zone_id}:{obj['index']}: standing factory without a free connected neighbour")
     bound_v2_0 = value_level_budget_bound(number, V2_0_VALUE_CAP, V2_0_VALUE_MILESTONES, V2_0_COST_ZONE_STEP)
     bound_cap = value_level_budget_bound(number, VALUE_CAP)
     return {"zone": zone_id, "width": width, "depth": depth, "tokens": dict(counts), "obligatory_targets": cleared + len(gates), "static_clearance": True, "clearance_waves": waves, "crossing_footprints": crossing_count, "unique_source_hp": len(hp_values), "min_adapted_hp": min(target_hps), "max_adapted_hp": max(target_hps), "selected_target_controls": selected_target_controls, "base_resource_budget_without_rounding": str(decimal_fraction(raw_budget)),
@@ -301,7 +332,7 @@ def build_report(path, overrides_path=None):
     value_costs_144 = [local_cost(144, 30, Fraction(31, 25), level) for level in range(VALUE_CAP)]
     max_gold_zone = max(details, key=lambda row: row["maximum_gold_upper_bound"])
     return {
-        "scope": "Source JSON, static geometry under v2.1 rules and balance profile " + PROFILE_VERSION + ", exact reference formulas, no card effects. No Unity/worker/offline run.",
+        "scope": "Source JSON, static geometry under v2.1 rules with TZ 2.2 standing factories, balance profile " + PROFILE_VERSION + " (adapter-2: factory chains carry no cargo), exact reference formulas, no card effects. No Unity/worker/offline run.",
         "profile_version": PROFILE_VERSION,
         "source_sha256": sha, "source_bytes": len(raw), "zone_count": len(zones),
         "widths": sorted({z["WidthCells"] for z in zones}), "depth_range": [min(z["DepthCells"] for z in zones), max(z["DepthCells"] for z in zones)],

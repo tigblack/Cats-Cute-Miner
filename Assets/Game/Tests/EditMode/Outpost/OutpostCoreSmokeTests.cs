@@ -170,7 +170,9 @@ namespace CatMiners.Tests.Outpost
         [Test]
         public void AllZones_PolicyA_Complete()
         {
-            var cfg = Configs;
+            // Профиль b6 (решение владельца В4, 15 октября 2026): K(z) растягивает поздние шахты до суток; проверка правил
+            // «политика A проходит все 144 шахты» — на том же профиле без множителя темпа (K = 1, числа b5).
+            var cfg = Configs.WithoutPace();
             var failures = new System.Collections.Generic.List<string>();
             var sw = System.Diagnostics.Stopwatch.StartNew();
             for (int z = 1; z <= OutpostIds.LastZone; z++)
@@ -249,8 +251,20 @@ namespace CatMiners.Tests.Outpost
                 Read("stage_rewards.json"), Read("level_overrides.json"));
             Assert.AreEqual(a.BalanceHash, b.BalanceHash, "hash не зависит от переводов строк");
             Assert.AreEqual(a.CatalogHash, b.CatalogHash);
-            Assert.AreEqual("outpost-2.1-b4", a.Balance.Version);
-            Assert.AreEqual(OutpostIds.BalanceVersion, b.Balance.Version);
+            // ТЗ 2.2 §3.2, §7.1: встроенные копии правил карточек и заводов совпадают с файлами; все восемь файлов Resources
+            // (порядок ResourcePaths, как читает Runtime) дают те же hash, что встроенный набор (новые проверки).
+            Assert.AreEqual(OutpostConfigSet.DefaultCardRulesJson.Replace("\r\n", "\n"), Read("card_rules.json"));
+            Assert.AreEqual(OutpostConfigSet.DefaultFactoryRulesJson.Replace("\r\n", "\n"), Read("factory_rules.json"));
+            var all = OutpostConfigSet.ParseResources(OutpostConfigSet.ResourcePaths
+                .Select(r => Read(r.Substring(r.LastIndexOf('/') + 1) + ".json")).ToArray());
+            Assert.AreEqual(a.BalanceHash, all.BalanceHash);
+            Assert.AreEqual(a.CatalogHash, all.CatalogHash);
+            Assert.AreEqual(a.CardRulesHash, all.CardRulesHash);
+            Assert.AreEqual(a.StoreHash, all.StoreHash);
+            Assert.AreEqual(a.FactoryRulesHash, all.FactoryRulesHash);
+            Assert.AreEqual(a.Topologies.Version, all.Topologies.Version);
+            Assert.AreEqual("cards-3", all.CardRules.Version);
+            Assert.AreEqual("factories-1", all.FactoryRules.Version);
 
             Assert.AreEqual(Rational.Of(59, 50), Rational.Parse("1.18"));
             Assert.AreEqual(Rational.Of(6, 5), Rational.Parse("6/5"));
@@ -263,6 +277,10 @@ namespace CatMiners.Tests.Outpost
             Assert.AreEqual("4.5M", MoneyFormat.Format(4_500_000));
             var big = BigInteger.Pow(2, 80) + 1;
             Assert.AreEqual(big, MoneyFormat.Parse(MoneyFormat.ToStorage(big)), "строка сохранения без потери единицы выше 2^53");
+            // ТЗ 2.2 §9, §10.1, §16.1 (б): профиль outpost-2.2-b5 (числа b4; файл outpost_balance.json — WP7); b6 — те же числа и
+            // множитель темпа шахт K(z) (решение владельца В4, 15 октября 2026; Docs/Rework/BALANCE_FACTORIES.md «Темп b6: 3 цикла»).
+            Assert.AreEqual("outpost-2.2-b6", a.Balance.Version);
+            Assert.AreEqual(OutpostIds.BalanceVersion, b.Balance.Version);
         }
         [Test]
         public void PurchasesWithBot_SaveLoadAtEventBoundary_IsByteIdentical()

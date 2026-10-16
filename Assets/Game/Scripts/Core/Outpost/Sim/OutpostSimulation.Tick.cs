@@ -7,7 +7,8 @@ namespace CatMiners.Core.Outpost
     {
         /// <summary>
         /// Одна отметка времени — строго семь фаз (ТЗ 6.5): движение, удары, подбор, склад, ворота/завершение,
-        /// команды, планирование. Граница согласованного снимка — конец всех семи фаз.
+        /// команды, планирование; после склада монет — шаг 4б заводов (ТЗ 2.2 §4.5: прибытия партий, затем концы циклов).
+        /// Граница согласованного снимка — конец всех семи фаз.
         /// </summary>
         void ProcessTick(long t)
         {
@@ -18,6 +19,7 @@ namespace CatMiners.Core.Outpost
             PhaseHits(t);
             PhasePickups(t);
             PhaseDepot(t);
+            PhaseFactories(t);
             PhaseGatesAndCompletion(t);
             PhaseCommands(t);
             Plan(t);
@@ -178,7 +180,10 @@ namespace CatMiners.Core.Outpost
             var mt = m_Map.Targets[ti];
             ts.Destroyed = true;
             ts.RemainingHpUnits = 0;
-            foreach (int cell in mt.Cells) m_Occupant[cell] = -1;
+            // ТЗ 2.2 §4.1: footprint открытого завода не освобождается (здание — стена навигации, груз на нём не лежит).
+            bool standing = IsStandingFactory(mt);
+            if (!standing)
+                foreach (int cell in mt.Cells) m_Occupant[cell] = -1;
             if (!mt.IsGate) m_LivingRsx--;
             run.NavVersion++;
             // Идущие к цели теряют задачу (дойдут до ближайшей клетки), рабочая клетка освобождается сразу.
@@ -201,7 +206,9 @@ namespace CatMiners.Core.Outpost
             e.TargetId = mt.Id;
             e.Cell = m_Map.Cell(mt.Column, mt.Row);
             Emit(e);
+            // ТЗ 2.2 §4.2: на этой отметке по порядку — сундук rewardId, FactoryUnlocked, проверка автодоставки.
             if (m_Cards != null) GrantTargetReward(mt, t);
+            if (standing) UnlockFactory(mt, t);
         }
 
         // ---------- Фаза 3: подбор ----------
@@ -277,10 +284,14 @@ namespace CatMiners.Core.Outpost
             return true;
         }
 
-        /// <summary>Единственная награда завершения, ReadyToContinue, остановка всех таймеров (ТЗ 11).</summary>
+        /// <summary>
+        /// Единственная награда завершения, ReadyToContinue, остановка всех таймеров (ТЗ 11). Заводы останавливаются первыми
+        /// (ТЗ 2.2 §4.6), до сундука выхода: его карточка может включить AUTO, но партия уже не уйдёт.
+        /// </summary>
         void Complete(long t)
         {
             var run = Run;
+            StopFactories();
             var reward = StageProgressionService.ApplyCompletion(m_State, m_Configs);
             // Сундук выхода (Exit e): zone1–10 — скриптовые записи с гарантированными карточками, далее GachaCrusher.
             if (m_Cards != null && m_Map.ExitRewardId != null) OpenChest(m_Map.ExitRewardId, -1, m_Map.ExitCell, t);

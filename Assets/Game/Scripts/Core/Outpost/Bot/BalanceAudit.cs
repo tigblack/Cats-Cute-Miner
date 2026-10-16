@@ -33,7 +33,7 @@ namespace CatMiners.Core.Outpost
         int m_ClearedSeen = -1;
         readonly int[] m_SectorLiving;
 
-        // Покупки и доход.
+        // Покупки и доход: монеты + продажа товара (ТЗ 2.2 §6.4 — доход для окупаемости покупок).
         readonly List<(long Tick, BigInteger Credited)> m_Income = new List<(long, BigInteger)>();
         long m_LastPurchaseTick = -1;
         readonly List<double> m_Gaps = new List<double>();
@@ -46,6 +46,10 @@ namespace CatMiners.Core.Outpost
         long m_TotalHpUnits;
         readonly HashSet<int> m_TraceZones;
         long m_NextTrace;
+
+        // Заводы (ТЗ 2.2 §9): по одной записи на OutpostMap.Factories, индекс цели и снимок «автомат уже включён».
+        readonly int[] m_FactoryTarget;
+        readonly bool[] m_FactoryAutoSeen;
 
         public BalanceProbe(OutpostSimulation sim, MineAudit report, bool trace)
         {
@@ -92,8 +96,35 @@ namespace CatMiners.Core.Outpost
             m_Sector = run.GatesOpened;
             if (m_Sector < report.Sectors.Count) report.Sectors[m_Sector].OpenSec = Sec(run.Now);
             if (trace) report.Trace = new List<TraceRow>();
+            var factories = map.Factories ?? new MapFactory[0];
+            m_FactoryTarget = new int[factories.Length];
+            m_FactoryAutoSeen = new bool[factories.Length];
+            var cards = sim.Configs.Cards;
+            for (int k = 0; k < factories.Length; k++)
+            {
+                var mf = factories[k];
+                int ti = map.TargetIndex(mf.TargetId);
+                m_FactoryTarget[k] = ti;
+                var rule = run.FactoryRules?.ForType(mf.TypeId);
+                int level = sim.Profile.CardLevel(mf.RequiredCardId);
+                report.Factories.Add(new FactoryAudit
+                {
+                    Id = mf.TargetId,
+                    TypeId = mf.TypeId,
+                    GoodId = rule?.GoodId,
+                    TypeNumber = rule != null ? run.FactoryRules.NumberOfGood(rule.GoodId) : 0,
+                    CycleSec = rule?.CycleSec ?? 0,
+                    Sector = ti >= 0 ? map.Targets[ti].Sector : -1,
+                    RequiredCardId = mf.RequiredCardId,
+                    RequiredCardLevel = mf.RequiredCardLevel,
+                    CardLevelStart = level,
+                    AutoAtStart = mf.RequiredCardId != null && level >= 1 && level >= mf.RequiredCardLevel,
+                    UnitsStart = FactoryMath.UnitsPerCycle(rule, sim.Profile, cards),
+                    PriceBase = rule != null ? Base(FactoryQueries.Price(run, rule.GoodId)) : 0,
+                });
+            }
             m_Last = run.Now;
-            m_Income.Add((run.Now, run.TotalCredited));
+            m_Income.Add((run.Now, Income(run)));
             Snapshot();
         }
 
@@ -135,6 +166,79 @@ namespace CatMiners.Core.Outpost
         }
         double Base(BigInteger v) => (double)v / m_BaseCoin;
 
+        /// <summary>Доход шахты для окупаемости покупок: монеты + продажа товара (ТЗ 2.2 §6.4).</summary>
+        static BigInteger Income(OutpostRun run) => run.TotalCredited + run.GoodsSoldGold;
+
+        /// <summary>Стоимость товара по цене шахты: на складе, в трубах, в готовых партиях (базовые монеты).</summary>
+        public (double Warehouse, double Pipes, double Ready) GoodsValue()
+        {
+            var run = m_Sim.Run;
+            double warehouse = Base(FactoryQueries.StockValue(run)), pipes = 0, ready = 0;
+            if (run.PipeBatches != null)
+                foreach (var b in run.PipeBatches) pipes += Base(b.Units * FactoryQueries.Price(run, b.GoodId));
+            if (run.Factories != null)
+                foreach (var f in run.Factories)
+                    if (f.ReadyUnits > 0) ready += Base(f.ReadyUnits * FactoryQueries.Price(run, f.GoodId));
+            return (warehouse, pipes, ready);
+        }
+
+        readonly HashSet<int> m_AutoAtLeave = new HashSet<int>();
+
+        /// <summary>Игрок ушёл: запомнить заводы, которые уже на автомате.</summary>
+        public void MarkLeave()
+        {
+            m_AutoAtLeave.Clear();
+            var list = m_Sim.Run.Factories;
+            if (list != null)
+                foreach (var f in list)
+                    if (f.Automated) m_AutoAtLeave.Add(f.TargetId);
+        }
+
+        /// <summary>
+        /// Игрок вернулся после отсутствия (ТЗ 2.2 §9): склад по ручным и автоматическим заводам, готовые партии, трубы.
+        /// Товар однозначно относится к заводу: каждый тип в шахте встречается не больше одного раза (§3.1). Автоматический —
+        /// завод, который был на автомате при уходе или включил его, пока шахта шла; если шахта завершилась за время отсутствия,
+        /// флаг от карточки сундука выхода (включается уже в ReadyToContinue) завод автоматическим не делает.
+        /// </summary>
+        public void MeasureReturn(AbsenceAudit a)
+        {
+            var run = m_Sim.Run;
+            bool running = run.Phase != RunPhase.ReadyToContinue;
+            a.Factories = run.Factories?.Count ?? 0;
+            a.AutoAtLeave = m_AutoAtLeave.Count;
+            if (run.Factories != null)
+                foreach (var f in run.Factories)
+                {
+                    if (f.Status == FactoryStatus.Locked)
+                    {
+                        a.Locked++;
+                        continue;
+                    }
+                    var price = FactoryQueries.Price(run, f.GoodId);
+                    double stock = Base(FactoryQueries.Stock(run, f.GoodId) * price);
+                    if (m_AutoAtLeave.Contains(f.TargetId) || (running && f.Automated))
+                    {
+                        a.AutoFactories++;
+                        a.WarehouseAutoBase += stock;
+                    }
+                    else
+                    {
+                        a.ManualFactories++;
+                        a.WarehouseManualBase += stock;
+                        a.ReadyManualBase += Base(f.ReadyUnits * price);
+                    }
+                }
+            a.PipesBase = GoodsValue().Pipes;
+        }
+
+        public double CreditedBaseNow => Base(m_Sim.Run.TotalCredited);
+
+        /// <summary>Модель доставила и продала на проверке.</summary>
+        public void OnFactories(int delivered, BigInteger sold)
+        {
+            if (sold > 0) m_Report.Sales++;
+        }
+
         /// <summary>Учесть интервал [последняя отметка, t) по режимам предыдущего снимка. Вызывать до Advance(t).</summary>
         public void AdvanceTo(long t)
         {
@@ -172,6 +276,7 @@ namespace CatMiners.Core.Outpost
                         Sec = Sec(m_NextTrace),
                         WalletBase = Base(run.Wallet),
                         CreditedBase = Base(run.TotalCredited),
+                        GoodsSoldBase = Base(run.GoodsSoldGold),
                         Workers = run.Workers.Count,
                         Sector = run.GatesOpened,
                         LevelSum = run.Levels.Sum(),
@@ -237,7 +342,18 @@ namespace CatMiners.Core.Outpost
                 }
             }
 
-            if (m_Income[m_Income.Count - 1].Credited != run.TotalCredited) m_Income.Add((now, run.TotalCredited));
+            var income = Income(run);
+            if (m_Income[m_Income.Count - 1].Credited != income) m_Income.Add((now, income));
+
+            // Заводы: первая отметка с автодоставкой (цепи разбиты — по m_Destroyed цели).
+            var rf = run.Factories;
+            if (rf != null)
+                for (int k = 0; k < m_FactoryAutoSeen.Length && k < rf.Count; k++)
+                    if (!m_FactoryAutoSeen[k] && rf[k].Automated)
+                    {
+                        m_FactoryAutoSeen[k] = true;
+                        m_Report.Factories[k].AutoSec = Sec(now);
+                    }
 
             // Доступность самого дешёвого уровня; цены зависят только от уровней и скидок.
             string key = string.Join(",", run.Levels) + "|" + sim.Stats.CardBranchDiscount + "|" + sim.Stats.CardHireDiscount;
@@ -286,7 +402,7 @@ namespace CatMiners.Core.Outpost
                     break;
                 }
             double window = Sec(now - Math.Max(startTick, m_Income[0].Tick));
-            double rate = window > 0 ? Base(run.TotalCredited - startCredited) / window : 0;
+            double rate = window > 0 ? Base(Income(run) - startCredited) / window : 0;
             var rec = new PurchaseRecord
             {
                 Sec = Sec(now),
@@ -371,6 +487,27 @@ namespace CatMiners.Core.Outpost
             r.SlowTargets = slow.OrderByDescending(x => x.DurationSec).ThenBy(x => x.Id).Take(5).ToList();
             r.LongestTargetSec = r.SlowTargets.Count > 0 ? r.SlowTargets[0].DurationSec : 0;
             r.CreditedBase = Base(run.TotalCredited);
+            r.GoodsSoldBase = Base(run.GoodsSoldGold);
+            r.ManualDeliveries = c.ManualDeliveries;
+            var lost = GoodsValue();
+            r.GoodsLostWarehouseBase = lost.Warehouse;
+            r.GoodsLostPipesBase = lost.Pipes;
+            r.GoodsLostBase = lost.Warehouse + lost.Pipes;
+            r.GoodsLostReadyBase = lost.Ready;
+            var rf = run.Factories;
+            for (int k = 0; k < r.Factories.Count; k++)
+            {
+                var fa = r.Factories[k];
+                var f = rf != null && k < rf.Count && rf[k].TargetId == fa.Id ? rf[k] : FactoryQueries.Find(run, fa.Id);
+                int ti = m_FactoryTarget[k];
+                if (ti >= 0 && m_Destroyed[ti] >= 0) fa.UnlockSec = Sec(m_Destroyed[ti]);
+                fa.CardLevelEnd = sim.Profile.CardLevel(fa.RequiredCardId);
+                if (f == null) continue;
+                fa.AutoAtEnd = f.Automated;
+                if (f.Automated && fa.AutoSec == null) fa.AutoSec = Sec(run.Now);
+                fa.Cycles = f.Cycles;
+                fa.Produced = f.Produced;
+            }
             r.SpentBase = Base(run.TotalSpent);
             r.UnspentBase = Base(run.Wallet);
             r.IncomeBasePerMin = r.CompletedSec > 0 ? r.CreditedBase / (r.CompletedSec.Value / 60) : 0;
@@ -399,8 +536,13 @@ namespace CatMiners.Core.Outpost
         public const long TickLimit = 86_400_000_000L;
         public const long EventLimit = 4_000_000L;
 
-        /// <summary>Пройти текущую шахту моделью игрока до ReadyToContinue; отчёт по шахте.</summary>
-        public static MineAudit RunMine(OutpostSimulation sim, PlayerModel model, string scenario, bool trace = false)
+        /// <summary>
+        /// Пройти текущую шахту моделью игрока до ReadyToContinue; отчёт по шахте. На каждой проверке модель сначала доставляет
+        /// готовые партии и продаёт товар (<see cref="PlayerModel.Tend"/>), затем покупает. absence — опыт отсутствия (ТЗ 2.2 §9):
+        /// на отметке StartSec игрок уходит (ни проверок, ни ударов), ядро считает интервал тем же Advance, что и офлайн
+        /// (OfflineSimulator, ТЗ 2.1 §13), по возвращении игрок сразу делает проверку и доигрывает шахту; итог — report.Absences.
+        /// </summary>
+        public static MineAudit RunMine(OutpostSimulation sim, PlayerModel model, string scenario, bool trace = false, AbsencePlan absence = null)
         {
             sim.RecordEvents = false;
             var run = sim.Run;
@@ -427,11 +569,24 @@ namespace CatMiners.Core.Outpost
             long nextCheck = checkEvery > 0 ? (long)(model.FirstCheckSec * tps) : 0;
             long nextTap = model.NextTapTick(run.Now, tps);
             long events0 = sim.ProcessedEvents;
+            // Профиль b6: пределы растут с множителем темпа шахты K(z) (OutpostBot.PaceLimitFactor).
+            long pace = OutpostBot.PaceLimitFactor(run);
+            long tickLimit = TickLimit * pace, eventLimit = EventLimit * pace;
+            long awayAt = absence != null ? Math.Max(run.Now, (long)Math.Round(absence.StartSec * tps)) : long.MaxValue;
+            AbsenceAudit away = null;
+
+            void Act()
+            {
+                var (delivered, sold) = model.Tend(sim);
+                probe.OnFactories(delivered, sold);
+                model.Buy(sim, probe);
+            }
+
             try
             {
                 if (checkEvery == 0 || nextCheck <= run.Now)
                 {
-                    model.Buy(sim, probe);
+                    Act();
                     if (checkEvery > 0) nextCheck = run.Now + checkEvery;
                     probe.Snapshot();
                 }
@@ -447,6 +602,7 @@ namespace CatMiners.Core.Outpost
                     long t = tEvent;
                     if (checkEvery > 0 && nextCheck < t) t = nextCheck;
                     if (nextTap < t) t = nextTap;
+                    if (awayAt < t) t = awayAt;
                     if (t == long.MaxValue)
                     {
                         sim.AdvanceToNextEvent();
@@ -454,18 +610,36 @@ namespace CatMiners.Core.Outpost
                         report.Error = run.WatchdogDiagnostic;
                         break;
                     }
-                    if (t > TickLimit)
+                    if (t > tickLimit)
                     {
                         report.Outcome = "Timeout";
                         break;
                     }
-                    if (sim.ProcessedEvents - events0 > EventLimit)
+                    if (sim.ProcessedEvents - events0 > eventLimit)
                     {
                         report.Outcome = "EventLimit";
                         break;
                     }
                     probe.AdvanceTo(t);
                     sim.Advance(t);
+                    if (t == awayAt)
+                    {
+                        // Игрок уходит до своей проверки на этой отметке; интервал отсутствия — одним Advance, как офлайн.
+                        long back = checked(t + (long)Math.Round(absence.Hours * 3600 * tps));
+                        double coins0 = probe.CreditedBaseNow;
+                        away = new AbsenceAudit { Hours = absence.Hours, StartSec = t / (double)tps, ReturnSec = back / (double)tps };
+                        probe.Snapshot();
+                        probe.MarkLeave();
+                        probe.AdvanceTo(back);
+                        sim.Advance(back);
+                        away.ReturnedBeforeComplete = !sim.IsEconomyStopped;
+                        away.CoinsDuringBase = probe.CreditedBaseNow - coins0;
+                        probe.MeasureReturn(away);
+                        awayAt = long.MaxValue;
+                        t = run.Now;
+                        nextCheck = t;
+                        nextTap = model.NextTapTick(t, tps);
+                    }
                     if (t == nextTap)
                     {
                         long dmg = model.Strike(sim);
@@ -478,7 +652,7 @@ namespace CatMiners.Core.Outpost
                     }
                     if (!sim.IsEconomyStopped && (checkEvery == 0 || t >= nextCheck))
                     {
-                        model.Buy(sim, probe);
+                        Act();
                         if (checkEvery > 0) nextCheck = t + checkEvery;
                     }
                     probe.Snapshot();
@@ -491,15 +665,28 @@ namespace CatMiners.Core.Outpost
                 report.Error = e.GetType().Name + ": " + e.Message;
             }
             probe.Finish();
+            if (away != null)
+            {
+                away.CompletedSec = report.CompletedSec;
+                away.Outcome = report.Outcome;
+                away.LostBase = report.GoodsLostBase;
+                away.LostReadyBase = report.GoodsLostReadyBase;
+                away.GoodsSoldBase = report.GoodsSoldBase;
+                report.Absences = new List<AbsenceAudit> { away };
+            }
             return report;
         }
 
         /// <summary>
         /// Последовательная кампания 1..toZone: награды, карточки, детали и экипировка переносятся законным путём;
         /// между шахтами модель игрока выполняет действия экрана итогов. Останавливается на первой неуспешной шахте.
+        /// absenceHours — опыт отсутствия ТЗ 2.2 §9 в каждой шахте: копия начала шахты проходится той же моделью, игрок уходит на
+        /// 50 % длительности основного прогона на каждое из значений (часы); итог — MineAudit.Absences основного отчёта. Копии
+        /// не влияют на кампанию.
         /// </summary>
         public static CampaignAudit RunCampaign(BalanceRepository repo, OutpostConfigSet configs, PlayerModel model, ulong seed,
-            int toZone = OutpostIds.LastZone, ICollection<int> traceZones = null, Action<int, OutpostGameState> beforeZone = null)
+            int toZone = OutpostIds.LastZone, ICollection<int> traceZones = null, Action<int, OutpostGameState> beforeZone = null,
+            IReadOnlyList<double> absenceHours = null)
         {
             var audit = new CampaignAudit
             {
@@ -510,6 +697,8 @@ namespace CatMiners.Core.Outpost
                 BalanceHash = configs.BalanceHash,
                 CatalogHash = configs.CatalogHash,
                 TopologyVersion = configs.Topologies?.Version,
+                FactoryRulesVersion = configs.FactoryRules?.Version,
+                PriceRate = configs.FactoryRules?.PriceRate.ToString(),
                 Success = true,
             };
             var state = StageProgressionService.NewGame(repo, configs, seed, 0, 1);
@@ -517,11 +706,27 @@ namespace CatMiners.Core.Outpost
             while (true)
             {
                 beforeZone?.Invoke(state.Run.Zone, state);
+                var start = absenceHours != null && absenceHours.Count > 0 ? OutpostJson.DeepCopy(state) : null;
                 var sim = new OutpostSimulation(state, map, configs);
                 if (model.EquipBest) sim.Submit(OutpostCommand.EquipBest());
                 if (model.SkipSlot != null) sim.Submit(OutpostCommand.Unequip(model.SkipSlot.Value));
                 var report = RunMine(sim, model, model.Name, traceZones != null && traceZones.Contains(state.Run.Zone));
                 audit.Mines.Add(report);
+                if (start != null && report.Outcome == "Completed" && report.CompletedSec != null)
+                {
+                    report.Absences = new List<AbsenceAudit>();
+                    foreach (double hours in absenceHours)
+                    {
+                        var copy = OutpostJson.DeepCopy(start);
+                        var awaySim = new OutpostSimulation(copy, map, configs);
+                        var awayModel = model.Clone();
+                        if (awayModel.EquipBest) awaySim.Submit(OutpostCommand.EquipBest());
+                        if (awayModel.SkipSlot != null) awaySim.Submit(OutpostCommand.Unequip(awayModel.SkipSlot.Value));
+                        var plan = new AbsencePlan { StartSec = report.CompletedSec.Value / 2, Hours = hours };
+                        var awayReport = RunMine(awaySim, awayModel, model.Name + "-away" + hours, false, plan);
+                        if (awayReport.Absences != null) report.Absences.AddRange(awayReport.Absences);
+                    }
+                }
                 if (report.Outcome != "Completed")
                 {
                     audit.Success = false;
@@ -541,6 +746,33 @@ namespace CatMiners.Core.Outpost
                 map = tr.Map;
             }
             return audit;
+        }
+
+        /// <summary>
+        /// Одна шахта из записанного начала кампании (калибровка темпа b6, Docs/Rework/BALANCE_FACTORIES.md «Темп b6: 3 цикла»):
+        /// копия профиля start (снимок beforeZone кампании), run шахты создаётся заново на configs с тем же RunId (криты те же),
+        /// затем модель проходит шахту, как в <see cref="RunCampaign"/>. Награды, карточки и детали между шахтами от длительности
+        /// шахты не зависят, поэтому начало шахты z из кампании с K = 1 — то же, что в кампании с K(z).
+        /// </summary>
+        public static MineAudit RunMineFrom(OutpostGameState start, BalanceRepository repo, OutpostConfigSet configs, PlayerModel model,
+            bool trace = false)
+        {
+            if (start?.Run == null) throw new ArgumentNullException(nameof(start));
+            var profile = OutpostJson.DeepCopy(start.Profile);
+            profile.NextRunSeq--;
+            int zone = start.Run.Zone;
+            var map = OutpostLevelAdapter.BuildMine(repo, zone, configs);
+            var state = new OutpostGameState
+            {
+                Profile = profile,
+                Run = StageProgressionService.CreateRun(profile, zone, map, configs, repo, start.Run.LastProcessedUtcMs),
+            };
+            if (state.Run.RunId != start.Run.RunId) throw new InvalidOperationException("RunMineFrom: другой RunId " + state.Run.RunId);
+            var sim = new OutpostSimulation(state, map, configs);
+            var m = model.Clone();
+            if (m.EquipBest) sim.Submit(OutpostCommand.EquipBest());
+            if (m.SkipSlot != null) sim.Submit(OutpostCommand.Unequip(m.SkipSlot.Value));
+            return RunMine(sim, m, m.Name, trace);
         }
 
         /// <summary>
@@ -569,7 +801,8 @@ namespace CatMiners.Core.Outpost
                 }
                 run.Wallet = BigInteger.Zero;
                 run.TotalSpent = BigInteger.Zero;
-                var model = new PlayerModel { Name = "saturation", Strategy = PurchaseStrategy.None, EquipBest = false, SpendParts = false, UpgradeCards = false };
+                var model = new PlayerModel { Name = "saturation", Strategy = PurchaseStrategy.None, EquipBest = false, SpendParts = false, UpgradeCards = false,
+                    ManageFactories = false };
                 var rep = RunMine(sim, model, "saturation");
                 var row = new SaturationRow { Workers = run.Workers.Count, ClearedSec = rep.ClearedSec, CompletedSec = rep.CompletedSec, AvgBusyWorkers = rep.AvgBusyWorkers };
                 foreach (var kv in rep.WorkerSec) row.Share[kv.Key] = rep.WorkerSecTotal > 0 ? kv.Value / rep.WorkerSecTotal : 0;
@@ -586,7 +819,8 @@ namespace CatMiners.Core.Outpost
             {
                 case "free":
                     // Новый игрок без покупок за деньги: заглядывает в «Базу» раз в 30 с, разумно выбирает узкое место,
-                    // между шахтами улучшает карточки, тратит детали и надевает лучшее. Киркой не бьёт.
+                    // между шахтами улучшает карточки, тратит детали и надевает лучшее. Киркой не бьёт. Заводы (ТЗ 2.2 §9): на каждой
+                    // проверке доставляет все готовые партии и продаёт весь товар (так же у всех моделей, кроме none).
                     return new PlayerModel { Name = name, Strategy = PurchaseStrategy.Bottleneck, CheckIntervalSec = 30, FirstCheckSec = 15 };
                 case "free-cheapest":
                     return new PlayerModel { Name = name, Strategy = PurchaseStrategy.Cheapest, CheckIntervalSec = 30, FirstCheckSec = 15 };
@@ -595,11 +829,12 @@ namespace CatMiners.Core.Outpost
                 case "free-damage":
                     return new PlayerModel { Name = name, Strategy = PurchaseStrategy.DamageFocus, CheckIntervalSec = 30, FirstCheckSec = 15 };
                 case "idle":
-                    // Idle: котики работают сами, игрок возвращается раз в 5 минут и покупает самое дешёвое, пока хватает.
+                    // Idle: котики работают сами, игрок возвращается раз в 5 минут, доставляет и продаёт товар и покупает самое
+                    // дешёвое, пока хватает.
                     return new PlayerModel { Name = name, Strategy = PurchaseStrategy.Cheapest, CheckIntervalSec = 300, FirstCheckSec = 60 };
                 case "active":
-                    // Активный: реагирует за 5 с, выбирает узкое место, бьёт киркой 2 раза/с (интерфейс пропускает не чаще
-                    // раза в 0,4 с) сериями 30 с через 30 с отдыха — в среднем удар в секунду.
+                    // Активный: реагирует за 5 с (доставка, продажа, покупки), выбирает узкое место, бьёт киркой 2 раза/с
+                    // (интерфейс пропускает не чаще раза в 0,4 с) сериями 30 с через 30 с отдыха — в среднем удар в секунду.
                     return new PlayerModel { Name = name, Strategy = PurchaseStrategy.Bottleneck, CheckIntervalSec = 5, FirstCheckSec = 3,
                         TapsPerSecond = 2, TapBurstSec = 30, TapRestSec = 30 };
                 case "eager-rr":
@@ -634,7 +869,9 @@ namespace CatMiners.Core.Outpost
                     return m;
                 }
                 case "none":
-                    return new PlayerModel { Name = name, Strategy = PurchaseStrategy.None, SpendParts = false, UpgradeCards = false };
+                    // Никаких действий игрока: ни покупок, ни доставок, ни продаж.
+                    return new PlayerModel { Name = name, Strategy = PurchaseStrategy.None, SpendParts = false, UpgradeCards = false,
+                        ManageFactories = false };
                 default:
                     throw new ArgumentException("Неизвестная модель игрока " + name);
             }

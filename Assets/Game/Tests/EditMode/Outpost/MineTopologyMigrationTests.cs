@@ -55,7 +55,10 @@ namespace CatMiners.Tests.Outpost
             Assert.That(MineTopologyMigration.TryPrepare(state, TestData.Balance, Configs, out var prepared, out var map, out var error), Is.True, error);
             Assert.That(OutpostJson.Serialize(state), Is.EqualTo(original), "Preparing does not mutate the loaded save");
             Assert.That(map.Width, Is.GreaterThanOrEqualTo(25));
+            // ТЗ 2.2 §16.1 (г): перенос идёт в wide-branching-mines-3 (SupportedVersion); код миграции не менялся, новая карта
+            // проходит оба случая валидатора со стоящими заводами (§4.1).
             Assert.That(prepared.Run.MapTopology.Version, Is.EqualTo(MineTopologyCatalog.SupportedVersion));
+            Assert.That(OutpostReachability.Check(map).Passed, Is.True);
             Assert.That(OutpostJson.Serialize(prepared.Profile), Is.EqualTo(profile));
             Assert.That(OutpostJson.Serialize(prepared.Run.Targets), Is.EqualTo(targets));
             Assert.That(Units(prepared), Is.EqualTo(units));

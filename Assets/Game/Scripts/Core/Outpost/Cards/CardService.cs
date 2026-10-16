@@ -144,6 +144,26 @@ namespace CatMiners.Core.Outpost
             return sum;
         }
 
+        /// <summary>
+        /// Бонус выпуска товара за цикл заводов типа typeId (ТЗ 2.2 §4.4, §7.1, cards-3): сумма <see cref="CardDef.EffectAt"/>
+        /// активных карточек профиля с <see cref="CardEffectKind.FactoryOutput"/>, в TargetIds которых есть typeId (Common и
+        /// Uncommon карточки типа складываются; уровень 0 — 0). Единственная сумма Σ Output(L) ядра: выпуск за цикл считает только
+        /// <see cref="FactoryMath.UnitsPerCycle"/> через эту функцию; <see cref="TeamStats"/> эффект FactoryOutput не копит.
+        /// </summary>
+        public static Rational FactoryOutputBonus(OutpostProfile p, CardCatalog cat, string typeId)
+        {
+            var sum = Rational.Zero;
+            if (p?.Cards == null || cat == null || typeId == null) return sum;
+            foreach (var kv in p.Cards)
+            {
+                if (kv.Value == null || kv.Value.Level < 1) continue;
+                var def = cat.Get(kv.Key);
+                if (def?.Effect != null && def.Effect.Kind == CardEffectKind.FactoryOutput && def.TargetIds != null && def.Targets(typeId))
+                    sum += def.EffectAt(kv.Value.Level);
+            }
+            return sum;
+        }
+
         /// <summary>Целая часть суммы эффектов (котики, места, часы, карты) — каждая карточка округляется вниз отдельно, как в TeamStats.</summary>
         public static int EffectWhole(OutpostProfile p, CardCatalog cat, CardEffectKind kind)
         {

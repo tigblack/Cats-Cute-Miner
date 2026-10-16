@@ -8,6 +8,8 @@ namespace CatMiners.Core.Outpost
     /// <summary>
     /// Новые HP и груз целей (ТЗ 12.4): ранг по уникальным исходным HP r/s/p зоны, точный ceil без double,
     /// TotalCargoUnits = max(MinCargoUnits, ceil(MaxHp / CargoHpDivisor)). Значения фиксируются при создании run.
+    /// Адаптер <c>adapter-2</c> (<see cref="OutpostIds.AdapterVersion"/>, ТЗ 2.2 §4.2): цепи завода (<c>s</c>) монет не дают —
+    /// у них TotalCargoUnits = 0; HP цепей по-прежнему по ТЗ 2.1 §12.4 (ранг из level токена, TypeHpFactor = 2).
     /// </summary>
     public static class OutpostLevelBalanceAdapter
     {
@@ -53,7 +55,8 @@ namespace CatMiners.Core.Outpost
                 }
                 int area = t.IsGate ? 1 : t.Cells.Length;
                 long maxHp = MaxHp(cfg, map.Number, rank, area, t.Kind);
-                var units = BigInteger.Max(cfg.MinCargoUnits, ExactMath.CeilDiv(maxHp, cfg.CargoHpDivisor));
+                // ТЗ 2.2 §4.2 (Р2): вся ценность завода — в продаже товара, удары и разрушение цепей порций не выпускают.
+                var units = t.IsFactory ? BigInteger.Zero : BigInteger.Max(cfg.MinCargoUnits, ExactMath.CeilDiv(maxHp, cfg.CargoHpDivisor));
                 result[i] = new TargetBalance
                 {
                     TargetId = t.Id,
@@ -65,6 +68,31 @@ namespace CatMiners.Core.Outpost
                 };
             }
             return result;
+        }
+
+        /// <summary>
+        /// Темп шахты (профиль b6, <see cref="OutpostBalanceConfig.PaceScale"/>): HP целей r/x/p — ceil(MaxHp · K(z)), груз —
+        /// max(MinCargoUnits, ceil(HP / CargoHpDivisor)) от нового HP, то есть монеты шахты растут вместе с HP. Цепи завода (s) не
+        /// меняются: их разрушение запускает завод, а ценность завода — товар (Р2). Возвращает тот же массив; K = 1 ничего не
+        /// меняет. Базовые HP §12.4 (<see cref="Compute"/>) от K не зависят.
+        /// </summary>
+        public static TargetBalance[] ApplyPace(OutpostMap map, OutpostBalanceConfig cfg, TargetBalance[] balances)
+        {
+            if (map == null) throw new ArgumentNullException(nameof(map));
+            if (cfg == null) throw new ArgumentNullException(nameof(cfg));
+            if (balances == null) throw new ArgumentNullException(nameof(balances));
+            var k = cfg.ZonePace(map.Number);
+            if (k == Rational.One) return balances;
+            for (int i = 0; i < balances.Length; i++)
+            {
+                var t = map.Targets[i];
+                if (t.IsFactory) continue;
+                var b = balances[i];
+                b.MaxHp = ExactMath.ToLongChecked((k * b.MaxHp).Ceil(), "MaxHp");
+                var units = BigInteger.Max(cfg.MinCargoUnits, ExactMath.CeilDiv(b.MaxHp, cfg.CargoHpDivisor));
+                b.TotalCargoUnits = ExactMath.ToIntChecked(units, "TotalCargoUnits");
+            }
+            return balances;
         }
 
         /// <summary>

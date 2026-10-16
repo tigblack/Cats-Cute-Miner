@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using CatMiners.Core.Outpost;
 using CatMiners.Core.Save;
+using CatMiners.Core.Text;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
@@ -205,6 +206,72 @@ namespace CatMiners.Runtime.Outpost
             return changed;
         }
 
+        /// <summary>
+        /// Сохранение схемы &lt; 3 (ТЗ 2.2 §10.3, Р9): ядро копирует main/bak/tmp в &lt;слот&gt;/pre-factories/, создаёт новую кампанию
+        /// с переносом настроек, сыгранного времени и журнала платежей (незавершённая покупка не блокирует) и записывает её;
+        /// здесь — тот же снимок через Commit с resetBackup (как Reset Progress), карта, симуляция и тост. Окна ошибки нет.
+        /// Ошибка архива — Fatal: старые файлы не перезаписаны.
+        /// </summary>
+        void StartOverOutdated(OutpostSaveSlot slot, OutpostLoadResult loaded)
+        {
+            try
+            {
+                ulong seed = unchecked((ulong)Clock.UtcNowMs ^ ((ulong)(uint)Environment.TickCount << 32));
+                var state = m_Saves.ResetOutdated(slot, Balance, Configs, seed, Clock.UtcNowMs, out var written);
+                Debug.Log("[Outpost] Save schema " + (loaded.Envelope?.SchemaVersion ?? 0) + " archived to " + m_Saves.PreFactoriesDirectory(slot) +
+                    "; new campaign started" + (written.Ok ? "" : " (first write failed: " + written.Error + ")"));
+                var map = ResolveMap(state);
+                Board.gameObject.SetActive(true);
+                SetSimulation(state, map);
+                Commit(state, map, () =>
+                {
+                    Phase = OutpostControllerPhase.Playing;
+                    RebaseClock();
+                    Hud.Toast(Loc.T("outpost.toast.save_reset"), 4f);
+                }, resetBackup: true);
+            }
+            catch (Exception e)
+            {
+                Sim = null;
+                Board.gameObject.SetActive(false);
+                Fatal("Outdated: " + e.Message);
+            }
+        }
+
+        // ───────────── DEV: заводы (ТЗ 2.2 §13; Editor и Development Build, только debug-профиль) ─────────────
+
+        /// <summary>Единиц каждого товара шахты за одно нажатие «Goods ×100».</summary>
+        public const long DebugGoodsPerPress = 100;
+
+        /// <summary>«Finish factory cycles»: все работающие заводы заканчивают цикл на текущей отметке.</summary>
+        public void DebugFinishFactoryCycles() => DebugFactories(sim => sim.DebugFinishFactoryCycles());
+        /// <summary>«Goods ×100»: по 100 единиц каждого товара шахты на склад и в DebugGoods (инварианты слота Debug).</summary>
+        public void DebugGrantGoods() => DebugFactories(sim => sim.DebugGrantGoods(DebugGoodsPerPress));
+        /// <summary>«Unlock factories»: разбить цепи всех закрытых заводов с наградами.</summary>
+        public void DebugUnlockFactories() => DebugFactories(sim => sim.DebugUnlockFactories());
+        /// <summary>«Auto all»: автодоставка всех заводов шахты без изменения карточек.</summary>
+        public void DebugAutomateAll() => DebugFactories(sim => sim.DebugAutomateAll());
+
+        /// <summary>
+        /// Изменение на копии состояния текущей отметки (как GrantTestGems): копия → симуляция → метод ядра → Commit → SetSimulation.
+        /// Ничего не изменилось — звук отказа и без записи. События копии не показываются (DEV, как CompleteStageNow).
+        /// </summary>
+        void DebugFactories(Func<OutpostSimulation, int> change)
+        {
+            if (!DebugAllowed || !CommandsAllowed) return;
+            AdvanceOnline();
+            if (!DebugAllowed || !CommandsAllowed) return;
+            var map = Map;
+            var job = new OutpostSimulation(OutpostJson.DeepCopy(State), map, Configs) { RecordEvents = false };
+            if (change(job) <= 0)
+            {
+                Sound.Denied();
+                return;
+            }
+            var state = job.State;
+            Commit(state, map, () => { SetSimulation(state, map); Hud.RefreshNow(); });
+        }
+
         public void RestartDebugCampaign()
         {
             if (DebugAllowed) ResetProgress();
@@ -246,9 +313,6 @@ namespace CatMiners.Runtime.Outpost
                     Input.CancelGesture();
                     Board.gameObject.SetActive(true);
                     SetSimulation(state, map);
-                    Tutorial?.Dispose();
-                    Hud.Hint?.Hide();
-                    Tutorial = new OutpostTutorial(this, Hud);
                     Phase = OutpostControllerPhase.Playing;
                     Hud.CloseAllWindows();
                     Hud.RefreshNow();

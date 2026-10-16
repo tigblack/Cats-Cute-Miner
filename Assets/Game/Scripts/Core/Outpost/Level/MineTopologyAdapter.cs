@@ -74,6 +74,7 @@ namespace CatMiners.Core.Outpost
                 {
                     Id = old.Id, Kind = old.Kind, TypeId = old.TypeId, VisualId = old.VisualId, Sector = old.Sector,
                     SourceLevel = old.SourceLevel, Added = old.Added, RewardId = old.RewardId, Column = p.Column, Row = p.Row, Branch = p.Branch,
+                    CardId = old.CardId, CardLevel = old.CardLevel,
                 };
                 if (old.IsGate) target.Cells = (int[])map.Gates[old.Sector].BarrierCells.Clone();
                 else

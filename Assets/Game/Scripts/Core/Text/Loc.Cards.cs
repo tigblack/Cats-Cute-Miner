@@ -7,51 +7,53 @@ namespace CatMiners.Core.Text
         /// <summary>
         /// Раздел Cards: коллекция карточек режима CatOutpostV2 (Runtime/Outpost/UI/OutpostCardText.cs, окно «Карты»). Имена — по ID
         /// карточки источника, отдельно от технических данных; шаблоны эффектов — по CardEffectKind (CARD_EFFECT_MAPPING.md).
-        /// {0}/{1} в шаблонах — уже отформатированные проценты, числа и название ресурса (cards.res.*, с заглавной буквы).
+        /// {0}/{1} в шаблонах — уже отформатированные проценты, числа и название ресурса (cards.res.*, с заглавной буквы); у
+        /// FactoryOutput (cards-3, ТЗ 2.2 §7.1) {0} — имя товара завода, а не cards.res.*.
         /// </summary>
         static partial void RegisterCards(Dictionary<string, string> d)
         {
-            // Имена 61 карточки. Знаток (Appraiser) — цена порций месторождения, мастер (Master) — урон по нему.
+            // Имена 61 карточки. 39 карточек заводов (ТЗ 2.2, приложение A): Common — «… Foreman», Uncommon — «… Manager»;
+            // длинные имена заводов сокращены (Foundry, Cannery). Обе дают +выпуск товара своего завода (FactoryOutput, cards-3).
             d.Add("cards.name.ca001", "Depot Master");
-            d.Add("cards.name.ca002", "Amethyst Appraiser");
-            d.Add("cards.name.ca003", "Citrine Appraiser");
-            d.Add("cards.name.ca004", "Agate Appraiser");
-            d.Add("cards.name.ca005", "Topaz Appraiser");
-            d.Add("cards.name.ca006", "Opal Appraiser");
-            d.Add("cards.name.ca007", "Jade Appraiser");
-            d.Add("cards.name.ca008", "Onyx Appraiser");
-            d.Add("cards.name.ca009", "Sapphire Appraiser");
-            d.Add("cards.name.ca010", "Tourmaline Appraiser");
-            d.Add("cards.name.ca011", "Aquamarine Appraiser");
-            d.Add("cards.name.ca012", "Emerald Appraiser");
-            d.Add("cards.name.ca013", "Diamond Appraiser");
-            d.Add("cards.name.ca039", "Garnet Appraiser");
-            d.Add("cards.name.ca041", "Heliodor Appraiser");
-            d.Add("cards.name.ca044", "Ruby Appraiser");
-            d.Add("cards.name.ca046", "Alexandrite Appraiser");
-            d.Add("cards.name.ca048", "Celestine Appraiser");
-            d.Add("cards.name.ca056", "Amber Appraiser");
-            d.Add("cards.name.ca058", "Moonstone Appraiser");
-            d.Add("cards.name.ca060", "Sunstone Appraiser");
-            d.Add("cards.name.ca014", "Amethyst Master");
-            d.Add("cards.name.ca015", "Citrine Master");
-            d.Add("cards.name.ca016", "Agate Master");
-            d.Add("cards.name.ca017", "Topaz Master");
-            d.Add("cards.name.ca018", "Opal Master");
-            d.Add("cards.name.ca019", "Jade Master");
-            d.Add("cards.name.ca020", "Onyx Master");
-            d.Add("cards.name.ca021", "Sapphire Master");
-            d.Add("cards.name.ca022", "Tourmaline Master");
-            d.Add("cards.name.ca023", "Aquamarine Master");
-            d.Add("cards.name.ca024", "Emerald Master");
-            d.Add("cards.name.ca025", "Diamond Master");
-            d.Add("cards.name.ca040", "Garnet Master");
-            d.Add("cards.name.ca042", "Heliodor Master");
-            d.Add("cards.name.ca045", "Ruby Master");
-            d.Add("cards.name.ca047", "Alexandrite Master");
-            d.Add("cards.name.ca049", "Celestine Master");
-            d.Add("cards.name.ca057", "Amber Master");
-            d.Add("cards.name.ca059", "Moonstone Master");
+            d.Add("cards.name.ca002", "Dairy Foreman");
+            d.Add("cards.name.ca003", "Sawmill Foreman");
+            d.Add("cards.name.ca004", "Fishery Foreman");
+            d.Add("cards.name.ca005", "Yarn Mill Foreman");
+            d.Add("cards.name.ca006", "Cat Food Foreman");
+            d.Add("cards.name.ca007", "Box Foreman");
+            d.Add("cards.name.ca008", "Brickworks Foreman");
+            d.Add("cards.name.ca009", "Steel Mill Foreman");
+            d.Add("cards.name.ca010", "Glassworks Foreman");
+            d.Add("cards.name.ca011", "Catnip Foreman");
+            d.Add("cards.name.ca012", "Toy Foreman");
+            d.Add("cards.name.ca013", "Scratcher Foreman");
+            d.Add("cards.name.ca039", "Cushion Foreman");
+            d.Add("cards.name.ca041", "Foundry Foreman");
+            d.Add("cards.name.ca044", "Collar Foreman");
+            d.Add("cards.name.ca046", "Gear Foreman");
+            d.Add("cards.name.ca048", "Lantern Foreman");
+            d.Add("cards.name.ca056", "Apiary Foreman");
+            d.Add("cards.name.ca058", "Silk Mill Foreman");
+            d.Add("cards.name.ca060", "Cannery Foreman");
+            d.Add("cards.name.ca014", "Dairy Manager");
+            d.Add("cards.name.ca015", "Sawmill Manager");
+            d.Add("cards.name.ca016", "Fishery Manager");
+            d.Add("cards.name.ca017", "Yarn Mill Manager");
+            d.Add("cards.name.ca018", "Cat Food Manager");
+            d.Add("cards.name.ca019", "Box Manager");
+            d.Add("cards.name.ca020", "Brickworks Manager");
+            d.Add("cards.name.ca021", "Steel Mill Manager");
+            d.Add("cards.name.ca022", "Glassworks Manager");
+            d.Add("cards.name.ca023", "Catnip Manager");
+            d.Add("cards.name.ca024", "Toy Manager");
+            d.Add("cards.name.ca025", "Scratcher Manager");
+            d.Add("cards.name.ca040", "Cushion Manager");
+            d.Add("cards.name.ca042", "Foundry Manager");
+            d.Add("cards.name.ca045", "Collar Manager");
+            d.Add("cards.name.ca047", "Gear Manager");
+            d.Add("cards.name.ca049", "Lantern Manager");
+            d.Add("cards.name.ca057", "Apiary Manager");
+            d.Add("cards.name.ca059", "Silk Mill Manager");
             d.Add("cards.name.ca026", "Master's Yarn");
             d.Add("cards.name.ca027", "Courier Cat");
             d.Add("cards.name.ca028", "Fish Ration");
@@ -73,7 +75,8 @@ namespace CatMiners.Core.Text
             d.Add("cards.name.ca037", "Gold Vein");
             d.Add("cards.name.ca038", "Golden Helmet");
             d.Add("cards.name.ca062", "Treasure Map");
-            // Ресурс месторождения (TargetIds специалистов): подставляется в шаблоны эффектов.
+            // Ресурс месторождения (TargetIds специалистов) для прежних эффектов TargetValue/TargetDamage (cards-2). Карточкам заводов
+            // (FactoryOutput) эти имена самоцветов не подставляются: там — имя товара и завода (ТЗ 2.2 §7.1).
             d.Add("cards.res.spawningcart", "Base depot");
             d.Add("cards.res.amethyst", "Amethyst");
             d.Add("cards.res.citrine", "Citrine");
@@ -123,6 +126,8 @@ namespace CatMiners.Core.Text
             d.Add("cards.effect.ChestElixir", "Elixir from chests: +{0}");
             d.Add("cards.effect.ChestCards", "Random cards in each chest: +{0}");
             d.Add("cards.effect.CompletionParts", "Parts for clearing a mine: +{0}");
+            // Карточка завода (ТЗ 2.2 §7.1): {0} — имя товара («Milk»), {1} — бонус в процентах («+10% Milk per cycle»).
+            d.Add("cards.effect.FactoryOutput", "+{1} {0} per cycle");
             // Короткая строка эффекта под именем в сетке коллекции (CardView).
             d.Add("cards.short.TargetValue", "{0} value +{1}");
             d.Add("cards.short.TargetDamage", "{0} mining +{1}");
@@ -151,6 +156,7 @@ namespace CatMiners.Core.Text
             d.Add("cards.short.ChestElixir", "Chest elixir +{0}");
             d.Add("cards.short.ChestCards", "Cards per chest +{0}");
             d.Add("cards.short.CompletionParts", "Parts per mine +{0}");
+            d.Add("cards.short.FactoryOutput", "{0} +{1}");
             // Величина бонуса в часах для сравнения уровней (OutpostCardText.EffectValue): «+3 h».
             d.Add("cards.value.hours", "+{0} h");
             // Окно «Карты», состояния, подсказки и сообщения.
@@ -181,6 +187,13 @@ namespace CatMiners.Core.Text
             d.Add("cards.detail.max", "Max level");
             d.Add("cards.detail.target", "Works only for {0}");
             d.Add("cards.detail.first_copy", "The first copy from a chest activates the card");
+            // Блок завода в окне карточки (ТЗ 2.2 §7.1): {0} — имя завода, {1} — товар; строка текущей шахты — по требованию токена s
+            // завода этого типа (нет завода типа в шахте — строки нет). _other — требование указывает другую карточку типа.
+            d.Add("cards.detail.factory", "Factory: {0} ({1})");
+            d.Add("cards.detail.mine_auto", "This mine: {0} auto delivery needs Lv {1} (you have Lv {2})");
+            d.Add("cards.detail.mine_auto_missing", "This mine: {0} auto delivery needs Lv {1} (not collected)");
+            d.Add("cards.detail.mine_auto_other", "This mine: {0} auto delivery needs {1} Lv {2}");
+            d.Add("cards.detail.mine_auto_on", "This mine: {0} auto delivery: on");
             d.Add("cards.rule.LegacyConfirmed", "Effect from the original game, adapted to auto-mining");
             d.Add("cards.rule.LegacyAssumed", "Assumed effect from the original game, adapted");
             d.Add("cards.rule.CatMiners", "New Cat Miners rule");

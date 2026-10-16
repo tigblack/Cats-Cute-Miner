@@ -1103,6 +1103,128 @@ def camp_tent() -> Canvas:
     return cv
 
 
+# ───────────────────────── склад товаров 32×64 (ТЗ 2.2 §6.1) ─────────────────────────
+# Склад (Warehouse) стоит в столбце baseCol + 4 заднего ряда двора, рядом со стеллажом: ноги на нижней кромке st1, как
+# у остальных построек 1×2. Трубы заводов приходят сверху (из площадки) в стальной коллектор на коньке: точка входа —
+# пиксель WAREHOUSE_INLET холста (от левого верхнего угла), туда код ставит fpipe_inlet. Тап по складу открывает рынок,
+# поэтому на фронтоне — вывеска: ящик товара с монетой. Пустой — ворота открыты, внутри пустые полки; с товаром —
+# ящики, мешки и бочонок разных цветов в проёме и у стены.
+WAREHOUSE_INLET = (16, 4)
+
+
+def _wh_crate(cv: Canvas, x: int, y: int, w: int, h: int, tone: str) -> None:
+    """Ящик товара w×h: крышка светлее, доска поперёк, контур — тёмный тон рампы."""
+    lay = blank(cv)
+    lay.rect(x, y, w, h, f'{tone}3')
+    lay.hline(x, x + w - 1, y, f'{tone}5')
+    lay.hline(x, x + w - 1, y + 1, f'{tone}4')
+    lay.vline(x + w - 1, y + 1, y + h - 1, f'{tone}2')
+    if h >= 6:
+        lay.hline(x + 1, x + w - 2, y + h // 2 + 1, f'{tone}2')
+    put(cv, lay, 'ink1')
+
+
+def warehouse(full: bool) -> Canvas:
+    """Склад товаров: коллектор труб на коньке, двускатная крыша из красного гонта, фронтон с вывеской (ящик и монета),
+    дощатые стены на каменном цоколе, распахнутые ворота; full — проём заставлен товаром."""
+    cv = Canvas(BW, BH)
+    ix, iy = WAREHOUSE_INLET
+    # Коллектор: стальной короб с воронкой, в него сверху входят трубы.
+    col = blank(cv)
+    col.rect(ix - 5, iy, 10, 6, 'stone4')
+    col.hline(ix - 5, ix + 4, iy, 'stone6')
+    col.vline(ix - 5, iy, iy + 5, 'stone5')
+    col.vline(ix + 4, iy + 1, iy + 5, 'stone2')
+    col.rect(ix - 3, iy + 6, 6, 4, 'stone3')
+    col.vline(ix - 3, iy + 6, iy + 9, 'stone5')
+    col.hline(ix - 5, ix + 4, iy + 3, 'gold3')
+    put(cv, col, 'ink1')
+    # Стены.
+    wall = blank(cv)
+    wall.rect(2, 22, 28, 38, 'wood3')
+    for xx in range(4, 30, 4):
+        wall.vline(xx, 22, 59, 'wood2')
+        wall.vline(xx + 1, 22, 59, 'wood4')
+    wall.hline(2, 29, 22, 'wood1')
+    put(cv, wall, 'wood0')
+    # Цоколь.
+    base = blank(cv)
+    base.rect(1, 59, 30, 5, 'stone3')
+    base.hline(1, 30, 59, 'stone5')
+    base.hline(1, 30, 63, 'stone1')
+    for xx in (6, 13, 21, 27):
+        base.vline(xx, 60, 62, 'stone1')
+    put(cv, base, 'stone0')
+    # Двускатная крыша.
+    roof = blank(cv)
+    roof.polygon([(-1, 24), (16, 9), (32, 24)], 'red3')
+    for yy in (14, 18, 22):
+        roof.fill_where(lambda x, y, yy=yy: y == yy, 'red2')
+        roof.fill_where(lambda x, y, yy=yy: y == yy + 1, 'red4')
+    remap(roof, {'red3': 'red2', 'red4': 'red3'}, lambda x, y: x >= 17)
+    put(cv, roof, 'red0')
+    # Фронтон: вывеска — ящик товара с золотой монетой (склад товаров и рынок).
+    sign = blank(cv)
+    sign.rect(9, 14, 14, 10, 'wood6')
+    sign.hline(9, 22, 14, 'wood7')
+    sign.hline(10, 22, 23, 'wood4')
+    sign.vline(22, 15, 23, 'wood4')
+    put(cv, sign, 'wood1')
+    box = Canvas.from_ascii([
+        'HHHHHHH.',
+        'LbbbbbLd',
+        'LbLbbLbd',
+        'LbbLLbbd',
+        'LbLbbLbd',
+        'dddddddd',
+    ], {'H': 'wood5', 'L': 'wood4', 'b': 'wood3', 'd': 'wood1'})
+    cv.blit(box, 10, 16)
+    _pts(cv, [(19, 16), (20, 16), (18, 17), (21, 17), (18, 18), (21, 18), (19, 19), (20, 19)], 'gold2')
+    _pts(cv, [(19, 17), (20, 17), (19, 18)], 'gold4')
+    cv.set(20, 18, 'gold3')
+    # Ворота: проём, рама, распахнутые створки.
+    dx0, dx1, dy0 = 7, 24, 30
+    pit = blank(cv)
+    pit.rect(dx0, dy0, dx1 - dx0 + 1, 59 - dy0, 'ink2')
+    pit.rect(dx0 + 2, dy0 + 3, dx1 - dx0 - 3, 59 - dy0 - 3, 'wood1')
+    pit.hline(dx0 + 2, dx1 - 2, dy0 + 12, 'wood2')     # полки в глубине
+    pit.hline(dx0 + 2, dx1 - 2, dy0 + 20, 'wood2')
+    cv.blit(pit, 0, 0)
+    if full:
+        for x, y, w, h, tone in ((dx0 + 2, 50, 7, 9, 'wood'), (dx0 + 9, 52, 7, 7, 'blue'), (dx0 + 4, 44, 6, 6, 'red'),
+                                 (dx0 + 11, 45, 6, 7, 'green'), (dx0 + 7, 38, 6, 6, 'purple')):
+            _wh_crate(cv, x, y, w, h, tone)
+        bag_sack(cv, dx1 - 6, 50, 7, 9)
+        # Бочонок мёда у правой створки.
+        lay = blank(cv)
+        lay.rect(dx1 - 4, 37, 4, 6, 'amber3')
+        lay.vline(dx1 - 4, 37, 42, 'amber4')
+        lay.hline(dx1 - 4, dx1 - 1, 39, 'stone3')
+        put(cv, lay, 'amber0')
+    fr = blank(cv)
+    fr.rect(dx0 - 2, dy0 - 2, dx1 - dx0 + 5, 3, 'wood5')
+    fr.hline(dx0 - 2, dx1 + 2, dy0 - 2, 'wood6')
+    fr.vline(dx0 - 2, dy0, 58, 'wood5')
+    fr.vline(dx0 - 1, dy0, 58, 'wood4')
+    fr.vline(dx1 + 1, dy0, 58, 'wood3')
+    fr.vline(dx1 + 2, dy0, 58, 'wood2')
+    put(cv, fr, 'wood0')
+    for sx, light in ((0, True), (28, False)):
+        leaf = blank(cv)
+        leaf.polygon([(sx, dy0 - 1), (sx + 4, dy0 + 1), (sx + 4, 59), (sx, 58)], 'wood4')
+        leaf.fill_where(lambda x, y, sx=sx: x == sx + (0 if light else 3), 'wood5' if light else 'wood2')
+        leaf.fill_where(lambda x, y: y in (dy0 + 9, dy0 + 19), 'wood2')
+        put(cv, leaf, 'wood0')
+    for bx in (dx0 - 1, dx1 + 1):
+        bolt(cv, bx, dy0 + 3)
+        bolt(cv, bx, 54)
+    if full:
+        # Ящик и мешок у стены снаружи.
+        _wh_crate(cv, 1, 54, 6, 6, 'wood')
+        _wh_crate(cv, 25, 53, 6, 7, 'teal')
+    return cv
+
+
 # ───────────────────────── регистрация ─────────────────────────
 def build(reg: pxl.Registry) -> None:
     for v in range(4):
@@ -1137,3 +1259,6 @@ def build(reg: pxl.Registry) -> None:
         reg.add(f'camp_lantern_{f}', camp_lantern(f), pivot=(8.0, 0.0), note='фонарь на столбике, мерцание 0,3–0,8 с')
     reg.add('camp_sign', camp_sign(), pivot=feet1, note='вывеска лагеря с лапкой и монетой')
     reg.add('camp_tent', camp_tent(), pivot=(32.0, 0.0), note='доп.: палатка 2×1 (декор, если есть место)')
+    reg.add('warehouse_empty', warehouse(False), pivot=feetb,
+            note=f'склад товаров (столбец baseCol + 4, задний ряд), пусто; вход труб — пиксель {WAREHOUSE_INLET} холста')
+    reg.add('warehouse_full', warehouse(True), pivot=feetb, note='склад товаров с товаром на складе')

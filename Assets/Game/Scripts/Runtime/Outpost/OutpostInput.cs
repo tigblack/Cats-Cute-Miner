@@ -1,3 +1,4 @@
+using CatMiners.Core.Outpost;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -8,6 +9,9 @@ namespace CatMiners.Runtime.Outpost
     /// Ввод поля (ТЗ 4, 6.6): перетаскивание и колесо прокручивают камеру; тап/клик по цели, которую можно ударить, — удар кирки
     /// игрока; по котику, базе или недоступной цели — сведения; удержание без сдвига (<see cref="LongPressSeconds"/>) — сведения
     /// о любом объекте, в том числе о цели, которую тап бы ударил.
+    /// Заводы (ТЗ 2.2 §8): тап по закрытому заводу — удар по цепям, по заводу в Ready — доставка партии, по остальным открытым —
+    /// сведения; тап по складу товаров во дворе — рынок. Плавающие кнопки «Deliver» и стрелки к готовым заводам —
+    /// <see cref="FactoryOverlay"/> (UI: касание по ним поле не получает).
     /// </summary>
     public sealed class OutpostInput : MonoBehaviour
     {
@@ -20,7 +24,14 @@ namespace CatMiners.Runtime.Outpost
         Vector2 m_Start, m_Last;
         Vector2 m_Velocity;
         float m_DownTime;
-        public void Init(OutpostController game) { m_Game = game; }
+        FactoryOverlay m_Factories;
+        /// <summary>Кнопки «Deliver», стрелки к готовым заводам и тосты заводов (создаются в <see cref="Init"/>).</summary>
+        public FactoryOverlay Factories => m_Factories;
+        public void Init(OutpostController game)
+        {
+            m_Game = game;
+            if (m_Factories == null && game != null) m_Factories = FactoryOverlay.Create(game);
+        }
         public void CancelGesture()
         {
             m_Down = false;
@@ -102,10 +113,30 @@ namespace CatMiners.Runtime.Outpost
                 if (m_LongPressed || !InField(position) ||
                     (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject(id))) return;
                 if (!TryPick(position, out var selection, out var world)) { m_Game.ClearSelection(); return; }
-                // Тап по цели — удар кирки игрока; если цель сейчас ударить нельзя (за воротами, разрушена) — сведения.
-                if (selection.Kind == OutpostSelectionKind.Target && m_Game.BeginStrike(selection.Id, world)) return;
-                Select(selection);
+                Tap(selection, world);
             }
+        }
+
+        /// <summary>
+        /// Тап по объекту поля (<paramref name="world"/> — точка касания): завод в Ready (ручной режим) — «Deliver»; цель, которую
+        /// можно ударить (в том числе цепи закрытого завода), — удар кирки игрока; иначе — сведения или рынок (склад).
+        /// </summary>
+        public void Tap(OutpostSelection selection, Vector3 world)
+        {
+            if (m_Game == null) return;
+            if (selection.Kind == OutpostSelectionKind.Target)
+            {
+                var factory = m_Game.FactoryOf(selection.Id);
+                if (factory != null && factory.Status == FactoryStatus.Ready && !factory.Automated)
+                {
+                    var result = m_Game.DeliverFactory(selection.Id);
+                    if (!result.Ok) m_Game.Hud.Toast(FactoryText.Reason(result.Reason));
+                    return;
+                }
+                // Тап по цели — удар кирки игрока; если цель сейчас ударить нельзя (за воротами, разрушена, открытый завод) — сведения.
+                if (m_Game.BeginStrike(selection.Id, world)) return;
+            }
+            Select(selection);
         }
 
         /// <summary>Объект под точкой экрана и мировая точка касания на плоскости поля.</summary>
@@ -131,6 +162,11 @@ namespace CatMiners.Runtime.Outpost
                 case OutpostSelectionKind.Worker: m_Game.SelectWorker(selection.Id); break;
                 case OutpostSelectionKind.Target: m_Game.SelectTarget(selection.Id); break;
                 case OutpostSelectionKind.Base: m_Game.SelectBase(); break;
+                // Склад товаров (ТЗ 2.2 §6.1): тап открывает рынок (окно отменяет текущий жест; выбора на поле не остаётся).
+                case OutpostSelectionKind.Warehouse:
+                    m_Game.ClearSelection();
+                    m_Game.Hud.ShowMarket();
+                    break;
                 default: m_Game.ClearSelection(); break;
             }
         }

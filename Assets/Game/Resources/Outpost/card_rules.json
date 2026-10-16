@@ -1,23 +1,23 @@
 {
-  "Version": "cards-2",
+  "Version": "cards-3",
   "CardRngStream": 6,
   "TutorialCard": "ca001",
   "MaxDiscount": "9/10",
   "BaseCritMultiplier": "2",
   "Effects": {
     "manager-1": {
-      "Kind": "TargetValue",
+      "Kind": "FactoryOutput",
       "Base": "1/10",
       "PerLevel": "1/20",
-      "Rule": "LegacyConfirmed",
-      "Source": "Код 9, manager Common: доход генератора из TargetIds ×3^(L−1) (GameSession.cs). Адаптация: +ценность новых порций месторождений этого ресурса"
+      "Rule": "CatMiners",
+      "Source": "Код 9, manager Common: доход генератора из TargetIds ×3^(L−1) (GameSession.cs). ТЗ 2.2 §7.1, «Foreman»: +выпуск товара за цикл заводов этого типа; бонусы Common и Uncommon складываются. Автодоставка — по cardId/cardLevel токена s"
     },
     "manager-2": {
-      "Kind": "TargetDamage",
-      "Base": "3/20",
-      "PerLevel": "3/40",
-      "Rule": "LegacyConfirmed",
-      "Source": "Код 9, manager Uncommon: доход генератора из TargetIds ×4^(L−1). Адаптация: +урон котиков по месторождениям этого ресурса (скорость добычи)"
+      "Kind": "FactoryOutput",
+      "Base": "1/10",
+      "PerLevel": "1/20",
+      "Rule": "CatMiners",
+      "Source": "Код 9, manager Uncommon: доход генератора из TargetIds ×4^(L−1). ТЗ 2.2 §7.1, «Manager»: +выпуск товара за цикл заводов этого типа, как у Common; бонусы складываются. Автодоставка — по cardId/cardLevel токена s"
     },
     "ca001": {
       "Kind": "UnloadRate",

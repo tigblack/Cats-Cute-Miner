@@ -17,6 +17,57 @@ namespace CatMiners.Runtime.Outpost
         public CommandResult UpgradeItem(string itemId) => Execute(OutpostCommand.UpgradeItem(itemId));
         public CommandResult UpgradeCard(string cardId) => Execute(OutpostCommand.UpgradeCard(cardId));
 
+        // ───────────── Заводы, склад и рынок (ТЗ 2.2; контракт WP0, вид и UI — WP5) ─────────────
+
+        /// <summary>«Deliver»: команда ядра DeliverFactory на текущей отметке и сразу запись (как покупки).</summary>
+        public CommandResult DeliverFactory(int targetId) => Execute(OutpostCommand.DeliverFactory(targetId));
+        /// <summary>Продажа товара goodId (null — всего) командой ядра SellGoods и сразу запись.</summary>
+        public CommandResult SellGoods(string goodId) => Execute(OutpostCommand.SellGoods(goodId));
+        public string DeliverBlockReason(int targetId) => Sim != null ? Sim.DeliverBlockReason(targetId) : "loading";
+        public string SellBlockReason(string goodId) => Sim != null ? Sim.SellBlockReason(goodId) : "loading";
+
+        int m_MarketUnlockZone = -1;
+
+        /// <summary>
+        /// Первая шахта с заводами по картам шахт (источник, override и топология — как у самой шахты). Считается один раз, при
+        /// первом запросе (кнопка Market в шахте без заводов): обычно две карты — шахты 1 и 2.
+        /// </summary>
+        public int MarketUnlockZone
+        {
+            get
+            {
+                if (m_MarketUnlockZone < 0 && Balance != null && Configs != null)
+                {
+                    m_MarketUnlockZone = 0;
+                    for (int zone = 1; zone <= Balance.ZoneCount; zone++)
+                        if (OutpostLevelAdapter.BuildMine(Balance, zone, Configs).Factories.Length > 0)
+                        {
+                            m_MarketUnlockZone = zone;
+                            break;
+                        }
+                }
+                return m_MarketUnlockZone > 0 ? m_MarketUnlockZone : 0;
+            }
+        }
+
+        public FactoryState FactoryOf(int targetId) => Sim?.FactoryById(targetId);
+        public long GoodsCount(string goodId) => Sim != null ? Sim.GoodsCount(goodId) : 0;
+        public System.Numerics.BigInteger GoodsPrice(string goodId) => Sim != null ? Sim.GoodsPrice(goodId) : System.Numerics.BigInteger.Zero;
+        public System.Numerics.BigInteger WarehouseValue(string goodId) => Sim != null ? Sim.WarehouseValue(goodId) : System.Numerics.BigInteger.Zero;
+        public void SelectWarehouse() { if (CommandsAllowed) SetSelection(new OutpostSelection { Kind = OutpostSelectionKind.Warehouse, Id = -1 }); }
+        /// <summary>
+        /// Центр footprint завода из вида (<see cref="OutpostBoardView.TryGetFactoryWorldPosition"/>); вида завода нет (run без
+        /// правил заводов) — центр цели. false — не завод.
+        /// </summary>
+        public bool TryGetFactoryWorldPosition(int targetId, out Vector3 world)
+        {
+            world = default;
+            if (Map?.Factory(targetId) == null || Board == null) return false;
+            return Board.TryGetFactoryWorldPosition(targetId, out world) || TryGetTargetWorldPosition(targetId, out world);
+        }
+        /// <summary>Склад товаров во дворе лагеря (BaseCampView, столбец baseCol + 4); без склада — центр лагеря.</summary>
+        public Vector3 WarehouseWorldPosition => Board != null ? Board.WarehouseWorldPosition : Vector3.zero;
+
         /// <summary>Минимальный интервал между тапами-ударами (секунды реального времени): частые касания не копят урон.</summary>
         public const double StrikeTapInterval = 0.4;
         double m_NextStrikeTap = double.NegativeInfinity;
@@ -257,7 +308,6 @@ namespace CatMiners.Runtime.Outpost
             ApplySettings();
             Commit(State, Map, null);
         }
-        public void SaveTutorialProgress() { if (CommandsAllowed) Commit(State, Map, null); }
 
         public void LoadZone(int zone)
         {
@@ -316,7 +366,8 @@ namespace CatMiners.Runtime.Outpost
         }
         IEnumerator CompleteDebug(OutpostSimulation job, OutpostMap map)
         {
-            long target = checked(job.Now + OutpostBot.DefaultTickLimit);
+            // Профиль b6: шахта с множителем темпа K(z) длиннее в K раз — предел DEV-завершения растёт так же (как у бота).
+            long target = checked(job.Now + OutpostBot.DefaultTickLimit * OutpostBot.PaceLimitFactor(job.Run));
             while (!job.IsEconomyStopped && !job.Run.WatchdogFired && job.Now < target)
             {
                 if (m_Suspended) { yield return null; continue; }

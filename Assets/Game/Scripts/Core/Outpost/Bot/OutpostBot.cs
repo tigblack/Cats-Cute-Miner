@@ -9,6 +9,8 @@ namespace CatMiners.Core.Outpost
     /// Воспроизводимые тестовые политики (ТЗ 20): A — без покупок; B — «Кирки» ×1 при доступности до cap;
     /// C — круговой список «Кирки, Команда, Сумки, Обувь, Разгрузка, Оценка», после покупки — следующая ветка,
     /// недоступные/cap пропускаются, ×1 из доставленного кошелька. Не утверждение об оптимальности.
+    /// Заводы (ТЗ 2.2 §9) — у всех политик одинаково: перед покупками бот доставляет все готовые партии и продаёт весь товар
+    /// склада (<see cref="OutpostBot.TendFactories"/>); A по-прежнему ничего не покупает.
     /// </summary>
     public enum BotPolicy
     {
@@ -48,8 +50,19 @@ namespace CatMiners.Core.Outpost
         public int Ticks;
         public int UnitsCreated;
         public string ValueCreated;
+        /// <summary>Золото монет (TotalCredited); товар — отдельно, <see cref="GoodsSoldGold"/> (ТЗ 2.2 §6.4).</summary>
         public string Credited;
         public string Spent;
+        /// <summary>Золото продажи товара за шахту (Run.GoodsSoldGold), десятичная строка.</summary>
+        public string GoodsSoldGold;
+        /// <summary>Единиц товара продано.</summary>
+        public long GoodsSoldUnits;
+        /// <summary>Ручных доставок «Deliver» (Counters.ManualDeliveries).</summary>
+        public int ManualDeliveries;
+        /// <summary>Заводов в шахте, из них с автодоставкой к концу; завершённых циклов всех заводов.</summary>
+        public int Factories;
+        public int FactoriesAutomated;
+        public int FactoryCycles;
         public int Purchases;
         public int MaxQueue;
         public double AvgQueueWaitSec;
@@ -68,14 +81,21 @@ namespace CatMiners.Core.Outpost
             ZoneId + " " + Policy + " " + Outcome + " completed=" + (CompletedSec?.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) ?? "-") +
             "s firstDelivery=" + (FirstDeliverySec?.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) ?? "-") +
             "s firstPurchase=" + (FirstPurchaseSec?.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) ?? "null") +
-            " events=" + Events + " units=" + UnitsCreated + " credited=" + Credited + " spent=" + Spent + " purchases=" + Purchases +
+            " events=" + Events + " units=" + UnitsCreated + " credited=" + Credited + " goods=" + GoodsSoldGold + " spent=" + Spent + " purchases=" + Purchases +
             " levels=[" + (FinalLevels == null ? "" : string.Join(",", FinalLevels)) + "] reward=" + RewardItemId + "+" + RewardParts;
     }
 
     /// <summary>Прогон зоны или кампании тем же ядром (ускоренный Advance меняет только скорость исполнения).</summary>
     public sealed class OutpostBot
     {
-        /// <summary>24 часа симуляции.</summary>
+        /// <summary>Множитель пределов прогона шахты: ceil(K(z)) профиля run (1 без множителя темпа, профиль b6).</summary>
+        public static long PaceLimitFactor(OutpostRun run)
+        {
+            var k = run?.Balance?.ZonePace(run.Zone) ?? Rational.One;
+            return k <= Rational.One ? 1L : (long)k.Ceil();
+        }
+
+        /// <summary>24 часа симуляции (шахта с K(z) &gt; 1 — ещё × <see cref="PaceLimitFactor"/>).</summary>
         public const long DefaultTickLimit = 86_400_000_000L;
         public const long DefaultEventLimit = 2_000_000L;
 
@@ -98,7 +118,35 @@ namespace CatMiners.Core.Outpost
         public bool CheckInvariantsEveryTick;
         /// <summary>Проверять инварианты в конце прогона.</summary>
         public bool CheckInvariantsAtEnd = true;
+        /// <summary>Доставлять готовые партии и продавать товар (ТЗ 2.2 §9); по умолчанию включено у всех политик.</summary>
+        public bool ManageFactories = true;
         public int Purchases { get; private set; }
+
+        /// <summary>
+        /// Заводы глазами игрока (ТЗ 2.2 §9): «Deliver» по каждому заводу в Ready (по возрастанию ID), затем «Sell all», если на
+        /// складе есть товар. Команды идут через Submit (фаза 6) и только когда есть что делать, поэтому в шахте без заводов и без
+        /// готовых партий состояние не трогается. Общая для бота и моделей игрока аудита. Возвращает число доставок и золото продажи.
+        /// </summary>
+        public static (int Delivered, BigInteger Sold) TendFactories(OutpostSimulation sim)
+        {
+            if (sim == null || sim.IsEconomyStopped) return (0, BigInteger.Zero);
+            var factories = sim.Run.Factories;
+            if (factories == null || factories.Count == 0) return (0, BigInteger.Zero);
+            int delivered = 0;
+            for (int i = 0; i < factories.Count; i++)
+            {
+                var f = factories[i];
+                if (f.Status != FactoryStatus.Ready || f.ReadyUnits <= 0) continue;
+                if (sim.Submit(OutpostCommand.DeliverFactory(f.TargetId)).Ok) delivered++;
+            }
+            var sold = BigInteger.Zero;
+            if (sim.SellBlockReason(null) == null)
+            {
+                var r = sim.Submit(OutpostCommand.SellGoods(null));
+                if (r.Ok) sold = r.Cost;
+            }
+            return (delivered, sold);
+        }
 
         /// <summary>
         /// Применить политику на текущей отметке через Submit; возвращает число покупок.
@@ -107,6 +155,7 @@ namespace CatMiners.Core.Outpost
         public int ApplyPolicy(OutpostSimulation sim)
         {
             if (sim.IsEconomyStopped) return 0;
+            if (ManageFactories) TendFactories(sim);
             int bought = 0;
             switch (m_Policy)
             {
@@ -158,6 +207,10 @@ namespace CatMiners.Core.Outpost
                 Equipped = (string[])state.Profile.Equipped.Clone(),
             };
             long startEvents = sim.ProcessedEvents;
+            // Профиль b6: шахта с множителем темпа K(z) — растянутая в K раз копия прежней (HP и груз ×K), пределы растут так же.
+            long pace = PaceLimitFactor(run);
+            long tickLimit = TickLimit > long.MaxValue / pace ? long.MaxValue : TickLimit * pace;
+            long eventLimit = EventLimit > long.MaxValue / pace ? long.MaxValue : EventLimit * pace;
             try
             {
                 ApplyPolicy(sim);
@@ -175,12 +228,12 @@ namespace CatMiners.Core.Outpost
                         report.Outcome = BotOutcome.Watchdog;
                         break;
                     }
-                    if (t > TickLimit)
+                    if (t > tickLimit)
                     {
                         report.Outcome = BotOutcome.Timeout;
                         break;
                     }
-                    if (sim.ProcessedEvents - startEvents >= EventLimit)
+                    if (sim.ProcessedEvents - startEvents >= eventLimit)
                     {
                         report.Outcome = BotOutcome.EventLimit;
                         break;
@@ -228,6 +281,17 @@ namespace CatMiners.Core.Outpost
             report.ValueCreated = MoneyFormat.ToStorage(c.ReleasedValue);
             report.Credited = MoneyFormat.ToStorage(run.TotalCredited);
             report.Spent = MoneyFormat.ToStorage(run.TotalSpent);
+            report.GoodsSoldGold = MoneyFormat.ToStorage(run.GoodsSoldGold);
+            report.ManualDeliveries = c.ManualDeliveries;
+            if (run.GoodsSold != null)
+                foreach (var kv in run.GoodsSold) report.GoodsSoldUnits += kv.Value;
+            if (run.Factories != null)
+                foreach (var f in run.Factories)
+                {
+                    report.Factories++;
+                    if (f.Automated) report.FactoriesAutomated++;
+                    report.FactoryCycles += f.Cycles;
+                }
             report.Purchases = Purchases;
             report.MaxQueue = c.MaxQueue;
             report.AvgQueueWaitSec = c.QueueServed > 0 ? Sec(c.QueueWaitTicks) / c.QueueServed : 0;

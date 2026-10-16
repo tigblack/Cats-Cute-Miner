@@ -1,8 +1,8 @@
-# UI режима CatOutpostV2 — API для контроллера, обучения и DevTools
+# UI режима CatOutpostV2 — API для контроллера и DevTools
 
 Код: `Assets/Game/Scripts/Runtime/Outpost/UI/` (`namespace CatMiners.Runtime.Outpost`, сборка `CatMiners.Runtime`).
 HUD работает **только через контракт** `IOutpostGame` (`Runtime/Outpost/IOutpostGame.cs`) и не знает класса контроллера.
-Источники: ТЗ 2.1 §5, §9–§11, §13–§15; `RUNTIME_SPEC.md` §5–§6; карта старого UI — `map/ui.md`.
+Источники: ТЗ 2.1 §5, §9–§11, §13–§15 (§15 — обучения нет); `RUNTIME_SPEC.md` §5–§6; карта старого UI — `map/ui.md`.
 
 | Файл | Что внутри |
 |---|---|
@@ -14,11 +14,10 @@ HUD работает **только через контракт** `IOutpostGame`
 | `UI/OutpostCardText.cs` | Имена 61 карточки, редкости, спрайты, полный и короткий эффект, величина бонуса `EffectValue` из `CardDef.EffectAt`, подписи состояний, причины отказа |
 | `UI/OutpostHud.Info.cs` | Сведения о выбранном котике/цели (без кнопок) |
 | `UI/OutpostHud.Results.cs` | «Итоги шахты», «Пока вас не было» + шкала расчёта, конец кампании, ошибка, общее модальное окно |
-| `UI/OutpostHud.Settings.cs` | Настройки (громкость, музыка, звуки, атмосфера, вибрация, «меньше эффектов», подсказки обучения) |
+| `UI/OutpostHud.Settings.cs` | Настройки (громкость, музыка, звуки, атмосфера, вибрация, «меньше эффектов», Play time, Reset Progress) |
 | `UI/OutpostDialog.cs` | Диалог по содержимому на `PixelUi.Window` (иконка, текст, строки, блок `Extra`, кнопки `btn`) |
 | `UI/OutpostFlowStats.cs` | Наблюдение за состояниями команды за ≈20 с для подсказки ограничения потока |
 | `UI/OutpostUiText.cs` | Имена веток/слотов/редкостей/16 предметов, бонус предмета и его величина для сравнения уровней, задачи котика, имена целей, причины отказа, показ чисел |
-| `OutpostTutorial.cs` | 10 шагов ТЗ §15 через `TutorialHint` |
 | `Core/Text/Loc.Outpost.cs` | Раздел словаря `Outpost`, ключи `outpost.*` (≈210), формы слова `.one/.few/.many` |
 | `Core/Text/Loc.Cards.cs` | Раздел `Cards`, ключи `cards.*`: имена, ресурсы, эффекты, состояния, сведения, сообщения, редкости |
 
@@ -27,7 +26,6 @@ HUD работает **только через контракт** `IOutpostGame`
 ```csharp
 // RUNTIME_SPEC §3.1: после CameraRig.Create / Effects / Sfx / OutpostBoardView, до OutpostInput.
 Hud = OutpostHud.Create(this, Rig);          // IOutpostGame game, CameraRig rig = null
-Tutorial = new OutpostTutorial(this, Hud);   // подписывается на EventPresented и подключается к HUD
 Hud.OnWindowOpened += () => Input.CancelGesture();   // ТЗ 14: отменить жест при открытии окна
 ```
 
@@ -41,13 +39,12 @@ Hud.OnWindowOpened += () => Input.CancelGesture();   // ТЗ 14: отменит�
 
 ## 2. Что вызывать каждый кадр
 
-**Ничего обязательного.** `OutpostHud.Update` сам: прячет тост, опрашивает Back, зовёт `OutpostTutorial.Update`, ведёт полёт
+**Ничего обязательного.** `OutpostHud.Update` сам: прячет тост, опрашивает Back, ведёт полёт
 монет, снимает пробы для подсказки узкого места, открывает «Базу» по выбору постройки, обновляет HUD не чаще 10 Гц.
 
 - `Refresh()` — то же обновление с ограничением 10 Гц (можно звать каждый кадр, лишние вызовы пропускаются).
 - `RefreshNow()` — немедленно (после загрузки, офлайна, перехода, внешней команды DevTools). Строки пересобираются только при
   смене исходных значений (кэш по значению), повторное обновление без изменений не выделяет память (проверено тестом).
-- `OutpostTutorial.Update()` можно звать и из контроллера — второй вызов в том же кадре ничего не делает.
 
 ## 3. События и свойства
 
@@ -64,7 +61,7 @@ Hud.OnWindowOpened += () => Input.CancelGesture();   // ТЗ 14: отменит�
 | `ShowStore()`, `HideStore()`, `StoreOpen`, `ChestRewardOpen`, `ChestRewardChests`, `ChestRewardTileCount`, `ChestRewardTile(i)`, `SkipResultOpen` | Магазин (ТЗ 10.5, §8 ниже): открывается в любой фазе; окна награды сундука (магазин и сундук шахты с новой карточкой) и итога тайм-скипа |
 | `BuyMode BuyMode` | Режим пакетной покупки панели «База» |
 | `bool TryGetInfoTop(out float screenY)` | Верхний край панели сведений в пикселях — поднять выбранного котика/цель над ней (как `Hud.TryGetContextTop`) |
-| `TutorialHint Hint`, `OutpostTutorial Tutorial` | Подсказка обучения и подключённое обучение |
+| `RectTransform FindTarget(string id)` | Элемент HUD по имени из констант `Target*` (§10); null — нет. Для указателей playable |
 | `bool PollBackButton = true`, `bool AutoFlyOnDeposit = true` | См. §4, §5 |
 
 ## 4. Back (ТЗ 14)
@@ -99,7 +96,7 @@ Hud.OnWindowOpened += () => Input.CancelGesture();   // ТЗ 14: отменит�
 
 Кнопка перехода в HUD занимает всю ширину полосы с полями Safe Area; высота 168 единиц Canvas при эталоне 1080×1920,
 надпись — `FontTitle` (56), перенос разрешён, автоматическое уменьшение выключено. Полоса высотой 176 учтена в
-`BottomInset` и резерве обучения. Нажатие запускает переход напрямую; `CanContinue` и `CommandsAllowed` обновляют
+`BottomInset`. Нажатие запускает переход напрямую; `CanContinue` и `CommandsAllowed` обновляют
 доступность кнопки даже без смены фазы шахты. После последней шахты она открывает завершение кампании.
 
 Вручную: `ShowBase/HideBase/ToggleBase`, `ShowEquipment/HideEquipment`, `ShowItem(itemId)/HideItem`, `ShowSettings/HideSettings`,
@@ -110,7 +107,7 @@ Hud.OnWindowOpened += () => Input.CancelGesture();   // ТЗ 14: отменит�
 Настройки во всех сборках (включая WebGL Release) содержат Reset Progress. В Editor/Development Build меню «DEV 4» также
 использует этот диалог для кнопки «Сбросить прогресс»: «Отмена»/Back закрывают вопрос,
 «Начать заново» вызывает `OutpostController.ResetProgress()` для выбранного Main или Debug. Кнопка включена только при
-`CanResetProgress`; после успешной записи игра показывает шахту 1 с новым прогрессом и обучением.
+`CanResetProgress`; после успешной записи игра показывает шахту 1 с новым прогрессом.
 Настройки показывают `State.Profile.PlayTimeMs` как часы/минуты (`Play time: 2h 6m`), обновляя строку при смене минуты.
 Счётчик сохраняется между запусками и при Reset Progress; считается только реальное активное время, без фона и симулируемых скипов.
 
@@ -163,7 +160,7 @@ Hud.OnWindowOpened += () => Input.CancelGesture();   // ТЗ 14: отменит�
 карточки и эликсир за офлайн начислены и сохранены вместе с остальным результатом и доступны в обычных экранах.
 
 «Store» (`OutpostHud.Store.cs`, `StoreTileView.cs`): каталог — `Configs.Store` (`store_catalog.json`), котировка плитки —
-`StoreService.Quote(profile, store, def, UtcNowMs)`. Кнопка Store крайняя слева: Store · Cards · Base · Equipment · To base;
+`StoreService.Quote(profile, store, def, UtcNowMs)`. Кнопка Store крайняя слева: Store · Cards · Base · Equipment · Market (с 16 октября 2026, «To base» убрана);
 красная точка — есть готовая рекламная плитка (`Quote.Free` у `Currency == Ad`) при доступных командах. Плитка:
 `ui_btn_green` — `Quote.Free` (реклама готова, свой тайм-скип: «USE», «Available: N»), `ui_btn_blue` — покупка (цена в гемах,
 красная при `BlockReason == "gems"`, или `$N.NN`), `ui_btn_dark` — таймер рекламы (`icon_clock` + время) или `unavailable`
@@ -180,43 +177,85 @@ Hud.OnWindowOpened += () => Input.CancelGesture();   // ТЗ 14: отменит�
 
 ## 9. Переход (необязательно)
 
-`BeginTransition()` (экран на весь Canvas ловит касания, окна и сведения закрыты, подсказка скрыта) → `SetTransitionFade(0…1)`
+`BeginTransition()` (экран на весь Canvas ловит касания, окна и сведения закрыты) → `SetTransitionFade(0…1)`
 (ступени по 1/8, navy0) → `EndTransition()` (немедленное обновление). Пока идёт затемнение, HUD не обновляется.
 
-## 10. Обучение
+## 10. Обучения нет; элементы HUD по именам
 
-```csharp
-var tutorial = new OutpostTutorial(game, hud);   // IDisposable: Dispose отписывает от EventPresented
-tutorial.Skip();                 // «Пропустить обучение» (кнопка под табличкой, пока видна подсказка)
-tutorial.SetEnabled(bool);       // строка «Подсказки обучения» в настройках
-tutorial.IsDone(OutpostTutorial.StepPickaxes); tutorial.CurrentHint; tutorial.Active; OutpostTutorial.Steps
-```
+С 15 октября 2026 года обучения нет (ТЗ §15): `OutpostTutorial`, подсказка `TutorialHint` HUD, кнопка «Skip tutorial»
+(`SafeArea/TutorialSkip`), строка «Tutorial hints» в настройках и `IOutpostGame.SaveTutorialProgress()` удалены; окно настроек —
+8 строк (громкость ×4, вибрация, «меньше эффектов», Play time, Reset Progress) и «Privacy choices» в Android. `Profile.Tutorial`
+хранится только для совместимости сохранений.
 
-- Состояние — `Profile.Tutorial`: `Seen` — id пройденных шагов `o1_auto, o10_strike, o2_bag, o3_gold, o4_pickaxes, o5_team, o6_targets,
-  o7_reward, o8_reset, o9_kept`; новый `o10_strike` стоит после автодобычи, идентификаторы прежних шагов сохранены.
-  `Step` — номер последнего пройденного в текущем порядке; `Dismissed` — обучение закрыто. Каждое изменение
-  записывается через `IOutpostGame.SaveTutorialProgress()`.
-- Шаги 1–7 — только на zone1, 8–9 — в ReadyToContinue zone1 (лапка на кнопках итогов поверх окна), 10 — на zone2. На следующих
-  шахтах пропущенные шаги засчитываются молча. Подсказка не ловит касания и не останавливает добычу; под окнами скрыта, кроме
-  шагов, указывающих в верхнее окно (строка «Кирки»/«Команда» в «Базе», кнопки итогов).
-- `StepStrike`: рамка и лапка на живом видимом камне из `Sim.CanStrike`; `StrikeTargetId` — ID показанной цели или −1.
-  При разрушении или уходе цели с экрана выбирается другая. Подсказка предлагает ручной удар 8 видимых секунд и не задерживает
-  остальные уроки; если камни ещё не видны, камера один раз плавно переводится к ближайшему доступному.
-  `TargetStruck` с положительным уроном на zone1 завершает шаг и сохраняет его, `TargetHit` котиков — нет.
-  Ранний ручной удар тоже засчитывается. Непройденный шаг повторяется при загрузке первой шахты; на zone2+ засчитывается молча.
-- Цели подсказок (`TutorialHint.RegisterTarget`), константы `OutpostHud`: `TargetBase`, `TargetEquipment`, `TargetCards`, `TargetToBase`,
-  `TargetGold`, `TargetCargo`, `TargetStripAction`, `TargetResultsEquipment`, `TargetResultsNext`, `TargetEquipBest`,
-  `BranchTarget(UpgradeBranch)` — кнопки покупки веток.
+`FindTarget(id)` возвращает элемент HUD по константам `OutpostHud`: `TargetBase`, `TargetEquipment`, `TargetCards`, `TargetStore`,
+`TargetMarket`, `TargetGold`, `TargetCargo`, `TargetStripAction`, `TargetResultsEquipment`, `TargetResultsNext`, `TargetEquipBest`,
+`BranchTarget(UpgradeBranch)` — кнопки покупки веток. Пользуется только playable (`PlayableGuide` со своей `TutorialHint`).
 
 ## 11. Изменения общих файлов
 
-- `IOutpostGame.cs`: члены не менялись; добавлены `using`-псевдонимы `CommandResult`/`OfflineSummary` на типы `Core.Outpost`
+- `IOutpostGame.cs`: 15 октября 2026 добавлены члены заводов, склада и рынка (ТЗ 2.2; §13, RUNTIME_SPEC §9) и
+  `OutpostSelectionKind.Warehouse`; прежние члены не менялись (кроме удалённого тогда же вместе с обучением `SaveTutorialProgress`); добавлены `using`-псевдонимы `CommandResult`/`OfflineSummary` на типы `Core.Outpost`
   (с `using CatMiners.Core.Sim` ссылки были неоднозначны — CS0104, файл не компилировался).
 - `Core/Text/Loc.cs`: раздел `Outpost` (объявление `RegisterOutpost`, `AddSection`, запись в `Sections`).
 - Общие классы кита (`PixelUi`, `UiKit`, `TutorialHint`, `SafeArea`, `CameraRig` …) не менялись.
 
 ## 12. Тест
 
-`Assets/Game/Tests/PlayMode/Outpost/OutpostHudTests.cs` — HUD и обучение с поддельным `IOutpostGame` поверх настоящего ядра zone1:
-все окна, Back, команды в ядро, автооткрытие итогов, шаги обучения 1 и 7, словарь без пропусков, 0 выделений при обновлении без
-изменений. Запуск: `powershell -ExecutionPolicy Bypass -File Tools/unity.ps1 -Mode PlayMode -TestFilter OutpostHudTests`.
+`Assets/Game/Tests/PlayMode/Outpost/OutpostHudTests.cs` — HUD с поддельным `IOutpostGame` поверх настоящего ядра zone1:
+все окна, Back, команды в ядро, автооткрытие итогов, нет подсказки/кнопки/строки обучения, `FindTarget`, словарь без пропусков,
+0 выделений при обновлении без изменений. Запуск: `powershell -ExecutionPolicy Bypass -File Tools/unity.ps1 -Mode PlayMode -TestFilter OutpostHudTests`.
+
+## 13. Заводы, склад и рынок (ТЗ 2.2, контракт WP0; реализация HUD — WP5)
+
+Правила — `Docs/TZ/Cat_Miners_Factories_TZ_v2.2.md` §6, §7.1, §8; ядро — CORE_SPEC §16; контроллер — RUNTIME_SPEC §9.
+
+- **Команды HUD → `IOutpostGame`:** `DeliverFactory(targetId)` (кнопка «Deliver ×N» над заводом и тап по заводу в `Ready`),
+  `SellGoods(goodId)` (строка рынка), `SellGoods(null)` («Sell all +X»). Как прочие команды — только при `Phase == Playing` и без перехода.
+  Доступность заранее: `DeliverBlockReason(id)`, `SellBlockReason(goodId|null)`; отказ — тост и звук отказа.
+- **Причины → тексты:** `FactoryText.Reason(code)` (`Runtime/Outpost/View/FactoryText.cs`) — коды заводов из раздела `Loc` Factories:
+  `not-ready` → `factories.reason.not_ready` «Not ready yet», `locked` → `factories.reason.locked`, `no-goods` → `factories.reason.no_goods`
+  «Nothing to sell», `no-factories` → `factories.reason.no_factories` «No factories in this mine»; прочие коды (`phase` — «Mine complete»,
+  `loading`, `transition`, `unknown` …) — общий `OutpostUiText.Reason`. `OutpostUiText.Reason` сам передаёт четыре заводских кода в
+  `FactoryText.Reason`, поэтому любой из двух вызовов даёт один и тот же текст.
+- **Кнопка Market** (крайняя правая: Store · Cards · Base · Equipment · Market, §6.2; решение владельца 16 октября 2026): до
+  первой шахты с заводами (`IOutpostGame.MarketUnlockZone`, шахта 2) вместо весов замок `icon_lock`, тап — «Market unlocks at
+  mine N» (`outpost.market.locked`); иначе неактивна при `SellBlockReason(null)` ∈ {`no-factories`, `phase`} с этой причиной; при `no-goods` окно открывается, кнопки продажи неактивны. Красная точка —
+  `FactoryQueries.AnyStock(State.Run)` (на складе есть товар).
+- **Окно рынка:** строки — заводы шахты (`State.Run.Factories`, товар `GoodId`), по номеру типа (`State.Run.FactoryRules.NumberOfGood` или
+  `Configs.Factories.ByGood(g).Number`), без повторов товара; количество `GoodsCount(g)`, «each N gold» — `GoodsPrice(g)`, сумма —
+  `WarehouseValue(g)`, «Total value» и «Sell all +X» — `WarehouseValue(null)`. Цена постоянна в пределах `RunId` — кэшировать.
+- **Выбор:** `Selection.Kind == OutpostSelectionKind.Warehouse` (тап по складу, `SelectWarehouse()`) → HUD открывает рынок и сам вызывает
+  `ClearSelection()` (`CheckBaseSelection`, как `Base` → «База»). Сведения завода — `Selection.Kind == Target` с `Map.Factory(id) != null`: состояние
+  `FactoryOf(id).Status`, цикл `CycleStart/CycleEnd` — **только у `Working`; у `Ready`, `Locked` и `Stopped` оба −1** (CORE_SPEC §16.4):
+  полоса `Working` — `(Sim.Now − CycleStart) / (CycleEnd − CycleStart)`, `Ready` — полная по `Status`, без деления; момент готовности —
+  `Tick` события `FactoryReady`. Выпуск за цикл — `Sim.FactoryUnitsPerCycle(id)` («20 Milk»; в `Ready` — `ReadyUnits`); его считают при
+  смене выбора или по событиям, не каждый кадр (BigInteger), формулу не копируют. `Automated`, требование
+  `Map.Factory(id).RequiredCardId/RequiredCardLevel` и уровень `State.Profile.CardLevel(cardId)`.
+- **Элементы HUD (WP5b):**
+  - `OutpostHud.ShowMarket()` / `HideMarket()`, `MarketOpen`, `MarketRowCount`, `MarketRowGood(i)`; `FindTarget(OutpostHud.TargetMarket)`
+    (`"ui.market"`) — кнопка Market; `OutpostHud.BaseMinWidth` (44 px арта) — нижняя граница ширины «Base».
+  - Окно рынка — окно кита `PixelUi.Window`, как настройки и окно карточки (решение владельца 15 октября 2026: не на весь экран):
+    корень `SafeArea/Market` — затемнение поля, рамка `Box` с полями 3 % по бокам, высота по строкам; рамка с планкой и крестиком —
+    между верхней полосой HUD и нижней панелью кнопок, по центру между ними (на 9:16 — до 78 % safe area, длинный список
+    прокручивается); планка `Box/header/title` — «Market · Warehouse» (`factories.market_title`: склад называется в
+    интерфейсе Warehouse, §6.1), крестик `Box/close`; в `Box/body` — счётчики `marketCounts` (`wallet` — золото, `total` — «Total
+    value»), список `viewport/content/good<i>` с кнопкой `sell` в каждой строке, `empty` — текст шахты без заводов («No factories in
+    this mine» и `outpost.market.hint`); `Box/buttons/sellAll` — «Sell all +X» внизу рамки. Недоступная «Sell all» — просто серая кнопка
+    кита с подписью «Sell all», без причины и без тоста по тапу (решение владельца 15 октября 2026); недоступная `sell` строки по тапу
+    называет причину («Nothing to sell», «Mine complete»). Монеты продажи летят к строке золота окна.
+  - Панель сведений: у завода выше обычной (76 px арта; с кнопкой «Deliver» 86, у остановленного 66; у котика и цели по-прежнему 64);
+    в ней `deliver` («Deliver ×N», только ручной `Ready`), иконка товара `portrait/good` и значок `portrait/auto`. `TryGetInfoTop(out y)`
+    и `InfoVisible` — верх панели на экране для `FactoryOverlay` (стрелки и кнопки «Deliver» не заходят на панель).
+  - Окно карточки завода — текст `factory` (завод, товар, требование автодоставки).
+  - Ключи `Loc`: `outpost.bottom.market`, `outpost.factory.*`, `outpost.market.*`, `outpost.results.goods`, `outpost.toast.goods_sold`,
+    `outpost.toast.save_reset`; раздел Factories (`factories.*`: имена заводов и товаров, склад и шапка рынка, подсказка закрытого
+    завода `factories.locked_hint` «Dairy — locked. Break the chains» — первая строка его сведений, §2 п. 1, подписи кнопки «Deliver»,
+    причины, тосты) — `Loc.Factories.cs`, читать через `FactoryText` (`FactoryName`, `GoodName`, `GoodIcon`, `GoodIconSmall`,
+    `DeliverLabel`, `DeliverCount`, `Reason`); своих копий имён в `Loc.Outpost.cs` нет. Состояния Working, Ready и Stopped названы в
+    строках сведений `outpost.factory.working/ready/stopped`; ключи-слова `factories.state.*`, `FactoryText.State` и прежний
+    `outpost.factory.locked` удалены (15 октября 2026). Ключи `outpost.target.deposit` и `outpost.target.deposit_generic` удалены.
+- **События (`EventPresented`):** `FactoryUnlocked` → тост «<Factory> unlocked!»; `FactoryAutomated` → «<Factory> now delivers automatically»
+  (оба тоста показывает `FactoryOverlay` вида, HUD их не дублирует);
+  `GoodsSold` → «+X gold» (сумма `Value` событий одной команды) и полёт монет от `WarehouseWorldPosition` к кошельку (HUD); `GoodsArrived` → «+N»
+  с иконкой товара у склада (вид). Окно «While you were away» и итог тайм-скипа по-прежнему показывают только золото монет.
+- **Итоги шахты:** под «Gold delivered» строка «Goods sold: N gold» из `State.Run.GoodsSoldGold` (только если > 0).

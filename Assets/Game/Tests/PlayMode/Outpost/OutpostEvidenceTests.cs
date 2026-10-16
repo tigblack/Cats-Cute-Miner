@@ -112,7 +112,6 @@ namespace CatMiners.Tests
         [UnityTest, Explicit("Base upgrade progress UI evidence")]
         public IEnumerator BaseUpgradeProgressPortrait()
         {
-            Game.Tutorial.Skip();
             Game.Hud.ShowBase();
             yield return Capture("base-upgrade-progress-start.png");
 
@@ -162,7 +161,6 @@ namespace CatMiners.Tests
         [UnityTest, Explicit("Offline gold UI evidence")]
         public IEnumerator OfflineGoldPortrait()
         {
-            Game.Tutorial.Skip();
             yield return Advance(5);
             Game.SendMessage("OnApplicationPause", true);
             m_Clock.Advance(24 * 3600);
@@ -187,7 +185,6 @@ namespace CatMiners.Tests
         [UnityTest, Explicit("Dev reset UI evidence")]
         public IEnumerator DevResetPortrait()
         {
-            Game.Tutorial.Skip();
             if (UnityEngine.Object.FindFirstObjectByType<CatMiners.DevTools.OutpostDevPanel>() == null)
                 typeof(CatMiners.DevTools.OutpostDevPanel).GetMethod("Install", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic).Invoke(null, null);
             Game.Hud.GetComponentsInChildren<Button>(true).Single(b => b.name == "OutpostDevToggle").onClick.Invoke();
@@ -200,7 +197,6 @@ namespace CatMiners.Tests
             Assert.That(Game.State.Run.Zone, Is.EqualTo(1));
             Assert.That(Game.State.Profile.Cards, Is.Empty);
             Assert.That(Game.State.Profile.Items, Is.Empty);
-            Assert.That(Game.State.Profile.Tutorial.Dismissed, Is.False);
         }
 
         [UnityTest]

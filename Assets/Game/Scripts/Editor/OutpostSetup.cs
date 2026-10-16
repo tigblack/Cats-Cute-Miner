@@ -22,7 +22,7 @@ namespace CatMiners.Editor
             var texts = new string[OutpostConfigSet.ResourcePaths.Length];
             for (int i = 0; i < texts.Length; i++)
                 texts[i] = File.ReadAllText("Assets/Game/Resources/" + OutpostConfigSet.ResourcePaths[i] + ".json");
-            var configs = OutpostConfigSet.Parse(texts[0], texts[1], texts[2], texts[3], texts[4], texts[5], texts[6]).WithCards(repo);
+            var configs = OutpostConfigSet.ParseResources(texts).WithCards(repo);
             if (repo.ZoneCount != OutpostIds.LastZone) throw new InvalidDataException("Expected 144 source mines");
             if (configs.Cards.Cards.Count != 61) throw new InvalidDataException("Expected 61 source cards, got " + configs.Cards.Cards.Count);
             for (int zone = 1; zone <= repo.ZoneCount; zone++)

@@ -90,7 +90,11 @@ namespace CatMiners.Core.Outpost
                 var mt = map.Targets[i];
                 if (ts.Id != mt.Id) throw new ArgumentException("Цель run " + ts.Id + " не совпадает с картой " + mt.Id);
                 if (ts.Destroyed)
-                    foreach (int cell in mt.Cells) m_Occupant[cell] = -1;
+                {
+                    // ТЗ 2.2 §4.1: footprint открытого завода остаётся зданием — постоянной стеной навигации.
+                    if (!IsStandingFactory(mt))
+                        foreach (int cell in mt.Cells) m_Occupant[cell] = -1;
+                }
                 else if (!mt.IsGate) m_LivingRsx++;
             }
             foreach (var w in run.Workers)
@@ -109,6 +113,9 @@ namespace CatMiners.Core.Outpost
             RefreshTargetCaches();
             // Первая фаза 7 после загрузки сверит длительности таймеров с характеристиками (идемпотентно).
             m_StatsDirty = true;
+            // ТЗ 2.2 §4.4: при загрузке и пересоздании — та же проверка требования автодоставки. Снимок, записанный ядром, она не
+            // меняет; изменение даёт только выдача карточек вне ядра (DevTools «Cards»).
+            SyncFactoryAutomation(run.Now);
         }
 
         public OutpostGameState State => m_State;
@@ -145,7 +152,10 @@ namespace CatMiners.Core.Outpost
             m_Events.Clear();
         }
 
-        /// <summary>Ближайшая отметка: минимум сроков таймеров работников и запланированных команд; long.MaxValue — событий нет.</summary>
+        /// <summary>
+        /// Ближайшая отметка: минимум сроков таймеров работников, запланированных команд и заводов (концы циклов и прибытия партий —
+        /// только в Running/DrainingCargo, ТЗ 2.2 §4.5); long.MaxValue — событий нет.
+        /// </summary>
         public long NextEventTick()
         {
             long min = long.MaxValue;
@@ -166,6 +176,8 @@ namespace CatMiners.Core.Outpost
                 if (a != null && a.Deadline < min) min = a.Deadline;
             }
             if (m_Scheduled.Count > 0 && m_Scheduled[0].Tick < min) min = m_Scheduled[0].Tick;
+            long factory = NextFactoryEventTick();
+            if (factory < min) min = factory;
             return min;
         }
 

@@ -406,6 +406,102 @@ def r_weapon_laser(variant):
     return f
 
 
+# ───────────── заводы (ТЗ 2.2 §11) ─────────────
+# Цепи — металл той же мягкой семьи, что hit_metal: удар ниже тоном и «звяканье» звеньев (короткие высокие отзвуки того
+# же металла). Сигналы завода — тихие и короткие: готовность партии звучит часто (интервал в Sfx не меньше 0,5 с).
+
+def _clink(src, rel, semi, length=0.06, gain_lp=6000):
+    """Звяканье одного звена: лёгкий металл выше тоном, очень коротко, верх срезан."""
+    t = strip_lead(load(src, f"{K_IMPACT}/{rel}"))
+    return shape(lp(pitch(t, semi), gain_lp, 4), length, length * 0.4)
+
+
+def r_hit_chain(rel, semi, seed):
+    # Удар по цепям завода: металлический «дзинь» ниже тоном + глухой удар кирки (−8 дБ) + 2–3 звяканья звеньев
+    # через 35–110 мс, тише и выше; ФНЧ 6 кГц, 0,3 с.
+    def f(src):
+        rng = np.random.default_rng(seed)
+        hit = shape(pitch(strip_lead(load(src, f"{K_IMPACT}/{rel}")), semi), 0.22, 0.07)
+        knock = shape(lp(hp(strip_lead(load(src, f"{K_IMPACT}/impactMining_001.ogg")), 180, 2), 4000), 0.12, 0.04)
+        layers = [(hit, 0, 0), (knock, 0, -8)]
+        for k, d in enumerate(sorted(rng.uniform(0.035, 0.11, 3))):
+            layers.append((_clink(src, "impactMetal_light_004.ogg" if k % 2 else "impactMetal_light_001.ogg",
+                                  7 + rng.uniform(0, 5)), float(d), -10 - 3 * k))
+        return lp(shape(mix(*layers), 0.3, 0.16), 6000, 4)
+    return f
+
+
+def r_chain_break(seed, semi):
+    # Цепи разорваны: щелчок-«лоп» металла на 7 полутонов ниже, мягкий «буп» (замок отскочил) и россыпь 8 звеньев
+    # за 0,45 с — каждое тише и случайной высоты; ФВЧ 150 Гц, ФНЧ 6 кГц, 0,75 с.
+    def f(src):
+        rng = np.random.default_rng(seed)
+        snap = shape(pitch(strip_lead(load(src, f"{K_IMPACT}/impactMetal_light_004.ogg")), -7 + semi), 0.35, 0.12)
+        pop = shape(pitch(lp(strip_lead(load(src, f"{SPRING}/bup.wav")), 3500), -3 + semi), 0.16, 0.08)
+        layers = [(snap, 0, 0), (pop, 0.01, -6)]
+        times = np.sort(rng.uniform(0.05, 0.48, 8))
+        for k, d in enumerate(times):
+            rel = "impactMetal_light_001.ogg" if k % 2 else "impactMetal_light_004.ogg"
+            layers.append((_clink(src, rel, rng.uniform(3, 14), 0.07), float(d), -6 - 1.6 * k))
+        return lp(hp(shape(mix(*layers), 0.75, 0.45), 150), 6000, 4)
+    return f
+
+
+def r_factory_ready(src):
+    # Партия готова: тихое мягкое «бип-боп» вверх — два удара «маримбы» (основной тон + обертон ×3,9, быстрый спад),
+    # соль5 → до6 через 90 мс; без металла, чтобы не путать с монетой; ФНЧ 5 кГц, 0,42 с.
+    def note(f0, dur):
+        n = int(dur * SR)
+        t = np.arange(n) / SR
+        x = np.sin(2 * np.pi * f0 * t) * _env(n, 3, 0.11) + 0.22 * np.sin(2 * np.pi * f0 * 3.9 * t) * _env(n, 1, 0.025)
+        return x
+    a = note(784.0, 0.3)
+    b = note(1046.5, 0.33)
+    return lp(shape(mix((a, 0, -2), (b, 0.09, 0)), 0.42, 0.25), 5000, 4)
+
+
+def r_pipe_send(semi, seed):
+    # Партия ушла в трубу: пневматический «пумф» (буп на 5 полутонов ниже) и уходящий шорох воздуха — полоса шума
+    # 2,4 → 0,5 кГц за 0,25 с; ФНЧ 5 кГц, 0,4 с.
+    def f(src):
+        pop = shape(pitch(lp(strip_lead(load(src, f"{SPRING}/bup.wav")), 3000), -5 + semi), 0.18, 0.08)
+        n = int(0.34 * SR)
+        t = np.arange(n) / SR
+        noise = np.random.default_rng(seed).standard_normal(n)
+        # Скользящая полоса: сумма коротких окон с убывающей центральной частотой.
+        out = np.zeros(n)
+        win = int(0.02 * SR)
+        for i0 in range(0, n - win, win // 2):
+            fc = 2400 * (500 / 2400) ** (i0 / n)
+            seg = bp(noise[i0:i0 + win], fc * 0.7, min(fc * 1.4, SR / 2 - 100)) * np.hanning(win)
+            out[i0:i0 + win] += seg
+        rush = out * _env(n, 25, 0.12)
+        return lp(shape(mix((pop, 0, 0), (rush, 0.01, -9)), 0.4, 0.22), 5000, 4)
+    return f
+
+
+def r_goods_arrive(rel, semi):
+    # Партия пришла на склад: деревянный «тук» ящика ниже тоном с глухим «телом» и тихий короткий «буп» сверху
+    # (приёмка); ФВЧ 110 Гц, ФНЧ 5 кГц, 0,28 с.
+    def f(src):
+        knock = shape(pitch(strip_lead(load(src, f"{K_IMPACT}/{rel}")), semi), 0.16, 0.05)
+        body = shape(lp(hp(strip_lead(load(src, f"{K_RPG}/bookClose.ogg"), -30.0), 90), 1800), 0.16, 0.05)
+        tick = shape(pitch(lp(strip_lead(load(src, f"{SPRING}/bup.wav")), 4000), 9), 0.08, 0.04)
+        return lp(hp(shape(mix((knock, 0, 0), (body, 0, -6), (tick, 0.06, -11)), 0.28, 0.15), 110), 5000)
+    return f
+
+
+def r_goods_sell(src):
+    # Продажа товара: горсть монет и «ка-чинг» — два «динь» лёгкого металла (+7 и +12 полутонов через 60 мс), сверху
+    # мягкий колокольчик; дольше выплаты payout; ФНЧ 4,5–5,5 кГц (монеты не «звенят»), 0,7 с.
+    coins = shape(lp(hp(strip_lead(load(src, f"{RD_RPG}/item_coins_02.ogg")), 300), 4500, 4), 0.6, 0.35)
+    t = strip_lead(load(src, f"{K_IMPACT}/impactMetal_light_001.ogg"))
+    ka = shape(lp(pitch(t, 7), 5000, 4), 0.2, 0.06)
+    ching = shape(lp(pitch(t, 12), 5000, 4), 0.32, 0.1)
+    bell = shape(lp(hp(pitch(strip_lead(load(src, f"{SPRING}/small_amber.wav")), 5), 250), 5000, 4), 0.45, 0.2)
+    return lp(shape(mix((coins, 0, -2), (ka, 0.02, -4), (ching, 0.08, 0), (bell, 0.1, -9)), 0.7, 0.4), 5500, 4)
+
+
 RECIPES = {
     "hit_0": r_hit(0), "hit_1": r_hit(1), "hit_2": r_hit(3), "hit_3": r_hit(4),
     "break_0": r_break(2, f"{RD_BREAK}/bfh1_rock_falling_07.ogg"),
@@ -437,6 +533,16 @@ RECIPES = {
                                                      ("saw", r_weapon_saw), ("drill", r_weapon_drill),
                                                      ("dualpick", r_weapon_dualpick), ("chainsaw", r_weapon_chainsaw),
                                                      ("laser", r_weapon_laser)) for v in (0, 1)},
+    # заводы (ТЗ 2.2 §11)
+    "hit_chain_0": r_hit_chain("impactMetal_light_001.ogg", -3, 90),
+    "hit_chain_1": r_hit_chain("impactMetal_light_004.ogg", -5, 91),
+    "hit_chain_2": r_hit_chain("impactMetal_light_001.ogg", -6, 92),
+    "chain_break_0": r_chain_break(93, 0), "chain_break_1": r_chain_break(94, -2),
+    "factory_ready_0": r_factory_ready,
+    "pipe_send_0": r_pipe_send(0, 95), "pipe_send_1": r_pipe_send(-2, 96),
+    "goods_arrive_0": r_goods_arrive("impactWood_light_000.ogg", -4),
+    "goods_arrive_1": r_goods_arrive("impactWood_light_002.ogg", -5),
+    "goods_sell_0": r_goods_sell,
 }
 
 # Целевая громкость (RMS звучащей части, дБFS): все файлы примерно равны по громкости,

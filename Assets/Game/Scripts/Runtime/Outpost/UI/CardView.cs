@@ -66,9 +66,7 @@ namespace CatMiners.Runtime.Outpost
             view.m_Lock.rectTransform.anchorMin = view.m_Lock.rectTransform.anchorMax = new Vector2(1, 0);
             view.m_Lock.rectTransform.pivot = new Vector2(1, 0);
             view.m_Lock.rectTransform.anchoredPosition = Vector2.zero;
-            string title = OutpostCardText.Name(def);
-            int space = title.IndexOf(' ');
-            if (!detail && title.Length >= 18 && space > 0) title = title.Substring(0, space) + "\n" + title.Substring(space + 1);
+            string title = WrapName(OutpostCardText.Name(def), detail);
             var name = PixelUi.Text(frame.transform, "name", title, PixelUi.FontBody, PixelUi.TextColor, TextAlignmentOptions.Center, false, true);
             view.m_Name = name;
             name.rectTransform.Anchor(0, 1, 1, 1, new Vector2(3 * px, -(4 + 48 * scale + 21) * px), new Vector2(-3 * px, -(4 + 48 * scale) * px));
@@ -97,6 +95,20 @@ namespace CatMiners.Runtime.Outpost
                 view.LayoutDetail();
             }
             return view;
+        }
+
+        /// <summary>Имя от этой длины переносится в сетке на вторую строку (узкая колонка 9:20).</summary>
+        public const int WrapNameLength = 16;
+
+        /// <summary>
+        /// Имя для сетки: длинное (от <see cref="WrapNameLength"/> знаков, в несколько слов) переносится перед последним словом —
+        /// «Steel Mill / Foreman», «Cat Food / Manager» (ТЗ 2.2 §7.1). В окне сведений имя в одну строку.
+        /// </summary>
+        public static string WrapName(string title, bool detail)
+        {
+            if (detail || title == null || title.Length < WrapNameLength) return title;
+            int space = title.LastIndexOf(' ');
+            return space > 0 ? title.Substring(0, space) + "\n" + title.Substring(space + 1) : title;
         }
 
         void OnRectTransformDimensionsChange()

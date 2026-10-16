@@ -75,7 +75,8 @@ namespace CatMiners.Runtime.Outpost
                     // Работники этой цели (по последней синхронизации) радуются.
                     for (int i = 0; i < m_Cats.Count && i < m_Track.Length; i++)
                         if (m_Cats[i] != null && m_Track[i].MiningTarget == e.TargetId) m_Cats[i].PlayJoy();
-                    if (tv == null) break;
+                    // Цепи завода: здание стоит, разлёт звеньев и звук — по FactoryUnlocked на той же отметке.
+                    if (tv == null || tv.IsFactory) break;
                     var center = origin + tv.CenterLocal;
                     if (fx != null && TakeFx())
                     {
@@ -175,6 +176,9 @@ namespace CatMiners.Runtime.Outpost
                     Emit(OutpostViewCue.Equip, m_Camp != null ? m_Camp.CenterLocal : Vector3.zero);
                     break;
                 }
+                default:
+                    OnFactoryEvent(e, fx, origin);
+                    break;
             }
         }
 
@@ -226,6 +230,7 @@ namespace CatMiners.Runtime.Outpost
                 args.TargetId = e.TargetId;
                 args.Count = e.Count;
                 args.Material = tv != null ? tv.Material : HitMaterial.Stone;
+                args.Chains = tv != null && tv.Chains;
                 Cue(args);
             }
         }

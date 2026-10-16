@@ -18,6 +18,10 @@ namespace CatMiners.Core.Outpost
         StoreBuy,
         /// <summary>Золото Amount за рекламу (удвоение офлайн-дохода): в кошелёк и BonusCredited, не в доставку.</summary>
         BonusGold,
+        /// <summary>ТЗ 2.2 §4.4: «Deliver» — готовая партия завода TargetId (Status Ready) уходит в трубу, начинается следующий цикл.</summary>
+        DeliverFactory,
+        /// <summary>ТЗ 2.2 §6.3: продажа всего остатка товара ItemId со склада; ItemId == null — всех товаров («Sell all»).</summary>
+        SellGoods,
     }
 
     /// <summary>Команда игрока (ТЗ 6.5 п.6, CORE_SPEC §8). Переход и офлайн — не команды симуляции.</summary>
@@ -28,7 +32,7 @@ namespace CatMiners.Core.Outpost
         public BuyMode Mode;
         public string ItemId;
         public EquipSlot Slot;
-        /// <summary>Цель удара (Strike) или −1.</summary>
+        /// <summary>Цель удара (Strike), завод доставки (DeliverFactory) или −1.</summary>
         public int TargetId = -1;
         /// <summary>UTC (мс) нажатия — для таймера рекламной плитки магазина (StoreBuy).</summary>
         public long UtcMs;
@@ -46,9 +50,14 @@ namespace CatMiners.Core.Outpost
         public static OutpostCommand UpgradeCard(string cardId) => new OutpostCommand { Kind = CommandKind.UpgradeCard, ItemId = cardId };
         public static OutpostCommand StoreBuy(string itemId, long utcMs) => new OutpostCommand { Kind = CommandKind.StoreBuy, ItemId = itemId, UtcMs = utcMs };
         public static OutpostCommand BonusGold(BigInteger amount) => new OutpostCommand { Kind = CommandKind.BonusGold, Amount = amount };
+        /// <summary>«Deliver» завода (ID цели <c>s</c>).</summary>
+        public static OutpostCommand DeliverFactory(int targetId) => new OutpostCommand { Kind = CommandKind.DeliverFactory, TargetId = targetId };
+        /// <summary>Продать весь остаток товара goodId; null — продать всё («Sell all»).</summary>
+        public static OutpostCommand SellGoods(string goodId) => new OutpostCommand { Kind = CommandKind.SellGoods, ItemId = goodId };
 
         public override string ToString() => Kind + " " + (Kind == CommandKind.BuyUpgrade ? Branch + "×" + Mode : Kind == CommandKind.Unequip ? Slot.ToString() :
-            Kind == CommandKind.Strike ? "t" + TargetId : ItemId);
+            Kind == CommandKind.Strike || Kind == CommandKind.DeliverFactory ? "t" + TargetId :
+            Kind == CommandKind.SellGoods && ItemId == null ? "all" : ItemId);
     }
 
     /// <summary>Результат команды; отказ (Ok = false) не меняет состояние.</summary>
@@ -58,12 +67,15 @@ namespace CatMiners.Core.Outpost
         /// <summary>
         /// Причина отказа: "cap", "gold", "phase", "mode", "unknown", "not-owned", "already", "empty", "max", "parts";
         /// удара — "phase", "disabled", "unknown", "destroyed", "locked"; карточки — "unknown", "not-owned", "max", "copies", "elixir";
-        /// магазина — "unknown", "gems", "cooldown", "unavailable".
+        /// магазина — "unknown", "gems", "cooldown", "unavailable";
+        /// «Deliver» (ТЗ 2.2) — "phase" (ReadyToContinue), "unknown" (нет такого завода), "locked" (цепи целы), "not-ready" (нет готовой партии);
+        /// продажи — "no-factories" (в шахте нет заводов), "phase" (ReadyToContinue), "unknown" (товара нет среди заводов шахты),
+        /// "no-goods" (на складе нечего продавать).
         /// </summary>
         public string Reason;
-        /// <summary>Купленные уровни; у удара — выпущенные порции.</summary>
+        /// <summary>Купленные уровни; у удара — выпущенные порции; у «Deliver» и продажи — единиц товара.</summary>
         public int Levels;
-        /// <summary>Списанное золото (покупка), детали (улучшение предмета) или урон удара в долях HP.</summary>
+        /// <summary>Списанное золото (покупка), детали (улучшение предмета), урон удара в долях HP; у продажи — полученное золото.</summary>
         public BigInteger Cost;
 
         public static CommandResult Fail(string reason) => new CommandResult { Ok = false, Reason = reason };
@@ -136,6 +148,8 @@ namespace CatMiners.Core.Outpost
                 case CommandKind.UpgradeCard: return ExecuteUpgradeCard(cmd, t);
                 case CommandKind.StoreBuy: return ExecuteStoreBuy(cmd, t);
                 case CommandKind.BonusGold: return ExecuteBonusGold(cmd, t);
+                case CommandKind.DeliverFactory: return ExecuteDeliverFactory(cmd, t);
+                case CommandKind.SellGoods: return ExecuteSellGoods(cmd, t);
                 default:
                     return CommandResult.Fail("unknown");
             }
@@ -181,6 +195,50 @@ namespace CatMiners.Core.Outpost
             e.Cell = w.Cell;
             Emit(e);
             return w;
+        }
+
+        // ───────────── Заводы и рынок (ТЗ 2.2): выполнение команд — OutpostSimulation.Factories.cs ─────────────
+
+        /// <summary>Завод по ID цели или null (не завод / в шахте нет заводов).</summary>
+        public FactoryState FactoryById(int targetId) => FactoryQueries.Find(Run, targetId);
+
+        /// <summary>Причина отказа «Deliver» или null (можно доставить). Коды — <see cref="CommandResult.Reason"/>.</summary>
+        public string DeliverBlockReason(int targetId) => FactoryQueries.DeliverBlockReason(Run, targetId);
+
+        /// <summary>Причина отказа продажи goodId (null — «Sell all») или null. Кнопка Market: "no-factories"/"phase" — неактивна.</summary>
+        public string SellBlockReason(string goodId) => FactoryQueries.SellBlockReason(Run, goodId);
+
+        /// <summary>Количество товара на складе (0 — нет).</summary>
+        public long GoodsCount(string goodId) => FactoryQueries.Stock(Run, goodId);
+
+        /// <summary>Цена единицы товара в этой шахте (ceil(CoinBase × S(z) × PriceFactor), снимки run); 0 — товара нет в правилах.</summary>
+        public BigInteger GoodsPrice(string goodId) => FactoryQueries.Price(Run, goodId);
+
+        /// <summary>Стоимость склада: goodId — одного товара, null — всего («Total value», «Sell all +X»).</summary>
+        public BigInteger WarehouseValue(string goodId = null) => FactoryQueries.StockValue(Run, goodId);
+
+        /// <summary>
+        /// Выпуск за цикл завода targetId сейчас (§4.4) — <see cref="FactoryMath.UnitsPerCycle"/>(строка снимка Run.FactoryRules,
+        /// профиль, каталог карточек): floor(UnitsPerCycle × (1 + Σ Output(L) Common и Uncommon карточек типа по текущим уровням));
+        /// 0 — не завод или в run нет снимка правил. Сведения завода («20 Milk»), бот, отчёты. Столько же единиц зафиксирует конец
+        /// цикла на этой отметке.
+        /// </summary>
+        public int FactoryUnitsPerCycle(int targetId)
+        {
+            var factory = m_Map.Factory(targetId);
+            var rule = factory != null ? Run.FactoryRules?.ForType(factory.TypeId) : null;
+            return FactoryMath.UnitsPerCycle(rule, Profile, m_Cards);
+        }
+
+        /// <summary>
+        /// Время в пути партии завода targetId, тики (§5): <see cref="FactoryMath.TransitTicks"/>(снимок правил run,
+        /// <see cref="MapFactory.RouteSteps"/>); 0 — не завод или в run нет снимка правил.
+        /// </summary>
+        public long FactoryTransitTicks(int targetId)
+        {
+            var factory = m_Map.Factory(targetId);
+            var rules = Run.FactoryRules;
+            return factory == null || rules == null ? 0 : FactoryMath.TransitTicks(rules, factory.RouteSteps);
         }
 
         void OnEquipmentChanged(long t, string itemId, int slot)

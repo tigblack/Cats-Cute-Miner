@@ -22,6 +22,8 @@ namespace CatMiners.Tests
     public sealed class OutpostPerformanceTests
     {
         const int Width = 1080, Height = 1920, DebugCoinMultiplier = 100000;
+        /// <summary>Шахта замера заводов (ТЗ 2.2 §15): 15 заводов.</summary>
+        const int FactoryZone = 140, FactoryZoneFactories = 15;
         const double WarmupSeconds = 2, MinimumSampleSeconds = 5, MaximumSampleSeconds = 30;
         string m_Directory, m_PreviousSaveDirectory;
         IClock m_PreviousClock;
@@ -106,8 +108,13 @@ namespace CatMiners.Tests
             Game.DismissOffline();
         }
 
-        [UnityTest, Timeout(600000), Explicit("Editor stress measurements and real renders; select OutpostPerformanceTests explicitly.")]
-        public IEnumerator EditorStress_Zones50_101_144_OfflineAutosaveAndPortraitRenders()
+        /// <summary>
+        /// ТЗ 2.2 §15: к шахтам 50, 101, 144 добавлена шахта 140 — 15 заводов, все открыты (DEV «Unlock factories»), на автомате
+        /// (DEV «Auto all»), трубы и капсулы в пути (DEV «Finish factory cycles» перед замером). Бюджетных проверок нет: медиану и
+        /// p95 шахты 140 сравнивают с базой шахты 144 (performance-editor-pre-factories.json) по отчёту.
+        /// </summary>
+        [UnityTest, Timeout(900000), Explicit("Editor stress measurements and real renders; select OutpostPerformanceTests explicitly.")]
+        public IEnumerator EditorStress_Zones50_101_140_144_OfflineAutosaveAndPortraitRenders()
         {
             Assert.That(Application.isEditor, Is.True, "This report is specifically an Editor benchmark.");
             Assert.That(Time.timeScale, Is.EqualTo(1f));
@@ -123,7 +130,7 @@ namespace CatMiners.Tests
                 m_MainBytes = File.ReadAllBytes(saves.MainPath(OutpostSaveSlot.Main));
                 OutpostGameState offlineSource = null;
                 OutpostMap offlineMap = null;
-                foreach (int zone in new[] { 50, 101, 144 })
+                foreach (int zone in new[] { 50, 101, FactoryZone, 144 })
                 {
                     var zoneReport = new JObject { ["zone"] = zone };
                     ((JArray)m_Report["zones"]).Add(zoneReport);
@@ -139,8 +146,7 @@ namespace CatMiners.Tests
                     Game.State.Run.Balance.CoinBase *= new Rational(DebugCoinMultiplier);
                     Game.GrantTestKit();
                     Game.SimSpeed = 1;
-                    Game.State.Profile.Tutorial.Dismissed = true;
-                    Game.SaveTutorialProgress();
+                    if (zone == FactoryZone) yield return OpenAndAutomateFactories(zoneReport);
                     double preparationStart = Time.realtimeSinceStartupAsDouble;
                     double deadline = preparationStart + 120;
                     while (Game.State.Run.Workers.Count < 12 && Time.realtimeSinceStartupAsDouble < deadline)
@@ -163,9 +169,23 @@ namespace CatMiners.Tests
                     zoneReport["mapTargets"] = Game.Map.Targets.Length;
                     zoneReport["coinBase"] = Game.State.Run.Balance.CoinBase.ToString();
                     zoneReport["equippedDebugKit"] = JArray.FromObject(Game.State.Profile.Equipped);
+                    if (zone == FactoryZone)
+                    {
+                        // Партии всех автоматических заводов уходят в трубы: капсулы в пути входят в замер (ТЗ 2.2 §15).
+                        Game.DebugFinishFactoryCycles();
+                        yield return WaitPlaying();
+                        zoneReport["pipeBatchesAfterFinish"] = Game.State.Run.PipeBatches.Count;
+                    }
                     Game.Hud.ShowBase();
                     yield return PlayModeUtil.WaitReal((float)WarmupSeconds);
+                    if (zone == FactoryZone)
+                    {
+                        zoneReport["pipeBatchesAtSampleStart"] = Game.State.Run.PipeBatches.Count;
+                        zoneReport["capsulesShownAtSampleStart"] = Game.Board.Pipes.ActiveCapsules;
+                        zoneReport["capsulePool"] = PipeNetworkView.CapsulePool;
+                    }
                     yield return Measure(zoneReport);
+                    if (zone == FactoryZone) zoneReport["pipeBatchesAtSampleEnd"] = Game.State.Run.PipeBatches.Count;
                     Check(Game.State, Game.Map);
                     zoneReport["invariantsPassed"] = true;
                     if (zone == 144)
@@ -191,6 +211,30 @@ namespace CatMiners.Tests
                 Directory.CreateDirectory(Reports);
                 File.WriteAllText(Path.Combine(Reports, "performance-editor.json"), m_Report.ToString());
             }
+        }
+
+        /// <summary>ТЗ 2.2 §15: DEV «Unlock factories» и «Auto all» — все заводы шахты открыты и на автомате.</summary>
+        IEnumerator OpenAndAutomateFactories(JObject zoneReport)
+        {
+            Game.DebugUnlockFactories();
+            yield return WaitPlaying();
+            Game.DebugAutomateAll();
+            yield return WaitPlaying();
+            Game.Hud.CloseAllWindows();
+            var factories = Game.State.Run.Factories;
+            int open = 0, automated = 0;
+            foreach (var factory in factories)
+            {
+                if (factory.Status != FactoryStatus.Locked) open++;
+                if (factory.Automated) automated++;
+            }
+            Assert.That(factories.Count, Is.EqualTo(FactoryZoneFactories), "ТЗ 2.2 §15: в шахте 140 — 15 заводов");
+            Assert.That(open, Is.EqualTo(factories.Count), "все заводы открыты");
+            Assert.That(automated, Is.EqualTo(factories.Count), "все заводы на автомате");
+            Assert.That(Game.Board.Pipes, Is.Not.Null);
+            zoneReport["factories"] = factories.Count;
+            zoneReport["factoriesOpen"] = open;
+            zoneReport["factoriesAutomated"] = automated;
         }
 
         JObject NewReport()

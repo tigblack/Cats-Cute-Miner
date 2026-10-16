@@ -177,14 +177,14 @@ namespace CatMiners.Tests
 
             // 03. Квест «Кирок»: лапка на «Базе» (награда оплачивает уровень).
             yield return Advance(PlayableQuests.NextQuestSeconds + 0.25);
-            var baseButton = hud.Hint.FindTarget(OutpostHud.TargetBase);
+            var baseButton = hud.FindTarget(OutpostHud.TargetBase);
             yield return WaitFrames(() => quests.Guide.PawUi == baseButton, 60);
             Assert.That(quests.Guide.PawUi, Is.SameAs(baseButton));
             yield return Capture("03-paw-base-button.png");
 
             // 04. «База» открыта: лапка на кнопке покупки «Кирок» у её правого нижнего угла, баннер притушен под окном.
             hud.ShowBase();
-            var row = hud.Hint.FindTarget(OutpostHud.BranchTarget(UpgradeBranch.Pickaxes));
+            var row = hud.FindTarget(OutpostHud.BranchTarget(UpgradeBranch.Pickaxes));
             yield return WaitFrames(() => quests.Guide.PawUi == row && cta.Banner.Dimmed, 60);
             Assert.That(quests.Guide.PawUi, Is.SameAs(row));
             Assert.That(cta.Banner.Dimmed, Is.True);
@@ -203,12 +203,12 @@ namespace CatMiners.Tests
                 {
                     Name = "07-mine2-quest-paw.png",
                     When = () => Game.State.Run.Zone > zoneStart && quests.Revealed && !quests.CurrentDone && quests.Guide.PawUi != null && !hud.AnyWindowOpen &&
-                                 (quests.Guide.PawUi == hud.Hint.FindTarget(OutpostHud.TargetEquipment) || quests.Guide.PawUi == hud.Hint.FindTarget(OutpostHud.TargetStore)),
+                                 (quests.Guide.PawUi == hud.FindTarget(OutpostHud.TargetEquipment) || quests.Guide.PawUi == hud.FindTarget(OutpostHud.TargetStore)),
                 },
                 new Shot
                 {
                     Name = "08-paw-store.png",
-                    When = () => quests.Revealed && !quests.CurrentDone && quests.Guide.PawUi == hud.Hint.FindTarget(OutpostHud.TargetStore) && !hud.AnyWindowOpen,
+                    When = () => quests.Revealed && !quests.CurrentDone && quests.Guide.PawUi == hud.FindTarget(OutpostHud.TargetStore) && !hud.AnyWindowOpen,
                 },
                 new Shot
                 {

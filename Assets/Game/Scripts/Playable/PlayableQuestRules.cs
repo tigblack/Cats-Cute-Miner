@@ -15,8 +15,9 @@ namespace CatMiners.Playable
         const float DeliverClearedLimit = 0.6f, SkipClearedLimit = 0.7f;
 
         /// <summary>
-        /// Цель достижима в текущей шахте при старте квеста: есть по чему бить, есть уровни до предела, есть ворота, есть что
-        /// надеть или улучшить, есть сундук впереди или бесплатный сундук магазина. «Clear Mine» — всегда.
+        /// Цель достижима в текущей шахте при старте квеста: есть по чему бить (камни, завалы, ворота и цепи заводов — ТЗ 2.2 §4.2:
+        /// цепи бьются, как любая цель), есть уровни до предела, есть ворота, есть что надеть или улучшить, есть сундук впереди
+        /// или бесплатный сундук магазина. «Clear Mine» — всегда (цепи заводов входят в расчистку).
         /// </summary>
         public static bool IsAvailable(QuestDef q, OutpostController game)
         {
@@ -274,8 +275,9 @@ namespace CatMiners.Playable
         public static bool AdChestFree(OutpostController game) => FreeAdChest(game) != null;
 
         /// <summary>
-        /// В шахте ещё выпадет сундук: неразрушенное месторождение или ворота с сундуком либо камень, чья очередная запись цикла
-        /// наград (счётчик профиля по типу камня) — сундук. Сундук выхода не считается: он закрывает шахту.
+        /// В шахте ещё выпадет сундук: завод в цепях (токен s, ТЗ 2.2 §4.2 — сундук rewardId выпадает, когда разбиты цепи; у
+        /// открытого завода цель уже разрушена) или ворота с сундуком либо камень, чья очередная запись цикла наград (счётчик
+        /// профиля по типу камня) — сундук. Сундук выхода не считается: он закрывает шахту.
         /// </summary>
         public static bool ChestAhead(OutpostSimulation sim, OutpostConfigSet configs)
         {
@@ -295,7 +297,7 @@ namespace CatMiners.Playable
                     rocks.TryGetValue(mt.TypeId, out int n);
                     rocks[mt.TypeId] = n + 1;
                 }
-                else if ((mt.Kind == 's' || mt.Kind == 'p') && mt.RewardId != null && cards.Chest(mt.RewardId) != null) return true;
+                else if ((mt.IsFactory || mt.IsGate) && mt.RewardId != null && cards.Chest(mt.RewardId) != null) return true;
             }
             if (rocks == null) return false;
             var cycles = sim.Profile.RockCycles;

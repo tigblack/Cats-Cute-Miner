@@ -77,6 +77,7 @@ namespace CatMiners.Runtime.Outpost
                 var args = OutpostViewCueArgs.Create(OutpostViewCue.PlayerStrike, at);
                 args.TargetId = targetId;
                 args.Material = tv != null ? tv.Material : HitMaterial.Stone;
+                args.Chains = tv != null && tv.Chains;
                 Cue(args);
             }
             return true;

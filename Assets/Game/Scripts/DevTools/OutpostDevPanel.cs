@@ -37,7 +37,7 @@ namespace CatMiners.DevTools
             m_Panel = PixelUi.Panel(safe, "OutpostDevPanel", PixelPanel.Window).rectTransform.Anchor(0.03f, 0.35f, 0.97f, 0.79f);
             Ui.VList(m_Panel, 8, 14);
             m_Status = Ui.Text(m_Panel, "Status", "", 22, PixelUi.TextDim, TextAlignmentOptions.TopLeft);
-            Ui.Layout(m_Status, 220);
+            Ui.Layout(m_Status, 248);
             var profiles = Row();
             Button(profiles, "Main", () => m_Game.SwitchProfile(false));
             Button(profiles, "Debug", () => m_Game.SwitchProfile(true));
@@ -58,6 +58,12 @@ namespace CatMiners.DevTools
             Button(tools, "Gems", m_Game.GrantTestGems);
             Button(tools, "Finish", m_Game.CompleteStageNow);
             Button(tools, "Paths", () => { if (m_Game.IsDebugProfile) OutpostDebugOverlay.Enabled = !OutpostDebugOverlay.Enabled; });
+            // ТЗ 2.2 §13: заводы (только debug-профиль; проверки — в контроллере).
+            var factories = Row();
+            Button(factories, "Cycles", m_Game.DebugFinishFactoryCycles);
+            Button(factories, "Goods x100", m_Game.DebugGrantGoods);
+            Button(factories, "Unlock", m_Game.DebugUnlockFactories);
+            Button(factories, "Auto all", m_Game.DebugAutomateAll);
             m_ResetButton = Button(Row(), Loc.T("outpost.dev.reset"), ShowResetConfirmation, PixelButton.Red);
             m_ResetButton.Image.gameObject.name = "OutpostResetProgress";
             m_ResetButton.SetInteractable(m_Game.CanResetProgress);
@@ -123,7 +129,31 @@ namespace CatMiners.DevTools
                 "\nDamage local/final: " + s.LocalDamage + "/" + s.FinalDamage + " | gear " + s.PickaxeBonus +
                 "\nSpeed local/final: " + s.LocalMoveSpeed + "/" + s.FinalMoveSpeed + " | gear " + s.BootsBonus +
                 "\nBag local/final: " + s.LocalCapacity + "/" + s.Capacity + " | gear +" + s.BackpackExtra +
-                "\nValue local/final: " + s.LocalValue + "/" + s.FinalValue + " | gear " + s.HatBonus + " | queue " + run.Queue.Count);
+                "\nValue local/final: " + s.LocalValue + "/" + s.FinalValue + " | gear " + s.HatBonus + " | queue " + run.Queue.Count +
+                "\n" + FactoryLine(run));
+        }
+
+        /// <summary>Заводы шахты: состояния, AUTO, партии в трубах, склад (ТЗ 2.2 §13).</summary>
+        static string FactoryLine(OutpostRun run)
+        {
+            if (run.Factories == null || run.Factories.Count == 0) return "Factories: none";
+            int locked = 0, working = 0, ready = 0, stopped = 0, auto = 0;
+            foreach (var f in run.Factories)
+            {
+                if (f.Automated) auto++;
+                switch (f.Status)
+                {
+                    case FactoryStatus.Locked: locked++; break;
+                    case FactoryStatus.Working: working++; break;
+                    case FactoryStatus.Ready: ready++; break;
+                    default: stopped++; break;
+                }
+            }
+            long stock = 0, debug = 0;
+            if (run.Warehouse != null) foreach (var kv in run.Warehouse) stock += kv.Value;
+            if (run.DebugGoods != null) foreach (var kv in run.DebugGoods) debug += kv.Value;
+            return "Factories " + run.Factories.Count + ": locked " + locked + " / work " + working + " / ready " + ready + " / stop " + stopped +
+                " | auto " + auto + " | pipes " + (run.PipeBatches?.Count ?? 0) + " | stock " + stock + " (debug " + debug + ") | sold " + run.GoodsSoldGold;
         }
     }
 }

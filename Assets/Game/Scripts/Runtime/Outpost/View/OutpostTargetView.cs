@@ -9,6 +9,9 @@ namespace CatMiners.Runtime.Outpost
     /// таблицы <see cref="ObjectView"/>, стадии урона по доле RemainingHpUnits/MaxHpUnits (спрайты _d1.._d3 или наложения трещин
     /// из ART_NAMES §5), полоса HP, пока цель повреждена или выбрана, разрушение и расчистка (сухое русло водопада, обломки
     /// завала, след месторождения — на полу, проходимо), створки ворот открываются при SectorOpened.
+    /// Завод ТЗ 2.2 (цель <c>s</c> с заводом в run): здание factory_&lt;good&gt; — затемнено, пока цепи целы (factory_chains и трещины
+    /// factory_chains_crack_1…3 по HP, полоса HP над зданием); после открытия здание остаётся стоять, коллайдер и выбор работают
+    /// (тап — доставка или сведения). Работа, полоса цикла и AUTO — <see cref="FactoryView"/>.
     /// Корень — в опоре «ноги» (нижний центр footprint, локально в корне поля), спрайты — в узле визуала с SortingGroup.
     /// Вид только читает TargetState и ничего не меняет в ядре.
     /// </summary>
@@ -25,6 +28,9 @@ namespace CatMiners.Runtime.Outpost
         static readonly string[] s_RockCracks = { null, "rock_crack_1", "rock_crack_1", "rock_crack_2" };
         static readonly string[] s_BlockCracks = { null, "block_crack_1", "block_crack_2", "block_crack_3" };
         static readonly string[] s_ShaftCracks = { null, "shaft_crack_1", "shaft_crack_2", "shaft_crack_3" };
+        static readonly string[] s_ChainCracks = { null, "factory_chains_crack_1", "factory_chains_crack_2", "factory_chains_crack_3" };
+        /// <summary>Закрытый завод: здание затемнено (factories.py, Locked).</summary>
+        static readonly Color LockedTint = new Color(0.45f, 0.45f, 0.55f, 1f);
         static readonly string[] s_WaterClear = { "waterfall_clear_0", "waterfall_clear_1", "waterfall_clear_2", "waterfall_clear_3" };
         static readonly string[] s_Rubble = { "rubble_debris_0", "rubble_debris_1", "rubble_debris_2" };
         static readonly string[] s_BlockTiles =
@@ -42,7 +48,7 @@ namespace CatMiners.Runtime.Outpost
         // Слои в группе цели.
         const int LayerShadow = 0, LayerBody = 10, LayerOver1 = 20, LayerOver2 = 21, LayerOver3 = 22, LayerOver4 = 23;
 
-        enum Look { Rock, Water, Single, Gate1x1, Blocks, Shaft, Gate }
+        enum Look { Rock, Water, Single, Gate1x1, Blocks, Shaft, Gate, Factory }
 
         struct Track
         {
@@ -81,6 +87,16 @@ namespace CatMiners.Runtime.Outpost
         public int Column { get; private set; }
         public int Row { get; private set; }
         public bool Destroyed => m_Destroyed;
+        /// <summary>Цель — завод ТЗ 2.2 (здание стоит и после открытия).</summary>
+        public bool IsFactory => m_Look == Look.Factory;
+        /// <summary>Товар завода ("milk") или null.</summary>
+        public string FactoryGood { get; private set; }
+        /// <summary>Удары сейчас приходятся по цепям завода (звук цепей).</summary>
+        public bool Chains => m_Look == Look.Factory && !m_Destroyed;
+        /// <summary>Узел визуала (группа сортировки цели): слои вида завода.</summary>
+        internal Transform VisualNode => m_Visual;
+        /// <summary>Узел оверлеев (уголки выбора): полосы и значки над зданием.</summary>
+        internal Transform OverlayNode => m_Overlay;
         /// <summary>Доля оставшегося HP 0…1.</summary>
         public float HpFraction => m_HpFrac;
 
@@ -93,7 +109,7 @@ namespace CatMiners.Runtime.Outpost
         int m_LiveOrder;
         int m_OverlayOrder;
 
-        SpriteRenderer m_Shadow, m_Body, m_Crack, m_Door, m_Rubble, m_Gems, m_Wheel, m_Cleared, m_Select;
+        SpriteRenderer m_Shadow, m_Body, m_Crack, m_Door, m_Rubble, m_Gems, m_Wheel, m_Cleared, m_Select, m_Chains;
         string[] m_DamageSprites;          // камень и столбы ворот: [0] целый, [1…3] стадии (null — нет спрайта)
         SpriteRenderer[] m_Tiles;          // массив блоков: тайлы по клеткам
         SpriteRenderer[] m_TileCracks;
@@ -118,7 +134,9 @@ namespace CatMiners.Runtime.Outpost
         int m_DoorFrame = -1;
         bool m_WheelOn;
 
-        public static OutpostTargetView Create(Transform parent, OutpostMap map, MapTarget mt, int index, BalanceRepository balance)
+        /// <param name="factoryGood">Товар завода ("milk") — цель <c>s</c> рисуется заводом ТЗ 2.2; null — прежний вид.</param>
+        public static OutpostTargetView Create(Transform parent, OutpostMap map, MapTarget mt, int index, BalanceRepository balance,
+            string factoryGood = null)
         {
             int minCol = mt.Column, maxCol = mt.Column, minRow = mt.Row, maxRow = mt.Row;
             if (mt.Cells != null && mt.Cells.Length > 0)
@@ -161,6 +179,7 @@ namespace CatMiners.Runtime.Outpost
             v.m_Visual = PixelWorld.Visual(go.transform);
             v.m_Group = PixelWorld.Group(v.m_Visual.gameObject, feetZ);
             v.m_Overlay = PixelWorld.Visual(go.transform, "overlay");
+            v.FactoryGood = mt.Kind == 's' ? factoryGood : null;
             v.BuildBody(map, mt, balance);
 
             // Тап сверху: коллайдер покрывает footprint (у ворот — рамку в строке ворот).
@@ -184,8 +203,9 @@ namespace CatMiners.Runtime.Outpost
                 v.m_Collider.size = new Vector3(w * 0.95f, 1f, d * 0.95f);
             }
             OutpostPickable.Add(go, OutpostPickKind.Target, mt.Id);
-            // Полоса HP у основания, как у ObjectView.
-            v.m_Hp = HpBar.Create(go.transform, new Vector3(0f, 0f, 2f * Px), Mathf.Min(1.5f, 0.75f * w));
+            // Полоса HP у основания, как у ObjectView; у завода — над зданием (там же потом полоса цикла).
+            var hpAt = v.m_Look == Look.Factory ? new Vector3(0f, 0f, v.TopZ + 4f * Px) : new Vector3(0f, 0f, 2f * Px);
+            v.m_Hp = HpBar.Create(go.transform, hpAt, Mathf.Min(1.5f, 0.75f * w));
             return v;
         }
 
@@ -221,6 +241,21 @@ namespace CatMiners.Runtime.Outpost
                     BuildObstruction(map, mt, visualId);
                     defaultTop = DepthCells;
                     break;
+                case 's' when FactoryGood != null:
+                {
+                    // Завод (ТЗ 2.2 §4.3): здание, кадр работы — FactoryView; цепи с замком и трещины — наложения того же холста.
+                    m_Look = Look.Factory;
+                    BaseColor = PixelPalette.Slate5;
+                    Material = HitMaterial.Metal;
+                    m_Shadow = Spr("shadow", "shadow_l", new Vector2(0f, 6f * Px), LayerShadow);
+                    string building = "factory_" + FactoryGood;
+                    m_Body = Spr("factory", PixelArt.Has(building) ? building : PixelTheme.Name("shaft_base"), Vector2.zero, LayerBody);
+                    m_Chains = Spr("chains", "factory_chains", Vector2.zero, LayerOver2);
+                    m_Crack = Spr("chainCrack", s_ChainCracks[1], Vector2.zero, LayerOver3);
+                    m_Crack.enabled = false;
+                    defaultTop = 3.5f;
+                    break;
+                }
                 case 's':
                 {
                     m_Look = Look.Shaft;
@@ -544,6 +579,10 @@ namespace CatMiners.Runtime.Outpost
                     m_Crack.enabled = stage > 0;
                     if (stage > 0) PixelWorld.SetSprite(m_Crack, PixelTheme.Name(m_Look == Look.Shaft ? s_ShaftCracks[stage] : s_BlockCracks[stage]));
                     break;
+                case Look.Factory:
+                    m_Crack.enabled = stage > 0;
+                    if (stage > 0) PixelWorld.SetSprite(m_Crack, s_ChainCracks[stage]);
+                    break;
                 case Look.Blocks:
                     for (int i = 0; i < m_TileCracks.Length; i++)
                     {
@@ -574,6 +613,15 @@ namespace CatMiners.Runtime.Outpost
         void SetDestroyed(bool destroyed, bool live)
         {
             m_Destroyed = destroyed;
+            if (m_Look == Look.Factory)
+            {
+                // Открытый завод стоит дальше: коллайдер и выбор остаются (тап — доставка или сведения, ТЗ 2.2 §8).
+                SetEnabled(m_Chains, !destroyed);
+                SetEnabled(m_Crack, !destroyed && m_Stage > 0);
+                if (m_Body != null) m_Body.color = destroyed ? Color.white : LockedTint;
+                if (!destroyed) ApplyStage(m_Stage);
+                return;
+            }
             if (m_Collider != null) m_Collider.enabled = !destroyed;
             if (m_PassageColliders != null)
                 foreach (var collider in m_PassageColliders) collider.enabled = !destroyed;
@@ -659,7 +707,7 @@ namespace CatMiners.Runtime.Outpost
 
         public void SetSelected(bool on)
         {
-            m_Selected = on && !m_Destroyed;
+            m_Selected = on && (!m_Destroyed || m_Look == Look.Factory);
             if (m_Selected && m_Select == null)
             {
                 var size = new Vector2(Width + 4f * Px, DepthCells + 4f * Px);

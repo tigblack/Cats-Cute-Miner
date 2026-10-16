@@ -2162,6 +2162,142 @@ def store_skip_12h() -> Canvas:
     return cv
 
 
+# ───────────────────────── заводы и рынок (ТЗ 2.2 §6.2, §8, §11) ─────────────────────────
+MARKET_ART = [
+    '......Gg......',
+    '.HHHHHHHHHHHH.',
+    '.sssssWwsssss.',
+    '..k...Ww...k..',
+    '.k.k..Ww..k.k.',
+    'k...k.Ww.k...k',
+    '.YYY..Ww..BBB.',
+    'YyYYy.Ww.BbbBc',
+    'YYYyy.Ww.bbbbc',
+    'PPPPP.Ww.PPPPP',
+    '.ppp..Ww..ppp.',
+    '......Ww......',
+    '....LLLLLL....',
+    '...dddddddd...',
+]
+
+
+def icon_market() -> Canvas:
+    """Рынок (кнопка Market): рычажные весы — на левой чаше золотая монета, на правой ящик товара. Не прилавок
+    (прилавок с навесом — icon_store) и не склад с монетой (icon_depot)."""
+    legend = {'G': 'gold5', 'g': 'gold3', 'H': 'stone6', 's': 'stone3', 'W': 'wood5', 'w': 'wood3', 'k': 'stone4',
+              'Y': 'gold3', 'y': 'gold4', 'B': 'wood6', 'b': 'wood4', 'c': 'wood2', 'P': 'stone5', 'p': 'stone3',
+              'L': 'wood5', 'd': 'wood2'}
+    cv = _icon(MARKET_ART, None, legend)
+    cv.set(2, 8, 'gold5')
+    return cv
+
+
+AUTO_ART = [
+    '....LLLLL.....',
+    '..LLGGGGGLL...',
+    '.LGG.....GGL..',
+    '.LG.......GL..',
+    'LG.......LGGGL',
+    'LG........GGG.',
+    'LG.........G..',
+    '..G.........gd',
+    '.ggg........gd',
+    'gggdg.......gd',
+    '..gd.......gd.',
+    '..gdd.....ddd.',
+    '...ddddddddd..',
+    '.....ddddd....',
+]
+
+
+def icon_auto() -> Canvas:
+    """Автодоставка (значок AUTO у полосы завода): две зелёные стрелки по кругу по часовой — верхняя приходит справа
+    наконечником вниз, нижняя слева наконечником вверх (знак «работает само»)."""
+    return _icon(AUTO_ART, None, {'L': 'green5', 'G': 'green4', 'g': 'green3', 'd': 'green2'})
+
+
+def icon_deliver() -> Canvas:
+    """Доставить (кнопка Deliver): деревянный ящик товара и золотая стрелка вправо — «отправить по трубе»."""
+    cv = Canvas(16, 16)
+    cv.blit(_art([
+        '666666666.',
+        '5555555553',
+        '4444444443',
+        '3333333332',
+        '4442444443',
+        '4444244443',
+        '4444424443',
+        '4444442443',
+        '4444444243',
+        '2222222222',
+    ], 'wood'), 1, 5)
+    cv.blit(_art([
+        '....G..',
+        '....GG.',
+        'GGGGGgG',
+        'ggggggd',
+        '....gd.',
+        '....d..',
+    ], None, {'G': 'gold4', 'g': 'gold3', 'd': 'gold2'}), 9, 1)
+    return _outlined(cv)
+
+
+FACTORY_ICON = [
+    '..0000.....mm.',
+    '.0n1n10....ss.',
+    '.01g110....ss.',
+    '.0n1n10....ss.',
+    '..0000.....ss.',
+    '...ff......ss.',
+    '..RRRRRRRRRRRR',
+    '.RrrrrrrrrrrRd',
+    'WWWWWWWWWWWWWw',
+    'WaWW.kk.WWaWWw',
+    'WAWW.kk.WWAWWw',
+    'WWWWkhhkWWWWWw',
+    'WWWWkhhkWWWWWw',
+    'ssssssssssssss',
+]
+
+
+def icon_factory() -> Canvas:
+    """Завод (сведения цели вместо icon_shaft): колесо-шестерня на стойке, синяя кровля, кирпичный цех с тёплыми
+    окнами и воротами, стальная труба справа — как здание factory_<good> на поле."""
+    legend = {'0': 'stone4', '1': 'stone6', 'n': 'navy1', 'g': 'gold4', 'f': 'wood3', 'm': 'stone6', 's': 'stone4',
+              'R': 'blue4', 'r': 'blue3', 'd': 'blue2', 'W': 'red3', 'w': 'red2', 'a': 'amber4', 'A': 'amber3',
+              'k': 'ink2', 'h': 'amber2'}
+    return _icon(FACTORY_ICON, None, legend)
+
+
+def icon_chain() -> Canvas:
+    """Цепи завода (Locked, HP цепей): четыре стальных звена по диагонали — кольцо анфас и звено в профиль по очереди."""
+    import math as _m
+    cv = Canvas(16, 16)
+    ux, uy = 1 / _m.sqrt(2), -1 / _m.sqrt(2)          # ось цепи: снизу-слева вверх-вправо
+    for k, t in enumerate((-6.6, -2.2, 2.2, 6.6)):
+        cx, cy = 8.0 + ux * t, 8.0 + uy * t
+        face = k % 2 == 0
+        lay = Canvas(16, 16)
+        for y in range(16):
+            for x in range(16):
+                dx, dy = x + 0.5 - cx, y + 0.5 - cy
+                al = dx * ux + dy * uy                   # вдоль цепи
+                ac = -dx * uy + dy * ux                  # поперёк
+                if face:
+                    e_out = (al / 3.3) ** 2 + (ac / 2.4) ** 2
+                    e_in = (al / 1.7) ** 2 + (ac / 0.9) ** 2
+                    if e_out > 1.0 or e_in < 1.0:
+                        continue
+                else:
+                    if (al / 3.3) ** 2 + (ac / 1.15) ** 2 > 1.0:
+                        continue
+                lum = -(dx * 0.6 + dy * 0.8)
+                lay.set(x, y, 'stone7' if lum > 0.9 else ('stone4' if lum < -0.9 else 'stone6'))
+        lay.outline(OUTLINE)
+        cv.blit(lay, 0, 0)
+    return cv
+
+
 STORE_ICONS = (
     ('icon_store', icon_store),
     ('store_gems_handful', store_gems_handful), ('store_gems_sack', store_gems_sack),
@@ -2188,6 +2324,9 @@ ICONS = {
     'icon_music': icon_music, 'icon_ambience': icon_ambience, 'icon_effects': icon_effects,
     # стрелки индикаторов за краем экрана во всех 8 направлениях (вместо поворота спрайта)
     **{f'icon_arrow_{k}': (lambda k=k: _arrow_icon(k)) for k in ARROW_DIRS if k != 'up'},
+    # заводы и рынок (ТЗ 2.2)
+    'icon_market': icon_market, 'icon_auto': icon_auto, 'icon_deliver': icon_deliver, 'icon_factory': icon_factory,
+    'icon_chain': icon_chain,
 }
 
 

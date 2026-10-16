@@ -138,6 +138,8 @@ namespace CatMiners.Core.Outpost
                     SourceLevel = t.Level,
                     Added = t.Added,
                     RewardId = string.IsNullOrEmpty(t.RewardId) ? null : t.RewardId,
+                    CardId = t.Kind == 's' && !string.IsNullOrEmpty(t.CardId) ? t.CardId : null,
+                    CardLevel = t.Kind == 's' ? t.CardLevel : 0,
                 };
                 if (t.Kind == 'p')
                 {
@@ -236,6 +238,11 @@ namespace CatMiners.Core.Outpost
         public int RequiredCount;
         /// <summary>Исходная занятость: клетка → Id живой цели с footprint или −1.</summary>
         public int[] InitialOccupant;
+        /// <summary>
+        /// Заводы (цели <c>s</c>) по возрастанию TargetId: требование автодоставки, клетка выхода трубы и маршрут до
+        /// <see cref="IntakeCell"/> (ТЗ 2.2 §5). Строится вместе с индексом целей (<see cref="FactoryRoutes.Build"/>); не сохраняется.
+        /// </summary>
+        public MapFactory[] Factories = new MapFactory[0];
 
         int[] m_IndexById;
 
@@ -257,6 +264,16 @@ namespace CatMiners.Core.Outpost
 
         public bool IsCampCell(int cell) => cell >= Depth * Width && cell < CellCount;
 
+        /// <summary>Завод карты по ID цели или null (не завод).</summary>
+        public MapFactory Factory(int targetId)
+        {
+            var list = Factories;
+            for (int i = 0; i < list.Length; i++)
+                if (list[i].TargetId == targetId) return list[i];
+            return null;
+        }
+
+        /// <summary>Индекс целей по Id и заводы с маршрутами труб (ТЗ 2.2 §5) — последний шаг построения карты.</summary>
         internal void BuildIndex()
         {
             int size = Width * Depth;
@@ -264,6 +281,7 @@ namespace CatMiners.Core.Outpost
             m_IndexById = new int[size];
             for (int i = 0; i < m_IndexById.Length; i++) m_IndexById[i] = -1;
             for (int i = 0; i < Targets.Length; i++) m_IndexById[Targets[i].Id] = i;
+            Factories = FactoryRoutes.Build(this);
         }
     }
 
@@ -290,8 +308,38 @@ namespace CatMiners.Core.Outpost
         public bool Added;
         /// <summary>Запись Gacha сундука s/p (исходный rewardId токена) или null.</summary>
         public string RewardId;
+        /// <summary>Завод (<c>s</c>): карточка требования автодоставки (поле cardId токена) или null у прочих целей (ТЗ 2.2 §4.4).</summary>
+        public string CardId;
+        /// <summary>Завод (<c>s</c>): уровень карточки требования (поле cardLevel токена); 0 у прочих целей.</summary>
+        public int CardLevel;
 
         public bool IsGate => Kind == 'p';
+        /// <summary>Цель — завод в цепях (ТЗ 2.2: бывшее месторождение <c>s</c>).</summary>
+        public bool IsFactory => Kind == 's';
+    }
+
+    /// <summary>
+    /// Завод карты (ТЗ 2.2 §4.1, §5): требование автодоставки из токена и маршрут трубы по итоговой карте. Маршрут — кратчайший
+    /// 4-связный путь от <see cref="OutletCell"/> до <see cref="OutpostMap.IntakeCell"/>; стены — непроходимые клетки и footprint
+    /// всех заводов, живые цели и ворота не мешают. Вычисляется при построении карты, детерминирован, не сохраняется.
+    /// </summary>
+    public sealed class MapFactory
+    {
+        /// <summary>ID цели <c>s</c> (= ID завода в <see cref="FactoryState.TargetId"/>).</summary>
+        public int TargetId;
+        /// <summary>Тип JSON ("amethyst").</summary>
+        public string TypeId;
+        /// <summary>Требование автодоставки: карточка (Common или Uncommon этого типа) и её уровень из токена.</summary>
+        public string RequiredCardId;
+        public int RequiredCardLevel;
+        /// <summary>Клетка выхода трубы: свободная соседняя с footprint, ближайшая к IntakeCell, при равенстве — меньший индекс; −1 — маршрута нет.</summary>
+        public int OutletCell = -1;
+        /// <summary>RouteCells ТЗ 2.2 §5: число шагов (рёбер) маршрута от OutletCell до IntakeCell; −1 — маршрута нет.</summary>
+        public int RouteSteps = -1;
+        /// <summary>Клетки маршрута от OutletCell до IntakeCell включительно (длина RouteSteps + 1; пусто — маршрута нет). Для вида труб.</summary>
+        public int[] RouteCells = new int[0];
+
+        public bool HasRoute => RouteSteps >= 0;
     }
 
     public sealed class MapGate

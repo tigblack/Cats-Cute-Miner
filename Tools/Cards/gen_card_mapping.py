@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Генерирует таблицу Docs/Rework/CARD_EFFECT_MAPPING.md (раздел «Все 61 карточка») из исходного json-data.json,
 Assets/Game/Resources/Outpost/card_rules.json и словаря имён Loc.Cards.cs. Запуск из корня: python3 Tools/Cards/gen_card_mapping.py
-Печатает таблицу в stdout; документ вставляет её между маркерами <!-- cards:begin --> и <!-- cards:end -->.
+Без ключей печатает таблицу в stdout; --write вставляет её в документ между маркерами <!-- cards:begin --> и <!-- cards:end -->;
+--check сверяет таблицу документа с данными (код 1 — устарела).
 """
 import json, os, re, sys
 from fractions import Fraction
@@ -39,6 +40,9 @@ WHERE = {
     'ChestElixir': 'CardChestService.Open (эликсир сундука)',
     'ChestCards': 'CardChestService.Open (+случайные карты)',
     'CompletionParts': 'StageProgressionService.ApplyCompletion (детали)',
+    'FactoryOutput': 'FactoryMath.UnitsPerCycle — единственная функция выпуска floor(UnitsPerCycle × (1 + Σ Output)), '
+                     'Σ по типу TargetIds — CardService.FactoryOutputBonus; фиксируется в конце цикла (шаг 4б), '
+                     'читается OutpostSimulation.FactoryUnitsPerCycle; не в TeamStats',
 }
 RULE = {'LegacyConfirmed': 'подтверждён прежним кодом, адаптирован', 'LegacyAssumed': 'предположение старого ТЗ, адаптирован',
         'CatMiners': 'новое правило Cat Miners'}
@@ -80,5 +84,31 @@ for c in sorted(src['Cards'], key=lambda c: c['Id']):
 
 head = ('| ID | Имя | Редкость | Шахта | TargetIds | Manager | Исходный код и формула | Новый эффект | Формула значения | L1 / макс. | Происхождение | Где применяется |\n'
         '|---|---|---|---:|---|---|---|---|---|---|---|---|')
-print(head)
-print('\n'.join(rows))
+table = head + '\n' + '\n'.join(rows)
+
+DOC = os.path.join(ROOT, 'Docs/Rework/CARD_EFFECT_MAPPING.md')
+BEGIN, END = '<!-- cards:begin -->', '<!-- cards:end -->'
+
+
+def splice(doc):
+    i, j = doc.find(BEGIN), doc.find(END)
+    if i < 0 or j < i:
+        raise SystemExit(DOC + ': нет маркеров ' + BEGIN + ' / ' + END)
+    return doc[:i + len(BEGIN)] + '\n' + table + '\n' + doc[j:]
+
+
+if '--write' in sys.argv or '--check' in sys.argv:
+    with open(DOC, encoding='utf-8', newline='') as f:
+        doc = f.read()
+    new = splice(doc)
+    if '--check' in sys.argv:
+        if new != doc:
+            print('CARD_EFFECT_MAPPING.md: таблица устарела — python3 Tools/Cards/gen_card_mapping.py --write')
+            sys.exit(1)
+        print('CARD_EFFECT_MAPPING.md: таблица актуальна')
+    else:
+        with open(DOC, 'w', encoding='utf-8', newline='') as f:
+            f.write(new)
+        print('written', os.path.relpath(DOC, ROOT))
+else:
+    print(table)

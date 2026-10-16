@@ -195,6 +195,12 @@ function Invoke-Unity([string]$unity, [string]$projectPath, [string]$mode) {
             $archiveDir = Join-Path $Reports 'outpost'
             New-Item -ItemType Directory -Force -Path $archiveDir | Out-Null
             $scope = if ($TestFilter) { $TestFilter -replace '[^a-zA-Z0-9_.-]', '_' } else { 'all' }
+            # Длинный фильтр давал имя архива длиннее 260 символов (PathTooLongException и код 1 при успешных тестах).
+            if ($scope.Length -gt 60) {
+                $sha = [System.Security.Cryptography.SHA1]::Create()
+                $hash = ([BitConverter]::ToString($sha.ComputeHash([Text.Encoding]::UTF8.GetBytes($TestFilter)))).Replace('-', '').Substring(0, 8)
+                $scope = $scope.Substring(0, 50) + '_' + $hash
+            }
             $archiveName = "{0}-{1}" -f $mode.ToLower(), $scope
             Copy-Item -LiteralPath $xml -Destination (Join-Path $archiveDir ($archiveName + '-results.xml')) -Force
             if (Test-Path $log) {

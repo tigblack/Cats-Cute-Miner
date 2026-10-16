@@ -18,7 +18,8 @@ namespace CatMiners.Tests
     /// <summary>
     /// Снимки английского интерфейса для проверки глазами (перевод 12 октября 2026): HUD, «Base», «Equipment», окно предмета
     /// (надет, сравнение с надетым, рюкзак, максимум — в 9:16 и 9:20), «Cards», настройки, «While you were away» (кнопка
-    /// рекламы с телевизором, 9:16 и 9:20) и итоги шахты; отдельно — магазин (<see cref="StoreScreens"/>). По каждому снимку
+    /// рекламы с телевизором, 9:16 и 9:20) и итоги шахты; отдельно — магазин (<see cref="StoreScreens"/>) и заводы с рынком
+    /// (<see cref="FactoryScreens"/>, ТЗ 2.2). По каждому снимку
     /// в Docs/Reports/english-ui/text.tsv записываются подписи, обрезанные многоточием (тест падает, если они есть), и
     /// подписи, уменьшенные автоподбором мельче FontSmall (только для сведения).
     /// Генератор артефактов, отдельно: <c>Tools/unity.ps1 -Mode PlayMode -Target Ci -TestFilter OutpostEnglishUiEvidenceTests</c>.
@@ -223,7 +224,6 @@ namespace CatMiners.Tests
             foreach (string file in Directory.GetFiles(Shots, "s*.png")) File.Delete(file);
             m_Truncated.Clear();
             m_Small.Clear();
-            Game.Tutorial.Skip();
             Game.Hud.CloseAllWindows();
             yield return Advance(4);
 
@@ -280,6 +280,164 @@ namespace CatMiners.Tests
             Assert.That(m_Truncated, Is.Empty, "подписи, обрезанные многоточием:\n" + string.Join("\n", m_Truncated));
         }
 
+        /// <summary>Три формата снимка (ТЗ 2.2 §16.2): 9:16 (1080×1920), 9:19,5 (1080×2340) и 9:20 (1080×2400).</summary>
+        IEnumerator Capture3(string name)
+        {
+            yield return Capture(name + "-1920.png");
+            yield return Capture(name + "-2340.png", 2340);
+            yield return Capture(name + "-2400.png", 2400);
+        }
+
+        Transform MarketWindow => Game.Hud.GetComponentsInChildren<Transform>(true)
+            .First(t => t.name == "Market" && t.parent != null && t.parent.name == "SafeArea");
+
+        /// <summary>Выбрать завод заново (DEV-кнопки пересоздают симуляцию и снимают выбор) и подвести к нему камеру.</summary>
+        IEnumerator SelectFactory(int id)
+        {
+            Game.SelectTarget(id);
+            if (Game.TryGetFactoryWorldPosition(id, out var world)) Game.Rig.FocusOnSmooth(new Vector2(world.x, world.z));
+            yield return PlayModeUtil.WaitReal(0.6f);
+            Game.Hud.RefreshNow();
+            Assert.That(Game.Hud.InfoVisible, Is.True, "сведения завода " + id);
+        }
+
+        /// <summary>
+        /// Заводы и рынок (ТЗ 2.2 §6.2–§6.3, §7.1, §8, §16.2; WP5b), f*.png в 9:16, 9:19,5 и 9:20: шахта 140 (15 заводов) —
+        /// сведения завода Locked, Working (нижняя панель с Market и красной точкой), Ready с «Deliver», AUTO; окно рынка с 15
+        /// товарами (верх и низ списка, после продажи — тост и монеты); окно карточки завода (не получена и получена) и сетка
+        /// «Cards»; шахта 2 — рынок с пустым складом (серая «Sell all»), итоги со строкой «Goods sold», сведения Stopped и рынок
+    /// завершённой шахты. Обрезанные подписи
+        /// пишутся в factory-text.tsv и дописываются в text.tsv; тест падает, если они есть.
+        /// </summary>
+        [UnityTest]
+        public IEnumerator FactoryScreens()
+        {
+            Directory.CreateDirectory(Shots);
+            foreach (string file in Directory.GetFiles(Shots, "f*.png")) File.Delete(file);
+            m_Truncated.Clear();
+            m_Small.Clear();
+            Game.SwitchProfile(true);
+            yield return WaitPlaying();
+            Game.LoadZone(140);
+            yield return null;
+            Assert.That(Game.State.Run.Zone, Is.EqualTo(140));
+            Assert.That(Game.Map.Factories.Length, Is.EqualTo(15), "шахта 140 — 15 заводов");
+            Game.Hud.CloseAllWindows();
+            yield return Advance(1);
+            int id = Game.Map.Factories[0].TargetId;
+
+            yield return SelectFactory(id);
+            yield return Capture3("f01-factory-locked");
+            Game.ClearSelection();
+
+            // Окно карточки завода (§7.1) до открытия цепей: требуемая карточка ещё не получена — «(not collected)», вторая
+            // карточка того же типа называет требуемую.
+            var paired = Game.Map.Factories.First(m =>
+                Game.Configs.Factories.Get(m.TypeId).UncommonCardId != null && Game.State.Profile.CardLevel(m.RequiredCardId) < m.RequiredCardLevel);
+            var pairedType = Game.Configs.Factories.Get(paired.TypeId);
+            string other = paired.RequiredCardId == pairedType.CommonCardId ? pairedType.UncommonCardId : pairedType.CommonCardId;
+            Game.Hud.ShowCard(paired.RequiredCardId);
+            yield return Capture3("f02-card-factory-required");
+            Game.Hud.ShowCard(other);
+            yield return Capture3("f03-card-factory-other");
+            Game.Hud.CloseAllWindows();
+
+            Game.DebugGrantGoods();
+            Game.DebugUnlockFactories();
+            yield return null;
+            yield return Advance(3);
+            yield return SelectFactory(id);
+            yield return Capture3("f04-factory-working");
+            Game.ClearSelection();
+            // После сундуков цепей у игрока могли появиться копии: «needs Lv N (you have Lv k)».
+            Game.Hud.ShowCard(Game.Map.Factories[0].RequiredCardId);
+            yield return Capture3("f05-card-factory-after-chests");
+            Game.Hud.CloseAllWindows();
+
+            Game.DebugFinishFactoryCycles();
+            yield return null;
+            yield return SelectFactory(id);
+            yield return Capture3("f06-factory-ready");
+
+            Game.DebugAutomateAll();
+            yield return null;
+            yield return SelectFactory(id);
+            yield return Capture3("f07-factory-auto");
+            Game.ClearSelection();
+
+            Game.Hud.ShowMarket();
+            Assert.That(Game.Hud.MarketRowCount, Is.EqualTo(15), "окно рынка: 15 товаров шахты 140");
+            yield return Capture3("f08-market-140");
+            MarketWindow.GetComponentInChildren<ScrollRect>().verticalNormalizedPosition = 0f;
+            yield return Capture3("f09-market-140-bottom");
+            MarketWindow.GetComponentInChildren<ScrollRect>().verticalNormalizedPosition = 1f;
+            Game.Hud.RefreshNow();
+            // Рынок — окно кита (решение владельца 15.10.2026): строки в Box/body/viewport.
+            ChildButton(MarketWindow.Find("Box/body/viewport/content/good0"), "sell").onClick.Invoke();
+            yield return null;
+            yield return null;
+            yield return Capture("f10-market-sold-1920.png");
+            Game.Hud.HideMarket();
+
+            // Полученная карточка завода этой шахты с улучшением (строка сравнения и блок завода), сетка «Cards».
+            Game.GrantTestCards();
+            yield return null;
+            var owned = Game.Configs.Cards.Cards.FirstOrDefault(d => d.IsFactoryOutput && CardService.Quote(Game.State.Profile, d).CanUpgrade &&
+                Game.Map.Factories.Any(f => f.TypeId == OutpostCardText.FactoryType(d)))
+                ?? Game.Configs.Cards.Cards.First(d => d.IsFactoryOutput && Game.State.Profile.CardLevel(d.Id) > 0);
+            Game.Hud.ShowCard(owned.Id);
+            yield return Capture3("f11-card-factory-owned");
+            Game.Hud.CloseAllWindows();
+            Game.Hud.ShowCards();
+            yield return Capture3("f12-cards-grid");
+            Game.Hud.CloseAllWindows();
+
+            // Шахта 2: продажа, завершение — итоги с «Goods sold», завод Stopped, рынок завершённой шахты.
+            Game.LoadZone(2);
+            yield return null;
+            Game.DebugUnlockFactories();
+            Game.DebugGrantGoods();
+            yield return null;
+            Assert.That(Game.SellGoods(null).Ok, Is.True, "продажа всего склада");
+            // Склад пуст: «Sell all» — просто серая кнопка без причины (решение владельца 15.10.2026), окно по одной строке.
+            for (int frame = 0; frame < 10 && Game.Hud.ChestRewardOpen; frame++)
+            {
+                Game.Hud.HandleBack();
+                yield return null;
+            }
+            Game.Hud.ShowMarket();
+            yield return Capture3("f17-market-nothing");
+            Game.Hud.HideMarket();
+            Game.DebugGrantGoods();
+            yield return null;
+            Game.CompleteStageNow();
+            for (int frame = 0; frame < 6000 && !Game.Hud.ResultsOpen; frame++)
+            {
+                if (Game.Hud.ChestRewardOpen) Game.Hud.HandleBack();
+                yield return null;
+            }
+            Assert.That(Game.Hud.ResultsOpen, Is.True, "итоги шахты 2");
+            Assert.That(Game.State.Run.GoodsSoldGold.Sign, Is.GreaterThan(0));
+            yield return Capture3("f13-results-goods");
+            Game.Hud.CloseAllWindows();
+            yield return SelectFactory(Game.Map.Factories[0].TargetId);
+            yield return Capture3("f14-factory-stopped");
+            Game.ClearSelection();
+            Game.Hud.ShowMarket();
+            yield return Capture3("f15-market-complete");
+            Game.Hud.CloseAllWindows();
+            yield return Capture3("f16-hud-complete");
+
+            var tsv = new StringBuilder();
+            foreach (string line in m_Truncated) tsv.Append("truncated\t").Append(line).Append('\n');
+            foreach (string line in m_Small) tsv.Append("small\t").Append(line).Append('\n');
+            File.WriteAllText(Path.Combine(Shots, "factory-text.tsv"), "kind\tshot\tpath\tfontSize\ttext\n" + tsv);
+            string common = Path.Combine(Shots, "text.tsv");
+            if (!File.Exists(common)) File.WriteAllText(common, "kind\tshot\tpath\tfontSize\ttext\n");
+            File.AppendAllText(common, tsv.ToString());
+            Assert.That(m_Truncated, Is.Empty, "подписи, обрезанные многоточием:\n" + string.Join("\n", m_Truncated));
+        }
+
         /// <summary>
         /// Сундук шахты с новой карточкой (ТЗ 10.5): свежий debug-профиль, шахта 5, котики работают ×100 до первого такого
         /// сундука — окно награды в 9:16 и 9:20 (m01-chest-mine*.png; StoreScreens удаляет только s*.png). Обрезанные подписи роняют тест.
@@ -293,7 +451,6 @@ namespace CatMiners.Tests
             m_Small.Clear();
             Game.SwitchProfile(true);
             yield return WaitPlaying();
-            Game.Tutorial.Skip();
             Game.LoadZone(5);
             yield return null;
             Assert.That(Game.State.Run.Zone, Is.EqualTo(5));

@@ -1,4 +1,4 @@
-"""Edit decision lists of the three Cat Miners Meta ads (45.0 s, 128 BPM grid: bar = 1.875 s).
+"""Edit decision lists of the four Cat Miners Meta ads (45.0 s, 128 BPM grid: bar = 1.875 s).
 
 Scripts and rationale: Docs/Marketing/AD_SCRIPTS.md. Times are output seconds; source times come from the shot logs
 (marks, taps, core events) recorded by AdCaptureTests, so re-shooting the footage keeps the edit in sync.
@@ -190,4 +190,55 @@ def ad3() -> Ad:
     return Ad('CatMiners_Ad3_ChestsCollection_45s', 't3_chest', segs, ovs, sfx)
 
 
-ADS = {'ad1': ad1, 'ad2': ad2, 'ad3': ad3}
+# ───────────────────────── Ad 4: Cat factories (TZ 2.2: chains, Deliver, pipes, Market, automation) ─────────────────────────
+def first_core(shot: str, name: str, after: float = 0.0, default: float = 0.0) -> float:
+    """Seconds of the first core event `name` at or after `after` (default if none)."""
+    ts = [e['f'] / 30 for e in log(shot)['events'] if e['kind'] == 'core' and e['name'] == name and e['f'] / 30 >= after]
+    return ts[0] if ts else default
+
+
+def ad4() -> Ad:
+    unlocked = mark('f10_chains', 'unlocked')                 # the chains snap
+    deliver = taps('f10_deliver')[0][0]                       # the paw presses "Deliver"
+    trio = taps('f30_deliver')[0][0]                          # first of three "Deliver" presses
+    m30_sell = taps('f30_market')[-1][0]                      # "Sell all" in Mine 30
+    upgrade = taps('f3_card')[0][0]                           # "Upgrade" on the Dairy Foreman card
+    auto_send = first_core('f3_auto', 'GoodsDispatched', after=0.8, default=1.8)
+    m140_sell = taps('f140_market')[-1][0]
+    segs = [
+        # Hook: cats and the paw hammer a chained factory; the chains snap right on the first bar line (3.75 s).
+        Seg(0.0, b(2), 'f10_chains', max(0.0, unlocked - b(2) + 0.05)),
+        Seg(b(2), b(4), 'f10_chains', unlocked + 0.05),
+        Seg(b(4), b(6), 'f10_deliver', max(0.0, deliver - 1.4)),
+        Seg(b(6), b(8), 'f10_deliver', max(0.0, deliver - 1.4) + b(2)),
+        Seg(b(8), b(10), 'f30_deliver', max(0.0, trio - 0.9)),
+        Seg(b(10), b(12), 'f30_market', max(0.0, m30_sell - 1.9)),
+        Seg(b(12), b(14), 'f3_card', max(0.0, upgrade - 1.5), audio=0.8),
+        Seg(b(14), b(16), 'f3_auto', max(0.0, auto_send - 1.2)),
+        Seg(b(16), b(18), 'f140_overview', 0.8, audio=0.3),
+        Seg(b(18), b(20), 'f140_yard', 1.0),
+        Seg(b(20), b(22), 'f140_market', max(0.0, m140_sell - 1.6)),
+    ]
+    ovs = [
+        cap(0.0, b(2), 'Break the *chains*!'),
+        cap(b(2), b(4), 'Unlock a *cat factory*!'),
+        logo_bug(b(2) + 0.3, b(4), cy=1150),
+        cap(b(4), b(6), 'Tap *Deliver*!'),
+        cap(b(6), b(8), 'Pipes carry the *goods*'),
+        cap(b(8), b(10), 'More factories, more *goods*!'),
+        cap(b(10), b(12), 'Sell goods for *gold*!', cy=CAP_LOW),
+        cap(b(12), b(14), 'Level up the *Foreman*...', cy=CAP_LOW),
+        cap(b(14), b(16), '...and it runs *itself*!', style='green'),
+        cap(b(16), b(18), 'Build a factory *empire*'),
+        cap(b(18), b(20), 'Cute cats, *busy* factories'),
+        cap(b(20), b(22), 'Sell for *huge* profits!', cy=CAP_LOW),
+        flash(b(2), 'gold4'), flash(b(14), 'gold4'), flash(b(16), 'gold4'),
+        *end_card('Run your own *cat factory*!'),
+    ]
+    sfx = [(0.0, 'whoosh', 0.35), (b(2) - 0.02, 'impact', 0.5), (b(8) - 0.2, 'whoosh', 0.45),
+           (b(10) + 2.1, 'cash', 0.5), (b(12) + 1.75, 'ding', 0.45), (b(16) - 0.2, 'whoosh', 0.45),
+           (b(20) + 1.8, 'cash', 0.55), *pops(ovs)]
+    return Ad('CatMiners_Ad4_CatFactories_45s', 't1_progress', segs, ovs, sfx)
+
+
+ADS = {'ad1': ad1, 'ad2': ad2, 'ad3': ad3, 'ad4': ad4}

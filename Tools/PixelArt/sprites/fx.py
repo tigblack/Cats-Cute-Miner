@@ -646,7 +646,56 @@ def muzzle(i: int) -> Canvas:
     return cv
 
 
+# ───────────────────────── разлёт цепей завода (ТЗ 2.2 §11) ─────────────────────────
+# Звено анфас (кольцо 4×4) и в профиль (планка 2×4 / 4×2): сталь со светлой кромкой сверху-слева, контур ink1.
+LINK_FACE = ['.HS.', 'H..d', 'S..d', '.dD.']
+LINK_SIDE_V = ['HS', 'Sd', 'Sd', 'dD']
+LINK_SIDE_H = ['HSSd', 'SddD']
+LINK_LG = {'H': 'stone7', 'S': 'stone6', 'd': 'stone5', 'D': 'stone3'}
+# Направления разлёта (угол в градусах, скорость): звенья летят веером вверх и в стороны, потом падают.
+CHAIN_BITS = [(-160, 1.0), (-120, 1.15), (-75, 1.2), (-30, 1.05), (10, 0.9), (165, 0.95), (-95, 0.8), (40, 0.75)]
+
+
+def chain_break(i: int) -> Canvas:
+    """Разлёт цепей 32×32, 4 кадра по 0,07 с: вспышка с первыми звеньями → звенья разлетаются, крутятся (анфас/профиль
+    по очереди) → падают и редеют. Центр — точка замка; код ставит эффект на замок и по одному на каждую цепь."""
+    cv = Canvas(32, 32)
+    c = 16.0
+    if i == 0:
+        for k in range(8):
+            ax, ay = [(1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1), (0, -1), (1, -1)][k]
+            n = 6 if k % 2 == 0 else 4
+            for r in range(3, n + 1):
+                cv.set(int(c + ax * r) - (1 if ax < 0 else 0), int(c + ay * r) - (1 if ay < 0 else 0), 'gold5' if r < n else 'gold4')
+        flash = Canvas(32, 32)
+        flash.ellipse(c, c, 2.6, 2.6, 'gold5')
+        flash.ellipse(c - 0.5, c - 0.5, 1.4, 1.4, 'cream4')
+        cv.blit(flash, 0, 0)
+    dist = (2.5, 6.5, 10.0, 12.5)[i]
+    drop = (0.0, 0.5, 2.5, 5.5)[i]
+    for k, (deg, sp) in enumerate(CHAIN_BITS):
+        if i == 3 and k % 3 == 2:
+            continue                                   # часть звеньев уже упала за край эффекта
+        if i == 0 and k % 2:
+            continue
+        a = math.radians(deg)
+        x = c + math.cos(a) * dist * sp
+        y = c + math.sin(a) * dist * sp + drop
+        rows = (LINK_FACE, LINK_SIDE_V, LINK_SIDE_H)[(k + i) % 3]
+        link = _from(rows, LINK_LG)
+        lay = Canvas(32, 32)
+        lay.blit(link, int(round(x - link.w / 2.0)), int(round(y - link.h / 2.0)))
+        lay.outline('ink1')
+        cv.blit(lay, 0, 0)
+    if i in (1, 2):
+        for x, y in ((c - 7, c - 9), (c + 8, c - 6), (c - 3, c + 6)):
+            cv.set(int(x), int(y + (i - 1) * 2), 'gold5' if i == 1 else 'gold3')
+    return cv
+
+
 def build(reg) -> None:
+    for i in range(4):
+        reg.add(f'fx_chain_break_{i}', chain_break(i), note='разлёт цепей и звеньев при открытии завода, 0,07 с/кадр, центр')
     reg.add('px_white', px_white(), pivot=(0.5, 0.5), note='белый пиксель: затемнение, полосы; цвет задаёт код')
     for name, (w, h) in {'shadow_xs': (12, 5), 'shadow_s': (20, 7), 'shadow_m': (28, 9), 'shadow_l': (60, 16), 'shadow_xl': (150, 18)}.items():
         reg.add(name, shadow(w, h), alpha=True)

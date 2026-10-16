@@ -36,7 +36,6 @@ namespace CatMiners.Tests
             yield return null;
             yield return null;
             Assert.That(Game.Phase, Is.EqualTo(OutpostControllerPhase.Playing));
-            Game.Tutorial.Skip();
         }
 
         [UnityTearDown]
@@ -66,7 +65,6 @@ namespace CatMiners.Tests
             yield return null;
             Assert.That(Game.State.Run.Zone, Is.EqualTo(zone));
             Assert.That(Game.Map.Topology, Is.Not.Null);
-            Game.Tutorial.Skip();
             Game.enabled = false;
         }
 

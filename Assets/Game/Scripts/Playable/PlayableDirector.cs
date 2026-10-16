@@ -11,7 +11,7 @@ namespace CatMiners.Playable
 {
     /// <summary>
     /// Ход playable-сессии поверх контроллера основной игры (Docs/Playable/PLAYABLE_TZ.md §3.3–3.5, §6), только через его
-    /// публичное API: обучение основной игры выключено (его заменяют квесты <see cref="PlayableQuests"/>, рядом — надписи
+    /// публичное API: игрока ведут квесты <see cref="PlayableQuests"/> (в основной игре обучения нет), рядом — надписи
     /// <see cref="PlayableJuice"/>, баннер и финальный экран <see cref="PlayableCta"/>); завершённая шахта переходит в следующую сама —
     /// окно сундука выхода закрывается через <see cref="ExitChestSeconds"/> (окно сундука, купленного в открытом магазине, —
     /// нет: его закрывает игрок), итоги видны <see cref="ResultsSeconds"/>, затем <see cref="OutpostController.ContinueToNextMine"/>
@@ -56,8 +56,7 @@ namespace CatMiners.Playable
         void Awake()
         {
             m_Game = GetComponent<OutpostController>();
-            DisableTutorial();
-            // Квесты заменяют обучение; надписи «NEW CAT!»/«GATE OPEN!», баннер и финальный экран — рядом. Повторный режиссёр
+            // Квесты ведут игрока; надписи «NEW CAT!»/«GATE OPEN!», баннер и финальный экран — рядом. Повторный режиссёр
             // (тест) их не дублирует.
             if (GetComponent<PlayableQuests>() == null) gameObject.AddComponent<PlayableQuests>();
             if (GetComponent<PlayableJuice>() == null) gameObject.AddComponent<PlayableJuice>();
@@ -71,19 +70,8 @@ namespace CatMiners.Playable
             if (m_Game.Hud.ResetProgressOverride == null) m_Game.Hud.ResetProgressOverride = Restart;
             // Урезанный магазин: «+» эликсира и гемов некуда вести, тайм-скип за гемы без гемов не купить — их не показывать.
             m_Game.Hud.StoreHideUnpayable = true;
-            DisableTutorial();
             UpdateAutoContinue(m_Game.Clock.MonotonicSeconds);
             CheckSegment();
-        }
-
-        /// <summary>
-        /// Обучение основной игры закрыто (как «Пропустить»). Проверка каждый кадр: новый профиль, загрузка, сброс из настроек
-        /// и офлайн-расчёт приносят состояние, где обучение снова включено.
-        /// </summary>
-        void DisableTutorial()
-        {
-            var tutorial = m_Game != null ? m_Game.Tutorial : null;
-            if (tutorial != null && tutorial.Enabled) tutorial.Skip();
         }
 
         void UpdateAutoContinue(double now)

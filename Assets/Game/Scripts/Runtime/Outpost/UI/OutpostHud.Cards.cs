@@ -22,6 +22,8 @@ namespace CatMiners.Runtime.Outpost
         readonly List<string> m_NewCardNames = new List<string>();
         PixelIconText m_CardsElixir, m_CardPrice;
         TextMeshProUGUI m_CardsFound, m_CardCurrentValue, m_CardNextValue;
+        /// <summary>Блок завода в окне карточки (ТЗ 2.2 §7.1): «Factory: Dairy (Milk)», эффект и строка текущей шахты.</summary>
+        TextMeshProUGUI m_CardFactory;
         RectTransform m_CardComparison;
         Ui.ButtonRefs m_CardsButton, m_CardsSort, m_CardUpgrade;
         PixelWindow m_CardWin;
@@ -102,6 +104,11 @@ namespace CatMiners.Runtime.Outpost
             m_CardNextValue = PixelUi.Text(m_CardComparison, "nextValue", "", PixelUi.FontTitle, PixelPalette.Green6,
                 TextAlignmentOptions.Left, true, true);
             m_CardNextValue.rectTransform.Anchor(0.58f, 0, 1, 1);
+            // Под строкой сравнения — блок завода: FontBody с автоподбором до FontSmall и переносом по словам.
+            m_CardFactory = PixelUi.Text(m_CardWin.Body, "factory", "", PixelUi.FontBody, PixelUi.TextColor, TextAlignmentOptions.Top, false, true);
+            m_CardFactory.textWrappingMode = TextWrappingModes.Normal;
+            Ui.AutoSize(m_CardFactory, PixelUi.FontSmall, PixelUi.FontBody);
+            m_CardFactory.gameObject.SetActive(false);
             m_CardPrice = PixelUi.IconText(m_CardWin.Box, "price", "icon_elixir", "", PixelUi.FontTitle, PixelUi.TextColor, iconScale: 2);
             m_CardPrice.Root.anchorMin = m_CardPrice.Root.anchorMax = new Vector2(0.5f, 0);
             m_CardPrice.Root.anchoredPosition = new Vector2(0, 11 * Px + CardDetailButtonHeight + 4 * Px + CardDetailPriceHeight / 2);
@@ -244,7 +251,49 @@ namespace CatMiners.Runtime.Outpost
             m_CardPrice.Text.color = p.Elixir >= q.ElixirNeeded ? PixelUi.TextColor : PixelUi.TextBad;
             m_CardUpgrade.SetActive(canLevel);
             m_CardUpgrade.SetInteractable(q.CanUpgrade && CommandsAllowed(out _));
+            string factory = CardFactoryText(def, q.Level);
+            Ui.SetActive(m_CardFactory, factory != null);
+            if (factory != null) Ui.SetText(m_CardFactory, factory);
             LayoutCardDetail();
+        }
+
+        /// <summary>
+        /// Блок завода в окне карточки (ТЗ 2.2 §7.1), null — карточка не завода. Строки: «Factory: Dairy (Milk)», эффект на
+        /// текущем уровне (у неполученной — уровня 1) и строка шахты по требованию токена s завода этого типа в текущей шахте
+        /// (завода типа нет — строки нет): «auto delivery: on», «needs Lv 2 (you have Lv 1)», «(not collected)» или имя другой
+        /// карточки типа, если требование указывает её.
+        /// </summary>
+        string CardFactoryText(CardDef def, int level)
+        {
+            string type = OutpostCardText.FactoryType(def);
+            if (type == null) return null;
+            string good = OutpostCardText.GoodOfType(type), factory = FactoryText.FactoryName(good);
+            var sb = m_Sb.Clear();
+            sb.Append(Loc.F("cards.detail.factory", factory, FactoryText.GoodName(good)));
+            sb.Append('\n').Append(OutpostCardText.Effect(def, level, m_Game.Configs.Cards.Rules));
+            var map = m_Game.Map;
+            var profile = m_Game.State?.Profile;
+            var factories = map != null ? map.Factories : null;
+            if (factories != null && profile != null)
+                for (int i = 0; i < factories.Length; i++)
+                {
+                    var mf = factories[i];
+                    if (mf == null || mf.TypeId != type || mf.RequiredCardId == null) continue;
+                    int have = profile.CardLevel(mf.RequiredCardId);
+                    var state = m_Game.FactoryOf(mf.TargetId);
+                    string line;
+                    if ((state != null && state.Automated) || (have >= 1 && have >= mf.RequiredCardLevel))
+                        line = Loc.F("cards.detail.mine_auto_on", factory);
+                    else if (mf.RequiredCardId != def.Id)
+                        line = Loc.F("cards.detail.mine_auto_other", factory, OutpostCardText.Name(m_Game.Configs.Cards.Get(mf.RequiredCardId)), mf.RequiredCardLevel);
+                    else if (have < 1)
+                        line = Loc.F("cards.detail.mine_auto_missing", factory, mf.RequiredCardLevel);
+                    else
+                        line = Loc.F("cards.detail.mine_auto", factory, mf.RequiredCardLevel, have);
+                    sb.Append('\n').Append(line);
+                    break;
+                }
+            return sb.ToString();
         }
 
         void LayoutCardDetail()
@@ -256,9 +305,18 @@ namespace CatMiners.Runtime.Outpost
             m_CardWin.Body.Anchor(0, 0, 1, 1, new Vector2(12 * Px, bottom), new Vector2(-12 * Px, -14 * Px));
             float height = m_CardWin.Body.rect.height;
             if (height < 100 * Px) height = 320 * Px;
+            bool factory = m_CardFactory.gameObject.activeSelf;
+            bool comparison = m_CardComparison.gameObject.activeSelf;
+            // Блок завода (три строки и перенос строки шахты, ≈ 4 × 8 пикселей арта) помещается под строкой сравнения и на 9:16
+            // (≈ 48 пикселей арта), поэтому портрет прежнего размера.
             float cardHeight = Mathf.Min(CardDetailHeight, Mathf.Floor(height * 0.74f / Px) * Px);
             m_DetailCard.Rect.Anchor(0, 1, 1, 1, new Vector2(Px, -cardHeight), new Vector2(-Px, 0));
             m_CardComparison.Anchor(0, 1, 1, 1, new Vector2(0, -cardHeight - 34 * Px), new Vector2(0, -cardHeight - 4 * Px));
+            if (factory)
+            {
+                float top = cardHeight + (comparison ? 36 * Px : 4 * Px);
+                m_CardFactory.rectTransform.Anchor(0, 0, 1, 1, new Vector2(2 * Px, 0f), new Vector2(-2 * Px, -top));
+            }
             m_CardUpgrade.SetInteractable(CardService.Quote(m_Game.State.Profile, m_DetailCard.Def).CanUpgrade && CommandsAllowed(out _));
         }
 

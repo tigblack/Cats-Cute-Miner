@@ -55,6 +55,8 @@ namespace CatMiners.Core.Outpost
                 if (cost.Duplicates == null || cost.SoftCurrency == null || cost.Duplicates.Length != cost.SoftCurrency.Length)
                     throw new OutpostConfigException("CardUpgradeCosts." + c.Rarity + ": длины Duplicates и SoftCurrency");
                 var effect = EffectFor(rules, c);
+                if (effect.Kind == CardEffectKind.FactoryOutput && (c.TargetIds == null || c.TargetIds.Length == 0))
+                    throw new OutpostConfigException("card_rules: " + c.Id + ": FactoryOutput без TargetIds (тип завода)");
                 var def = new CardDef
                 {
                     Id = c.Id,
@@ -206,6 +208,9 @@ namespace CatMiners.Core.Outpost
 
         /// <summary>Значение эффекта на уровне (0 — не получена).</summary>
         public Rational EffectAt(int level) => Effect.ValueAt(Math.Min(level, MaxLevel));
+
+        /// <summary>Карточка завода (cards-3): эффект <see cref="CardEffectKind.FactoryOutput"/> по типам TargetIds.</summary>
+        public bool IsFactoryOutput => Effect != null && Effect.Kind == CardEffectKind.FactoryOutput;
 
         public bool Targets(string typeId)
         {

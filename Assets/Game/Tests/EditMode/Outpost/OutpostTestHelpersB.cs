@@ -242,7 +242,8 @@ namespace CatMiners.Tests.Outpost
             return new OutpostProfile
             {
                 ModeId = ModeId,
-                SchemaVersion = 1,
+                // ТЗ 2.2 §10.1 и §16.1 (б): фикстура пишет текущую схему (3), как StageProgressionService.NewGame.
+                SchemaVersion = OutpostIds.SchemaVersion,
                 Seed = seed,
                 RewardRng = new Pcg32(seed, 5),
                 RewardRngVersion = 1,
@@ -559,6 +560,27 @@ namespace CatMiners.Tests.Outpost
             foreach (var b in run.Batches)
                 if (alive.Contains(b.Cell)) v.Add("партия " + b.Seq + " внутри живого footprint");
 
+            // ТЗ 2.2 §4.1: footprint открытого завода (у run есть FactoryState) остаётся стеной — котики и груз на нём не стоят.
+            var standing = new HashSet<int>();
+            if (run.Factories != null)
+                foreach (var f in run.Factories)
+                {
+                    var mt = map.Targets.FirstOrDefault(o => o.Id == f.TargetId);
+                    if (mt != null && mt.Cells != null && byId.TryGetValue(mt.Id, out var fs) && fs.Destroyed)
+                        foreach (int c in mt.Cells) standing.Add(c);
+                }
+            if (standing.Count > 0)
+            {
+                foreach (var w in run.Workers)
+                {
+                    if (standing.Contains(w.Cell)) v.Add("w" + w.Id + ": в клетке открытого завода " + w.Cell + " (ТЗ 2.2 §4.1)");
+                    foreach (int c in RemainingPath(w))
+                        if (standing.Contains(c)) { v.Add("w" + w.Id + ": путь через открытый завод " + c + " (ТЗ 2.2 §4.1)"); break; }
+                }
+                foreach (var b in run.Batches)
+                    if (standing.Contains(b.Cell)) v.Add("партия " + b.Seq + " на footprint открытого завода (ТЗ 2.2 §4.1)");
+            }
+
             // §8.4: барьер закрытых ворот.
             if (run.GatesOpened < map.Gates.Length)
             {
@@ -607,7 +629,9 @@ namespace CatMiners.Tests.Outpost
             }
 
             // §7.3: кошелёк.
-            if (run.Wallet != run.TotalCredited + run.BonusCredited - run.TotalSpent || run.Wallet.Sign < 0) v.Add("Wallet ≠ TotalCredited + BonusCredited − TotalSpent (§7.3)");
+            // ТЗ 2.2 §6.4, §10.2: золото продажи товара — отдельное слагаемое (GoodsSoldGold не входит в TotalCredited).
+            if (run.Wallet != run.TotalCredited + run.BonusCredited + run.GoodsSoldGold - run.TotalSpent || run.Wallet.Sign < 0)
+                v.Add("Wallet ≠ TotalCredited + BonusCredited + GoodsSoldGold − TotalSpent (§7.3; ТЗ 2.2 §6.4)");
 
             // §7.4: очередь FIFO (ArrivalTick, WorkerId), без дублей, WaitingDepot ⇔ в очереди.
             for (int i = 1; i < run.Queue.Count; i++)
@@ -735,11 +759,24 @@ namespace CatMiners.Tests.Outpost
         /// <summary>Профиль b4: удорожание местных улучшений с глубиной CostZoneFactor(z) = 1 + (z−1)/10 (шахта 1 — 1).</summary>
         public static FracB CostZoneFactor(int zone) => One + new FracB(zone - 1, 10);
 
+        static JArray s_PaceScale;
+
         /// <summary>
-        /// ТЗ §12.2 и профиль b4: NextCost(z, L) = ceil(S(z) · CostZoneFactor(z) · BaseCost · Growth^L), одно итоговое округление.
+        /// K(z) профиля b6 прямо из массива PaceScale встроенного outpost_balance.json (элемент z−1; нет элемента — 1), мимо
+        /// OutpostBalanceConfig.ZonePace (решение владельца В4, 15 октября 2026; Docs/Rework/BALANCE_FACTORIES.md «Темп b6: 3 цикла»).
+        /// </summary>
+        public static FracB PaceOf(int zone)
+        {
+            if (s_PaceScale == null) s_PaceScale = (JArray)JObject.Parse(OutpostConfigSet.DefaultBalanceJson)["PaceScale"] ?? new JArray();
+            return zone >= 1 && zone <= s_PaceScale.Count ? FracB.Parse((string)s_PaceScale[zone - 1]) : One;
+        }
+
+        /// <summary>
+        /// ТЗ §12.2 и профиль b4: NextCost(z, L) = ceil(S(z) · CostZoneFactor(z) · BaseCost · Growth^L), одно итоговое округление;
+        /// профиль b6 (решение владельца В4, 15 октября 2026) — ещё × K(z) (<see cref="PaceOf"/>) до того же единственного ceil.
         /// </summary>
         public static BigInteger NextCostOracle(int zone, UpgradeBranch b, int level) =>
-            (ZoneScale(zone) * CostZoneFactor(zone) * BranchBase(b) * FracB.Pow(BranchGrowth(b), level)).Ceil();
+            (ZoneScale(zone) * CostZoneFactor(zone) * PaceOf(zone) * BranchBase(b) * FracB.Pow(BranchGrowth(b), level)).Ceil();
 
         public static BigInteger SumCostOracle(int zone, UpgradeBranch b, int fromLevel, int count)
         {
@@ -789,7 +826,11 @@ namespace CatMiners.Tests.Outpost
             return (long)(root + (root * root * dsq < nsq ? 1 : 0));
         }
 
+        /// <summary>ТЗ §12.4: TotalCargoUnits = max(2, ceil(MaxHp / 10)) — для r/x/p (у цепей завода s груза нет, см. перегрузку с видом).</summary>
         public static int CargoUnitsOracle(long maxHp) => (int)Math.Max(2, (maxHp + 9) / 10);
+
+        /// <summary>ТЗ 2.2 §4.2 и §16.1 (а), адаптер adapter-2: у цепей завода (s) груза нет — 0; r/x/p — max(2, ceil(MaxHp / 10)).</summary>
+        public static int CargoUnitsOracle(long maxHp, char kind) => kind == 's' ? 0 : CargoUnitsOracle(maxHp);
 
         public static BigInteger ISqrt(BigInteger n)
         {

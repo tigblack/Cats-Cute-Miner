@@ -7,8 +7,18 @@ namespace CatMiners.Core.Outpost
     [Serializable]
     public sealed class MineTopologyCatalog
     {
-        public const string SupportedVersion = "wide-branching-mines-2";
+        /// <summary>
+        /// ТЗ 2.2 §4.1: топология, проходимая со стоящими заводами (открытый завод остаётся стеной). Отличается от
+        /// wide-branching-mines-2 только расстановкой целей в 38 шахтах (Tools/Topology/build_topology.py, отчёт
+        /// Docs/Reports/topology/factories.json); остальные 106 шахт побайтно прежние, кроме поля Version.
+        /// </summary>
+        public const string SupportedVersion = "wide-branching-mines-3";
+        /// <summary>Narrow snapshots of very old saves; MineTopologyMigration moves them to <see cref="SupportedVersion"/>.</summary>
         public const string LegacyVersion = "branching-mines-1";
+        /// <summary>
+        /// Принимаются <see cref="SupportedVersion"/> и <see cref="LegacyVersion"/>. Снимков wide-branching-mines-2 в сохранениях
+        /// нет: файлы схемы &lt; 3 сбрасываются раньше, чем строится карта (ТЗ 2.2 §10.3).
+        /// </summary>
         public static bool SupportsSnapshot(string version) => version == SupportedVersion || version == LegacyVersion;
         public string Version;
         public string SourceSha256;

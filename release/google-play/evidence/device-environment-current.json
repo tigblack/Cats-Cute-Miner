@@ -1,0 +1,15 @@
+{
+  "checked_at": "2026-10-16T12:12:43.9819240Z",
+  "scope": "Windows Android QA environment, no device serials",
+  "connected_android_devices": 0,
+  "unauthorized_android_devices": 0,
+  "emulator_installed": false,
+  "avd_count": 0,
+  "hypervisor_present": true,
+  "firmware_virtualization_enabled": true,
+  "bundled_sdk_license_file_present": false,
+  "sdk_manager_version": "16.0",
+  "system_image_installed_by_this_check": false,
+  "device_qa": "waiting_for_final_artifact_and_Android_device_or_configured_emulator",
+  "new_software_or_licenses_accepted": false
+}

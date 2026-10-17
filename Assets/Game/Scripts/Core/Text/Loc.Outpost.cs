@@ -213,6 +213,15 @@ namespace CatMiners.Core.Text
             d.Add("outpost.target.wall", "Rockfall");
             d.Add("outpost.target.waterfall", "Waterfall");
             d.Add("outpost.target.unknown", "Obstacle");
+            // Мусор обстановки шахты (Docs/Rework/MINE_DRESSING.md): имя семейства в сведениях цели.
+            d.Add("outpost.dressing.planks", "Broken Planks");
+            d.Add("outpost.dressing.crates", "Cracked Crates");
+            d.Add("outpost.dressing.rubble", "Rubble Pile");
+            d.Add("outpost.dressing.scrap", "Scrap Metal");
+            d.Add("outpost.dressing.cardboard", "Cardboard Boxes");
+            d.Add("outpost.dressing.yarn", "Tangled Yarn");
+            d.Add("outpost.dressing.catfurn", "Broken Cat Furniture");
+            d.Add("outpost.dressing.sacks", "Old Sacks");
 
             // «Итоги шахты» (ТЗ 11): {0} — номер шахты; детали — уже с формой слова.
             d.Add("outpost.results.title", "Mine {0} Results");
@@ -293,6 +302,11 @@ namespace CatMiners.Core.Text
             d.Add("outpost.store.toast.gems", "+{0} gems");
             d.Add("outpost.store.toast.elixir", "+{0} elixir");
             d.Add("outpost.store.toast.double", "Income doubled: +{0} gold");
+            // Бонус за рекламу у левого края и мортира (ТЗ 10.6).
+            d.Add("outpost.bonus.toast.gold", "+{0} gold");
+            d.Add("outpost.bonus.toast.dynamite", "Dynamite incoming!");
+            d.Add("outpost.bonus.free", "FREE");
+            d.Add("outpost.bonus.tap", "Tap!");
             d.Add("outpost.store.chest_total", "Cards: {0}");
             d.Add("outpost.store.chest_card", "{0} ×{1}");
             d.Add("outpost.store.chest_new", "NEW");

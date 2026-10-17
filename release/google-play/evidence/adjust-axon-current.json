@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-10-16T12:17:52.119669+00:00",
+  "app_token": "cdbdt3hkj56o",
+  "package": "com.multicastgames.catscuteminer",
+  "partner": "Axon by AppLovin",
+  "partner_id": 7,
+  "url": "https://suite.adjust.com/partners/7/partner-settings-details/cdbdt3hkj56o/data-sharing",
+  "readback": "Android Disabled",
+  "required_field": "SDK keys; empty; Save disabled",
+  "dialog": "Opened to inspect actual form; cancelled without saving",
+  "network_configuration_changed": false,
+  "sdk_key_verified": false,
+  "next_step": "Verified MAX account SDK key, then enable Android; all attribution sources, sessions, uninstall/reinstall, in-app revenue, send all parameters, purchase(fv23mx) to In-App Checkout; reload partner app row and verify Active/revenue/events mapped >=1"
+}

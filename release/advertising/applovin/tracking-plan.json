@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "app_name": "Cat Miner: Idle Tycoon",
+  "package_name": "com.multicastgames.catscuteminer",
+  "adjust_app_token": "cdbdt3hkj56o",
+  "registered_event_count": 53,
+  "partner": "Axon by AppLovin",
+  "partner_id": 7,
+  "data_sharing_url": "https://suite.adjust.com/partners/7/partner-settings-details/cdbdt3hkj56o/data-sharing",
+  "current_readback": "Android Disabled",
+  "account_sdk_key": {
+    "verified": false,
+    "value_in_this_package": false,
+    "required_by_partner_form": true,
+    "source_required": "Verified account SDK key through authorized SuperLeo/panel access; never a Report Key, MCP key, API management key, or another game's credential",
+    "does_not_require_max_runtime": true
+  },
+  "purchase_mapping": {
+    "adjust_event_token": "fv23mx",
+    "partner_event_proposal": "In-App Checkout",
+    "saved_and_reloaded": false,
+    "revenue_and_currency": "Only a newly verified production purchase with fresh Google product metadata; no sandbox, restore, replay or protected-user telemetry",
+    "delivery_test": "not_run_no_real_purchase"
+  },
+  "links": {
+    "link_token": "25sohm3z",
+    "click_url": "https://app.adjust.com/25sohm3z?campaign={CAMPAIGN_NAME}%20({CAMPAIGN_ID})&adgroup={APP_ID}&creative={AD_NAME}&idfa={IDFA}&country={CC}&gps_adid={IDFA}&adgroup_id={PLACEMENT_ID}&ip_address={DEVICE_IP}&os_version={OS_VERSION}&campaign_id={CAMPAIGN_ID}&device_type={DEVICE_TYPE}&tracker_limit=100000&applovin_click_id={DID}&applovin_event_id={EVENT_ID}&external_tracker_ids=1&android_id_lower_sha1={HADID}",
+    "impression_url": "https://view.adjust.com/impression/25sohm3z?campaign={CAMPAIGN_NAME}%20({CAMPAIGN_ID})&adgroup={APP_ID}&creative={AD_NAME}&idfa={IDFA}&country={CC}&gps_adid={IDFA}&adgroup_id={PLACEMENT_ID}&ip_address={DEVICE_IP}&os_version={OS_VERSION}&campaign_id={CAMPAIGN_ID}&device_type={DEVICE_TYPE}&tracker_limit=100000&applovin_click_id={DID}&applovin_event_id={EVENT_ID}&external_tracker_ids=1&android_id_lower_sha1={HADID}",
+    "source_required": "Own Cat Miner: Idle Tycoon Android Axon partner link read back from Campaign Lab",
+    "app_token_is_not_link_token": true,
+    "urls_must_not_be_fabricated": true,
+    "source_url": "https://suite.adjust.com/partners/7/links/25sohm3z/network/link-urls",
+    "provider_macros_preserved": true,
+    "privacy_eligibility_review": "Required before launch; generated templates contain device-ID/IP macros; no test tracking request sent"
+  },
+  "proposed_partner_options": {
+    "status": "not_saved",
+    "scope": "Eligible consenting users only",
+    "attribution_sources": "all sources if compatible with the approved data policy and provider contract",
+    "in_app_revenue": "verified production purchases only",
+    "sessions": "consent-gated SDK sessions only",
+    "ad_revenue": false,
+    "parameters": "Only specifically reviewed required fields; no blanket transmission of child identifiers or unreviewed personal data",
+    "attribution_windows": "Read current provider settings before choosing; no changes made"
+  },
+  "privacy": {
+    "protected_age_categories": "all under 16 and unknown",
+    "protected_optional_sdks_initialized": false,
+    "protected_telemetry_or_backfill": false,
+    "advertising_id_collection": false,
+    "max_runtime": false,
+    "game_specific_legal_pages": "pending actual child-compatible live documents"
+  },
+  "verification_before_future_launch": [
+    "Verify the own advertiser account/app and platform eligibility for this mixed-age game",
+    "Supply the actual own account SDK key through private authorized access; save and reload the own Android partner settings",
+    "Verify revenue and purchase-event mapping and the privacy scope",
+    "Read the own Axon click and impression URLs; preserve actual required provider macros",
+    "After a real Android build, verify eligible-user events and protected-user absence; no synthetic production installs or purchases",
+    "Verify live store destination, regional availability excluding Brazil, platform creative acceptance, and optional cost-data connection",
+    "Fill owner-approved countries, budget and bid/optimization choices only when provided; obtain a separate explicit launch instruction"
+  ],
+  "sources": [
+    "https://support.applovin.com/en/growth/promoting-your-apps/track-and-optimize/adjust",
+    "https://legal.applovin.com/revisions/applovin-policies-for-demand-partners-revision-june-18-2026/"
+  ],
+  "game_advertising_id_collection": false
+}

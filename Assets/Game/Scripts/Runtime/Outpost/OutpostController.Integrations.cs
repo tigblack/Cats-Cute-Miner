@@ -14,6 +14,8 @@ namespace CatMiners.Runtime.Outpost
         bool m_GameLoadedReported, m_RewardShowing;
         readonly HashSet<string> m_EarnedCallbacks = new HashSet<string>();
         GameSdkRuntime Services => GameSdkRuntime.Instance;
+        // Editor/web test purchases remain explicit simulation; Android follows release capability.
+        public static bool RewardedOffersSupported => !AndroidRuntime || GameSdkConfiguration.AdsEnabled;
         public bool RewardedReady => Services != null && Services.RewardReady && !m_RewardShowing && !SaveFailed;
         public string RewardedStatus => Services?.RewardStatus ?? "unavailable";
         public static bool AndroidRuntime
@@ -29,6 +31,9 @@ namespace CatMiners.Runtime.Outpost
         void IntegrationLoaded()
         {
             if (!AndroidRuntime || State == null) return;
+            if (Services != null) Services.GameplayActive = () => this != null && isActiveAndEnabled &&
+                !IsDebugProfile && CommandsAllowed && m_Offline == null && PendingOffline == null && PendingSkip == null &&
+                !m_RewardShowing && CatMiners.Runtime.Purchasing.GooglePaymentsRuntime.Instance?.Pending != true;
             BindPurchases();
             if (!m_GameLoadedReported) { m_GameLoadedReported = true; Services?.Track(GameEvent.GameLoaded, State.Run.Zone); }
             if (m_IntegrationRun != State.Run.RunId)
@@ -51,8 +56,9 @@ namespace CatMiners.Runtime.Outpost
             }
             return quote;
         }
-        CommandResult OfferReward(string item, BigInteger gold)
+        CommandResult OfferReward(string item, BigInteger gold, RewardedBonusOffer? bonus = null)
         {
+            if (!RewardedOffersSupported) return CommandResult.Fail("unavailable");
             if (Services?.NeedsRewardRetry == true)
             {
                 Services.RetryUncorrelatedShow();
@@ -65,9 +71,16 @@ namespace CatMiners.Runtime.Outpost
                 if (!Configs.Store.TryGet(item, out var def) || def.Currency != StoreCurrency.Ad || StoreService.CooldownLeftMs(State.Profile, def, Clock.UtcNowMs) > 0)
                     return CommandResult.Fail("unavailable");
             }
-            else if (gold.Sign <= 0) return CommandResult.Fail("unknown");
+            else if (bonus == null && gold.Sign <= 0) return CommandResult.Fail("unknown");
             var offer = new RewardedOffer { Id = "reward_" + Guid.NewGuid().ToString("N"), RunId = State.Run.RunId,
                 ItemId = item, Gold = gold.ToString(), OfferedUtcMs = Clock.UtcNowMs };
+            // Бонус за рекламу (ТЗ 10.6): вид и сумма записываются до показа вместе с офертой.
+            if (bonus.HasValue)
+            {
+                offer.Bonus = RewardedBonus.Id(bonus.Value.Kind);
+                if (bonus.Value.Kind != RewardedBonusKind.Gold) offer.Amount = (long)bonus.Value.Amount;
+            }
+            string placement = item ?? (bonus.HasValue ? RewardedBonus.Placement(bonus.Value.Kind) : null);
             var prepared = OutpostJson.DeepCopy(State);
             prepared.Profile.PendingRewardedOffer = offer;
             var map = Map;
@@ -75,7 +88,7 @@ namespace CatMiners.Runtime.Outpost
             // No ad starts before the offered placement/amount is durable.
             Commit(prepared, map, () => {
                 SetSimulation(prepared, map);
-                Services?.Track(GameEvent.RewardOffered, State.Run.Zone, item);
+                Services?.Track(GameEvent.RewardOffered, State.Run.Zone, placement);
                 if (Services == null || !Services.ShowReward(offer.Id,
                     () => { if (this != null) m_EarnedCallbacks.Add(offer.Id); },
                     () => { if (this != null) { m_RewardShowing = false; Hud?.RefreshNow(); } })) m_RewardShowing = false;
@@ -111,8 +124,9 @@ namespace CatMiners.Runtime.Outpost
                 m_Events.AddRange(events);
                 m_EarnedCallbacks.Remove(offer.Id);
                 Services?.AcknowledgeReward(offer.Id);
-                if (offer.ItemId == null) DismissOffline();
-                Services?.Track(GameEvent.RewardDelivered, State.Run.Zone, offer.ItemId);
+                if (offer.ItemId == null && offer.Bonus == null) DismissOffline();
+                Services?.Track(GameEvent.AdRewardSaved, State.Run.Zone);
+                Services?.Track(GameEvent.RewardDelivered, State.Run.Zone, offer.ItemId ?? (offer.Bonus != null ? "bonus_" + offer.Bonus : null));
                 Hud?.RefreshNow();
             });
         }

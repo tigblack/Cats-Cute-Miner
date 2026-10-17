@@ -1,5 +1,6 @@
-Local Android release preparation only. Nothing here creates provider/store records,
-installs a toolchain, generates signing keys, or uploads/publishes.
+Local Android release preparation. These tools do not create provider/store records,
+install a toolchain, or upload/publish. `new-upload-key.ps1` creates a key only when
+no key/configuration exists; `inspect-signing.ps1` verifies an existing key without replacing it.
 
 Run commands on Windows through `on-remote` from the synced project:
 
@@ -11,6 +12,17 @@ The probe honors `UNITY_EXE`, discovers the exact project Unity version includin
 `C:\Unity\Editor\Unity.exe`, and checks bundled plus external EditorPrefs and
 environment SDK/NDK/JDK candidates. Availability does not prove effective selection.
 Device counts omit serials; a stopped adb server is left stopped.
+
+Verify the existing key without exposing its passwords:
+
+```text
+on-remote powershell -NoProfile -ExecutionPolicy Bypass -File Tools/GooglePlay/inspect-signing.ps1
+```
+
+The private signing file stays in the Windows user profile under
+`MulticastSigning/com.multicastgames.catscuteminer/`, outside the project and sync.
+The public receipt is `release/google-play/evidence/upload-signing.json`.
+`build-with-signing.ps1` loads it into the child process environment for the guarded builder.
 
 After approval of the actual package ID, version/code and upload key, populate a
 private process environment from existing signing credentials:
@@ -27,7 +39,7 @@ optional. Do not start another Unity batch workflow concurrently.
 
 `CatMiners.Editor.GooglePlay.BuildAndroid.Aab` requires the same public arguments as
 `-catminersPackage`, `-catminersVersion`, `-catminersVersionCode`,
-`-catminersOutput`. It builds only CoreGame, ARM64, IL2CPP, API 36, with no
+`-catminersOutput`. It builds only CoreGame, ARMv7 + ARM64, IL2CPP, API 36, with no
 development/debug/profiler options. Temporary settings are restored in `finally`.
 `CatMiners.Editor.GooglePlay.BuildAndroid.Apk` is a signed release APK companion
 requiring the same release inputs and signing. The existing
@@ -55,10 +67,14 @@ Before any upload, verify the final merged manifest (identity/version/API and no
 debuggable), resolved native Billing >=8, **every** engine/provider native library
 ELF alignment and generated APK packaging on 16 KB pages, device behavior and
 Play App Signing enrollment. Confirm the version code is unused in all Play tracks.
-External writes/uploads/product creation require separate user confirmation.
+External writes follow the current authorization in `release/google-play/profile.json`.
+The user's explicit publication resumption on 2026-10-16 is recorded there; final
+artifact, device, dashboard and production gates still apply.
 
 Sources: [Unity build options](https://docs.unity3d.com/6000.3/Documentation/ScriptReference/BuildPlayerOptions.html),
 [Unity platform icons](https://docs.unity3d.com/6000.3/Documentation/ScriptReference/PlayerSettings.GetPlatformIcons.html),
 [target API](https://support.google.com/googleplay/android-developer/answer/11926878),
 [Billing deadlines](https://developer.android.com/google/play/billing/deprecation-faq),
 [16 KB checks](https://developer.android.com/guide/practices/page-sizes).
+
+2026-10-16 user override: first release without MAX/ads. MAX gate validates package/native dependency exclusion and AD_ID removal, and does not require keys/CMP. Legal, signing, other providers, IAP and actual artifact/device gates still apply.

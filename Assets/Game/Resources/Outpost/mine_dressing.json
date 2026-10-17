@@ -1,0 +1,81 @@
+{
+  "Version": "dressing-1",
+  "FromZone": 1,
+  "ChamberOpenCells": 15,
+  "Tiers": {
+    "Light": { "HpFactor": "1/2", "ValueFactor": "1" },
+    "Medium": { "HpFactor": "1", "ValueFactor": "1" },
+    "Heavy": { "HpFactor": "2", "ValueFactor": "1" }
+  },
+  "Density": {
+    "MainPassage": "1/10",
+    "SidePassage": "11/50",
+    "Chamber": "3/10"
+  },
+  "SectionMinCells": 4,
+  "ClusterMax": 3,
+  "ClusterGrowPercent": 45,
+  "Permanent": {
+    "FreeCellsPerProp": 35,
+    "Min": 2,
+    "Max": 8,
+    "Spacing": 4,
+    "MaxDetour": 6,
+    "Candidates": 10,
+    "WallCellsPerProp": 30,
+    "WallMin": 1,
+    "WallMax": 4
+  },
+  "Exclusions": {
+    "BaseClearance": 4,
+    "ExitClearance": 1,
+    "GateClearance": 1,
+    "FactoryClearance": true
+  },
+  "Families": [
+    { "Id": "minecart", "Category": "Permanent", "Weight": 4, "Areas": ["Chamber", "SidePassage"], "PipeMount": true,
+      "Variants": [{ "W": 2, "H": 1 }, { "W": 2, "H": 1 }, { "W": 2, "H": 1 }] },
+    { "Id": "winch", "Category": "Permanent", "Weight": 2, "Areas": ["Chamber", "SidePassage"], "PipeMount": true,
+      "Variants": [{ "W": 1, "H": 1 }] },
+    { "Id": "drill", "Category": "Permanent", "Weight": 2, "Areas": ["Chamber"], "PipeMount": true,
+      "Variants": [{ "W": 2, "H": 1 }] },
+    { "Id": "reel", "Category": "Permanent", "Weight": 3, "Areas": ["Chamber", "SidePassage"],
+      "Variants": [{ "W": 1, "H": 1 }, { "W": 1, "H": 1 }] },
+    { "Id": "support", "Category": "Permanent", "Weight": 4, "Areas": ["Chamber", "SidePassage"], "PipeMount": true,
+      "Variants": [{ "W": 1, "H": 1 }, { "W": 1, "H": 1 }, { "W": 1, "H": 1 }] },
+    { "Id": "hopper", "Category": "Permanent", "Weight": 2, "Areas": ["Chamber"], "PipeMount": true,
+      "Variants": [{ "W": 2, "H": 1 }, { "W": 2, "H": 1 }] },
+    { "Id": "tower", "Category": "Permanent", "Weight": 2, "Areas": ["Chamber", "SidePassage"], "CatThemed": true,
+      "Variants": [{ "W": 1, "H": 1 }, { "W": 1, "H": 1 }] },
+    { "Id": "statue", "Category": "Permanent", "Weight": 1, "Areas": ["Chamber", "SidePassage"], "CatThemed": true,
+      "Variants": [{ "W": 1, "H": 1 }, { "W": 1, "H": 1 }] },
+    { "Id": "sealedshaft", "Category": "Wall", "Weight": 1, "Areas": ["MainPassage", "SidePassage", "Chamber"],
+      "Variants": [{ "W": 1, "H": 1 }, { "W": 1, "H": 1 }] },
+    { "Id": "planks", "Category": "Destructible", "Tier": "Light", "Weight": 5, "Areas": ["MainPassage", "SidePassage", "Chamber"],
+      "Variants": [{ "W": 1, "H": 1 }, { "W": 1, "H": 1 }, { "W": 1, "H": 1 }] },
+    { "Id": "crates", "Category": "Destructible", "Tier": "Medium", "Weight": 4, "Areas": ["MainPassage", "SidePassage", "Chamber"],
+      "Variants": [{ "W": 1, "H": 1, "Weight": 2 }, { "W": 1, "H": 1, "Weight": 2 }, { "W": 2, "H": 1 }] },
+    { "Id": "rubble", "Category": "Destructible", "Tier": "Heavy", "Weight": 5, "Areas": ["MainPassage", "SidePassage", "Chamber"],
+      "Variants": [{ "W": 1, "H": 1, "Weight": 2 }, { "W": 1, "H": 1, "Weight": 2 }, { "W": 2, "H": 1 }] },
+    { "Id": "scrap", "Category": "Destructible", "Tier": "Heavy", "Weight": 3, "Areas": ["MainPassage", "SidePassage", "Chamber"],
+      "Variants": [{ "W": 1, "H": 1, "Weight": 2 }, { "W": 1, "H": 1, "Weight": 2 }, { "W": 2, "H": 1 }] },
+    { "Id": "cardboard", "Category": "Destructible", "Tier": "Light", "Weight": 3, "Areas": ["SidePassage", "Chamber"], "CatThemed": true,
+      "Variants": [{ "W": 1, "H": 1 }, { "W": 1, "H": 1 }, { "W": 1, "H": 1 }] },
+    { "Id": "yarn", "Category": "Destructible", "Tier": "Medium", "Weight": 2, "Areas": ["SidePassage", "Chamber"], "CatThemed": true,
+      "Variants": [{ "W": 1, "H": 1 }, { "W": 1, "H": 1 }, { "W": 1, "H": 1 }] },
+    { "Id": "catfurn", "Category": "Destructible", "Tier": "Medium", "Weight": 2, "Areas": ["SidePassage", "Chamber"], "CatThemed": true,
+      "Variants": [{ "W": 1, "H": 1 }, { "W": 1, "H": 1 }, { "W": 1, "H": 1 }] },
+    { "Id": "sacks", "Category": "Destructible", "Tier": "Light", "Weight": 3, "Areas": ["MainPassage", "SidePassage", "Chamber"],
+      "Variants": [{ "W": 1, "H": 1 }, { "W": 1, "H": 1 }, { "W": 1, "H": 1 }] }
+  ],
+  "Arrangements": [
+    { "Anchor": "minecart", "Debris": ["scrap", "rubble", "planks"], "Min": 1, "Max": 2 },
+    { "Anchor": "support", "Debris": ["planks", "crates"], "Min": 1, "Max": 2 },
+    { "Anchor": "tower", "Debris": ["cardboard", "yarn", "catfurn"], "Min": 1, "Max": 3 },
+    { "Anchor": "statue", "Debris": ["cardboard", "yarn"], "Min": 1, "Max": 2 },
+    { "Anchor": "drill", "Debris": ["scrap", "rubble"], "Min": 1, "Max": 2 },
+    { "Anchor": "hopper", "Debris": ["rubble", "sacks"], "Min": 1, "Max": 2 },
+    { "Anchor": "reel", "Debris": ["yarn", "scrap"], "Min": 1, "Max": 2 },
+    { "Anchor": "winch", "Debris": ["scrap", "planks"], "Min": 1, "Max": 2 }
+  ]
+}

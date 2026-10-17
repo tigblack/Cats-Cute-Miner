@@ -78,6 +78,8 @@ namespace CatMiners.Core.Outpost
         /// <summary>Разделы экрана сверху вниз: offers, timeskip, elixir, gems.</summary>
         public string[] Sections;
         public StoreItemDef[] Items;
+        /// <summary>Бонус за рекламу у левого края экрана и мортира с динамитом (ТЗ 10.6); null — бонуса нет.</summary>
+        public RewardedBonusRules RewardedBonus;
 
         Dictionary<string, StoreItemDef> m_ById;
         Dictionary<string, List<StoreItemDef>> m_BySection;
@@ -168,6 +170,7 @@ namespace CatMiners.Core.Outpost
                 if (!m_ById.TryGetValue(kv.Key, out var d) || d.Kind != StoreItemKind.TimeSkip) Fail("StarterConsumables: " + kv.Key + " — не тайм-скип");
                 if (kv.Value < 0) Fail("StarterConsumables[" + kv.Key + "] < 0");
             }
+            RewardedBonus?.Validate(Fail);
         }
 
         /// <summary>Каждый сундук магазина есть в каталоге карточек (вызывается, когда каталог подключён).</summary>
@@ -193,6 +196,59 @@ namespace CatMiners.Core.Outpost
             }
             m_BySection = bySection;
             m_ById = byId;
+        }
+    }
+
+    /// <summary>
+    /// Бонус за рекламу (ТЗ 10.6): иконка у левого края над нижней панелью появляется через <see cref="FirstDelaySec"/> активной
+    /// игры, затем через <see cref="IntervalSec"/> после просмотра или пропуска и висит <see cref="VisibleSec"/>. Вид награды —
+    /// взвешенный выбор <see cref="Weights"/> среди доступных сейчас; суммы — по ценам игры (<see cref="RewardedBonus"/>).
+    /// Динамит: мортира лагеря выстреливает бочку к доступным целям сектора, тап по бочке — взрыв.
+    /// </summary>
+    [Serializable]
+    public sealed class RewardedBonusRules
+    {
+        public int FirstDelaySec = 120;
+        public int IntervalSec = 180;
+        public int VisibleSec = 45;
+        /// <summary>Веса видов по именам <see cref="RewardedBonusKind"/> (Gold, Elixir, Gems, Dynamite); 0 — вид не выпадает.</summary>
+        public Dictionary<string, int> Weights = new Dictionary<string, int>(StringComparer.Ordinal);
+        /// <summary>Золото — на столько самых дешёвых покупок улучшений базы по одному уровню (одна ветка может войти дважды).</summary>
+        public int GoldUpgrades = 2;
+        /// <summary>Эликсир — на столько самых дешёвых улучшений своих карточек ниже максимального уровня.</summary>
+        public int ElixirUpgrades = 1;
+        /// <summary>Эликсир, когда улучшать нечего (нет карточек или все на максимуме).</summary>
+        public long ElixirFloor = 50;
+        public long Gems = 2;
+        /// <summary>Радиус взрыва в клетках: от центра клетки бочки до центра ближайшей клетки цели.</summary>
+        public Rational DynamiteRadius = Rational.Of(3, 2);
+        /// <summary>Доля максимальной прочности цели, у которой лежит бочка (не больше остатка).</summary>
+        public Rational DynamiteCenterShare = Rational.One;
+        /// <summary>Доля максимальной прочности остальных доступных целей в радиусе; умножается на 1 + карточка DynamitePower.</summary>
+        public Rational DynamiteRingShare = Rational.Of(1, 2);
+        /// <summary>Динамит выпадает, если на поле нет бочки и в секторе не меньше стольких целей, доступных кирке.</summary>
+        public int DynamiteMinTargets = 3;
+
+        public int WeightOf(RewardedBonusKind kind) =>
+            Weights != null && Weights.TryGetValue(kind.ToString(), out int w) ? w : 0;
+
+        internal void Validate(Action<string> fail)
+        {
+            if (FirstDelaySec < 0 || IntervalSec < 1 || VisibleSec < 1) fail("RewardedBonus: тайминги (FirstDelaySec ≥ 0, IntervalSec ≥ 1, VisibleSec ≥ 1)");
+            if (Weights == null || Weights.Count == 0) fail("RewardedBonus: нет Weights");
+            int sum = 0;
+            foreach (var kv in Weights)
+            {
+                if (!Enum.TryParse<RewardedBonusKind>(kv.Key, false, out _)) fail("RewardedBonus.Weights: неизвестный вид " + kv.Key);
+                if (kv.Value < 0) fail("RewardedBonus.Weights[" + kv.Key + "] < 0");
+                sum += kv.Value;
+            }
+            if (sum <= 0) fail("RewardedBonus.Weights: сумма весов 0");
+            if (GoldUpgrades < 1 || ElixirUpgrades < 1) fail("RewardedBonus: GoldUpgrades и ElixirUpgrades ≥ 1");
+            if (ElixirFloor < 1 || Gems < 1) fail("RewardedBonus: ElixirFloor и Gems ≥ 1");
+            if (DynamiteRadius.Sign <= 0) fail("RewardedBonus: DynamiteRadius ≤ 0");
+            if (DynamiteCenterShare.Sign <= 0 || DynamiteRingShare.Sign < 0) fail("RewardedBonus: доли урона динамита");
+            if (DynamiteMinTargets < 1) fail("RewardedBonus: DynamiteMinTargets < 1");
         }
     }
 }

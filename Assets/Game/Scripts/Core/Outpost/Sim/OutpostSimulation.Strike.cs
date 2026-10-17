@@ -62,11 +62,25 @@ namespace CatMiners.Core.Outpost
             // Команды одной отметки идут до фазы 7: после покупки в той же отметке характеристики ещё не пересчитаны.
             var stats = m_StatsDirty ? ComputeStats() : m_Stats;
             int ti = m_Map.TargetIndex(cmd.TargetId);
-            var ts = run.Targets[ti];
-            var mt = m_Map.Targets[ti];
-            long damage = Math.Min(stats.TapDamageUnits, ts.RemainingHpUnits);
-            ts.RemainingHpUnits -= damage;
+            long damage = Math.Min(stats.TapDamageUnits, run.Targets[ti].RemainingHpUnits);
             Touch(t);
+            bool destroyed = ApplyHit(ti, damage, stats, t, out int released);
+            // Разрушение командой (фаза 6) сразу проходит проверки фазы 5: ворота открываются, при полной расчистке начинается
+            // DrainingCargo — снимок после команды согласован, планировщик фазы 7 видит новый барьер и фазу (ТЗ 6.5, 11.1).
+            if (destroyed) PhaseGatesAndCompletion(t);
+            return new CommandResult { Ok = true, Levels = Math.Max(0, released), Cost = damage };
+        }
+
+        /// <summary>
+        /// Урон игрока по цели ti (кирка, взрыв динамита ТЗ 10.6): событие TargetStruck, порции Released..expected−1 по порогам HP —
+        /// одной партией на земле, при нуле HP — разрушение (сначала разрушение: освобождённый footprint становится ближайшей
+        /// клеткой для остатка груза). Проверки фазы 5 (ворота, завершение) вызывает команда. true — цель разрушена.
+        /// </summary>
+        bool ApplyHit(int ti, long damage, TeamStats stats, long t, out int released)
+        {
+            var ts = Run.Targets[ti];
+            var mt = m_Map.Targets[ti];
+            ts.RemainingHpUnits -= damage;
             var e = OutpostEvent.Create(OutpostEventType.TargetStruck, t);
             e.TargetId = mt.Id;
             e.Cell = m_Map.Cell(mt.Column, mt.Row);
@@ -77,14 +91,10 @@ namespace CatMiners.Core.Outpost
             int expected = destroyed
                 ? ts.TotalUnits
                 : (int)(checked((long)ts.TotalUnits * (ts.MaxHpUnits - ts.RemainingHpUnits)) / ts.MaxHpUnits);
-            // Сначала разрушение: освобождённый footprint становится ближайшей клеткой для остатка груза.
             if (destroyed) DestroyTarget(ti, t);
-            int released = expected - ts.ReleasedUnits;
+            released = expected - ts.ReleasedUnits;
             if (released > 0) ReleaseToGround(ts, mt, expected, stats, t);
-            // Разрушение командой (фаза 6) сразу проходит проверки фазы 5: ворота открываются, при полной расчистке начинается
-            // DrainingCargo — снимок после команды согласован, планировщик фазы 7 видит новый барьер и фазу (ТЗ 6.5, 11.1).
-            if (destroyed) PhaseGatesAndCompletion(t);
-            return new CommandResult { Ok = true, Levels = Math.Max(0, released), Cost = damage };
+            return destroyed;
         }
 
         /// <summary>Порции Released..expected−1 с фиксированной стоимостью по текущим Stats — одна партия на земле (ТЗ 7.1–7.3).</summary>

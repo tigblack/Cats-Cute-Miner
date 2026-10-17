@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "kind": "local_planning_draft_not_provider_api_payload",
+  "name": "CatMiner_Android_Install_EN_Factories_DRAFT",
+  "network": "AppLovin / Axon",
+  "purpose": "user_acquisition",
+  "state": "LOCAL_DRAFT",
+  "launch_authorized": false,
+  "externally_created": false,
+  "campaign_id": null,
+  "active": false,
+  "spend_started": false,
+  "app": {
+    "name": "Cat Miner: Idle Tycoon",
+    "platform": "android",
+    "package_name": "com.multicastgames.catscuteminer",
+    "advertiser_account_id": null,
+    "advertiser_app_id": null,
+    "store_url": null,
+    "prospective_store_url_unverified": "https://play.google.com/store/apps/details?id=com.multicastgames.catscuteminer",
+    "release_status": "unpublished_AAB_and_internal_QA_pending"
+  },
+  "targeting": {
+    "country_codes": null,
+    "countries_unset_by_owner": true,
+    "excluded_country_codes": [
+      "BR"
+    ],
+    "language_proposal": "en",
+    "age_targeting": null,
+    "game_audience": "6+ and adults",
+    "campaign_audience_eligibility": "Requires platform-policy and live targeting verification before traffic; game age rating does not authorize personalized targeting of children"
+  },
+  "budget": {
+    "daily_amount": null,
+    "currency": "USD",
+    "unset_by_owner": true,
+    "lifetime_amount": null
+  },
+  "optimization": {
+    "goal_proposal": "installs / CPI",
+    "goal_confirmed": false,
+    "goal_value": null,
+    "bidding_strategy": null,
+    "bid": null
+  },
+  "schedule": {
+    "start_at": null,
+    "end_at": null,
+    "automatic_activation": false
+  },
+  "attribution": {
+    "provider": "Adjust",
+    "app_token": "cdbdt3hkj56o",
+    "partner": "Axon by AppLovin",
+    "partner_id": 7,
+    "click_url": "https://app.adjust.com/25sohm3z?campaign={CAMPAIGN_NAME}%20({CAMPAIGN_ID})&adgroup={APP_ID}&creative={AD_NAME}&idfa={IDFA}&country={CC}&gps_adid={IDFA}&adgroup_id={PLACEMENT_ID}&ip_address={DEVICE_IP}&os_version={OS_VERSION}&campaign_id={CAMPAIGN_ID}&device_type={DEVICE_TYPE}&tracker_limit=100000&applovin_click_id={DID}&applovin_event_id={EVENT_ID}&external_tracker_ids=1&android_id_lower_sha1={HADID}",
+    "impression_url": "https://view.adjust.com/impression/25sohm3z?campaign={CAMPAIGN_NAME}%20({CAMPAIGN_ID})&adgroup={APP_ID}&creative={AD_NAME}&idfa={IDFA}&country={CC}&gps_adid={IDFA}&adgroup_id={PLACEMENT_ID}&ip_address={DEVICE_IP}&os_version={OS_VERSION}&campaign_id={CAMPAIGN_ID}&device_type={DEVICE_TYPE}&tracker_limit=100000&applovin_click_id={DID}&applovin_event_id={EVENT_ID}&external_tracker_ids=1&android_id_lower_sha1={HADID}",
+    "link_token": "25sohm3z",
+    "purchase_event_token": "fv23mx",
+    "proposed_partner_purchase_event": "In-App Checkout",
+    "configuration_ref": "tracking-plan.json",
+    "protected_users": "Under 16 and unknown: no optional SDK initialization, telemetry or historical backfill; eligible users require consent",
+    "source_url": "https://suite.adjust.com/partners/7/links/25sohm3z/network/link-urls",
+    "provider_macros_preserved": true,
+    "privacy_eligibility_review": "Required before launch; generated templates contain device-ID/IP macros; no test tracking request sent",
+    "link_urls_reloaded": true
+  },
+  "creative": {
+    "set_name_proposal": "CatMiner_EN_Factories_30s_Portrait",
+    "provider_creative_set_id": null,
+    "uploaded": false,
+    "language": "en",
+    "video": "assets/CatMiner_Axon_Factories_30s_en.mp4",
+    "endcard": "assets/endcard-1080x1920.png",
+    "icon": "assets/icon-512.png",
+    "headlines": [
+      "Build a cat factory empire",
+      "Unlock. Deliver. Automate."
+    ],
+    "description": "Break chains, deliver goods, and put your cat factories to work. In-game purchases include random items.",
+    "call_to_action": "Play free",
+    "playable": null,
+    "network_review_status": "not_submitted",
+    "studio_library": {
+      "uploaded": true,
+      "project_id": "e4e954f1-59a9-479a-821f-be7eed9aff47",
+      "project_alias": "Cats Cute Miner",
+      "asset_names": [
+        "CatMiner_Axon_Factories_30s_en.mp4",
+        "CatMiner_Axon_Endcard_1080x1920.png",
+        "icon-512.png"
+      ],
+      "network_upload_or_moderation": false,
+      "receipt_ref": "studio-assets.json",
+      "previous_name_video_and_endcard_are_obsolete": true
+    }
+  },
+  "game_ads": {
+    "max_enabled": false,
+    "rewarded_interstitial_banner_enabled": false,
+    "ua_preparation_does_not_enable_max": true
+  },
+  "creation_constraint": {
+    "reason": "Campaign create API requires budget/targeting/tracking and ignores the status field on creation. A PAUSED field would not establish a safe non-serving draft.",
+    "source": "https://support.applovin.com/en/growth/promoting-your-apps/api/axon-campaign-management-api",
+    "action": "Keep this local draft. No campaign create, activation, start date, or spend call. A future launch requires a separate explicit owner instruction."
+  }
+}

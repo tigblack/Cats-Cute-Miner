@@ -55,6 +55,13 @@ namespace CatMiners.Core.Outpost
                 }
                 int area = t.IsGate ? 1 : t.Cells.Length;
                 long maxHp = MaxHp(cfg, map.Number, rank, area, t.Kind);
+                var valueFactor = type.ValueFactor;
+                // Мусор обстановки (Docs/Rework/MINE_DRESSING.md): HP и цена порции — как у завала x той же площади × ярус.
+                if (t.IsDebris)
+                {
+                    maxHp = Math.Max(1L, ExactMath.ToLongChecked((t.Piece.HpFactor * maxHp).Ceil(), "MaxHp"));
+                    valueFactor = valueFactor * t.Piece.ValueFactor;
+                }
                 // ТЗ 2.2 §4.2 (Р2): вся ценность завода — в продаже товара, удары и разрушение цепей порций не выпускают.
                 var units = t.IsFactory ? BigInteger.Zero : BigInteger.Max(cfg.MinCargoUnits, ExactMath.CeilDiv(maxHp, cfg.CargoHpDivisor));
                 result[i] = new TargetBalance
@@ -62,7 +69,7 @@ namespace CatMiners.Core.Outpost
                     TargetId = t.Id,
                     MaxHp = maxHp,
                     TotalCargoUnits = ExactMath.ToIntChecked(units, "TotalCargoUnits"),
-                    ValueFactor = type.ValueFactor,
+                    ValueFactor = valueFactor,
                     Rank01 = rank,
                     Area = area,
                 };

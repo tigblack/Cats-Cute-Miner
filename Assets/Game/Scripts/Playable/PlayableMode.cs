@@ -49,6 +49,7 @@ namespace CatMiners.Playable
                 s_OwnsSaveDirectory = true;
             }
             OutpostController.SuppressOfflineSummary = true;
+            OutpostController.SuppressRewardedBonus = true;
             OutpostHud.BottomReserve = BannerHeight;
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
@@ -59,6 +60,7 @@ namespace CatMiners.Playable
             SceneManager.sceneLoaded -= OnSceneLoaded;
             OutpostController.ConfigsOverride = null;
             OutpostController.SuppressOfflineSummary = false;
+            OutpostController.SuppressRewardedBonus = false;
             OutpostHud.BottomReserve = 0f;
             if (s_OwnsSaveDirectory) OutpostController.SaveDirectoryOverride = null;
             s_OwnsSaveDirectory = false;

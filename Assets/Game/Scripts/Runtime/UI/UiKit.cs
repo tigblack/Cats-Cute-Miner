@@ -9,30 +9,28 @@ using UnityEngine.UI;
 namespace CatMiners.Runtime
 {
     /// <summary>
-    /// Шрифт интерфейса (Docs/Art/PIXEL_STYLE_GUIDE.md, раздел 6): пиксельный Pixeloid Sans (SIL OFL) из Resources/Fonts —
-    /// обычное начертание и настоящее жирное (<see cref="Bold"/>: заголовки, кнопки, числа). Выбран пользователем
-    /// 12 октября 2026 вместо Tiny5, который не читался: заглавные — 7 пикселей шрифта вместо 5, строчные — 5 вместо 4.
-    /// Ассеты TMP создаются один раз динамическими (глифы добавляются по мере появления в тексте). Без TTF — прежний шрифт
-    /// TMP Essentials (LiberationSans) и одно предупреждение в журнале; без жирного TTF <see cref="Bold"/> — обычное начертание.
-    /// Пиксель шрифта — 1/9 em (<see cref="EmPixels"/>): размеры <see cref="PixelUi.FontSmall"/>…<see cref="PixelUi.FontHuge"/>
-    /// кратны 9 и дают пиксель шрифта в целое число единиц Canvas (2…8).
+    /// Шрифт интерфейса (Docs/Art/PIXEL_STYLE_GUIDE.md, раздел 6; решение 16 октября 2026, Docs/Rework/MINE_DRESSING.md «Шрифт»):
+    /// гладкий округлый Nunito (SIL OFL) из Resources/Fonts — SemiBold для текста и ExtraBold (<see cref="Bold"/>) для заголовков,
+    /// кнопок и чисел. Заменил пиксельный Pixeloid Sans: у Nunito различимы 0/O, 1/I/l (l с хвостиком), 5/S, есть кириллица.
+    /// Мир остаётся пиксельным (Point-фильтрация атласа), а текст — SDF TextMeshPro: чёткий при любом масштабе и не зависит от
+    /// пиксельной сетки. Метрики строки статических начертаний сведены к 1,22 em (Tools/Fonts/make_nunito.py), как у прежнего
+    /// шрифта. Ассеты TMP создаются один раз динамическими (глифы добавляются по мере появления в тексте); недостающие знаки
+    /// (→ и т. п.) — из шрифта TMP Essentials. Без TTF — шрифт TMP Essentials и одно предупреждение в журнале.
     /// </summary>
     public static class UiFonts
     {
-        const string RegularPath = "Fonts/PixeloidSans-Regular";
-        const string BoldPath = "Fonts/PixeloidSans-Bold";
-        /// <summary>Пикселей шрифта на em (сетка Pixeloid Sans): размер текста, кратный этому числу, даёт целые пиксели.</summary>
-        public const int EmPixels = 9;
-        /// <summary>Размер растеризации SDF: пиксель шрифта = 8 текселей, углы глифов остаются квадратными.</summary>
-        const int SamplingPointSize = 72;
-        const int TexelsPerPixel = SamplingPointSize / EmPixels;
-        const int AtlasPadding = TexelsPerPixel;
+        const string RegularPath = "Fonts/Nunito-SemiBold";
+        const string BoldPath = "Fonts/Nunito-ExtraBold";
+        /// <summary>Размер растеризации SDF (пикселей на em) и отступ поля расстояний.</summary>
+        const int SamplingPointSize = 90;
+        const int AtlasPadding = 9;
         const int AtlasSize = 1024;
         /// <summary>
-        /// Сдвиг тени в долях градиента SDF (padding + 1 = 9 текселей): 8/9 → 8 текселей = 1 пиксель шрифта при любом
-        /// размере текста; у текста <see cref="PixelUi.FontBody"/> это 3 единицы Canvas.
+        /// Сдвиг мягкой тени вниз в долях поля SDF (padding + 1 = 10 текселей): 0,7 → 7 текселей ≈ 0,08 em, у текста
+        /// <see cref="PixelUi.FontBody"/> около 2,3 единицы Canvas. Сдержанная тень под светлым текстом на тёмных панелях.
         /// </summary>
-        const float ShadowOffset = TexelsPerPixel / (AtlasPadding + 1f);
+        const float ShadowOffset = 0.7f;
+        const float ShadowSoftness = 0.12f;
 
         static TMP_FontAsset s_Legacy;
         static TMP_FontAsset s_Regular;
@@ -41,7 +39,7 @@ namespace CatMiners.Runtime
         static Material s_BoldShadow;
         static bool s_Warned;
 
-        /// <summary>Основной шрифт: Pixeloid Sans (без TTF — шрифт TMP Essentials).</summary>
+        /// <summary>Основной шрифт: Nunito SemiBold (без TTF — шрифт TMP Essentials).</summary>
         public static TMP_FontAsset Default
         {
             get
@@ -51,7 +49,7 @@ namespace CatMiners.Runtime
             }
         }
 
-        /// <summary>Шрифт заголовков, кнопок и чисел: Pixeloid Sans Bold (без жирного TTF — тот же ассет, что <see cref="Default"/>).</summary>
+        /// <summary>Шрифт заголовков, кнопок и чисел: Nunito ExtraBold (без жирного TTF — тот же ассет, что <see cref="Default"/>).</summary>
         public static TMP_FontAsset Bold
         {
             get
@@ -61,8 +59,8 @@ namespace CatMiners.Runtime
             }
         }
 
-        /// <summary>Загружен пиксельный шрифт (иначе работает запасной шрифт TMP Essentials).</summary>
-        public static bool IsPixel
+        /// <summary>Загружен шрифт интерфейса из Resources/Fonts (иначе работает запасной шрифт TMP Essentials).</summary>
+        public static bool IsLoaded
         {
             get
             {
@@ -71,7 +69,7 @@ namespace CatMiners.Runtime
             }
         }
 
-        /// <summary>Bold — отдельное начертание (у Pixeloid Sans есть; пиксельный шрифт не утолщается искусственно, см. PixelUi.SetFont).</summary>
+        /// <summary>Bold — отдельное начертание (ExtraBold); тогда текст не утолщается искусственно (PixelUi.SetFont).</summary>
         public static bool HasRealBold
         {
             get
@@ -81,7 +79,7 @@ namespace CatMiners.Runtime
             }
         }
 
-        /// <summary>Шрифт TMP Essentials по умолчанию: fallback пиксельных шрифтов для недостающих символов (★ и т. п.).</summary>
+        /// <summary>Шрифт TMP Essentials по умолчанию: fallback шрифта интерфейса для недостающих символов (→, ★ и т. п.).</summary>
         public static TMP_FontAsset Legacy
         {
             get
@@ -98,10 +96,10 @@ namespace CatMiners.Runtime
             }
         }
 
-        /// <summary>Материал Regular с пиксельной тенью (ink1, 1 пиксель шрифта вниз) — для текста на тёмном фоне.</summary>
+        /// <summary>Материал основного начертания с мягкой тенью (ink1, вниз) — для текста на тёмном фоне.</summary>
         public static Material DefaultShadow => Shadow(Default);
 
-        /// <summary>Материал Bold с пиксельной тенью.</summary>
+        /// <summary>Материал жирного начертания с мягкой тенью.</summary>
         public static Material BoldShadow => Shadow(Bold);
 
         /// <summary>
@@ -129,25 +127,25 @@ namespace CatMiners.Runtime
         {
             if (s_Regular != null && s_Bold != null) return;
             var legacy = Legacy;
-            var regular = CreatePixel(RegularPath, legacy);
+            var regular = CreateAsset(RegularPath, legacy);
             if (regular == null)
             {
                 if (!s_Warned)
                 {
                     s_Warned = true;
-                    Debug.LogWarning("[CatMiners] Пиксельный шрифт " + RegularPath + " не найден в Resources — используется шрифт TMP по умолчанию."); // loc:ignore — журнал разработчика
+                    Debug.LogWarning("[CatMiners] Шрифт интерфейса " + RegularPath + " не найден в Resources — используется шрифт TMP по умолчанию."); // loc:ignore — журнал разработчика
                 }
                 s_Regular = legacy;
                 s_Bold = legacy;
                 return;
             }
             s_Regular = regular;
-            s_Bold = CreatePixel(BoldPath, legacy) ?? regular;
+            s_Bold = CreateAsset(BoldPath, legacy) ?? regular;
             s_RegularShadow = null;
             s_BoldShadow = null;
         }
 
-        static TMP_FontAsset CreatePixel(string path, TMP_FontAsset legacy)
+        static TMP_FontAsset CreateAsset(string path, TMP_FontAsset legacy)
         {
             var font = Resources.Load<Font>(path);
             if (font == null) return null;
@@ -184,8 +182,8 @@ namespace CatMiners.Runtime
             m.SetColor("_UnderlayColor", PixelPalette.Ink1);
             m.SetFloat("_UnderlayOffsetX", 0f);
             m.SetFloat("_UnderlayOffsetY", -ShadowOffset);
-            m.SetFloat("_UnderlayDilate", 0f);
-            m.SetFloat("_UnderlaySoftness", 0f);
+            m.SetFloat("_UnderlayDilate", 0.1f);
+            m.SetFloat("_UnderlaySoftness", ShadowSoftness);
             return m;
         }
     }

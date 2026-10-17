@@ -220,6 +220,7 @@ namespace CatMiners.Runtime.Outpost
             BuildRowSectors();
             BuildFloorAndWalls();
             BuildDecor();
+            BuildDressing();
             BuildFog();
             ResetFactories();
             m_TargetsRoot = new GameObject("Targets").transform;
@@ -415,6 +416,7 @@ namespace CatMiners.Runtime.Outpost
             SyncCargo(run, dt, live);
             m_Flights.Tick(dt);
             m_Camp.Sync(sim, dt);
+            SyncDynamite(run);
             SyncFactoryNetwork(run, dt);
             m_Debug.Sync(sim, m_Map);
 

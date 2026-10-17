@@ -50,6 +50,12 @@ namespace CatMiners.Runtime.Outpost
         GoodsArrive,
         /// <summary>Товар продан на рынке (GoodsSold): одна команда «Sell all» — один звук (интервал Sfx).</summary>
         GoodsSold,
+        /// <summary>Мортира лагеря выстрелила бочку динамита (DynamiteLaunched, ТЗ 10.6).</summary>
+        MortarFire,
+        /// <summary>Бочка динамита упала на поле.</summary>
+        BarrelLand,
+        /// <summary>Взрыв бочки динамита (DynamiteExploded).</summary>
+        DynamiteBlast,
     }
 
     /// <summary>Аргументы подсказки вида: структура, передаётся без выделений памяти.</summary>

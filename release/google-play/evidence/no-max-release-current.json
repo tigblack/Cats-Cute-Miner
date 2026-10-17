@@ -1,0 +1,112 @@
+{
+  "recordedAtUtc": "2026-10-16T13:09:18.502666+00:00",
+  "userDecision": "Пока давай без MAX",
+  "scope": "First Android release without MAX or any ads; purchases and gem chests retained; Brazil excluded",
+  "package": "com.multicastgames.catscuteminer",
+  "changes": {
+    "upmMAXRemoved": true,
+    "runtimeMaxAssemblyReferenceRemoved": true,
+    "nativeAppLovinDependencyRemoved": true,
+    "compileFlag": "CATMINERS_MAX absent; AdsEnabled=false",
+    "privacy": "No ad toggle; stale ad consent cleared on load/apply/save; analytics choices remain separate",
+    "androidUI": "No ad shop tiles, offline doubling or periodic ad offers; durable earned reward recovery retained",
+    "advertisingId": "AD_ID removal in manifest; Adjust and Meta ID reads disabled",
+    "editorWebSimulation": "Existing TestPurchases simulation retained for QA; not enabled in Android player",
+    "existingServiceRegistrations": "Preserved inactive; no new services created or registrations deleted"
+  },
+  "checks": {
+    "nativeProjectConfigure": "passed",
+    "androidPlayerCompile": "passed, adsEnabled=false, no MAX/AppLovin player assemblies",
+    "androidCompileEvidence": "evidence/android-player-api-compile.json",
+    "playMode": {
+      "passed": 13,
+      "failed": 0,
+      "fixtures": [
+        "IntegrationTelemetryTests",
+        "OutpostBonusUiTests",
+        "OutpostStoreUiTests"
+      ],
+      "newRegression": "NoAdsReleaseClearsStaleConsentAndNeverIssuesRewardCallbacks",
+      "evidence": "evidence/no-max-playmode-results.xml"
+    },
+    "console": "Ads=No, Advertising ID=No, full description without rewarded ad promise; saved/reloaded",
+    "consoleEvidence": "evidence/no-max-console-readback.json"
+  },
+  "inputs": [
+    {
+      "path": "Packages/manifest.json",
+      "sha256": "a887de948cf5edcf9b6647194f97ffa13f209afc7e7035d6003769a193168899"
+    },
+    {
+      "path": "Packages/packages-lock.json",
+      "sha256": "27acb6ef62254954b2b2f1994c855c1f4ff6d2e30e6083602b22c8d97ddfd943"
+    },
+    {
+      "path": "Assets/Game/Scripts/Runtime/CatMiners.Runtime.asmdef",
+      "sha256": "1a57efef81579c001ea66c9b6bab36350911f7f8fe4f0dddd2e9f5ec58545e3e"
+    },
+    {
+      "path": "Assets/Game/Scripts/Runtime/Integrations/GameSdkConfiguration.cs",
+      "sha256": "8c9f62128a1c000005b5617eaa538a565c0921b3d2c785b1a9c0b4f83bb01e8b"
+    },
+    {
+      "path": "Assets/Game/Scripts/Runtime/Integrations/GameSdkRuntime.cs",
+      "sha256": "10e5357aaa975777111fda3263b1f0594fc8dd2238c5bf233ab93058f78026ef"
+    },
+    {
+      "path": "Assets/Game/Scripts/Runtime/Integrations/GameSdkRuntime.Telemetry.cs",
+      "sha256": "eced3f200c85be4290d2bfdc16c44fb71a161b73a292c856683fc4b4791169f4"
+    },
+    {
+      "path": "Assets/Game/Scripts/Runtime/Integrations/NeutralAgeFlow.cs",
+      "sha256": "9f3202826af32c7e4d45b948d60b74ce7c8e89b42ca0e69be43f4141618705e7"
+    },
+    {
+      "path": "Assets/Game/Scripts/Runtime/Outpost/OutpostController.Integrations.cs",
+      "sha256": "06e5807c0c7f5f4e72b887cd871c4b73a28ec7ebf5db116abd20c0f304b6ea9c"
+    },
+    {
+      "path": "Assets/Game/Scripts/Runtime/Outpost/UI/OutpostHud.Store.cs",
+      "sha256": "b85d8953d1fecf9381674bab1c0215997904831665d3493ee959f7afe5839bee"
+    },
+    {
+      "path": "Assets/Game/Scripts/Runtime/Outpost/UI/OutpostHud.Results.cs",
+      "sha256": "dcdae0e88ddc3e748db882f7b105d28ccfe1aa5f3a20738438d982b7ea55bc03"
+    },
+    {
+      "path": "Assets/Game/Scripts/Editor/RuntimeSdkReleaseGates.cs",
+      "sha256": "b405fd4d2fd7197302bcf6b47eb15de2d7c70779335296a1cb2b041aefebd1e8"
+    },
+    {
+      "path": "Assets/Plugins/Android/AndroidManifest.xml",
+      "sha256": "40b28f9e80ffb16f20031a3876aeec46ac57b0cf06927fb989ec2c3156adbef1"
+    },
+    {
+      "path": "Assets/Plugins/Android/mainTemplate.gradle",
+      "sha256": "4e87123f92614b2d20a3eca8a08d325be1cb9184c21e7889429247841b006f52"
+    },
+    {
+      "path": "Assets/Game/Scripts/Runtime/Outpost/OutpostController.Bonus.cs",
+      "sha256": "0b151015f0f225e05364cd8b051e3114d4e7cbcae92aa13bff35e048dd7767f9"
+    }
+  ],
+  "releaseBlockers": [
+    "Live adopted game-specific privacy/terms pages and child data process",
+    "Finish child/data safety/reviewer access declarations",
+    "Final signed AAB/native manifest/16KB and internal/device/IAP/provider QA"
+  ],
+  "MAXAccessIsReleaseBlocker": false,
+  "AABCreated": false,
+  "published": false,
+  "reviewArchivesWindowsHashesVerified": true,
+  "followupReview": {
+    "at": "2026-10-16T13:12:21.681794+00:00",
+    "auditTask": "delegated-71f177f17df2a6e50c23841bf3fe0e23",
+    "periodicOffers": "BonusRules is null when Android reward offers are unsupported; scheduler exits and clears current offer, without rolling new rewards or retrying unavailable ads.",
+    "privacySettings": "Retained for independent Adjust/Meta opt-ins; only ad toggle removed.",
+    "earnedRewards": "StepRewardDelivery remains independent of current ad capability.",
+    "finalAndroidCompile": "passed after scheduler capability guard; MAX/AppLovin assemblies absent",
+    "playModeScope": "13 passing tests recorded before the final Android-only scheduler capability guard; Editor QA simulation remains unchanged.",
+    "compileCheckedAt": "2026-10-16T13:12:41.137462+00:00"
+  }
+}

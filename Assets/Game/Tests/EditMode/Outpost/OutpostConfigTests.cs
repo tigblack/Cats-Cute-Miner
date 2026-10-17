@@ -165,7 +165,7 @@ namespace CatMiners.Tests.Outpost
             Assert.AreEqual("adapter-2", OutpostIds.AdapterVersion);
             Assert.AreEqual(1_000_000L, OutpostIds.TicksPerSecond);
             // ТЗ 2.2 §10.1: версии правил карточек, заводов и топологии (новые проверки, файлы — WP3, WP0/WP7, WP2).
-            Assert.AreEqual("cards-3", Configs.CardRules.Version);
+            Assert.AreEqual("cards-4", Configs.CardRules.Version);
             Assert.AreEqual(CardRules.CurrentVersion, Configs.CardRules.Version);
             Assert.AreEqual("factories-1", Configs.FactoryRules.Version);
             Assert.AreEqual(FactoryRules.CurrentVersion, Configs.FactoryRules.Version);

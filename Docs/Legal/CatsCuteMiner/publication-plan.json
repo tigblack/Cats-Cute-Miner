@@ -1,0 +1,31 @@
+{
+  "status": "local_review_pages_rendered_not_adopted_not_published",
+  "package": "com.multicastgames.catscuteminer",
+  "audience": "mixed_including_children_under13; all_under16_and_unknown_protected",
+  "files": [
+    {
+      "source": "Docs/Legal/CatsCuteMiner/privacy-policy.draft.md",
+      "path": "Docs/Legal/CatsCuteMiner/site/privacy/index.html",
+      "source_sha256": "3d2b020255c4198f511eeef6cf7164cfdb739760fda75558abe980dd4b6c7bb5",
+      "html_sha256": "eeb510184fc1b87e445a3e8a9146ebd90641b7a906d5fbf34a94248bea40e73f",
+      "proposed_url": "https://multicastgames.com/cats-cute-miner/privacy/",
+      "public_url_verified": false
+    },
+    {
+      "source": "Docs/Legal/CatsCuteMiner/terms-of-use.draft.md",
+      "path": "Docs/Legal/CatsCuteMiner/site/terms/index.html",
+      "source_sha256": "192c0dca14bb1b9937bfe119e05edbbe2b6645488aa47a158c1bce36b8340ca6",
+      "html_sha256": "e2c438ccc50ef1465102d3459a3bd85d2f33c52c3edc09a57572502950dafa8d",
+      "proposed_url": "https://multicastgames.com/cats-cute-miner/terms/",
+      "public_url_verified": false
+    }
+  ],
+  "runtime_urls_changed": false,
+  "website_contains_tracking_or_forms": false,
+  "pending": [
+    "Actual studio child-data retention/deletion procedure",
+    "Actual enabled-provider/network inventory",
+    "Operator adoption and public hosting at confirmed URLs",
+    "Final Android/native/device comparison"
+  ]
+}

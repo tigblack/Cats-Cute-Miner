@@ -1,4 +1,6 @@
-"""Compositor for the Cat Miners video ads: Unity footage + pixel overlays + music/SFX -> 45 s Meta-ready MP4.
+"""Compositor for the Cat Miners video ads: Unity footage + pixel overlays + music/SFX -> Meta-ready MP4
+(45 s by default; an Ad may set its own length and a 1080x1350 4:5 output, which is a per-segment window of the
+1080x1920 composition).
 
 Inputs (hub paths, relative to the project root):
   build/adcapture/<shot>.mp4          footage recorded by AdCaptureTests (fetched from the PC with `on-remote --fetch`;
@@ -10,7 +12,8 @@ Inputs (hub paths, relative to the project root):
 
 Usage:
   Tools/.venv/bin/python -B Tools/AdVideo/compose.py ad1 [ad2 ad3] [--stills 0.5,4,12] [--no-video] [--half]
-Output: Docs/Marketing/ads/<name>.mp4 (H.264 High yuv420p 1080x1920 30 fps CFR, AAC 192k 48 kHz, -14 LUFS, faststart),
+Output: Docs/Marketing/ads/<name>.mp4 (H.264 High yuv420p 1080x1920 or 1080x1350, 30 fps CFR, AAC 192k 48 kHz,
+        -14 LUFS, faststart),
         Temp/ads/stills/<ad>_<t>.png for --stills.
 """
 from __future__ import annotations
@@ -43,8 +46,7 @@ SFX = ROOT / 'Temp' / 'ads' / 'sfx'
 OUT = ROOT / 'Docs' / 'Marketing' / 'ads'
 STILLS = ROOT / 'Temp' / 'ads' / 'stills'
 W, H, FPS, SR = 1080, 1920, 30, 48000
-LENGTH = 45.0
-NFRAMES = int(round(LENGTH * FPS))
+LENGTH = 45.0                                # default ad length (Ad.length overrides it)
 
 
 # ───────────────────────── shot logs ─────────────────────────
@@ -103,6 +105,8 @@ class Seg:
     audio: float = 1.0                      # game audio gain (0 = mute)
     hud_mask: bool = False                  # hide the game HUD bars (top 128 px, bottom bar) behind navy
     hover: Optional[Tuple[float, ...]] = None     # paw over this source point (follows the view): (x, y[, tap_t])
+    win_y: Optional[int] = None             # 4:5 ads: top of the 1350 px window in the composed frame (None = centred)
+    hud_pin: bool = False                   # 4:5 ads: the game's top HUD bar (proof: mine, gold) on top of the window
 
     @property
     def frames(self) -> int:
@@ -128,6 +132,30 @@ class Ad:
     sfx: List[Tuple[float, str, float]] = field(default_factory=list)   # (t, stinger, gain)
     music_gain: float = 1.0
     game_gain: float = 0.9
+    length: float = LENGTH                  # seconds; the music bed must be at least this long
+    out_h: int = H                          # 1920 (9:16) or 1350 (4:5: a window of the composed 1080x1920 frame)
+    end_win_y: int = 170                    # 4:5 window over the end card (logo 268 .. cats 1420)
+
+    @property
+    def frames(self) -> int:
+        return int(round(self.length * FPS))
+
+
+def window_y(ad: Ad, t: float) -> int:
+    """Top of the output window in the composed 1080x1920 frame at output time t (0 for 9:16 ads)."""
+    if ad.out_h >= H:
+        return 0
+    seg = next((s for s in ad.segs if s.start <= t + 1e-6 < s.end), None)
+    if seg is None:
+        return ad.end_win_y
+    return seg.win_y if seg.win_y is not None else (H - ad.out_h) // 2
+
+
+def crop_out(ad: Ad, frame: Image.Image, t: float) -> Image.Image:
+    if ad.out_h >= H:
+        return frame
+    y0 = window_y(ad, t)
+    return frame.crop((0, y0, W, y0 + ad.out_h))
 
 
 def zoom_to(z0: float, c0: Tuple[float, float], z1: float, c1: Tuple[float, float]) -> Callable[[float], View]:
@@ -245,7 +273,7 @@ def render_frame(ad: Ad, i: int, readers: Dict[Tuple[int, int], Reader], half: b
                 readers[key] = Reader(shot, int(round(start_t * FPS)), half)
             return readers[key].get(idx)
 
-        a = grab(0, seg.src, seg.src_t)
+        a = raw = grab(0, seg.src, seg.src_t)
         if seg.view is not None:
             a = apply_view(a, seg.view(u), half)
         img = Image.fromarray(a).convert('RGBA')
@@ -259,6 +287,11 @@ def render_frame(ad: Ad, i: int, readers: Dict[Tuple[int, int], Reader], half: b
             img = split_bands(img, b, f_top, f_bot)
         if seg.hud_mask:
             ov.blit(img, Image.new('RGBA', (W, HUD_TOP), ov.rgba('navy0')), 0, 0)
+        if seg.hud_pin and ad.out_h < H:
+            hud = Image.fromarray(raw[:HUD_TOP // 2 if half else HUD_TOP]).convert('RGBA')
+            if half:
+                hud = hud.resize((W, HUD_TOP), Image.NEAREST)
+            ov.blit(img, hud, 0, window_y(ad, t))
         frame = img
         if seg.hover is not None:
             px, py = tap_view_xy(seg, seg.hover[0], seg.hover[1], u)
@@ -275,14 +308,14 @@ def render_frame(ad: Ad, i: int, readers: Dict[Tuple[int, int], Reader], half: b
     for o in ad.ovs:
         if not (o.t0 <= t < o.t1):
             continue
-        frame = draw_overlay(frame, o, t - o.t0, t)
+        frame = draw_overlay(frame, o, t - o.t0, t, ad.length)
     return frame
 
 
-def draw_overlay(frame: Image.Image, o: Ov, lt: float, t: float) -> Image.Image:
+def draw_overlay(frame: Image.Image, o: Ov, lt: float, t: float, length: float = LENGTH) -> Image.Image:
     a = o.a
     k = o.kind
-    exit_at = (o.t1 - o.t0 - 0.15) if a.get('exit', True) and o.t1 < LENGTH else None
+    exit_at = (o.t1 - o.t0 - 0.15) if a.get('exit', True) and o.t1 < length else None
     if k == 'caption':
         img = ov.caption(a['text'], lt, style=a.get('style', 'plank'), k=a.get('k', 6),
                          width_max=a.get('width', 952), exit_at=exit_at, icon=a.get('icon'))
@@ -378,6 +411,10 @@ CUES = {
     'PipeSend:auto': ('pipe_send', 0.13, 1.0, 0.04, 0.12, 'pipe'),
     'GoodsArrive': ('goods_arrive', 0.24, 1.0, 0.04, 0.15, 'arrive'),
     'GoodsSold': ('goods_sell', 0.50, 1.0, 0.02, 0.20, 'sell'),
+    # Бонус за рекламу и мортира (ТЗ 10.6; Sfx.Cannon / BarrelLand / Dynamite): выстрел, падение бочки, взрыв.
+    'MortarFire': ('cannon', 0.50, 1.0, 0.04, 0.30, 'mortar'),
+    'BarrelLand': ('land', 0.42, 1.0, 0.05, 0.20, 'land'),
+    'DynamiteBlast': ('dynamite', 0.60, 1.0, 0.03, 0.30, 'blast'),
 }
 MAX_AUDIBLE_AUTOMATED = 3            # OutpostAudio.MaxAudibleAutomated: quieter auto pipe sends are skipped when crowded
 _clips: Dict[str, List[np.ndarray]] = {}
@@ -440,7 +477,7 @@ def shot_audio(shot: str) -> np.ndarray:
 
 
 def mix_audio(ad: Ad) -> np.ndarray:
-    n = int(LENGTH * SR)
+    n = int(round(ad.length * SR))
     out = np.zeros((n, 2), np.float32)
     music = load_wav(MUSIC / f'{ad.music}.wav')[:n]
     out[:len(music)] += music * ad.music_gain
@@ -505,8 +542,8 @@ def render(ad: Ad, stills: Sequence[float] = (), video: bool = True, half: bool 
     if not video:
         for i in sorted(still_frames):
             readers.clear()
-            fr = render_frame(ad, i, readers, half)
-            fr.convert('RGB').save(STILLS / f'{ad.name}_{i / FPS:05.2f}.png')
+            fr = crop_out(ad, render_frame(ad, i, readers, half).convert('RGB'), i / FPS)
+            fr.save(STILLS / f'{ad.name}_{i / FPS:05.2f}.png')
             for r in readers.values():
                 r.close()
         return None
@@ -514,19 +551,19 @@ def render(ad: Ad, stills: Sequence[float] = (), video: bool = True, half: bool 
     if audio_only and v_tmp.exists():
         return mux(ad, v_tmp, tmp)
     enc = subprocess.Popen([FFMPEG, '-hide_banner', '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24',
-                            '-s', f'{W}x{H}', '-r', str(FPS), '-i', '-',
+                            '-s', f'{W}x{ad.out_h}', '-r', str(FPS), '-i', '-',
                             '-c:v', 'libx264', '-preset', 'slow', '-crf', '15', '-tune', 'animation', '-bf', '0',
                             '-profile:v', 'high', '-pix_fmt', 'yuv420p', '-g', '60', '-r', str(FPS), str(v_tmp)],
                            stdin=subprocess.PIPE)
     active: Optional[int] = None
-    for i in range(NFRAMES):
+    for i in range(ad.frames):
         t = i / FPS
         k = next((n for n, s in enumerate(ad.segs) if s.start <= t + 1e-6 < s.end), None)
         if k != active:                                    # close readers of the previous segment
             for key in [key for key in readers if key[0] != k]:
                 readers.pop(key).close()
             active = k
-        fr = render_frame(ad, i, readers, half).convert('RGB')
+        fr = crop_out(ad, render_frame(ad, i, readers, half).convert('RGB'), t)
         if i in still_frames:
             fr.save(STILLS / f'{ad.name}_{t:05.2f}.png')
         enc.stdin.write(fr.tobytes())
@@ -547,7 +584,7 @@ def mux(ad: Ad, v_tmp: Path, tmp: Path) -> Path:
     out = OUT / f'{ad.name}.mp4'
     subprocess.run([FFMPEG, '-hide_banner', '-v', 'error', '-y', '-i', str(v_tmp), '-i', str(a_norm),
                     '-map', '0:v', '-map', '1:a', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', str(SR),
-                    '-ac', '2', '-t', f'{LENGTH:.3f}', '-movflags', '+faststart', '-use_editlist', '0', str(out)],
+                    '-ac', '2', '-t', f'{ad.length:.3f}', '-movflags', '+faststart', '-use_editlist', '0', str(out)],
                    check=True)
     return out
 

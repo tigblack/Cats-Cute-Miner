@@ -1,0 +1,15 @@
+{
+    "checkedUtc":  "2026-10-16T09:23:45.5159802Z",
+    "package":  "com.multicastgames.catscuteminer",
+    "keystore":  "C:\\Users\\arutt\\MulticastSigning\\com.multicastgames.catscuteminer\\upload.jks",
+    "alias":  "upload",
+    "secretRef":  "C:\\Users\\arutt\\MulticastSigning\\com.multicastgames.catscuteminer\\signing.secret.json",
+    "certificateSha256":  "A6980511CDDCB1CF22B9D0D5BE30745128730C5D9BCC28A6C59BD2D7802993F5",
+    "certificateSha1":  "0433AD61158B1D90E42CB32FDAB541A1E88F02CB",
+    "metaUploadKeyHash":  "BDOtYRWLHZDkLLMv2rVBoeiPAss=",
+    "status":  "existing_upload_key_verified",
+    "secretStoredOutsideProject":  true,
+    "passwordsEmitted":  false,
+    "playAppSigningCertificateStatus":  "pending_first_Play_Console_release",
+    "note":  "Meta production also needs the Google Play app-signing certificate hash; the upload key does not replace it."
+}

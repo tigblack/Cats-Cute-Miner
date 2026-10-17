@@ -15,7 +15,8 @@ namespace CatMiners.Tests.Outpost
     public sealed class OutpostBalanceRegressionTests
     {
         static OutpostConfigSet s_Configs;
-        static OutpostConfigSet Configs => s_Configs ?? (s_Configs = OutpostConfigSet.LoadDefault().WithCards(TestData.Balance));
+        // Калибровка темпа b6 — по целям источника, без обстановки шахт (её темп меряет MineDressingTests.Report_SamplePacing).
+        static OutpostConfigSet Configs => s_Configs ?? (s_Configs = OutpostConfigSet.LoadDefault().WithCards(TestData.Balance).WithDressing(null));
 
         /// <summary>Профиль b3 (до аудита): без удорожания по глубине, прежние HP, разгрузка и предел «Оценки».</summary>
         static OutpostBalanceConfig B3()
@@ -404,7 +405,7 @@ namespace CatMiners.Tests.Outpost
             System.Threading.Tasks.Parallel.For(0, zones.Length, i =>
             {
                 var repo = BalanceRepository.Load(TestData.BalanceBytes);
-                var configs = OutpostConfigSet.LoadDefault().WithCards(repo);
+                var configs = OutpostConfigSet.LoadDefault().WithCards(repo).WithDressing(null);
                 reports[i] = BalanceAudit.RunMineFrom(starts[zones[i]], repo, configs, BalanceAudit.Model("free"));
             });
             for (int i = 0; i < zones.Length; i++)

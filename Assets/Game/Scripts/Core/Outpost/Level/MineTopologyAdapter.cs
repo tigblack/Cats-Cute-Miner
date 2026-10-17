@@ -111,7 +111,8 @@ namespace CatMiners.Core.Outpost
             return map;
         }
 
-        static int[] Neighbours(OutpostMap map, MapTarget target)
+        /// <summary>Рабочие клетки цели: соседние с footprint клетки пола вне ворот (у ворот — только своего сектора), по возрастанию.</summary>
+        internal static int[] Neighbours(OutpostMap map, MapTarget target)
         {
             var own = new HashSet<int>(target.Cells);
             var result = new SortedSet<int>();

@@ -13,7 +13,7 @@ using Facebook.Unity;
 namespace CatMiners.Runtime.Integrations
 {
     // One installation-lifetime owner. SDK callbacks enter gameplay only from Update on Unity's main thread.
-    public sealed class GameSdkRuntime : MonoBehaviour, IPaymentRevenueSink
+    public sealed partial class GameSdkRuntime : MonoBehaviour, IPaymentRevenueSink
     {
         public static GameSdkRuntime Instance { get; private set; }
         public ProviderState AppMetricaState { get; private set; }
@@ -33,18 +33,28 @@ namespace CatMiners.Runtime.Integrations
             Instance = new GameObject("Game SDK services").AddComponent<GameSdkRuntime>();
             DontDestroyOnLoad(Instance.gameObject);
             Instance.Privacy = privacy;
+            if (!GameSdkConfiguration.AdsEnabled && privacy != null) privacy.Ads = false;
             Instance.Config = GameSdkConfiguration.Load();
+            Instance.RefreshConsent();
+            McLog.Write(McLogCode.SessionStart);
             Instance.Initialize();
             Instance.Track(GameEvent.ConsentChosen);
+            Instance.Track(GameEvent.SessionStarted);
             return Instance;
         }
         void Update()
         {
             for (int n = 0; n < 64 && callbacks.TryDequeue(out var action); n++)
-                try { action(); } catch (Exception) { Debug.LogWarning("[Game SDK] Callback failed; delivery remains pending."); }
-#if UNITY_ANDROID && !UNITY_EDITOR
+                try { action(); } catch (Exception) { McLog.Write(McLogCode.CallbackFailed); }
+            RefreshConsent();
+            TickGameplayClock();
+            FlushTelemetry();
+            ObserveProviders();
+#if UNITY_ANDROID && !UNITY_EDITOR && CATMINERS_MAX
             if (MaxState == ProviderState.Initialized && Privacy.MayInitialize(Privacy.Ads) && activePlacement == null && Time.unscaledTime >= nextLoad && !MaxSdk.IsRewardedAdReady(Config.rewardedAdUnit))
-            { nextLoad = float.PositiveInfinity; MaxSdk.LoadRewardedAd(Config.rewardedAdUnit); }
+            { nextLoad = float.PositiveInfinity; Track(GameEvent.AdRequested);
+                try { MaxSdk.LoadRewardedAd(Config.rewardedAdUnit); }
+                catch { Track(GameEvent.AdLoadFailed); nextLoad = Time.unscaledTime + 30; } }
 #endif
         }
         public static bool ManualRevenueSafe
@@ -60,13 +70,18 @@ namespace CatMiners.Runtime.Integrations
         bool appMetricaStarted, adjustStarted, metaStarted, maxStarted;
         public void ApplyPrivacy(IntegrationPrivacy privacy)
         {
+            TickGameplayClock();
             Privacy = privacy;
+            if (!GameSdkConfiguration.AdsEnabled && privacy != null) privacy.Ads = false;
+            RefreshConsent();
             Config = GameSdkConfiguration.Load();
 #if UNITY_ANDROID && !UNITY_EDITOR
-            if (appMetricaStarted)
-            { AppMetrica.SetDataSendingEnabled(Privacy.MayInitialize(Privacy.AppMetrica));
-              if (Privacy.MayInitialize(Privacy.AppMetrica)) AppMetrica.ResumeSession(); else AppMetrica.PauseSession(); }
-            if (adjustStarted) { if (Privacy.MayInitialize(Privacy.Adjust)) Adjust.Enable(); else Adjust.Disable(); }
+            if (appMetricaStarted) try
+            { AppMetrica.SetDataSendingEnabled(Privacy != null && Privacy.MayInitialize(Privacy.AppMetrica));
+              if (Privacy != null && Privacy.MayInitialize(Privacy.AppMetrica)) AppMetrica.ResumeSession(); else AppMetrica.PauseSession(); }
+            catch { McLog.Write(McLogCode.CallbackFailed, McProvider.AppMetrica); }
+            if (adjustStarted) try { if (Privacy != null && Privacy.MayInitialize(Privacy.Adjust)) Adjust.Enable(); else Adjust.Disable(); }
+            catch { McLog.Write(McLogCode.CallbackFailed, McProvider.Adjust); }
 #endif
             Initialize();
             Track(GameEvent.ConsentChosen);
@@ -74,12 +89,13 @@ namespace CatMiners.Runtime.Integrations
         void Initialize()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
-            if (Application.identifier != GameSdkConfiguration.Package || Privacy.Protected) return;
+            if (Application.identifier != GameSdkConfiguration.Package || Privacy == null || Privacy.Protected) return;
             if (Privacy.MayInitialize(Privacy.AppMetrica) && !appMetricaStarted)
             {
                 AppMetricaState = ProviderState.WaitingForConfiguration;
                 if (Config.AppMetricaValid && Config.LegalValid && ManualRevenueSafe) try
                 {
+                    StartProvider(McProvider.AppMetrica);
                     appMetricaStarted = true;
                     AppMetrica.Activate(new AppMetricaConfig(Config.appMetricaKey) {
                         LocationTracking = false, Location = null, DataSendingEnabled = true,
@@ -103,6 +119,7 @@ namespace CatMiners.Runtime.Integrations
                         SessionFailureDelegate = s => Post(() => AdjustState = ProviderState.Failed)
                     };
                     AdjustState = ProviderState.Starting;
+                    StartProvider(McProvider.Adjust);
                     adjustStarted = true;
                     Adjust.InitSdk(c);
                 } catch { adjustStarted = false; AdjustState = ProviderState.Failed; }
@@ -113,6 +130,7 @@ namespace CatMiners.Runtime.Integrations
                 if (Config.MetaValid && Config.LegalValid && NativePrivacyConfiguration.MetaAutoCollectionDisabled()) try
                 {
                     MetaState = ProviderState.Starting;
+                    StartProvider(McProvider.Meta);
                     metaStarted = true;
                     FB.Init(Config.metaAppId, Config.metaClientToken, logging: false, onInitComplete: () => Post(() => {
                         if (!FB.IsInitialized) { metaStarted = false; MetaState = ProviderState.Failed; return; }
@@ -123,11 +141,13 @@ namespace CatMiners.Runtime.Integrations
                     }));
                 } catch { metaStarted = false; MetaState = ProviderState.Failed; }
             }
+#if CATMINERS_MAX
             if (Privacy.MayInitialize(Privacy.Ads) && !maxStarted)
             {
                 MaxState = ProviderState.WaitingForConfiguration;
                 if (Config.MaxValid && Config.LegalValid && NativePrivacyConfiguration.MaxMatches(Config)) try
                 {
+                    StartProvider(McProvider.Max);
                     maxStarted = true;
                     SubscribeMax();
                     MaxState = ProviderState.Starting;
@@ -137,17 +157,6 @@ namespace CatMiners.Runtime.Integrations
                 } catch { maxStarted = false; MaxState = ProviderState.Failed; }
             }
 #endif
-        }
-        public void Track(GameEvent kind, int zone = 0, string item = null, string value = null)
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-            var data = new Dictionary<string, object> { { "zone", zone } };
-            if (item != null) data["item"] = item;
-            if (value != null) data["value"] = value;
-            if (AppMetricaState == ProviderState.Initialized && Privacy.MayInitialize(Privacy.AppMetrica)) try { AppMetrica.ReportEvent(EventName(kind), JsonConvert.SerializeObject(data)); } catch { }
-            // Selected progression events only. No simulated purchase or ad revenue sent to Meta.
-            if (MetaState == ProviderState.Initialized && Privacy.MayInitialize(Privacy.Meta) && kind == GameEvent.MineCompleted)
-                try { FB.LogAppEvent("fb_mobile_level_achieved", parameters: new Dictionary<string, object> { { "fb_level", zone.ToString() } }); } catch { }
 #endif
         }
         public string Unavailable(PaymentRevenueRecipient recipient)
@@ -199,6 +208,7 @@ namespace CatMiners.Runtime.Integrations
                     Adjust.TrackEvent(e);
                     break;
             }
+            McLog.Write(McLogCode.Revenue, recipient == PaymentRevenueRecipient.Adjust ? McProvider.Adjust : recipient == PaymentRevenueRecipient.Meta ? McProvider.Meta : McProvider.AppMetrica);
 #endif
         }
         public static string EventName(GameEvent kind)
@@ -218,11 +228,66 @@ namespace CatMiners.Runtime.Integrations
                 case GameEvent.RewardEarned: return "rewarded_earned";
                 case GameEvent.RewardDelivered: return "rewarded_delivered";
                 case GameEvent.RewardClosed: return "rewarded_closed";
-                default: return "rewarded_failed";
+                case GameEvent.RewardFailed: return "rewarded_failed";
+                case GameEvent.TimeSpent: return "time_spent";
+                case GameEvent.SessionStarted: return "session_started";
+                case GameEvent.SessionEnded: return "session_ended";
+                case GameEvent.AdRequested: return "ad_requested";
+                case GameEvent.AdLoaded: return "ad_loaded";
+                case GameEvent.AdLoadFailed: return "ad_load_failed";
+                case GameEvent.AdShow: return "ad_show";
+                case GameEvent.AdDisplayed: return "ad_displayed";
+                case GameEvent.AdDisplayFailed: return "ad_display_failed";
+                case GameEvent.AdShowFailed: return "ad_show_failed";
+                case GameEvent.AdClicked: return "ad_clicked";
+                case GameEvent.AdHidden: return "ad_hidden";
+                case GameEvent.AdCompleted: return "ad_completed";
+                case GameEvent.AdIncomplete: return "ad_incomplete";
+                case GameEvent.AdRewardSaved: return "ad_reward_saved";
+                case GameEvent.StoreOpened: return "store_opened";
+                case GameEvent.PurchaseStarted: return "purchase_started";
+                case GameEvent.PurchasePending: return "purchase_pending";
+                case GameEvent.PurchaseValidationStarted: return "purchase_validation_started";
+                case GameEvent.PurchaseValidated: return "purchase_validated";
+                case GameEvent.PurchaseGranted: return "purchase_granted";
+                case GameEvent.PurchaseCancelled: return "purchase_cancelled";
+                case GameEvent.PurchaseFailed: return "purchase_failed";
+                case GameEvent.PurchaseRestore: return "purchase_restore";
+                case GameEvent.PurchaseConfirmed: return "purchase_confirmed";
+                case GameEvent.WorkerHired: return "worker_hired";
+                case GameEvent.EquipmentChanged: return "equipment_changed";
+                case GameEvent.ItemUpgraded: return "item_upgraded";
+                case GameEvent.FactoryUnlocked: return "factory_unlocked";
+                case GameEvent.FactoryAutomated: return "factory_automated";
+                case GameEvent.GoodsSold: return "goods_sold";
+                case GameEvent.BonusGranted: return "bonus_granted";
+                case GameEvent.DynamiteLaunched: return "dynamite_launched";
+                case GameEvent.DynamiteExploded: return "dynamite_exploded";
+                case GameEvent.ElixirFound: return "elixir_found";
+                case GameEvent.CurrencyEarned: return "currency_earned";
+                case GameEvent.CurrencySpent: return "currency_spent";
+                case GameEvent.AdRevenueUnavailable: return "ad_revenue_unavailable";
+                default: return null;
             }
         }
         public void GameAction(OutpostEvent e, int zone)
         {
+            // Observe values already emitted by the simulation; analytics never changes the economy.
+            string currency = null;
+            bool spent = false;
+            switch (e.Type)
+            {
+                case OutpostEventType.TeamUpgradePurchased: currency = "gold"; spent = true; break;
+                case OutpostEventType.CardUpgraded: currency = "elixir"; spent = true; break;
+                case OutpostEventType.ItemUpgraded: currency = "parts"; spent = true; break;
+                case OutpostEventType.CargoDeposited:
+                case OutpostEventType.GoodsSold:
+                case OutpostEventType.BonusGold: currency = "gold"; break;
+                case OutpostEventType.ElixirFound: currency = "elixir"; break;
+                case OutpostEventType.BonusGranted: currency = e.ItemId; break;
+            }
+            if (currency != null && e.Value > 0)
+                Track(spent ? GameEvent.CurrencySpent : GameEvent.CurrencyEarned, zone, currency, e.Value.ToString());
             GameEvent kind;
             switch (e.Type)
             {
@@ -232,6 +297,16 @@ namespace CatMiners.Runtime.Integrations
                 case OutpostEventType.CardUpgraded: kind = GameEvent.CardUpgraded; break;
                 case OutpostEventType.ChestOpened: kind = GameEvent.ChestOpened; break;
                 case OutpostEventType.StorePurchased: kind = GameEvent.StorePurchased; break;
+                case OutpostEventType.WorkerHired: kind = GameEvent.WorkerHired; break;
+                case OutpostEventType.EquipmentChanged: kind = GameEvent.EquipmentChanged; break;
+                case OutpostEventType.ItemUpgraded: kind = GameEvent.ItemUpgraded; break;
+                case OutpostEventType.FactoryUnlocked: kind = GameEvent.FactoryUnlocked; break;
+                case OutpostEventType.FactoryAutomated: kind = GameEvent.FactoryAutomated; break;
+                case OutpostEventType.GoodsSold: kind = GameEvent.GoodsSold; break;
+                case OutpostEventType.BonusGranted: kind = GameEvent.BonusGranted; break;
+                case OutpostEventType.DynamiteLaunched: kind = GameEvent.DynamiteLaunched; break;
+                case OutpostEventType.DynamiteExploded: kind = GameEvent.DynamiteExploded; break;
+                case OutpostEventType.ElixirFound: kind = GameEvent.ElixirFound; break;
                 default: return;
             }
             Track(kind, zone, e.ItemId, e.Value.ToString());
@@ -242,7 +317,7 @@ namespace CatMiners.Runtime.Integrations
         public bool IsRewardShowing
         {
             get {
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR && CATMINERS_MAX
                 return activePlacement != null;
 #else
                 return false;
@@ -252,7 +327,7 @@ namespace CatMiners.Runtime.Integrations
         public bool NeedsRewardRetry => RewardStatus == "waiting_for_ad_result";
         public void RetryUncorrelatedShow()
         {
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR && CATMINERS_MAX
             // Explicit player retry abandons the unresolved UI request, not an inferred callback association.
             if (NeedsRewardRetry) EndShow(false);
 #endif
@@ -260,7 +335,7 @@ namespace CatMiners.Runtime.Integrations
         public bool RewardReady
         {
             get {
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR && CATMINERS_MAX
                 return MaxState == ProviderState.Initialized && Privacy.MayInitialize(Privacy.Ads) && activePlacement == null && MaxSdk.IsRewardedAdReady(Config.rewardedAdUnit);
 #else
                 return false;
@@ -269,8 +344,10 @@ namespace CatMiners.Runtime.Integrations
         }
         public bool ShowReward(string offerId, Action earned, Action closed)
         {
-#if UNITY_ANDROID && !UNITY_EDITOR
-            if (!RewardReady) { RewardStatus = "unavailable"; return false; }
+#if UNITY_ANDROID && !UNITY_EDITOR && CATMINERS_MAX
+            if (!RewardReady) { Track(GameEvent.AdShowFailed); RewardStatus = "unavailable"; return false; }
+            TickGameplayClock();
+            Track(GameEvent.AdShow);
             activePlacement = offerId;
             onEarned = earned;
             onClosed = closed;
@@ -279,12 +356,12 @@ namespace CatMiners.Runtime.Integrations
             impressions[offerId] = new Impression { Earn = earned };
             RewardStatus = "showing";
             try { MaxSdk.ShowRewardedAd(Config.rewardedAdUnit, offerId, offerId); return true; }
-            catch { EndShow(false); return false; }
+            catch { Track(GameEvent.AdShowFailed); EndShow(false); return false; }
 #else
             return false;
 #endif
         }
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR && CATMINERS_MAX
         string activePlacement;
         Action onEarned, onClosed;
         bool rewardSeen, displaySeen, maxCallbacksSubscribed;
@@ -301,6 +378,7 @@ namespace CatMiners.Runtime.Integrations
             MaxSdkCallbacks.Rewarded.OnAdLoadedEvent += AdLoaded;
             MaxSdkCallbacks.Rewarded.OnAdLoadFailedEvent += LoadFailed;
             MaxSdkCallbacks.Rewarded.OnAdDisplayedEvent += Displayed;
+            MaxSdkCallbacks.Rewarded.OnAdClickedEvent += Clicked;
             MaxSdkCallbacks.Rewarded.OnAdReceivedRewardEvent += Earned;
             MaxSdkCallbacks.Rewarded.OnAdHiddenEvent += Hidden;
             MaxSdkCallbacks.Rewarded.OnAdDisplayFailedEvent += DisplayFailed;
@@ -312,13 +390,16 @@ namespace CatMiners.Runtime.Integrations
             MaxState = ProviderState.Initialized;
             nextLoad = Time.unscaledTime;
         });
-        void AdLoaded(string unit, MaxSdkBase.AdInfo info) => Post(() => { if (unit == Config.rewardedAdUnit) { loadFailures = 0; RewardStatus = "ready"; } });
+        void AdLoaded(string unit, MaxSdkBase.AdInfo info) => Post(() => { if (unit == Config.rewardedAdUnit) { loadFailures = 0; RewardStatus = "ready"; Track(GameEvent.AdLoaded); } });
         void LoadFailed(string unit, MaxSdkBase.ErrorInfo error) => Post(() => {
             if (unit != Config.rewardedAdUnit) return;
+            McLog.Write(McLogCode.AdError, McProvider.Max, error == null ? 0 : (int)error.Code);
+            Track(GameEvent.AdLoadFailed, value: error == null ? null : error.Code.ToString());
             RewardStatus = "unavailable";
             nextLoad = Time.unscaledTime + Mathf.Min(60, Mathf.Pow(2, ++loadFailures));
         });
-        void Displayed(string unit, MaxSdkBase.AdInfo info) => Post(() => { if (Match(unit, info)) displaySeen = true; });
+        void Displayed(string unit, MaxSdkBase.AdInfo info) => Post(() => { if (Match(unit, info)) { displaySeen = true; Track(GameEvent.AdDisplayed); } });
+        void Clicked(string unit, MaxSdkBase.AdInfo info) => Post(() => { if (Match(unit, info)) Track(GameEvent.AdClicked); });
         void Earned(string unit, MaxSdkBase.Reward reward, MaxSdkBase.AdInfo info) => Post(() => {
             if (unit != Config.rewardedAdUnit || info == null || string.IsNullOrEmpty(info.Placement) ||
                 !impressions.TryGetValue(info.Placement, out var impression) || impression.RewardSeen) return;
@@ -326,19 +407,21 @@ namespace CatMiners.Runtime.Integrations
             earnedOffers.Add(info.Placement);
             if (Match(unit, info)) rewardSeen = true;
             RewardStatus = "saving_reward";
-            Track(GameEvent.RewardEarned, item: activePlacement);
+            Track(GameEvent.AdCompleted);
+            Track(GameEvent.RewardEarned);
             impression.Earn?.Invoke();
             impression.Earn = null;
         });
-        void Hidden(string unit, MaxSdkBase.AdInfo info) => Post(() => { if (Match(unit, info)) EndShow(true); });
+        void Hidden(string unit, MaxSdkBase.AdInfo info) => Post(() => { if (Match(unit, info)) { Track(GameEvent.AdHidden); if (!rewardSeen) Track(GameEvent.AdIncomplete); EndShow(true); } });
         void DisplayFailed(string unit, MaxSdkBase.ErrorInfo error, MaxSdkBase.AdInfo info) => Post(() => {
-            if (Match(unit, info)) { Track(GameEvent.RewardFailed, item: activePlacement); EndShow(false); }
+            if (unit == Config.rewardedAdUnit) { McLog.Write(McLogCode.AdError, McProvider.Max, error == null ? 0 : (int)error.Code); Track(GameEvent.AdDisplayFailed, value: error == null ? null : error.Code.ToString()); }
+            if (Match(unit, info)) { Track(GameEvent.RewardFailed); EndShow(false); }
             else if (unit == Config.rewardedAdUnit && activePlacement != null && !displaySeen)
                 RewardStatus = "waiting_for_ad_result"; // No placement: cannot safely bind a late failure to a new show.
         });
         void EndShow(bool hidden)
         {
-            Track(GameEvent.RewardClosed, item: activePlacement, value: rewardSeen ? "earned" : "no_reward");
+            Track(GameEvent.RewardClosed, value: rewardSeen ? "earned" : "no_reward");
             var close = onClosed;
             activePlacement = null;
             onClosed = null;
@@ -349,7 +432,10 @@ namespace CatMiners.Runtime.Integrations
         }
         void Revenue(string unit, MaxSdkBase.AdInfo info) => Post(() => {
             if (unit != Config.rewardedAdUnit || info == null || string.IsNullOrEmpty(info.Placement) ||
-                !impressions.TryGetValue(info.Placement, out var impression) || double.IsNaN(info.Revenue) || double.IsInfinity(info.Revenue) || info.Revenue < 0) return;
+                !impressions.TryGetValue(info.Placement, out var impression)) return;
+            if (double.IsNaN(info.Revenue) || double.IsInfinity(info.Revenue) || info.Revenue < 0)
+            { Track(GameEvent.AdRevenueUnavailable); return; }
+            McLog.Write(McLogCode.Revenue, McProvider.Max);
             // One impression per offered show; creative IDs are not impression IDs. Each recipient is independent.
             if ((impression.Recipients & 1) == 0 && Privacy.MayInitialize(Privacy.Adjust) && (AdjustState == ProviderState.Starting || AdjustState == ProviderState.Initialized))
             {
@@ -369,6 +455,9 @@ namespace CatMiners.Runtime.Integrations
 #endif
         void OnApplicationPause(bool paused)
         {
+            TickGameplayClock();
+            telemetryPaused = paused;
+            McLog.Write(paused ? McLogCode.Background : McLogCode.Foreground);
 #if UNITY_ANDROID && !UNITY_EDITOR
             if (!paused && MetaState == ProviderState.Initialized && Privacy.MayInitialize(Privacy.Meta)) FB.ActivateApp();
 #endif
@@ -376,12 +465,15 @@ namespace CatMiners.Runtime.Integrations
         void OnDestroy()
         {
             if (Instance != this) return;
+            TickGameplayClock();
+            EndSession();
             Instance = null;
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR && CATMINERS_MAX
             MaxSdkCallbacks.OnSdkInitializedEvent -= MaxInitialized;
             MaxSdkCallbacks.Rewarded.OnAdLoadedEvent -= AdLoaded;
             MaxSdkCallbacks.Rewarded.OnAdLoadFailedEvent -= LoadFailed;
             MaxSdkCallbacks.Rewarded.OnAdDisplayedEvent -= Displayed;
+            MaxSdkCallbacks.Rewarded.OnAdClickedEvent -= Clicked;
             MaxSdkCallbacks.Rewarded.OnAdReceivedRewardEvent -= Earned;
             MaxSdkCallbacks.Rewarded.OnAdHiddenEvent -= Hidden;
             MaxSdkCallbacks.Rewarded.OnAdDisplayFailedEvent -= DisplayFailed;

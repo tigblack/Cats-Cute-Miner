@@ -16,7 +16,7 @@ namespace CatMiners.Editor.GooglePlay
         public abstract string Provider { get; }
         protected abstract string PackageId { get; }
         protected abstract string[] SourceMarkers { get; }
-        public IEnumerable<string> Validate(string packageName)
+        public virtual IEnumerable<string> Validate(string packageName)
         {
             var c = GameSdkConfiguration.Load();
             if (packageName != GameSdkConfiguration.Package || !c.IdentityValid) yield return "Own permanent Android package/config identity is missing.";
@@ -59,7 +59,9 @@ namespace CatMiners.Editor.GooglePlay
         protected override string[] SourceMarkers => new[] { "AppMetrica.Activate", "AppMetrica.ReportEvent", "AppMetrica.ReportAdRevenue", "LocationTracking = false", "RevenueAutoTrackingEnabled = false" };
         protected override IEnumerable<string> Specific(GameSdkConfiguration c)
         {
-            if (!c.AppMetricaValid) yield return "Waiting for own AppMetrica client key.";
+            // Скилл публикации 2026-10-15: AppMetrica как сервис пока недоступна и не блокирует релиз. Пустой ключ — отложено
+            // (рантайм без ключа её не активирует: GameSdkRuntime проверяет AppMetricaValid); неверный непустой — ошибка.
+            if (!c.AppMetricaValid && !string.IsNullOrWhiteSpace(c.appMetricaKey)) yield return "AppMetrica key is not this game's own client key.";
             var defines = PlayerSettings.GetScriptingDefineSymbols(UnityEditor.Build.NamedBuildTarget.Android).Split(';');
             if (defines.Contains("APPMETRICA_FEATURES_ADREVENUE_APPLOVIN_V8")) yield return "Disable AppMetrica automatic MAX ILRD: this game reports revenue manually.";
             string path = "ProjectSettings/AppMetricaSettings.xml";
@@ -92,6 +94,25 @@ namespace CatMiners.Editor.GooglePlay
     public sealed class MaxRuntimeGate : RuntimeSdkReleaseGate
     {
         public override string Provider => "MAX";
+        public override IEnumerable<string> Validate(string packageName)
+        {
+            if (GameSdkConfiguration.AdsEnabled)
+            {
+                foreach (var issue in base.Validate(packageName)) yield return issue;
+                yield break;
+            }
+            // A no-ad release proves exclusion instead of accepting an empty MAX key.
+            var manifest = JObject.Parse(File.ReadAllText("Packages/manifest.json"));
+            if (manifest["dependencies"]?["com.applovin.mediation.ads"] != null)
+                yield return "No-ad release must exclude the MAX package.";
+            if (File.ReadAllText("Assets/Plugins/Android/mainTemplate.gradle").Contains("com.applovin"))
+                yield return "No-ad release still declares the MAX Android dependency.";
+            XNamespace android = "http://schemas.android.com/apk/res/android";
+            XNamespace tools = "http://schemas.android.com/tools";
+            bool removesAdId = XDocument.Load("Assets/Plugins/Android/AndroidManifest.xml").Root.Elements("uses-permission").Any(e =>
+                (string)e.Attribute(android + "name") == "com.google.android.gms.permission.AD_ID" && (string)e.Attribute(tools + "node") == "remove");
+            if (!removesAdId) yield return "No-ad release must remove advertising-ID permission from merged library manifests.";
+        }
         protected override string PackageId => "com.applovin.mediation.ads";
         protected override string[] SourceMarkers => new[] { "MaxSdk.InitializeSdk", "MaxSdk.ShowRewardedAd", "OnAdReceivedRewardEvent", "OnAdRevenuePaidEvent", "HasSupportedCmp", "IsUserConsentSet" };
         protected override IEnumerable<string> Specific(GameSdkConfiguration c)

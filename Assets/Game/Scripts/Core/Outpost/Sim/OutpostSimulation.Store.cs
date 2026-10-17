@@ -34,7 +34,15 @@ namespace CatMiners.Core.Outpost
             if (Profile.DeliveredRewardedOffers == null) Profile.DeliveredRewardedOffers = new System.Collections.Generic.List<string>();
             if (Profile.DeliveredRewardedOffers.Contains(offer.Id)) return CommandResult.Fail("duplicate");
             CommandResult result;
-            if (offer.ItemId != null) result = ExecuteStoreBuy(OutpostCommand.StoreBuy(offer.ItemId, utcMs), Now, true);
+            if (offer.Bonus != null)
+            {
+                if (!RewardedBonus.TryParse(offer.Bonus, out var kind)) return CommandResult.Fail("unknown");
+                var amount = kind == RewardedBonusKind.Gold
+                    ? (System.Numerics.BigInteger.TryParse(offer.Gold, out var gold) ? gold : System.Numerics.BigInteger.Zero)
+                    : new System.Numerics.BigInteger(offer.Amount);
+                result = ExecuteRewardBonus(OutpostCommand.RewardBonus(kind, amount), Now);
+            }
+            else if (offer.ItemId != null) result = ExecuteStoreBuy(OutpostCommand.StoreBuy(offer.ItemId, utcMs), Now, true);
             else if (System.Numerics.BigInteger.TryParse(offer.Gold, out var amount) && amount.Sign > 0)
                 result = ExecuteBonusGold(OutpostCommand.BonusGold(amount), Now);
             else return CommandResult.Fail("unknown");

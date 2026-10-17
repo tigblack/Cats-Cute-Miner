@@ -151,6 +151,11 @@ namespace CatMiners.Core.Outpost
         public ZoneOverride MapOverride;
         /// <summary>Saved geometry. Null/v1 can be explicitly migrated to wide mines after validation and archival.</summary>
         public MineTopology MapTopology;
+        /// <summary>
+        /// Снимок обстановки шахты (постоянные препятствия, детали стен, мусор — Docs/Rework/MINE_DRESSING.md), с которым создана
+        /// карта; null — шахта без обстановки (создана до неё): она доигрывается на прежней карте, следующая получает обстановку.
+        /// </summary>
+        public MineDressing MapDressing;
         /// <summary>Разрешённый снимок профиля чисел (целиком).</summary>
         public OutpostBalanceConfig Balance;
         public RunPhase Phase;
@@ -217,6 +222,28 @@ namespace CatMiners.Core.Outpost
         public BigInteger GoodsSoldGold;
         /// <summary>GoodId → отладочная выдача на склад (DevTools «Goods ×100», только debug-профиль); вне debug пусто.</summary>
         public Dictionary<string, long> DebugGoods = new Dictionary<string, long>(StringComparer.Ordinal);
+
+        // ── Бонус за рекламу: бочка динамита из мортиры (ТЗ 10.6) ──
+        /// <summary>Бочка динамита на поле, ждёт тапа (команда Detonate); null — бочки нет. Новая шахта начинается без неё.</summary>
+        public DynamiteBarrel Dynamite;
+        /// <summary>Номер следующей бочки в шахте (с 1).</summary>
+        public long NextDynamiteSeq = 1;
+    }
+
+    /// <summary>
+    /// Бочка динамита (ТЗ 10.6): мортира лагеря выстрелила её к цели <see cref="TargetId"/>, она лежит в <see cref="Cell"/> до тапа.
+    /// Взрыв — урон целям, доступным кирке, в радиусе вокруг клетки; офлайн и тайм-скип бочку не трогают.
+    /// </summary>
+    [Serializable]
+    public sealed class DynamiteBarrel
+    {
+        /// <summary>Номер бочки в шахте — ключ вида.</summary>
+        public long Seq;
+        /// <summary>Клетка бочки, центр взрыва.</summary>
+        public int Cell;
+        /// <summary>Цель, к которой стреляла мортира: она получает долю центра; −1 — доступных целей не было.</summary>
+        public int TargetId = -1;
+        public long LaunchedTick;
     }
 
     /// <summary>Состояние завода (ТЗ 2.2 §4.3).</summary>

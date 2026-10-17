@@ -1,4 +1,4 @@
-"""61 baked collection scenes, 48×44. Native cat rig; no runtime tint or rotation.
+"""62 baked collection scenes, 48×44. Native cat rig; no runtime tint or rotation.
 
 39 factory cards (ТЗ 2.2 §7.2, Docs/TZ/Cat_Miners_Factories_TZ_v2.2.md): Common "Foreman" — the cat worker busy at
 its workshop; Uncommon "Manager" — the same cat with finished goods, another pose and scene. Both cards of a factory
@@ -46,7 +46,7 @@ GLOBALS = {
  37:(5,'Gold Vein'),38:(5,'Golden Helmet'),43:(3,'Toy Mouse'),
  50:(4,'Bell Collar'),51:(4,'Cat Bed'),52:(4,'Scratching Post'),
  53:(4,"Miner's Lantern"),54:(4,'Rubble Blaster'),55:(4,'Lucky Clover'),
- 62:(6,'Treasure Map'),
+ 62:(6,'Treasure Map'),63:(3,'Demolition Expert'),
 }
 CATALOG = dict(GLOBALS)
 for _f in FAMILIES:
@@ -54,7 +54,7 @@ for _f in FAMILIES:
     if _f.manager:
         CATALOG[_f.manager] = (2, _f.short + ' Manager')
 # Arts that must stay pixel-identical to the pre-2.2 atlas (ТЗ 2.2 §7.2).
-UNCHANGED = tuple(sorted(GLOBALS))
+UNCHANGED = tuple(sorted(i for i in GLOBALS if i != 63))
 FACTORY_IDS = tuple(sorted(i for f in FAMILIES for i in (f.common, f.manager) if i))
 
 
@@ -1822,6 +1822,32 @@ def global_scene(i):
     elif i==55:
         chest(cv,27,30);cat(cv,'idle5','cream','green',at=(-7,1));prop(cv,'clover',25,12,(18,24))
         for x,y in ((43,11),(38,23),(25,8)):sparkle(cv,x,y)
+    elif i==63:
+        # Distant blasted rock and soft, stepped dust puffs behind the proud miner.
+        rock(cv,38,34,8,5,ROCK,seed=63,moss=False,n=6)
+        for x,y,r in ((35,21,4),(41,17,4),(43,25,3)):
+            cv.ellipse(x,y,r+1,r,'stone1')
+            cv.ellipse(x,y-1,r,r-1,'stone4')
+            cv.hline(x-2,x,y-r+1,'stone6')
+        for x,y in ((30,17),(43,10),(45,31)):
+            cv.rect(x,y,2,2,'stone5')
+        cv.line(35,29,39,32,'stone0')
+        cat(cv,'unload1','ginger','red',at=(-6,1))
+        # Three bright sticks held against the chest, with a rope binding.
+        for x,y in ((25,25),(29,23),(33,25)):
+            cv.rect(x,y,4,12,'red0')
+            cv.rect(x+1,y+1,2,10,'red3')
+            cv.vline(x+1,y+1,y+9,'red5')
+            cv.hline(x+1,x+2,y,'red4')
+        cv.rect(25,30,12,2,'wood1')
+        cv.hline(26,35,30,'cream1')
+        cv.line(31,23,33,20,'wood1')
+        cv.line(33,20,36,20,'cream2')
+        sparkle(cv,38,20,'gold5',2)
+        cv.set(41,18,'amber3')
+        cv.ellipse(25,33,3,2,'fur_ginger0')
+        cv.ellipse(25,32,2,1,'fur_ginger3')
+        sparkle(cv,8,9,'gold4',1)
     elif i==62:
         chest(cv,25,29);cat(cv,'unload1','brown','gold',at=(-6,0),pack='legendary')
         prop(cv,'treasure_map',19,25,(21,18))
@@ -1835,6 +1861,6 @@ def build(reg):
     for fam in FAMILIES:
         scenes[fam.common]=manager(fam)
         if fam.manager:scenes[fam.manager]=manager(fam,True)
-    assert set(scenes)==set(range(1,61))|{62}
+    assert set(scenes)==set(range(1,61))|{62,63}
     for i in sorted(scenes):
         reg.add(f'card_art_ca{i:03}',scenes[i],note=CATALOG[i][1])

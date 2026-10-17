@@ -46,7 +46,9 @@ namespace CatMiners.Core.Outpost
             if (rules == null) throw new ArgumentNullException(nameof(rules));
             var cat = new CardCatalog { Rules = rules, SourceSha256 = repo.Sha256 };
             for (int r = 0; r < cat.m_ByRarity.Length; r++) cat.m_ByRarity[r] = new List<CardDef>();
-            foreach (var c in repo.CardsInOrder)
+            var source = new List<CardDto>(repo.CardsInOrder);
+            if (rules.ExtraCards != null) source.AddRange(rules.ExtraCards);
+            foreach (var c in source)
             {
                 if (c == null || string.IsNullOrEmpty(c.Id)) throw new OutpostConfigException("Cards: запись без Id");
                 if (c.Rarity < 1 || c.Rarity > CardRules.RarityCount) throw new OutpostConfigException("Cards." + c.Id + ": редкость " + c.Rarity);

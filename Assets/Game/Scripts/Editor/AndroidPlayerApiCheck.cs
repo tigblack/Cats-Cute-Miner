@@ -31,9 +31,13 @@ namespace CatMiners.Editor.GooglePlay
                 var assemblies = result.assemblies?.Select(Path.GetFileName).ToArray();
                 if (compilerError || assemblies == null || !assemblies.Contains("CatMiners.Runtime.dll"))
                     throw new InvalidOperationException("Android player runtime compilation did not succeed.");
+                if (!CatMiners.Runtime.Integrations.GameSdkConfiguration.AdsEnabled &&
+                    assemblies.Any(a => a.IndexOf("MaxSdk", StringComparison.OrdinalIgnoreCase) >= 0 || a.IndexOf("AppLovin", StringComparison.OrdinalIgnoreCase) >= 0))
+                    throw new InvalidOperationException("No-ad Android compilation still includes MAX assemblies.");
                 Directory.CreateDirectory("release/google-play/evidence");
                 File.WriteAllText("release/google-play/evidence/android-player-api-compile.json", JsonConvert.SerializeObject(new {
                     unityVersion = Application.unityVersion, target = "Android", assemblies,
+                    adsEnabled = CatMiners.Runtime.Integrations.GameSdkConfiguration.AdsEnabled,
                     status = "player_scripts_compiled_pending_native_gradle_artifact_and_device_checks"
                 }, Formatting.Indented));
                 Debug.Log("[GooglePlay] Android player C# API compilation passed; native artifact checks remain pending.");

@@ -48,7 +48,7 @@ namespace CatMiners.Runtime.Outpost
         // Слои в группе цели.
         const int LayerShadow = 0, LayerBody = 10, LayerOver1 = 20, LayerOver2 = 21, LayerOver3 = 22, LayerOver4 = 23;
 
-        enum Look { Rock, Water, Single, Gate1x1, Blocks, Shaft, Gate, Factory }
+        enum Look { Rock, Water, Single, Gate1x1, Blocks, Shaft, Gate, Factory, Debris }
 
         struct Track
         {
@@ -89,6 +89,8 @@ namespace CatMiners.Runtime.Outpost
         public bool Destroyed => m_Destroyed;
         /// <summary>Цель — завод ТЗ 2.2 (здание стоит и после открытия).</summary>
         public bool IsFactory => m_Look == Look.Factory;
+        /// <summary>Цель — куча мусора обстановки шахты.</summary>
+        public bool IsDebris => m_Look == Look.Debris;
         /// <summary>Товар завода ("milk") или null.</summary>
         public string FactoryGood { get; private set; }
         /// <summary>Удары сейчас приходятся по цепям завода (звук цепей).</summary>
@@ -237,6 +239,10 @@ namespace CatMiners.Runtime.Outpost
                     defaultTop = 0.95f;
                     break;
                 }
+                case 'x' when mt.IsDebris:
+                    BuildDressingDebris(map, mt);
+                    defaultTop = 0.8f;
+                    break;
                 case 'x':
                     BuildObstruction(map, mt, visualId);
                     defaultTop = DepthCells;
@@ -452,6 +458,41 @@ namespace CatMiners.Runtime.Outpost
         }
 
         /// <summary>Обломки на полу по клеткам footprint (вариант — по хешу клетки), скрыты до расчистки.</summary>
+        /// <summary>
+        /// Куча мусора обстановки (Docs/Rework/MINE_DRESSING.md): спрайт debris_&lt;семейство&gt;_&lt;вариант&gt; и стадии _d1/_d2 по HP,
+        /// цвет сколов и материал звука — по семейству (<see cref="DressingLook"/>); после разрушения на полу остаются клочки
+        /// debris_&lt;семейство&gt;_rest, котики ходят поверх.
+        /// </summary>
+        void BuildDressingDebris(OutpostMap map, MapTarget mt)
+        {
+            m_Look = Look.Debris;
+            var look = DressingLook.Of(mt.Piece.Family);
+            BaseColor = look.Chips;
+            Material = look.Material;
+            m_Shadow = Spr("shadow", Width > 1 ? "shadow_l" : "shadow_m", new Vector2(0f, 4f * Px), LayerShadow);
+            string sprite = PixelArt.Has(mt.VisualId) ? mt.VisualId : PixelTheme.Name("block_single_1");
+            m_Body = Spr("debris", sprite, Vector2.zero, LayerBody);
+            // Одиночные кучи отражаются по X: одинаковые варианты рядом не повторяют друг друга.
+            if (Width == 1) m_Body.flipX = (BoardView.Hash(mt.Id, map.Number, 29) & 1u) == 1u;
+            string d1 = PixelArt.Has(sprite + "_d1") ? sprite + "_d1" : null;
+            string d2 = PixelArt.Has(sprite + "_d2") ? sprite + "_d2" : d1;
+            m_DamageSprites = new[] { sprite, d1, d2, d2 };
+            m_Crack = d1 == null ? Spr("crack", PixelTheme.Name(s_BlockCracks[1]), Vector2.zero, LayerOver1) : null;
+            if (m_Crack != null) m_Crack.enabled = false;
+            string rest = DressingLook.RestSprite(mt.Piece.Family);
+            m_Debris = new SpriteRenderer[mt.Cells.Length];
+            for (int i = 0; i < mt.Cells.Length; i++)
+            {
+                int c = mt.Cells[i];
+                float x = map.Col(c) + 0.5f - FeetLocal.x;
+                float z = (map.Depth - map.Row(c) - 1f) - FeetLocal.z;
+                var sr = PixelWorld.Sprite(m_Overlay, "rest", rest, new Vector2(x, z), PixelWorld.FloorDecalOrder + 2);
+                sr.flipX = (BoardView.Hash(map.Col(c), map.Row(c), map.Number) & 1u) == 1u;
+                sr.enabled = false;
+                m_Debris[i] = sr;
+            }
+        }
+
         void BuildDebris(OutpostMap map, MapTarget mt)
         {
             if (mt.Cells == null || mt.Cells.Length == 0) return;
@@ -574,6 +615,17 @@ namespace CatMiners.Runtime.Outpost
                     PixelWorld.SetSprite(m_Body, sprite);
                     break;
                 }
+                case Look.Debris:
+                {
+                    string sprite = m_DamageSprites[stage];
+                    PixelWorld.SetSprite(m_Body, sprite ?? m_DamageSprites[0]);
+                    if (m_Crack != null)
+                    {
+                        m_Crack.enabled = stage > 0 && sprite == null;
+                        if (m_Crack.enabled) PixelWorld.SetSprite(m_Crack, PixelTheme.Name(s_BlockCracks[stage]));
+                    }
+                    break;
+                }
                 case Look.Single:
                 case Look.Shaft:
                     m_Crack.enabled = stage > 0;
@@ -636,6 +688,7 @@ namespace CatMiners.Runtime.Outpost
                 case Look.Single:
                 case Look.Gate1x1:
                 case Look.Blocks:
+                case Look.Debris:
                     m_Visual.gameObject.SetActive(!destroyed);
                     if (m_Debris != null)
                         for (int i = 0; i < m_Debris.Length; i++) m_Debris[i].enabled = destroyed;
@@ -700,6 +753,8 @@ namespace CatMiners.Runtime.Outpost
             if (m_Destroyed) return;
             m_HitT = HitSeconds;
             if (fx != null) fx.Chips(chipsWorld, BaseColor);
+            // Металлический лом — сдержанные искры (обстановка шахты).
+            if (fx != null && m_Look == Look.Debris && Material == HitMaterial.Metal) fx.Sparks(chipsWorld);
         }
 
         /// <summary>Число обломков разлома по размеру footprint (как BoardView.OnEvent).</summary>

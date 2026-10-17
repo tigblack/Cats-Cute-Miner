@@ -7,7 +7,8 @@ namespace CatMiners.Tests.Outpost
 {
     public sealed class MineTopologyMigrationTests
     {
-        static readonly OutpostConfigSet Configs = OutpostConfigSet.LoadDefault().WithCards(TestData.Balance);
+        // Старые сохранения обстановки шахт не имеют: перенос проверяется на картах без неё (Docs/Rework/MINE_DRESSING.md).
+        static readonly OutpostConfigSet Configs = OutpostConfigSet.LoadDefault().WithCards(TestData.Balance).WithDressing(null);
 
         static OutpostGameState LegacyState(int zone, bool versionOne)
         {

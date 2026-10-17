@@ -51,7 +51,7 @@ namespace CatMiners.Tests
         }
 
         /// <summary>Снимок 1080×<paramref name="height"/> вместе с HUD; масштаб Canvas — как у CanvasScaler (match 0,5).</summary>
-        IEnumerator Capture(string name, int height = 1920)
+        IEnumerator Capture(string name, int height = 1920, float wait = 0.35f)
         {
             var camera = Game.Rig.Cam;
             var canvas = Game.Hud.GetComponent<Canvas>();
@@ -67,7 +67,7 @@ namespace CatMiners.Tests
                 canvas.renderMode = RenderMode.ScreenSpaceCamera;
                 canvas.worldCamera = camera;
                 canvas.planeDistance = 1;
-                yield return PlayModeUtil.WaitReal(0.35f);
+                yield return PlayModeUtil.WaitReal(wait);
                 Game.Hud.RefreshNow();
                 Canvas.ForceUpdateCanvases();
                 Game.Hud.RefreshNow();
@@ -277,6 +277,54 @@ namespace CatMiners.Tests
             foreach (string line in m_Truncated) tsv.Append("truncated\t").Append(line).Append('\n');
             foreach (string line in m_Small) tsv.Append("small\t").Append(line).Append('\n');
             File.WriteAllText(Path.Combine(Shots, "store-text.tsv"), tsv.ToString());
+            Assert.That(m_Truncated, Is.Empty, "подписи, обрезанные многоточием:\n" + string.Join("\n", m_Truncated));
+        }
+
+        /// <summary>
+        /// Бонус за рекламу и мортира (ТЗ 10.6), шахта 3: иконка золота и динамита у левого края, выстрел мортиры, бочка «Tap!»,
+        /// взрыв и окно карточки ca063 «Demolition Expert» — b*.png.
+        /// </summary>
+        [UnityTest]
+        public IEnumerator BonusScreens()
+        {
+            Directory.CreateDirectory(Shots);
+            foreach (string file in Directory.GetFiles(Shots, "b*.png")) File.Delete(file);
+            m_Truncated.Clear();
+            m_Small.Clear();
+            // Шахта 3 — только в debug-профиле (LoadZone в Main недоступен).
+            Game.SwitchProfile(true);
+            yield return WaitPlaying();
+            Game.LoadZone(3);
+            yield return WaitPlaying();
+            Assert.That(Game.State.Run.Zone, Is.EqualTo(3));
+            Game.Hud.CloseAllWindows();
+            yield return Advance(3);
+            Assert.That(Game.DebugShowBonus(RewardedBonusKind.Gold), Is.True);
+            yield return Capture("b01-bonus-gold.png");
+            Assert.That(Game.DebugShowBonus(RewardedBonusKind.Elixir), Is.True);
+            yield return Capture("b02-bonus-elixir.png");
+            Assert.That(Game.DebugShowBonus(RewardedBonusKind.Dynamite), Is.True);
+            yield return Capture("b03-bonus-dynamite.png");
+
+            Game.Rig.FocusOn(Game.Board.BaseFocusZ);
+            yield return null;
+            Assert.That(Game.ClaimBonus().Ok, Is.True, "тестовый режим: награда сразу");
+            yield return Capture("b04-mortar-fire.png", 1920, 0.12f);
+            for (int frame = 0; frame < 600 && Game.Board.Dynamite != null && Game.Board.Dynamite.Flying; frame++) yield return null;
+            yield return Capture("b05-barrel-tap.png", 1920, 0.6f);
+            Assert.That(Game.Detonate().Ok, Is.True);
+            yield return Capture("b06-blast.png", 1920, 0.08f);
+            yield return Capture("b07-after-blast.png", 1920, 0.8f);
+
+            Game.State.Profile.Cards["ca063"] = new CardProgress { Level = 3, Copies = 4 };
+            Game.Hud.ShowCard("ca063");
+            yield return Capture("b08-card-ca063.png");
+            Game.Hud.CloseAllWindows();
+
+            var tsv = new StringBuilder("kind\tshot\tpath\tfontSize\ttext\n");
+            foreach (string line in m_Truncated) tsv.Append("truncated\t").Append(line).Append('\n');
+            foreach (string line in m_Small) tsv.Append("small\t").Append(line).Append('\n');
+            File.WriteAllText(Path.Combine(Shots, "bonus-text.tsv"), tsv.ToString());
             Assert.That(m_Truncated, Is.Empty, "подписи, обрезанные многоточием:\n" + string.Join("\n", m_Truncated));
         }
 

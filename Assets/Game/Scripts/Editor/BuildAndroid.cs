@@ -203,7 +203,7 @@ namespace CatMiners.Editor.GooglePlay
                 Change(restore, () => PlayerSettings.bundleVersion, x => PlayerSettings.bundleVersion = x, version);
                 Change(restore, () => PlayerSettings.Android.bundleVersionCode, x => PlayerSettings.Android.bundleVersionCode = x, code);
                 Change(restore, () => PlayerSettings.GetScriptingBackend(Target), x => PlayerSettings.SetScriptingBackend(Target, x), ScriptingImplementation.IL2CPP);
-                Change(restore, () => PlayerSettings.Android.targetArchitectures, x => PlayerSettings.Android.targetArchitectures = x, AndroidArchitecture.ARM64);
+                Change(restore, () => PlayerSettings.Android.targetArchitectures, x => PlayerSettings.Android.targetArchitectures = x, AndroidArchitecture.ARMv7 | AndroidArchitecture.ARM64);
                 Change(restore, () => PlayerSettings.Android.targetSdkVersion, x => PlayerSettings.Android.targetSdkVersion = x, (AndroidSdkVersions)36);
                 Change(restore, () => PlayerSettings.Android.useCustomKeystore, x => PlayerSettings.Android.useCustomKeystore = x, true);
                 Change(restore, () => PlayerSettings.Android.keystoreName, x => PlayerSettings.Android.keystoreName = x, keystore);
@@ -234,7 +234,7 @@ namespace CatMiners.Editor.GooglePlay
                 using (var sha = SHA256.Create()) hash = BitConverter.ToString(sha.ComputeHash(stream)).Replace("-", "").ToLowerInvariant();
                 File.WriteAllText(output + ".build.json", JsonConvert.SerializeObject(new {
                     result = "BuiltPendingArtifactVerification", path = output, sha256 = hash,
-                    package, version, versionCode = code, targetApi = 36, architecture = "ARM64", backend = "IL2CPP",
+                    package, version, versionCode = code, targetApi = 36, architecture = "ARMv7+ARM64", backend = "IL2CPP",
                     development = false, unity = Application.unityVersion, scene = ProjectSetup.ScenePath,
                     signatureVerified = bundle,
                     uploadCertificateSha256 = bundle ? expectedCertificate.ToUpperInvariant() : null,

@@ -199,6 +199,8 @@ namespace CatMiners.Runtime.Outpost
                     return Loc.T("outpost.target.gate");
                 case 's':
                     return FactoryName(t.TypeId);
+                case 'x' when t.IsDebris:
+                    return Loc.T(DressingLook.NameKey(t.Piece.Family));
                 case 'x':
                     return PresentationCatalog.ObstructionVisual(t.TypeId) == ObstructionVisualKind.Water
                         ? Loc.T("outpost.target.waterfall")
@@ -218,6 +220,12 @@ namespace CatMiners.Runtime.Outpost
                 case 'p': return "icon_gate";
                 // ТЗ 2.2 §11: icon_factory заменяет icon_shaft в сведениях цели (сам icon_shaft остаётся старому режиму).
                 case 's': return "icon_factory";
+                case 'x' when t.IsDebris:
+                {
+                    // Мусор обстановки: свой спрайт поля ×1.
+                    scale = 1;
+                    return PixelArt.Has(t.VisualId) ? t.VisualId : "icon_pickaxe";
+                }
                 case 'x':
                 {
                     string sprite = PresentationCatalog.ObstructionSingleSprite(t.TypeId);

@@ -75,6 +75,7 @@ namespace CatMiners.Core.Text
             d.Add("cards.name.ca037", "Gold Vein");
             d.Add("cards.name.ca038", "Golden Helmet");
             d.Add("cards.name.ca062", "Treasure Map");
+            d.Add("cards.name.ca063", "Demolition Expert");
             // Ресурс месторождения (TargetIds специалистов) для прежних эффектов TargetValue/TargetDamage (cards-2). Карточкам заводов
             // (FactoryOutput) эти имена самоцветов не подставляются: там — имя товара и завода (ТЗ 2.2 §7.1).
             d.Add("cards.res.spawningcart", "Base depot");
@@ -126,6 +127,7 @@ namespace CatMiners.Core.Text
             d.Add("cards.effect.ChestElixir", "Elixir from chests: +{0}");
             d.Add("cards.effect.ChestCards", "Random cards in each chest: +{0}");
             d.Add("cards.effect.CompletionParts", "Parts for clearing a mine: +{0}");
+            d.Add("cards.effect.DynamitePower", "Dynamite blast damage: +{0}");
             // Карточка завода (ТЗ 2.2 §7.1): {0} — имя товара («Milk»), {1} — бонус в процентах («+10% Milk per cycle»).
             d.Add("cards.effect.FactoryOutput", "+{1} {0} per cycle");
             // Короткая строка эффекта под именем в сетке коллекции (CardView).
@@ -156,6 +158,7 @@ namespace CatMiners.Core.Text
             d.Add("cards.short.ChestElixir", "Chest elixir +{0}");
             d.Add("cards.short.ChestCards", "Cards per chest +{0}");
             d.Add("cards.short.CompletionParts", "Parts per mine +{0}");
+            d.Add("cards.short.DynamitePower", "Dynamite +{0}");
             d.Add("cards.short.FactoryOutput", "{0} +{1}");
             // Величина бонуса в часах для сравнения уровней (OutpostCardText.EffectValue): «+3 h».
             d.Add("cards.value.hours", "+{0} h");

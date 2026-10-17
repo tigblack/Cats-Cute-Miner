@@ -1,0 +1,18 @@
+{
+  "created_at": "2026-10-16T11:52:32.209892+00:00",
+  "name": "Cats Cute Miner",
+  "package": "com.multicastgames.catscuteminer",
+  "play_app_id": "4974963942177850884",
+  "developer_id": "8879742639795815518",
+  "developer_name": "MULTICAST GAMES",
+  "console_url": "https://play.google.com/console/u/0/developers/8879742639795815518/app/4974963942177850884/app-dashboard",
+  "locale": "en-US",
+  "type": "Game",
+  "pricing": "Free",
+  "automatic_protection": "default_on",
+  "discovery": "Exact package and name searches returned No results; package availability verified before create",
+  "status": "draft_created_and_dashboard_read_back",
+  "creation_permission": "verified_by_successful_create",
+  "artifact_uploaded": false,
+  "release_submitted": false
+}

@@ -8,10 +8,10 @@
                                                   — write the baseline of previous arts (once, from the pre-2.2 atlas)
 
 Checks (ТЗ 2.2 §7.2; every one of them fails --check):
-  1) card_art.CATALOG has exactly the 61 cards of json-data.json (same IDs: ТЗ 2.2 rule 4);
+  1) card_art.CATALOG has the 61 cards of json-data.json plus the explicitly staged demolition art ca063;
   2) ca001 and the 21 global arts drawn by sprites/card_art.py equal the pre-2.2 atlas (hash BEFORE_ATLAS): SHA-256 of
      their 48×44 RGBA pixels in BEFORE;
-  3) the atlas now in PixelAtlasData.g.cs holds the current 61 arts and nothing else: every card_art_<id> is present and
+  3) the atlas now in PixelAtlasData.g.cs holds all current catalog arts and nothing else: every card_art_<id> is present and
      pixel-identical to what sprites/card_art.py draws now (sprites are trimmed there; the 48×44 canvas is restored from
      the pivot), and there is no card_art_* sprite without a card. A stale art means the atlas was not rebuilt: build.py.
 
@@ -51,7 +51,8 @@ LOCKED_ART_ALPHA = 0.60          # CardView.LockedArtAlpha
 ART_W, ART_H = 48, 44            # card_art canvas; pivot in the centre
 BG_W, BG_H = 64, 48              # card_bg_<tone>; the art sits at (8, 2)
 SOURCE_JSON = ROOT / 'Assets' / 'Game' / 'Data' / 'Source' / 'json-data.json'
-EXPECTED_CARDS = 61              # ТЗ 2.2 rule 4: all 61 cards stay with their IDs
+EXPECTED_CARDS = 61              # ТЗ 2.2 rule 4: all 61 source cards stay with their IDs
+STAGED_ART_IDS = {63}             # Demolition Expert art ships ahead of game-data integration
 BEFORE_COLS = 8
 BEFORE_ATLAS = 'dcea9cdf0d725a67'
 # SHA-256 of the 48×44 RGBA pixels (transparent pixels zeroed) in the pre-2.2 atlas, PixelAtlasData.g.cs hash above.
@@ -153,9 +154,11 @@ def check(reg: Registry, atlas_info, before):
     errors, bad = [], set()
     assert set(card_art.UNCHANGED) == set(BEFORE), 'BEFORE must list exactly card_art.UNCHANGED'
     catalog, source = set(card_art.CATALOG), source_card_ids()
-    if len(catalog) != EXPECTED_CARDS or catalog != source:
+    expected = source | STAGED_ART_IDS
+    if len(source) != EXPECTED_CARDS or catalog != expected:
         errors.append(f'card_art.CATALOG: {len(catalog)} arts, json-data.json: {len(source)} cards, expected {EXPECTED_CARDS}; '
-                      f'without art {sorted(source - catalog)}, art without a card {sorted(catalog - source)}')
+                      f'without art {sorted(expected - catalog)}, unexpected art {sorted(catalog - expected)}; '
+                      f'staged arts {sorted(STAGED_ART_IDS)}')
     for i in card_art.UNCHANGED:
         art = reg.entries[f'card_art_ca{i:03}'].canvas.img
         if digest(art) != BEFORE[i]:
@@ -334,7 +337,7 @@ def rarities():
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument('--check', action='store_true',
-                    help='only the checks: 61 cards, unchanged arts, the atlas holds the current 61 arts')
+                    help='only the checks: source cards plus staged arts, unchanged pixels, current atlas')
     ap.add_argument('--save-before', metavar='ATLAS_CS', help='write the previous-art baseline from this atlas file')
     args = ap.parse_args()
     if args.save_before:

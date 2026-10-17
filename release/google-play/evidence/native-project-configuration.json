@@ -2,6 +2,7 @@
   "package": "com.multicastgames.catscuteminer",
   "reservedIosBundle": "com.multicastgames.catscuteminer",
   "targetApi": 36,
+  "architectures": "ARMv7, ARM64",
   "metaAutomaticStartup": false,
   "metaAutomaticEvents": false,
   "metaAdvertisingId": false,

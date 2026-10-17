@@ -29,6 +29,12 @@ namespace CatMiners.Runtime.Outpost
             var origin = Origin;
             switch (e.Type)
             {
+                case OutpostEventType.DynamiteLaunched:
+                    LaunchDynamite(e, fx);
+                    break;
+                case OutpostEventType.DynamiteExploded:
+                    ExplodeDynamite(e, fx);
+                    break;
                 case OutpostEventType.TargetHit:
                     OnTargetHit(e, fx, run, origin);
                     break;

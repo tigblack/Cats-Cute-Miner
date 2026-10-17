@@ -66,6 +66,8 @@ namespace CatMiners.Runtime.Outpost
 
         /// <summary>Центр лагеря (площадка и двор) локально в корне поля.</summary>
         public Vector3 CenterLocal { get; private set; }
+        /// <summary>Мортира бонуса за рекламу (ТЗ 10.6): передний ряд двора; null — в атласе нет её спрайтов.</summary>
+        public MortarView Mortar { get; private set; }
         /// <summary>Перед доской найма: отсюда новый котик выходит к клетке спавна.</summary>
         public Vector3 HireExitLocal { get; private set; }
         public Vector3 DepotCenterLocal { get; private set; }
@@ -160,6 +162,10 @@ namespace CatMiners.Runtime.Outpost
             m_Lanterns[0] = Decor("lantern0", s_Lantern[0], Mathf.Max(0, baseCol - 3) + 0.5f, FrontFeetZ);
             m_Lanterns[1] = Decor("lantern1", s_Lantern[0], Mathf.Min(width - 1, baseCol + 3) + 0.5f, FrontFeetZ);
             for (int i = 0; i < 2; i++) m_LanternNext[i] = Time.time + Random.Range(0.3f, 0.8f);
+            // Мортира (ТЗ 10.6): передний ряд, левее фонаря b − 3; на узком поле — правее фонаря b + 3.
+            int mortarCol = baseCol - 4 >= 0 ? baseCol - 4 : Mathf.Min(width - 1, baseCol + 4);
+            if (PixelArt.Has("mortar_base") && PixelArt.Has("mortar_tube"))
+                Mortar = MortarView.Create(transform, new Vector3(mortarCol + 0.5f, 0f, FrontFeetZ));
             for (int i = 0; i < m_ScaleShown.Length; i++)
             {
                 m_ScaleShown[i] = 1f;

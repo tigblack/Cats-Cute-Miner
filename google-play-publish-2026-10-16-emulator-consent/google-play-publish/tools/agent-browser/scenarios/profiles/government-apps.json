@@ -1,0 +1,18 @@
+{
+  "_status": "метки, адрес и кнопки сняты с живой страницы Piggy Payday 2026-10-14 (только чтение); шаги раннером не прогонялись, после первого успешного прогона убери _status",
+  "url": "{{base}}/app-content/government-apps?hl=en",
+  "steps": [
+    {
+      "radio": "No"
+    },
+    {
+      "click": "Save"
+    }
+  ],
+  "expect": [
+    "Government apps"
+  ],
+  "forbid": [
+    "Something went wrong"
+  ]
+}

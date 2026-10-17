@@ -70,8 +70,8 @@ namespace CatMiners.Tests
             Game.Hud.ShowCards();
             yield return null;
             var views = Game.Hud.GetComponentsInChildren<CardView>();
-            Assert.That(views.Length, Is.EqualTo(61));
-            Assert.That(views.Count(v => v.State != CardViewState.Locked), Is.EqualTo(10));
+            Assert.That(views.Length, Is.EqualTo(62));
+            Assert.That(views.Count(v => v.State != CardViewState.Locked), Is.EqualTo(11));
             Assert.That(views.Count(v => v.State == CardViewState.Locked), Is.EqualTo(51));
             foreach (var view in views)
             {
@@ -245,7 +245,7 @@ namespace CatMiners.Tests
                     metadata.offsets = Enumerable.Range(0, Mathf.CeilToInt(metadata.H / metadata.V))
                         .Select(k => Mathf.Min(k * metadata.V, metadata.H - metadata.V)).ToArray();
                     metadata.cardIds = scroll.content.GetComponentsInChildren<CardView>().Select(v => v.Def.Id).ToArray();
-                    Assert.That(metadata.cardIds.Length, Is.EqualTo(61));
+                    Assert.That(metadata.cardIds.Length, Is.EqualTo(62));
                     scroll.StopMovement();
                     scroll.verticalNormalizedPosition = 1;
                 };

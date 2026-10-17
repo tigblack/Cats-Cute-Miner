@@ -1,5 +1,32 @@
 # Переработка в CatOutpostV2: ход работы
 
+## Бонус за рекламу, мортира с динамитом и карточка ca063 (16 октября 2026)
+
+- **Состояние / точка продолжения.** Решения владельца 16 октября (ответы на вопросы): иконка за рекламу у левого края
+  раз в 3 мин (первая через 2 мин, висит 45 с); награда — золото на 2 ближайших улучшения базы, эликсир на ближайшее
+  улучшение карточки, 2 гема или динамит; динамит — бочка из мортиры лагеря, тап — взрыв на месте; плюс карточка улучшения
+  динамита. Правила — ТЗ 2.1 §10.6. Готово и проверено: полный core 2645/2645; Unity PlayMode — бонус, карточки, HUD,
+  магазин, рантайм 46/46 и снимки `Docs/Reports/english-ui/b01…b08` (`OutpostEnglishUiEvidenceTests.BonusScreens`, лист
+  `bonus-sheet.png`). По ходу исправлены `OutpostSetup.ValidateData` (61 карточка источника + ExtraCards), текст
+  `cards.short.DynamitePower`, таймер бонуса (`BonusTimeScale` делит накопление, пороги — секунды каталога). Ничего не
+  закоммичено и не опубликовано.
+- **Ядро:** `store_catalog.json → RewardedBonus` (`store-4`, `RewardedBonusRules` в `StoreCatalog.cs`); `Store/RewardedBonus.cs`
+  (виды, ID, взвешенный выбор); `Sim/OutpostSimulation.Bonus.cs` (`TryQuoteBonus`, `RollBonus`, команды `RewardBonus` и
+  `Detonate`, выстрел и взрыв); общий для кирки и взрыва `ApplyHit` в `OutpostSimulation.Strike.cs`; `Run.Dynamite`,
+  `NextDynamiteSeq`; события `BonusGranted`, `DynamiteLaunched`, `DynamiteExploded`; `RewardedOffer.Bonus/Amount` и ветка в
+  `DeliverVerifiedReward`. Карточка `ca063` «Demolition Expert» — `card_rules.json → ExtraCards` (`cards-4`), эффект
+  `CardEffectKind.DynamitePower` (`TeamStats.CardDynamitePower`).
+- **Игра:** `OutpostController.Bonus.cs` (расписание по активной игре, `ClaimBonus`, `Detonate`, `DebugShowBonus`,
+  `BonusTimeScale` для тестов, `SuppressRewardedBonus` для playable); `OfferReward` с офертой бонуса; камера к месту падения;
+  `OutpostHud.Bonus.cs` (кнопка, тосты); `MortarView`, `DynamiteBarrelView`, `OutpostBoardView.Dynamite.cs`; мортира в
+  `BaseCampView`; выбор бочки тапом (`OutpostPickKind.Dynamite`); звуки `MortarFire`/`BarrelLand`/`DynamiteBlast` →
+  `cannon`/`land`/`dynamite`.
+- **Арт:** `mortar_base`, `mortar_tube`, `barrel_tnt_0/1`, `card_art_ca063` (`Tools/PixelArt/sprites/structures.py`, `card_art.py`);
+  атлас пересобран, прежние спрайты не изменились.
+- **Тесты:** EditMode `OutpostRewardedBonusTests` (10), правки счётчиков карточек 61 → 62 и версии `cards-4`
+  (`OutpostCardTests`, `OutpostConfigTests`, `OutpostCoreSmokeTests`, `OutpostCardsUiTests`); PlayMode `OutpostBonusUiTests` (3),
+  `FakeOutpostGame` в `OutpostHudTests`.
+
 ## Нижняя панель: пять кнопок и замок на Market (16 октября 2026)
 
 - **Состояние / точка продолжения.** Решение владельца 16 октября: кнопка «To base» убрана ради симметрии; панель —

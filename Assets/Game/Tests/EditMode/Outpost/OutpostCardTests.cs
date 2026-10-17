@@ -39,15 +39,20 @@ namespace CatMiners.Tests.Outpost
         [Test]
         public void Catalog_All61SourceCards_RarityCounts_Managers_MineUnlock_NoInventedIds()
         {
-            Assert.AreEqual(61, Cat.Cards.Count);
+            // cards-4 (ТЗ 10.6): каталог — 61 карточка источника и ca063 «Demolition Expert» из card_rules.json → ExtraCards.
+            Assert.AreEqual(62, Cat.Cards.Count);
+            CollectionAssert.AreEqual(new[] { "ca063" }, Cat.Rules.ExtraCards.Select(c => c.Id).ToArray());
+            var source = Cat.Cards.Where(c => c.Id != "ca063").ToList();
+            Assert.AreEqual(61, source.Count);
             Assert.IsNull(Cat.Get("ca061"), "ca061 в источнике нет — ID не генерируются диапазоном");
             Assert.IsNotNull(Cat.Get("ca062"));
             Assert.AreEqual(40, Cat.Cards.Count(c => c.IsManager));
-            var byRarity = Cat.Cards.GroupBy(c => c.Rarity).ToDictionary(g => g.Key, g => g.Count());
+            var byRarity = source.GroupBy(c => c.Rarity).ToDictionary(g => g.Key, g => g.Count());
             CollectionAssert.AreEquivalent(new Dictionary<int, int> { { 1, 21 }, { 2, 19 }, { 3, 9 }, { 4, 6 }, { 5, 5 }, { 6, 1 } }, byRarity);
             Assert.AreEqual(1, Cat.Cards.Min(c => c.MineUnlock));
             Assert.AreEqual(138, Cat.Cards.Max(c => c.MineUnlock));
-            Assert.AreEqual(10, Cat.Cards.Count(c => c.MineUnlock == 1), "на первой шахте доступны десять карточек");
+            Assert.AreEqual(10, source.Count(c => c.MineUnlock == 1), "на первой шахте доступны десять карточек источника");
+            Assert.AreEqual(1, Cat.Get("ca063").MineUnlock, "и карточка динамита");
             Assert.AreEqual(3, Cat.Get("ca003").MineUnlock);
             Assert.AreEqual(10, Cat.Get("ca007").MineUnlock);
             Assert.AreEqual(138, Cat.Get("ca059").MineUnlock);
@@ -61,7 +66,7 @@ namespace CatMiners.Tests.Outpost
                 Assert.IsTrue(c.Effect.ValueAt(1).Sign > 0, c.Id + ": эффект на уровне 1 ненулевой");
             }
             // Специалисты сохраняют TargetIds; 21 не-manager — 21 разный код, у каждого свой эффект.
-            Assert.AreEqual(21, Cat.Cards.Where(c => !c.IsManager).Select(c => c.StatModifierType).Distinct().Count());
+            Assert.AreEqual(21, source.Where(c => !c.IsManager).Select(c => c.StatModifierType).Distinct().Count());
             // ТЗ 2.2 §7.1, §16.1 (а): было TargetValue (ca002) и TargetDamage (ca014) — в cards-3 обе карточки завода дают FactoryOutput.
             Assert.AreEqual(CardEffectKind.FactoryOutput, Cat.Get("ca002").Effect.Kind);
             Assert.AreEqual(CardEffectKind.FactoryOutput, Cat.Get("ca014").Effect.Kind);
@@ -121,7 +126,7 @@ namespace CatMiners.Tests.Outpost
         {
             // ТЗ 2.2 §7.1: manager-1 и manager-2 — одинаково FactoryOutput, Base 1/10, PerLevel 1/20, Rule CatMiners; ca001 не меняется.
             var rules = CardConfigs.CardRules;
-            Assert.AreEqual("cards-3", CardRules.CurrentVersion);
+            Assert.AreEqual("cards-4", CardRules.CurrentVersion);
             Assert.AreEqual(CardRules.CurrentVersion, rules.Version);
             foreach (var key in new[] { "manager-1", "manager-2" })
             {
@@ -162,7 +167,8 @@ namespace CatMiners.Tests.Outpost
             }
             Assert.IsFalse(Cat.Get("ca001").IsFactoryOutput, "ca001 (spawningcart) — не завод");
             Assert.IsFalse(factories.IsFactoryCard("ca001"));
-            Assert.AreEqual(21, Cat.Cards.Count(c => !c.IsManager && !c.IsFactoryOutput), "глобальные карточки не затронуты");
+            Assert.AreEqual(21, Cat.Cards.Count(c => !c.IsManager && !c.IsFactoryOutput && c.Id != "ca063"), "глобальные карточки не затронуты");
+            Assert.AreEqual(CardEffectKind.DynamitePower, Cat.Get("ca063").Effect.Kind, "cards-4: 22-я глобальная — карточка динамита");
 
             // Прежние эффекты месторождений сняты: с 39 карточками на максимуме урон и цена порций по любому типу s — как без карточек.
             var b = CardConfigs.Balance;
@@ -254,7 +260,7 @@ namespace CatMiners.Tests.Outpost
                 string name = Loc.T("cards.name." + c.Id);
                 Assert.IsFalse(name.EndsWith(" Appraiser") || (name.EndsWith(" Master") && c.Id != "ca001"), c.Id + ": имя самоцвета cards-2 «" + name + "»");
             }
-            Assert.AreEqual(61, Cat.Cards.Select(c => Loc.T("cards.name." + c.Id)).Distinct().Count(), "имена не повторяются");
+            Assert.AreEqual(Cat.Cards.Count, Cat.Cards.Select(c => Loc.T("cards.name." + c.Id)).Distinct().Count(), "имена не повторяются");
 
             // Тексты эффекта и блока завода в окне карточки: {0} — товар (или завод), {1} — бонус; числа подставляет UI (WP5).
             Assert.AreEqual("Milk +10%", Loc.F("cards.short.FactoryOutput", "Milk", "10%"));
@@ -282,8 +288,8 @@ namespace CatMiners.Tests.Outpost
             Assert.AreEqual(0, p.CardLevel("ca003"), "снятие замка не выдаёт копию");
             CardService.ReachZone(p, 1);
             Assert.AreEqual(3, p.HighestZone, "возврат на меньшую шахту не снижает прогресс");
-            Assert.AreEqual(10, Cat.Cards.Count(c => CardService.IsUnlocked(Profile(highest: 1), c)));
-            Assert.AreEqual(61, Cat.Cards.Count(c => CardService.IsUnlocked(Profile(highest: 138), c)), "шахта 138 открывает весь каталог");
+            Assert.AreEqual(11, Cat.Cards.Count(c => CardService.IsUnlocked(Profile(highest: 1), c)), "10 карточек источника и ca063");
+            Assert.AreEqual(62, Cat.Cards.Count(c => CardService.IsUnlocked(Profile(highest: 138), c)), "шахта 138 открывает весь каталог");
             // Уже полученная карточка остаётся активной даже ниже MineUnlock (перенос не блокирует её повторно).
             var low = Profile(highest: 1);
             Give(low, "ca059", 2);

@@ -49,20 +49,12 @@
     "com.unity.purchasing": "5.2.1",
     "io.appmetrica.analytics": "https://github.com/appmetrica/appmetrica-unity-plugin.git#v6.7.0",
     "com.adjust.sdk": "https://github.com/adjust/unity_sdk.git?path=Assets/Adjust#v5.8.1",
-    "com.applovin.mediation.ads": "8.4.2",
     "com.google.external-dependency-manager": "1.2.187"
   },
   "testables": [
     "com.unity.inputsystem"
   ],
   "scopedRegistries": [
-    {
-      "name": "AppLovin",
-      "url": "https://unity.packages.applovin.com",
-      "scopes": [
-        "com.applovin"
-      ]
-    },
     {
       "name": "OpenUPM EDM4U",
       "url": "https://package.openupm.com",

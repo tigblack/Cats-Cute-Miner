@@ -1,0 +1,18 @@
+{
+  "_status": "метки, адрес и кнопки сняты с живой страницы Piggy Payday 2026-10-14 (только чтение); шаги раннером не прогонялись, после первого успешного прогона убери _status. Адрес исправлен: app-content/ads-declaration (прежний app-content/ads вёл на список приложений)",
+  "url": "{{base}}/app-content/ads-declaration?hl=en",
+  "steps": [
+    {
+      "radio": "Yes, my app contains ads"
+    },
+    {
+      "click": "Save"
+    }
+  ],
+  "expect": [
+    "Yes, my app contains ads"
+  ],
+  "forbid": [
+    "Something went wrong"
+  ]
+}

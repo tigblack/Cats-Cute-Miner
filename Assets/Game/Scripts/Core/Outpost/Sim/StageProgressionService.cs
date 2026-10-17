@@ -71,6 +71,7 @@ namespace CatMiners.Core.Outpost
                 AdapterVersion = OutpostIds.AdapterVersion,
                 MapOverride = OutpostJson.DeepCopy(map.Override),
                 MapTopology = OutpostJson.DeepCopy(map.Topology),
+                MapDressing = OutpostJson.DeepCopy(map.Dressing),
                 Balance = balance,
                 Phase = RunPhase.Running,
                 Now = 0,

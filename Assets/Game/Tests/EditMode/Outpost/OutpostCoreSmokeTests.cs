@@ -263,7 +263,7 @@ namespace CatMiners.Tests.Outpost
             Assert.AreEqual(a.StoreHash, all.StoreHash);
             Assert.AreEqual(a.FactoryRulesHash, all.FactoryRulesHash);
             Assert.AreEqual(a.Topologies.Version, all.Topologies.Version);
-            Assert.AreEqual("cards-3", all.CardRules.Version);
+            Assert.AreEqual("cards-4", all.CardRules.Version);
             Assert.AreEqual("factories-1", all.FactoryRules.Version);
 
             Assert.AreEqual(Rational.Of(59, 50), Rational.Parse("1.18"));

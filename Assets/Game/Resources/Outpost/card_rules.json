@@ -1,5 +1,5 @@
 {
-  "Version": "cards-3",
+  "Version": "cards-4",
   "CardRngStream": 6,
   "TutorialCard": "ca001",
   "MaxDiscount": "9/10",
@@ -175,8 +175,18 @@
       "PerLevel": "1/2",
       "Rule": "CatMiners",
       "Source": "Код 26 (Majestic), смысл неизвестен; в старой игре не выпадала. Новое правило: +случайные карты в каждом сундуке, floor(1 + (L−1)/2)"
+    },
+    "ca063": {
+      "Kind": "DynamitePower",
+      "Base": "1/5",
+      "PerLevel": "1/10",
+      "Rule": "CatMiners",
+      "Source": "ТЗ 10.6 (cards-4): карточка игры сверх источника, «Demolition Expert»; +урон взрыва динамита по кольцу: Lv1 +20 %, +10 % за уровень, Lv9 +100 %"
     }
   },
+  "ExtraCards": [
+    { "Id": "ca063", "Rarity": 3, "MineUnlock": 1, "SortingWeight": 95, "StatModifierType": 0, "TargetIds": [], "IsManager": false }
+  ],
   "DefaultChances": [800000, 150000, 40000, 8000, 1800, 200],
   "ChestChances": {
     "GachaWooden": [800000, 150000, 40000, 8000, 1800, 200],

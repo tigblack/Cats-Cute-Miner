@@ -1,0 +1,24 @@
+{
+  "checked_at": "2026-10-16T15:29:34.723Z",
+  "project_name": "Cats Cute Miner",
+  "project_id": "e4e954f1-59a9-479a-821f-be7eed9aff47",
+  "destination": "SuperLeo project media library only",
+  "network_creative_uploaded": false,
+  "campaign_created": false,
+  "campaign_activated": false,
+  "upload_attempted": true,
+  "posts": [
+    {
+      "path": "/api/gallery/upload-videos",
+      "status": 200
+    },
+    {
+      "path": "/api/gallery/upload-images",
+      "status": 200
+    }
+  ],
+  "pre_upload_name_readback": "No matching CatMiner_Axon_Factories_30s_en.mp4 in current library search",
+  "modal_closed": true,
+  "readback": "SUPERLEO\nby Multicast\nGenerator\nCampaigns\nМонетизация Ads\nВыгрузки AppMetrica\nПровижены и интеграции\nМонетизация IAP\nГалерея\nИнструменты\nAI Ассистент\nСобытия\nAdjust Events\nАналитика\nA/B Тесты\nA/B тесты Play Console\nОтзывы\nДокументация\nНастройки\nSA\nАдминистратор\nsargsyan@multicastgames.com\nБаланс:\n$20.00\nGallery\nUpload\nКорзина\nInteract\nSync\nYouTube\nView\nActions\n10\nitems (more)\nAll projects\nAll Media\nAll time\nNewest First\nAll Sources\nAll Ratios\nMore\nСегодня, 16 октября 2026\nCatMiner_Axon_Endcard_1080x1920.png\nsargsyan\nnow\nUploaded\nCatMiner_Axon_Factories_30s_en.mp4\nsargsyan\n30s\nnow\nUploaded\nicon-512.png\nsargsyan\n8m\nUploaded\nendcard-1080x1920.png\nsargsyan\n8m\nUploaded\nCatsCuteMiner_Axon_Factories_30s_en.mp4\nsargsyan\n30s\n8m\nUploaded\nStream\nDrive Stream\n04-ear-splitters-hero-v2.mp4\nadmin\n22s\n1h\nSynced\nFB\nStream\nDrive Stream\n05-thunder-carrot.mp4\nadmin\n20s\n1h\nSynced\nFB\nStream\nDrive Stream\n06-backup-arrived.mp4\nadmin\n20s\n1h\nSynced\nFB\nStream\nDrive Stream\nBC_FatCrack_001_Simple_002_1920x1080.mp4\nuamm\n49s\n2h\nSynced\nMI\nStream\nDrive Stream\nBC_FatCrack_001_Simple_002_1080x1920.mp4\nuamm\n49s\n2h\nSynced\nMI\nLoad More\nUploaded 2 items\n",
+  "completed_at": "2026-10-16T15:29:47.949Z"
+}

@@ -1,0 +1,23 @@
+{
+  "observedAtUtc": "2026-10-16T12:37:34.725287+00:00",
+  "appId": "4974963942177850884",
+  "packageName": "com.multicastgames.catscuteminer",
+  "productionTrackId": "4697524297109954210",
+  "ownerDecision": "Exclude Brazil from first release; preserve random chest mechanic",
+  "selection": "all currently available countries/regions except Brazil",
+  "targetedCount": 177,
+  "availableCount": 178,
+  "notTargetedCount": 1,
+  "notTargetedCountries": [
+    "Brazil"
+  ],
+  "saveClicked": true,
+  "reloaded": true,
+  "verification": "After reload filter Targeted (177), Not targeted (1). Selecting Not targeted shows single row Brazil / Not targeted.",
+  "rawEvidence": "evidence/countries-brazil-excluded-raw.json",
+  "trackStatus": "Inactive",
+  "productionReleaseCreated": false,
+  "submittedForReview": false,
+  "internalTesting": "Tester-only track remains separate; no public release created",
+  "nextCheck": "Recheck country exclusion at production release preview and ensure Play IAP regional configuration follows app distribution."
+}

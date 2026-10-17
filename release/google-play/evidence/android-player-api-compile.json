@@ -7,7 +7,6 @@
     "Assembly-CSharp.dll",
     "CatMiners.Core.dll",
     "CatMiners.Runtime.dll",
-    "MaxSdk.Scripts.dll",
     "Unity.AI.Navigation.dll",
     "Unity.Burst.dll",
     "Unity.Collections.dll",
@@ -56,5 +55,6 @@
     "Unity.VisualScripting.State.dll",
     "UnityEngine.UI.dll"
   ],
+  "adsEnabled": false,
   "status": "player_scripts_compiled_pending_native_gradle_artifact_and_device_checks"
 }

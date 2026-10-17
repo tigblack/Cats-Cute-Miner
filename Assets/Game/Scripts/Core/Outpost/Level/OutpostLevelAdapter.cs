@@ -33,7 +33,11 @@ namespace CatMiners.Core.Outpost
                 throw new ArgumentException("Mine topology source checksum mismatch");
             var topology = configs.Topologies.For(map.ZoneId);
             if (topology == null) throw new ArgumentException("Missing topology: " + map.ZoneId);
-            return MineTopologyAdapter.Apply(map, topology);
+            map = MineTopologyAdapter.Apply(map, topology);
+            // Обстановка — слой поверх геометрии новой шахты (Docs/Rework/MINE_DRESSING.md); снимок уходит в run.
+            var rules = configs.Dressing;
+            if (rules == null || zoneNumber < rules.FromZone) return map;
+            return MineDressingAdapter.Apply(map, MineDressingPlacer.Generate(map, rules));
         }
 
         /// <summary>
@@ -44,7 +48,10 @@ namespace CatMiners.Core.Outpost
         {
             if (run == null) throw new ArgumentNullException(nameof(run));
             var map = BuildWithOverride(repo, run.Zone, run.MapOverride);
-            return run.MapTopology == null ? map : MineTopologyAdapter.Apply(map, run.MapTopology);
+            if (run.MapTopology == null) return map;
+            map = MineTopologyAdapter.Apply(map, run.MapTopology);
+            // Шахта, начатая до обстановки (снимка нет), доигрывается на прежней карте.
+            return run.MapDressing == null ? map : MineDressingAdapter.Apply(map, run.MapDressing);
         }
 
         /// <summary>
@@ -217,6 +224,12 @@ namespace CatMiners.Core.Outpost
         public ZoneOverride Override;
         public string OverrideName;
         public MineTopology Topology;
+        /// <summary>Снимок обстановки (постоянные препятствия, детали стен, мусор) или null — шахта без обстановки.</summary>
+        public MineDressing Dressing;
+        /// <summary>Постоянные препятствия и детали стен по порядку снимка (пусто без обстановки).</summary>
+        public MapProp[] Props = new MapProp[0];
+        /// <summary>Клетка → индекс постоянного препятствия на полу (<see cref="Props"/>) или −1; null — без обстановки.</summary>
+        public int[] PropAt;
         public bool[] PlayableCells;
         public int[] CellSectors;
         public int[] CellGateOrder;
@@ -250,6 +263,10 @@ namespace CatMiners.Core.Outpost
         public int Col(int cell) => cell % Width;
         public int Row(int cell) => cell / Width;
         public bool IsPlayable(int cell) => cell >= 0 && cell < CellCount && (PlayableCells == null || PlayableCells[cell]);
+        /// <summary>Клетку занимает постоянное препятствие обстановки (пол под ним непроходим).</summary>
+        public bool IsProp(int cell) => PropAt != null && cell >= 0 && cell < CellCount && PropAt[cell] >= 0;
+        /// <summary>Пол для оформления: проходимая клетка или пол под постоянным препятствием (не порода).</summary>
+        public bool IsFloor(int cell) => IsPlayable(cell) || IsProp(cell);
         public int SectorAt(int cell) => cell >= 0 && cell < CellCount && CellSectors != null ? CellSectors[cell] : 0;
 
         /// <summary>Индекс цели в <see cref="Targets"/> по Id или −1.</summary>
@@ -313,9 +330,14 @@ namespace CatMiners.Core.Outpost
         /// <summary>Завод (<c>s</c>): уровень карточки требования (поле cardLevel токена); 0 у прочих целей.</summary>
         public int CardLevel;
 
+        /// <summary>Куча мусора обстановки (цель <c>x</c> из <see cref="OutpostMap.Dressing"/>) или null у целей источника.</summary>
+        public DressingPiece Piece;
+
         public bool IsGate => Kind == 'p';
         /// <summary>Цель — завод в цепях (ТЗ 2.2: бывшее месторождение <c>s</c>).</summary>
         public bool IsFactory => Kind == 's';
+        /// <summary>Цель — разрушаемый мусор обстановки (Docs/Rework/MINE_DRESSING.md).</summary>
+        public bool IsDebris => Piece != null;
     }
 
     /// <summary>

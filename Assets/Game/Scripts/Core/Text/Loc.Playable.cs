@@ -89,7 +89,7 @@ namespace CatMiners.Core.Text
 
             // Баннер CTA под нижней панелью и финальный экран (ТЗ playable 3.5). Звёзды рейтинга — спрайты icon_star (у Pixeloid
             // нет ★). line: {0} — пройдено шахт; of: {0}/{1}; teaser: {0} — шахт в игре, {1} — карточек, «•» есть в Pixeloid.
-            d.Add("playable.cta.title", "CAT MINERS");
+            d.Add("playable.cta.title", "CAT MINER");
             d.Add("playable.cta.play", "PLAY FREE");
             d.Add("playable.end.line.one", "You cleared {0} mine!");
             d.Add("playable.end.line.many", "You cleared {0} mines!");

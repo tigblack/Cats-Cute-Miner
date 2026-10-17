@@ -73,6 +73,9 @@ namespace CatMiners.Runtime.Outpost
                     break;
                 case OutpostViewCue.GoodsArrive: m_Sfx.GoodsArrive(); break;
                 case OutpostViewCue.GoodsSold: m_Sfx.GoodsSell(); break;
+                case OutpostViewCue.MortarFire: m_Sfx.Cannon(); break;
+                case OutpostViewCue.BarrelLand: m_Sfx.BarrelLand(); break;
+                case OutpostViewCue.DynamiteBlast: m_Sfx.Dynamite(); break;
                 case OutpostViewCue.TargetBroken: m_Sfx.Break(); break;
                 case OutpostViewCue.SectorOpened: m_Sfx.GateOpen(); break;
                 case OutpostViewCue.TeamGathered: m_Sfx.ExitOpen(); break;

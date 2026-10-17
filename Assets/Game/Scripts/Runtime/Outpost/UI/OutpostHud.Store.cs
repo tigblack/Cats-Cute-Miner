@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using CatMiners.Core.Outpost;
 using CatMiners.Core.Text;
 using TMPro;
@@ -177,7 +178,7 @@ namespace CatMiners.Runtime.Outpost
             }
             foreach (string section in store.Sections)
             {
-                var items = store.InSection(section);
+                var items = store.InSection(section).Where(def => def.Currency != StoreCurrency.Ad || OutpostController.RewardedOffersSupported).ToList();
                 if (items.Count == 0) continue;
                 var banner = PixelUi.Panel(m_StoreContent, "section_" + section, PixelPanel.Header).rectTransform;
                 banner.gameObject.AddComponent<LayoutElement>().preferredHeight = 20 * Px;

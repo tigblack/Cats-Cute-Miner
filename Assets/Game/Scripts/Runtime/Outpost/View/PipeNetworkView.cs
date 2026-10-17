@@ -28,6 +28,13 @@ namespace CatMiners.Runtime.Outpost
         const int CouplingOrder = BandOrder + 4;
         const int CapOrder = BandOrder + 5, CapIconOrder = BandOrder + 6;
         const int CapsuleOrder = BandOrder + 8;
+        // Трубы по стенам (Docs/Rework/MINE_DRESSING.md, «Трубы»): хомуты на стене, настил над переходом через проём.
+        const int ClampOrder = BandOrder + 3;
+        const int CoverOrder = BandOrder + 2;
+        /// <summary>Шаг хомутов вдоль трубы на стене (пиксели арта).</summary>
+        public const int ClampPitch = 48;
+        /// <summary>Ширина настила над трубой в проёме (пиксели арта).</summary>
+        public const int CoverWidth = 7;
 
         sealed class PipeView
         {
@@ -37,6 +44,9 @@ namespace CatMiners.Runtime.Outpost
             public SpriteRenderer[] Outline;   // по отрезкам (null у отрезков жгута)
             public SpriteRenderer[] Stripe;    // по отрезкам
             public SpriteRenderer Cap, CapIcon;
+            /// <summary>Хомуты на стене и расстояние каждого от начала трубы (показ — по мере прокладки).</summary>
+            public SpriteRenderer[] Clamps;
+            public int[] ClampAt;
             public bool Shown;
             public bool PendingReveal;
             public float RevealT = 1f;         // 0…1 — идёт прокладка
@@ -84,12 +94,36 @@ namespace CatMiners.Runtime.Outpost
                 int n = data.Segments.Count;
                 v.Outline = new SpriteRenderer[n];
                 v.Stripe = new SpriteRenderer[n];
+                var clamps = new List<SpriteRenderer>();
+                var clampAt = new List<int>();
                 for (int i = 0; i < n; i++)
                 {
                     var s = data.Segments[i];
+                    if (s.Crossing)
+                    {
+                        // Переход через проём: труба под настилом пола — плита с швом, котики ходят поверх.
+                        v.Outline[i] = Rect("cover", CoverOrder, PixelPalette.Slate2);
+                        v.Stripe[i] = Rect("coverSeam", CoverOrder + 1, PixelPalette.Slate5);
+                        continue;
+                    }
                     if (!s.Harness) v.Outline[i] = Rect("pipe", PipeOrder + 2 * k, PixelPalette.Ink1);
                     v.Stripe[i] = Rect("stripe", s.Harness ? HarnessStripeOrder : PipeOrder + 2 * k + 1, color);
+                    if (!data.WallMounted || s.Harness) continue;
+                    // Хомуты: короткие тёмные скобы поперёк трубы, крепление к стене.
+                    for (int d = ClampPitch / 2; d < s.Length - 4; d += ClampPitch)
+                    {
+                        var dir = new Vector2Int(System.Math.Sign(s.B.x - s.A.x), System.Math.Sign(s.B.y - s.A.y));
+                        var at = s.A + dir * d;
+                        var clamp = Rect("clamp", ClampOrder, PixelPalette.Slate4);
+                        if (dir.x != 0) Place(clamp, at.x, at.y - 2, at.x + 1, at.y + 2);
+                        else Place(clamp, at.x - 2, at.y, at.x + 2, at.y + 1);
+                        clamp.enabled = false;
+                        clamps.Add(clamp);
+                        clampAt.Add(s.Start + d);
+                    }
                 }
+                v.Clamps = clamps.ToArray();
+                v.ClampAt = clampAt.ToArray();
                 // Заглушка и иконка чётного размера (pivot на границе пикселей) — на углу пикселя оси.
                 v.Cap = PixelWorld.Sprite(m_Visual, "cap", "fpipe_cap", PxPos(data.CapCenter, false), CapOrder);
                 v.CapIcon = PixelWorld.Sprite(m_Visual, "capIcon", FactoryText.GoodIconSmall(good), PxPos(data.CapCenter, false), CapIconOrder);
@@ -161,6 +195,7 @@ namespace CatMiners.Runtime.Outpost
                 if (v.Outline[i] != null) v.Outline[i].enabled = on;
                 v.Stripe[i].enabled = on;
             }
+            for (int i = 0; i < v.Clamps.Length; i++) v.Clamps[i].enabled = on;
             v.Cap.enabled = on;
             v.CapIcon.enabled = on;
         }
@@ -173,8 +208,13 @@ namespace CatMiners.Runtime.Outpost
             {
                 var s = segs[i];
                 int shown = revealed - s.Start;
-                PlaceSegment(v.Outline[i], s, PipeLayout.PipeWidth, shown);
+                PlaceSegment(v.Outline[i], s, s.Crossing ? CoverWidth : PipeLayout.PipeWidth, shown);
                 PlaceSegment(v.Stripe[i], s, 1, shown);
+            }
+            for (int i = 0; i < v.Clamps.Length; i++)
+            {
+                bool on = v.ClampAt[i] <= revealed;
+                if (v.Clamps[i].enabled != on) v.Clamps[i].enabled = on;
             }
             v.Revealed = revealed;
         }

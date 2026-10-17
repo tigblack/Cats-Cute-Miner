@@ -1117,16 +1117,16 @@ def cat_pose(t: float, spawn_at: Optional[float] = None, joys: Sequence[float] =
 # ───────────────────────── 7. Logo ─────────────────────────
 @lru_cache(maxsize=1)
 def logo_art() -> Image.Image:
-    """'CAT MINERS' logo at art px (scale with logo(k)). Composition per art.md section 3:
+    """'CAT MINER' logo at art px (scale with logo(k)). Composition per art.md section 3:
     Pixeloid Bold letters (2 art px per font px) in the gold-button ramp with a wood0 outline, extruded
-    amber underside and ink1 drop shadow; 'MINERS' on a gold-bracketed wooden plank, 'CAT' above it with
+    amber underside and ink1 drop shadow; 'MINER' on a gold-bracketed wooden plank, 'CAT' above it with
     crossed legendary pickaxes; two miner cats sit on the plank ends; coin, gem and sparkle accents."""
     cw, ch = 140, 96
     c = Image.new('RGBA', (cw, ch))
     cat_w = fancy_text('CAT', fs=2, outline2='ink1')
-    min_w = fancy_text('MINERS', fs=2, outline2='ink1')
+    min_w = fancy_text('MINER', fs=2, outline2='ink1')
     mid = cw // 2
-    pl_w, pl_h = min_w.width + 12, min_w.height + 6        # plank around 'MINERS'
+    pl_w, pl_h = min_w.width + 12, min_w.height + 6        # plank around 'MINER'
     pl_x, pl_y = mid - pl_w // 2, 60
     cat_y = pl_y - cat_w.height + 5                           # 'CAT' overlaps the plank's top edge
     # Crossed legendary pickaxes behind 'CAT': an X centred on the word, heads up and out.
@@ -1142,7 +1142,7 @@ def logo_art() -> Image.Image:
     blit(c, min_w, mid - min_w.width // 2, pl_y + (pl_h - min_w.height) // 2 + 1)
     blit(c, cat_w, mid - cat_w.width // 2, cat_y)
     # Accents: coin and gem hanging on the plank's lower corners, glints on the corners of 'CAT' and on the
-    # coin. (No glint on the 'S' of MINERS: its vertical stroke turned the S into a '$'.)
+    # coin.
     place(c, 'icon_coin', pl_x + 5, pl_y + pl_h - 1)
     place(c, 'icon_gem', pl_x + pl_w - 5, pl_y + pl_h - 1)
     place(c, 'fx_spark_2', mid - cat_w.width // 2 + 4, cat_y + 3)
@@ -1157,7 +1157,7 @@ LOGO_K = 6                       # 124 x 71 art px x 6 = 744 x 426 px; even fact
 
 @lru_cache(maxsize=8)
 def logo(k: int = LOGO_K) -> Image.Image:
-    """'CAT MINERS' logo scaled x k (k = 6 -> 744 x 426 px). Shared image."""
+    """'CAT MINER' logo scaled x k. Shared image."""
     return up(logo_art(), k)
 
 

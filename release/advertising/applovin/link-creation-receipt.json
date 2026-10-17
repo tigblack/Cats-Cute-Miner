@@ -1,0 +1,85 @@
+{
+  "recorded_at": "2026-10-16T15:32:12.169Z",
+  "app": "Cat Miner: Idle Tycoon",
+  "provider_app_alias": "Cats Cute Miner",
+  "app_token": "cdbdt3hkj56o",
+  "partner_id": 7,
+  "network_name": "Cat Miner Android Axon",
+  "existing_own_links_including_hidden": false,
+  "data_sharing_enabled": false,
+  "campaign_created": false,
+  "campaign_activated": false,
+  "creation_attempted": true,
+  "post_responses": [
+    {
+      "path": "/track",
+      "status": 200
+    },
+    {
+      "path": "/dashboard/api/ptl/partners/networks/7/link",
+      "status": 200
+    },
+    {
+      "path": "/api/4504010293379072/envelope/",
+      "status": 200
+    },
+    {
+      "path": "/api/4504010293379072/envelope/",
+      "status": 200
+    },
+    {
+      "path": "/track",
+      "status": 200
+    },
+    {
+      "path": "/jserrors/1/ae98549548",
+      "status": 200
+    }
+  ],
+  "result_url": "https://suite.adjust.com/partners/7/links/25sohm3z/network/link-urls",
+  "page": {
+    "url": "https://suite.adjust.com/partners/7/links/25sohm3z/network/link-urls",
+    "title": "Adjust | Campaign Lab | Partners",
+    "headings": [
+      "Link created!",
+      "Cat Miner Android Axon",
+      "Link URLs",
+      "Click URL",
+      "Impression URL",
+      "Deep link variations",
+      "Apps"
+    ],
+    "buttons": [
+      "Home",
+      "Datascape",
+      "Pulse",
+      "Campaign Lab",
+      "plain",
+      "Plus",
+      "DataWorks",
+      "AppView",
+      "Action center",
+      "Protection",
+      "sidepanel-account-action-btn",
+      "footer-action-item-help_center",
+      "language-selector",
+      "footer-action-item-resource_center",
+      "Partners",
+      "Axon by AppLovin",
+      "Hide link",
+      "Link URLs",
+      "Link structure",
+      "User destinations",
+      "Attribution settings",
+      "Copy URL",
+      "New deep link",
+      "copy"
+    ],
+    "fields": [],
+    "choices": [],
+    "files": 0,
+    "dialogs": []
+  },
+  "text": "Link created!\nHome\nDatascape\nPulse\nCampaign Lab\nPartners\nCustom links\nAudiences\nDeep links\nSmart scripts\nLink debugger\nDataWorks\nAppView\nAction center\nProtection\nGdev Gdev\nMULTICAST GAMES LIMITED\n8\nPartners\n/\nAxon by AppLovin\n/\nCat Miner Android Axon\nCat Miner Android Axon\nHide link\nLink URLs\nLink structure\nUser destinations\nAttribution settings\nLink URLs\nClick URL\nCopy URL\n\nhttps://app.adjust.com/25sohm3z?campaign={CAMPAIGN_NAME}%20({CAMPAIGN_ID})&adgroup={APP_ID}&creative={AD_NAME}&idfa={IDFA}&country={CC}&gps_adid={IDFA}&adgroup_id={PLACEMENT_ID}&ip_address={DEVICE_IP}&os_version={OS_VERSION}&campaign_id={CAMPAIGN_ID}&device_type={DEVICE_TYPE}&tracker_limit=100000&applovin_click_id={DID}&applovin_event_id={EVENT_ID}&external_tracker_ids=1&android_id_lower_sha1={HADID}\n\nImpression URL\nCopy URL\n\nhttps://view.adjust.com/impression/25sohm3z?campaign={CAMPAIGN_NAME}%20({CAMPAIGN_ID})&adgroup={APP_ID}&creative={AD_NAME}&idfa={IDFA}&country={CC}&gps_adid={IDFA}&adgroup_id={PLACEMENT_ID}&ip_address={DEVICE_IP}&os_version={OS_VERSION}&campaign_id={CAMPAIGN_ID}&device_type={DEVICE_TYPE}&tracker_limit=100000&applovin_click_id={DID}&applovin_event_id={EVENT_ID}&external_tracker_ids=1&android_id_lower_sha1={HADID}\n\nDeep link variations\n\nUse this link as a base to create multiple deep link variations for different user destinations and campaigns.\n\nNew deep link\nApps\nC\n\nCats Cute Miner\n\nLink Token\n25sohm3z",
+  "completed_at": "2026-10-16T15:32:14.754Z"
+}

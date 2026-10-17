@@ -23,8 +23,9 @@ namespace CatMiners.Editor.GooglePlay
             PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.Android, GameSdkConfiguration.Package);
             PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.iOS, GameSdkConfiguration.Package);
             PlayerSettings.Android.targetSdkVersion = (AndroidSdkVersions)36;
-            PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
+            PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7 | AndroidArchitecture.ARM64;
             PlayerSettings.SetScriptingBackend(NamedBuildTarget.Android, ScriptingImplementation.IL2CPP);
+            GooglePlayIcons.Apply();
 
             var settings = new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/ProjectSettings.asset")[0]);
             var entry = settings.FindProperty("androidApplicationEntry");
@@ -68,6 +69,14 @@ namespace CatMiners.Editor.GooglePlay
                 element.SetAttributeValue(android + "value", "false");
                 element.SetAttributeValue(tools + "replace", "android:value");
             }
+            if (!GameSdkConfiguration.AdsEnabled)
+            {
+                const string adId = "com.google.android.gms.permission.AD_ID";
+                var permission = xml.Root.Elements("uses-permission").FirstOrDefault(e => (string)e.Attribute(android + "name") == adId);
+                if (permission == null) { permission = new XElement("uses-permission"); xml.Root.Add(permission); }
+                permission.SetAttributeValue(android + "name", adId);
+                permission.SetAttributeValue(tools + "node", "remove");
+            }
             xml.Save(manifest);
             SetFlag(settings, "useCustomMainManifest");
             settings.ApplyModifiedPropertiesWithoutUndo();
@@ -94,7 +103,7 @@ namespace CatMiners.Editor.GooglePlay
             if (config.MetaValid)
             {
                 SetProperty(meta, "AppIds", new List<string> { config.metaAppId });
-                SetProperty(meta, "AppLabels", new List<string> { "Cats Cute Miner" });
+                SetProperty(meta, "AppLabels", new List<string> { "Cat Miner: Idle Tycoon" });
                 SetProperty(meta, "ClientTokens", new List<string> { config.metaClientToken });
                 SetProperty(meta, "SelectedAppIndex", 0);
             }
@@ -104,6 +113,7 @@ namespace CatMiners.Editor.GooglePlay
             File.WriteAllText("release/google-play/evidence/native-project-configuration.json", JsonConvert.SerializeObject(new {
                 package = PlayerSettings.GetApplicationIdentifier(NamedBuildTarget.Android),
                 reservedIosBundle = PlayerSettings.GetApplicationIdentifier(NamedBuildTarget.iOS), targetApi = 36,
+                architectures = PlayerSettings.Android.targetArchitectures.ToString(),
                 metaAutomaticStartup = false, metaAutomaticEvents = false, metaAdvertisingId = false,
                 appMetricaAutomaticMaxRevenue = false, versionChanged = false,
                 status = "source_settings_applied_pending_merged_manifest_and_device_verification"

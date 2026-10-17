@@ -77,21 +77,21 @@ namespace CatMiners.Runtime
         /// <summary>Единиц Canvas на пиксель арта: шаг всех размеров и отступов.</summary>
         public const float Px = PixelArt.UiPixel;
 
-        // Размеры шрифта: пиксель Pixeloid Sans = 1/9 размера (UiFonts.EmPixels), поэтому значения кратны 9 и дают целые
-        // 2…8 единиц Canvas на пиксель шрифта. Подобраны под прежние размеры Tiny5 (24/32/48/56/64/88): высота заглавных и
-        // ширина строк почти не изменились, а букв стало больше пикселей.
-        /// <summary>18: пиксель шрифта = 2 ед. Подписи, бейджи, мелкие пояснения.</summary>
-        public const float FontSmall = 18f;
-        /// <summary>27: пиксель шрифта = 3 ед. Основной текст, строки окон и списков, подсказки обучения.</summary>
-        public const float FontBody = 27f;
-        /// <summary>36: пиксель шрифта = 4 ед. = 1 пиксель арта. Кнопки, числа HUD, заголовки окон и панелей, текст экрана конца кампании.</summary>
-        public const float FontLarge = 36f;
-        /// <summary>45: пиксель шрифта = 5 ед. Главные кнопки и крупные подписи (окно карточки, переход на следующую шахту).</summary>
-        public const float FontTitle = 45f;
-        /// <summary>54: пиксель шрифта = 6 ед. Резерв для особых акцентов (сейчас не используется).</summary>
-        public const float FontHero = 54f;
-        /// <summary>72: пиксель шрифта = 8 ед. = 2 пикселя арта. Резерв для экранов-событий (сейчас не используется).</summary>
-        public const float FontHuge = 72f;
+        // Размеры шрифта (гладкий Nunito, UiFonts): на 11 % крупнее прежних пиксельных 18/27/36/45/54/72 — у Nunito меньше высота
+        // строчных (0,48 em против 0,56), а ширина строк при этих размерах прежняя или меньше (жирное — на 15 % уже). Высота строки
+        // статических начертаний — 1,22 em, как у Pixeloid Sans, поэтому раскладка окон сохраняется.
+        /// <summary>20. Подписи, бейджи, мелкие пояснения.</summary>
+        public const float FontSmall = 20f;
+        /// <summary>30. Основной текст, строки окон и списков, подсказки.</summary>
+        public const float FontBody = 30f;
+        /// <summary>40. Кнопки, числа HUD, заголовки окон и панелей, текст экрана конца кампании.</summary>
+        public const float FontLarge = 40f;
+        /// <summary>50. Главные кнопки и крупные подписи (окно карточки, переход на следующую шахту).</summary>
+        public const float FontTitle = 50f;
+        /// <summary>60. Резерв для особых акцентов.</summary>
+        public const float FontHero = 60f;
+        /// <summary>80. Резерв для экранов-событий.</summary>
+        public const float FontHuge = 80f;
 
         /// <summary>Основной текст (cream3).</summary>
         public static readonly Color TextColor = PixelPalette.Cream3;
@@ -311,8 +311,8 @@ namespace CatMiners.Runtime
             PixelArt.TryGetDef(iconName, out var d) ? new Vector2(d.W * Px * scale, d.H * Px * scale) : new Vector2(16 * Px * scale, 16 * Px * scale);
 
         /// <summary>
-        /// Текст пиксельным шрифтом: <paramref name="bold"/> — шрифт заголовков, кнопок и чисел (Pixeloid Sans Bold),
-        /// <paramref name="shadow"/> — пиксельная тень ink1 на 1 пиксель шрифта вниз (светлый текст на тёмном фоне).
+        /// Текст шрифтом интерфейса: <paramref name="bold"/> — шрифт заголовков, кнопок и чисел (Nunito ExtraBold),
+        /// <paramref name="shadow"/> — мягкая тень ink1 вниз (светлый текст на тёмном фоне).
         /// Размеры — <see cref="FontSmall"/>…<see cref="FontHuge"/>. Перенос строк включён, переполнение — многоточие,
         /// лучи UI не ловит.
         /// </summary>
@@ -337,13 +337,13 @@ namespace CatMiners.Runtime
         {
             var font = bold ? UiFonts.Bold : UiFonts.Default;
             if (font != null && text.font != font) text.font = font;
-            // Пиксельный шрифт искусственно не утолщается: это размывает его пиксели. Жирность — только у запасного шрифта.
-            var style = bold && !UiFonts.IsPixel ? FontStyles.Bold : FontStyles.Normal;
+            // Настоящее жирное начертание искусственно не утолщается; жирность стилем — только у запасного шрифта без ExtraBold.
+            var style = bold && !UiFonts.HasRealBold ? FontStyles.Bold : FontStyles.Normal;
             if (text.fontStyle != style) text.fontStyle = style;
             SetShadow(text, shadow);
         }
 
-        /// <summary>Включить или выключить пиксельную тень (общий материал шрифта, батчинг сохраняется).</summary>
+        /// <summary>Включить или выключить тень текста (общий материал шрифта, батчинг сохраняется).</summary>
         public static void SetShadow(TMP_Text text, bool on)
         {
             var font = text.font;

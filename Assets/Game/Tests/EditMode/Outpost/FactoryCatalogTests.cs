@@ -18,7 +18,8 @@ namespace CatMiners.Tests.Outpost
     public class FactoryCatalogTests
     {
         static OutpostConfigSet s_Configs;
-        static OutpostConfigSet Configs => s_Configs ?? (s_Configs = OutpostConfigSet.LoadDefault().WithCards(TestData.Balance));
+        // Маршруты труб по топологии без обстановки (обстановка их не меняет — MineDressingTests).
+        static OutpostConfigSet Configs => s_Configs ?? (s_Configs = OutpostConfigSet.LoadDefault().WithCards(TestData.Balance).WithDressing(null));
         static FactoryCatalog Cat => Configs.Factories;
 
         /// <summary>Приложение A: тип, товар, первая шахта, заводов в кампании, цикл (с), Common, Uncommon.</summary>

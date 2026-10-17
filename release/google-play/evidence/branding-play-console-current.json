@@ -1,0 +1,112 @@
+{
+  "checkedAt": "2026-10-16T15:51:40.937Z",
+  "savedAt": "2026-10-16T15:51:50.709Z",
+  "readbackAt": "2026-10-16T15:51:55.097Z",
+  "status": "saved",
+  "app": {
+    "developerId": "8879742639795815518",
+    "appId": "4974963942177850884",
+    "package": "com.multicastgames.catscuteminer",
+    "identityBasis": "Exact supplied developer/app URL and expected original title",
+    "locale": "en-US",
+    "url": "https://play.google.com/console/u/0/developers/8879742639795815518/app/4974963942177850884/store-listings/default/edit?hl=en"
+  },
+  "title": {
+    "expectedPrevious": "Cats Cute Miner",
+    "desired": "Cat Miner: Idle Tycoon",
+    "before": "Cats Cute Miner",
+    "reloaded": "Cat Miner: Idle Tycoon"
+  },
+  "feature": {
+    "path": "/mnt/claude-data/sargsyan-tinote/cats-cute-miner/Docs/Store/GooglePlay/assets/en-US/feature-1024x500.png",
+    "sha256": "2df300bd2ee311c760ec6220bb4708b63fc43a3e97badd9c89e7ea555de059b4",
+    "bytes": 591119,
+    "upload": "Uploaded via local Linux file input; new asset observed in Play asset library",
+    "assignment": "verified after reload",
+    "before": {
+      "alt": "feature-1024x500.png",
+      "src": "https://lh3.googleusercontent.com/E1Z_xNzX-480vG1KwS_NOII0gGSg55kC2sF9B5DuL4IW9Wo9hkCiWDY5zqRzFzajIQOWTabWN5ulzuOao37a"
+    },
+    "reloaded": {
+      "alt": "feature-1024x500.png",
+      "src": "https://lh3.googleusercontent.com/1cti6U_q9orUSASB18PaswA4agVAU9xn_ZhcgAZ3zz3djNvTfBR1ug0JCunj1MOf98QC1-ASDIc0miyouy_hSp4"
+    }
+  },
+  "before": {
+    "title": "Cats Cute Miner",
+    "short": "Lead a cat mining crew, build factories, and collect cards and equipment.",
+    "full": "Put your cat crew to work in an underground mining adventure. Your cats dig through rocks, fill their bags, and bring the coins back to base. Spend the coins they deliver to improve the whole team.\n\nBUILD YOUR MINING CREW\nUpgrade mining power, movement, carrying capacity, unloading speed, and the value of your haul. Tap rocks to lend your cats a helping paw.\n\nEXPLORE 144 MINES\nOpen gates and uncover branching tunnels as you work through the campaign. Clear each mine and move on to the next challenge.\n\nRUN YOUR CAT FACTORIES\nUncover factories in the mines, deliver their goods to the warehouse, and sell your stock at the market. Collect factory cards to improve production.\n\nCOLLECT 62 CARDS AND UPGRADE YOUR GEAR\nEquip pickaxes, hats, backpacks, and boots. Collect cards and improve their bonuses. Equipment and card progress carry into the next mine, while local mine upgrades start fresh.\n\nRETURN TO YOUR CATS\nYour saved crew can make progress while you are away. Return, collect the results, and decide what to upgrade next.\n\nOptional in-app purchases are available. Randomized card chests have their chances shown in the game.",
+    "images": [
+      {
+        "alt": "icon-512.png",
+        "src": "https://lh3.googleusercontent.com/Gx0HmNtUprC8bO5rrgAhus9bgbd7PeHtDJ_g8zrMcv3zTowiJ1kSM1TXZK4hQdRnvWXPdg4VT2siOJrz-APSWb0"
+      },
+      {
+        "alt": "feature-1024x500.png",
+        "src": "https://lh3.googleusercontent.com/E1Z_xNzX-480vG1KwS_NOII0gGSg55kC2sF9B5DuL4IW9Wo9hkCiWDY5zqRzFzajIQOWTabWN5ulzuOao37a"
+      },
+      {
+        "alt": "01-cat-crew-caption.png",
+        "src": "https://lh3.googleusercontent.com/PQdaXBD0Ju4KzksXzUkH0v2TBwx7bU-HS6TMpCx1p68cIX7UrvSKivNB-D-lwY5coCcc9sWUwH2ws95rk0LFmg"
+      },
+      {
+        "alt": "02-upgrades-caption.png",
+        "src": "https://lh3.googleusercontent.com/rq8irJw_DLJ67f4pKWPUhzD8uTm3XvElS4f-f2hIQRxEYGB3VojdjT6u5AAHxj5RmdG_G8T8wboA_kT_3nK8qg"
+      },
+      {
+        "alt": "03-cards-caption.png",
+        "src": "https://lh3.googleusercontent.com/-y1GkoVreDMyjU1hPOKzbr1-hbQqhqn_9Fq-v5XefOu31XU_uE1DuZMZRx04f1k0oRdYPlgn8bBzyPWGy_fbAA"
+      },
+      {
+        "alt": "04-equipment-caption.png",
+        "src": "https://lh3.googleusercontent.com/4hmN8u1EehPH85FCq00V3klLdw7ZIpQuBM1sPL-RkSyQcBPpJyAZ2hxQnt5ixpm1MM-xNWh2CjucF4x5K_Osag"
+      }
+    ]
+  },
+  "reloadedReadback": {
+    "title": "Cat Miner: Idle Tycoon",
+    "short": "Lead a cat mining crew, build factories, and collect cards and equipment.",
+    "full": "Put your cat crew to work in an underground mining adventure. Your cats dig through rocks, fill their bags, and bring the coins back to base. Spend the coins they deliver to improve the whole team.\n\nBUILD YOUR MINING CREW\nUpgrade mining power, movement, carrying capacity, unloading speed, and the value of your haul. Tap rocks to lend your cats a helping paw.\n\nEXPLORE 144 MINES\nOpen gates and uncover branching tunnels as you work through the campaign. Clear each mine and move on to the next challenge.\n\nRUN YOUR CAT FACTORIES\nUncover factories in the mines, deliver their goods to the warehouse, and sell your stock at the market. Collect factory cards to improve production.\n\nCOLLECT 62 CARDS AND UPGRADE YOUR GEAR\nEquip pickaxes, hats, backpacks, and boots. Collect cards and improve their bonuses. Equipment and card progress carry into the next mine, while local mine upgrades start fresh.\n\nRETURN TO YOUR CATS\nYour saved crew can make progress while you are away. Return, collect the results, and decide what to upgrade next.\n\nOptional in-app purchases are available. Randomized card chests have their chances shown in the game.",
+    "images": [
+      {
+        "alt": "icon-512.png",
+        "src": "https://lh3.googleusercontent.com/Gx0HmNtUprC8bO5rrgAhus9bgbd7PeHtDJ_g8zrMcv3zTowiJ1kSM1TXZK4hQdRnvWXPdg4VT2siOJrz-APSWb0"
+      },
+      {
+        "alt": "feature-1024x500.png",
+        "src": "https://lh3.googleusercontent.com/1cti6U_q9orUSASB18PaswA4agVAU9xn_ZhcgAZ3zz3djNvTfBR1ug0JCunj1MOf98QC1-ASDIc0miyouy_hSp4"
+      },
+      {
+        "alt": "01-cat-crew-caption.png",
+        "src": "https://lh3.googleusercontent.com/PQdaXBD0Ju4KzksXzUkH0v2TBwx7bU-HS6TMpCx1p68cIX7UrvSKivNB-D-lwY5coCcc9sWUwH2ws95rk0LFmg"
+      },
+      {
+        "alt": "02-upgrades-caption.png",
+        "src": "https://lh3.googleusercontent.com/rq8irJw_DLJ67f4pKWPUhzD8uTm3XvElS4f-f2hIQRxEYGB3VojdjT6u5AAHxj5RmdG_G8T8wboA_kT_3nK8qg"
+      },
+      {
+        "alt": "03-cards-caption.png",
+        "src": "https://lh3.googleusercontent.com/-y1GkoVreDMyjU1hPOKzbr1-hbQqhqn_9Fq-v5XefOu31XU_uE1DuZMZRx04f1k0oRdYPlgn8bBzyPWGy_fbAA"
+      },
+      {
+        "alt": "04-equipment-caption.png",
+        "src": "https://lh3.googleusercontent.com/4hmN8u1EehPH85FCq00V3klLdw7ZIpQuBM1sPL-RkSyQcBPpJyAZ2hxQnt5ixpm1MM-xNWh2CjucF4x5K_Osag"
+      }
+    ]
+  },
+  "saveAction": "Save as draft",
+  "saveResult": "Loading Google Play Console\nnotifications_unread\nUnread notifications\nCats Cute Miner\nkeyboard_backspace\nAll apps\ndashboard\nDashboard\nbar_chart\nStatistics\noverview\nPublishing overview\nshield\nProtected with Play\nrocket_launch\nTest and release\nvital_signs\nMonitor and improve\nfinance_mode\nGrow users\nStore presence\nexpand_less\nStore listings\nLaunch planning\nPromotional content\nYouTube videos\nStore settings\nCustom audiences\nStore performance\nexpand_more\nPlay Games Services\nexpand_more\nTranslations\nexpand_more\nDeep links\nsell\nMonetize with Play\nkeyboard_backspace\nStore listings\nDefault store listing\n1\nAssets\n2\nReview\nSelect a language to edit\nDefault – English (United States) – en-US\narrow_drop_down\nImport translations with AI\nSave time by using AI to add translations instead of manually creating and adding a new translation for every language.\nDismiss\narticle_spark\nImport a file\nCommon text assets\n*\nexpand_more\n\nCheck the Metadata policy and Help Center guidance to avoid common issues with your store listing. Review all program policies before submitting your app.\n\nIf you're eligible to provide advance notice to the app review team, contact us before publishing your store listing.\n\nApp name\n \n*\nThis is how your app will appear on Google Play\n\n \n\n22 / 30\nText is 22 characters out of 30\nShort description\n \n*\nUsers can expand to view your full description.\n\n \n\n73 / 80\nText is 73 characters out of 80\nFull description\n \n*\n\n \n\n1137 / 4000\nText is 1137 characters out of 4000\nCommon visual assets\n*\nexpand_more\n\nManage your app icon, screenshots, and videos to promote your app on Google Play. Review the content guidelines before uploading new graphics. If you add translations for your store listing without localized graphics, we will use the graphics from your default language.\n\nApp icon\n \n*\nYour app icon must be a PNG or JPEG, up to 1 MB, 512 px by 512 px, and meet our design specifications and metadata policy\ndelete\narrow_right_alt\n1 / 1\nAdd assets\nFeature graphic\n \n*\nYour featured graphic must be a PNG or JPEG, up to 15 MB, and 1,024 px by 500 px. This graphic will be used when you choose to feature your app. Learn more\ndelete\narrow_right_alt\n1 / 1\nAdd assets\nVideo\nAdd a video by entering a YouTube URL. This video must be public or unlisted, ads must be turned off, and it must not be age restricted.\n\n \n\nPhone assets\n*\nexpand_more\nPhone screenshots\n \n*\nUpload 2-8 phone screenshots. Screenshots must be PNG or JPEG, up to 8 MB each, 16:9 or 9:16 aspect ratio, with each side between 320 px and 3,840 px\ndelete\narrow_right_alt\ndelete\narrow_right_alt\ndelete\narrow_right_alt\ndelete\narrow_right_alt\n4 / 8\nAdd assets\nTablet assets\nexpand_more\nGoogle Play Games on PC assets\nexpand_more\nDesktop assets\nexpand_more\nAndroid XR assets\nexpand_more\ncheck_circle\nYour changes have been saved\nDiscard\nSave as draft\nNext\nProduct updates\nStatus dashboard\nHelp\n© 2026 Google\nPrivacy\nDeveloper Distribution Agreement\nTerms of Service\nDraft saved\nDraft saved",
+  "readbackText": "Loading Google Play Console\nnotifications_unread\nUnread notifications\nCats Cute Miner\nkeyboard_backspace\nAll apps\ndashboard\nDashboard\nbar_chart\nStatistics\noverview\nPublishing overview\nshield\nProtected with Play\nrocket_launch\nTest and release\nvital_signs\nMonitor and improve\nfinance_mode\nGrow users\nStore presence\nexpand_less\nStore listings\nLaunch planning\nPromotional content\nYouTube videos\nStore settings\nCustom audiences\nStore performance\nexpand_more\nPlay Games Services\nexpand_more\nTranslations\nexpand_more\nDeep links\nsell\nMonetize with Play\nkeyboard_backspace\nStore listings\nDefault store listing\ninfo\nReady to send for review\nDraft changes\nbrightness_1\nEdit your app's name, icon, screenshots and more to present how your app looks to users on Google Play.\n1\nAssets\n2\nReview\nSelect a language to edit\nDefault – English (United States) – en-US\narrow_drop_down\nImport translations with AI\nSave time by using AI to add translations instead of manually creating and adding a new translation for every language.\nDismiss\narticle_spark\nImport a file\nCommon text assets\n*\nexpand_more\n\nCheck the Metadata policy and Help Center guidance to avoid common issues with your store listing. Review all program policies before submitting your app.\n\nIf you're eligible to provide advance notice to the app review team, contact us before publishing your store listing.\n\nApp name\n \n*\nThis is how your app will appear on Google Play\n\n \n\n22 / 30\nText is 22 characters out of 30\nShort description\n \n*\nUsers can expand to view your full description.\n\n \n\n73 / 80\nText is 73 characters out of 80\nFull description\n \n*\n\n \n\n1137 / 4000\nText is 1137 characters out of 4000\nCommon visual assets\n*\nexpand_more\n\nManage your app icon, screenshots, and videos to promote your app on Google Play. Review the content guidelines before uploading new graphics. If you add translations for your store listing without localized graphics, we will use the graphics from your default language.\n\nApp icon\n \n*\nYour app icon must be a PNG or JPEG, up to 1 MB, 512 px by 512 px, and meet our design specifications and metadata policy\ndelete\narrow_right_alt\n1 / 1\nAdd assets\nFeature graphic\n \n*\nYour featured graphic must be a PNG or JPEG, up to 15 MB, and 1,024 px by 500 px. This graphic will be used when you choose to feature your app. Learn more\ndelete\narrow_right_alt\n1 / 1\nAdd assets\nVideo\nAdd a video by entering a YouTube URL. This video must be public or unlisted, ads must be turned off, and it must not be age restricted.\n\n \n\nPhone assets\n*\nexpand_more\nPhone screenshots\n \n*\nUpload 2-8 phone screenshots. Screenshots must be PNG or JPEG, up to 8 MB each, 16:9 or 9:16 aspect ratio, with each side between 320 px and 3,840 px\ndelete\narrow_right_alt\ndelete\narrow_right_alt\ndelete\narrow_right_alt\ndelete\narrow_right_alt\n4 / 8\nAdd assets\nTablet assets\nexpand_more\nGoogle Play Games on PC assets\nexpand_more\nDesktop assets\nexpand_more\nAndroid XR assets\nexpand_more\nDiscard\nSave as draft\nNext\nProduct updates\nStatus dashboard\nHelp\n© 2026 Google\nPrivacy\nDeveloper Distribution Agreement\nTerms of Service",
+  "preserved": {
+    "shortDescription": true,
+    "fullDescription": true,
+    "iconAndFourScreenshots": true,
+    "otherDeclarationsAndRelease": "No navigation or actions to edit declarations, audience, countries, IAP, ratings, versions or releases"
+  },
+  "submittedForReview": false,
+  "published": false,
+  "error": null,
+  "earlierErrors": [
+    "Filechooser wait timed out; direct file input upload had succeeded and uploaded asset was selected from library. No Save occurred before final successful assignment."
+  ]
+}

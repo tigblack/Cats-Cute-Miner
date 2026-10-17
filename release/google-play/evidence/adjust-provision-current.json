@@ -1,0 +1,28 @@
+{
+  "at": "2026-10-16T11:31:50.570745+00:00",
+  "state": "creation_refused_no_resource_created",
+  "identity": {
+    "name": "Cats Cute Miner",
+    "platform": "android",
+    "storeId": "com.multicastgames.catscuteminer",
+    "bundleId": "com.multicastgames.catscuteminer"
+  },
+  "discovery": {
+    "project_adjust_token": null,
+    "legacy_list_count": 96,
+    "automation_list_count": 96,
+    "matching_package_count": 0,
+    "finder": "success; App not found; data=null",
+    "automation_enabled": true
+  },
+  "skipTemplate": true,
+  "route": "current SuperLeo UI client; POST /adjust-automation/app/create",
+  "authorization": "User2026-10-14 provider registrations approved; 2026-10-16 continue release; no foreign template",
+  "error": "Creation without template migration is not supported. Reuse an existing app or explicitly approve the configured template; no creation was started.",
+  "readback": {
+    "automation_list_count": 96,
+    "matching_package_count": 0,
+    "project_adjust_token": null
+  },
+  "next_step": "Use signed-in Adjust dashboard to create own minimal app; no foreign template authorized or copied."
+}

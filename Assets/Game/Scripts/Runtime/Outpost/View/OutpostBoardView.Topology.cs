@@ -124,9 +124,10 @@ namespace CatMiners.Runtime.Outpost
             m_SectorFog = null;
         }
 
+        /// <summary>Пол тоннеля (не порода): проходимая клетка или пол под постоянным препятствием обстановки.</summary>
         bool TunnelAt(int col, int row)
         {
-            return col >= 0 && col < Width && row >= 0 && row < m_Map.Rows && m_Map.IsPlayable(m_Map.Cell(col, row));
+            return col >= 0 && col < Width && row >= 0 && row < m_Map.Rows && m_Map.IsFloor(m_Map.Cell(col, row));
         }
 
         void BuildTopologyFloor()
@@ -192,7 +193,7 @@ namespace CatMiners.Runtime.Outpost
                 {
                     if (!TunnelAt(col, row)) continue;
                     int cell = m_Map.Cell(col, row);
-                    if (m_Map.CellGateOrder[cell] >= 0) continue;
+                    if (m_Map.CellGateOrder[cell] >= 0 || m_Map.IsProp(cell)) continue;
                     int neighbours = (TunnelAt(col - 1, row) ? 1 : 0) + (TunnelAt(col + 1, row) ? 1 : 0)
                         + (TunnelAt(col, row - 1) ? 1 : 0) + (TunnelAt(col, row + 1) ? 1 : 0);
                     bool leftRock = col > 0 && !TunnelAt(col - 1, row);
@@ -208,11 +209,27 @@ namespace CatMiners.Runtime.Outpost
                     occupied.Add(center);
                     // Supports sit within structural rock, beside the route; keep their sort below cats.
                     bool side = leftRock || rightRock;
+                    if (!side && HasWallProp(col, row - 1)) continue;
+                    // Обстановка шахты: фонари — акцент, а не единственный декор стен. Задняя стена через раз получает
+                    // деталь (распорку, табличку, стойку с кирками), часть опор стоит без фонаря.
+                    uint pick = (hash / 5u) % 10u;
+                    if (!side && pick < 4u)
+                    {
+                        string wall = pick == 0u ? "wall_sign_0" : pick == 1u ? "wall_rack_0" : "wall_brace_0";
+                        if (PixelArt.Has(wall))
+                        {
+                            var deco = Decor(decor, wall, col + 0.5f, Depth - row);
+                            deco.sortingOrder = PixelWorld.FloorDecalOrder + 3;
+                            deco.flipX = (hash & 1u) != 0u;
+                            continue;
+                        }
+                    }
                     float x = side ? (leftRock ? col - 6f * Px : col + 1f + 6f * Px) : col + 0.5f;
                     float z = side ? Depth - row - 1f : Depth - row + 2f * Px;
                     var post = Decor(decor, PixelTheme.Name("beam_post"), x, z);
                     post.flipX = rightRock && !leftRock;
                     post.sortingOrder = PixelWorld.FloorDecalOrder + 3;
+                    if (pick >= 7u) continue;
                     var lamp = Lantern(decor, x, z + 0.55f, "fx_glow_lantern", center.x, center.y);
                     lamp.Lamp.sortingOrder = PixelWorld.FloorDecalOrder + 5;
                     lamp.Glow.sortingOrder = PixelWorld.FloorDecalOrder + 4;
@@ -251,8 +268,8 @@ namespace CatMiners.Runtime.Outpost
                 for (int col = 0; col < Width; col++)
                 {
                     int cell = m_Map.Cell(col, row);
-                    int sector = m_Map.SectorAt(cell);
-                    if (!m_Map.IsPlayable(cell))
+                    int sector = FloorSector(cell);
+                    if (!m_Map.IsFloor(cell))
                     {
                         // Rock bordering an open chamber remains visible. Enclosed rock needs no fog.
                         sector = sectors;
@@ -260,7 +277,7 @@ namespace CatMiners.Runtime.Outpost
                         {
                             int x = col + (d == 0 ? -1 : d == 1 ? 1 : 0);
                             int r = row + (d == 2 ? -1 : d == 3 ? 1 : 0);
-                            if (TunnelAt(x, r)) sector = Mathf.Min(sector, m_Map.SectorAt(m_Map.Cell(x, r)));
+                            if (TunnelAt(x, r)) sector = Mathf.Min(sector, FloorSector(m_Map.Cell(x, r)));
                         }
                     }
                     // The first closed gate must remain readable and pickable from its approach sector.

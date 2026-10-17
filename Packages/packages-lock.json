@@ -7,15 +7,6 @@
       "dependencies": {},
       "hash": "4bc145f5487c5363272b98f30a928ea0c9d49bcf"
     },
-    "com.applovin.mediation.ads": {
-      "version": "8.4.2",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.google.external-dependency-manager": "1.2.182"
-      },
-      "url": "https://unity.packages.applovin.com"
-    },
     "com.google.external-dependency-manager": {
       "version": "1.2.187",
       "depth": 0,

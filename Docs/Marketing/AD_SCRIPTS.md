@@ -1,4 +1,4 @@
-# Cat Miners — три рекламных ролика для Meta (45 с)
+# Cat Miners — четыре рекламных ролика для Meta (45 с)
 
 Готовые файлы: `Docs/Marketing/ads/` (на ПК и на хабе; mp4 не синхронизируется — на ПК их кладёт `on-remote --push`).
 
@@ -7,6 +7,10 @@
 | `CatMiners_Ad1_Level1toLevel100_45s.mp4` | Level 1 → Level 100: прогресс, noob → pro | `t1_progress` |
 | `CatMiners_Ad2_StopTapping_45s.mp4` | «Stop tapping!»: провал → решение, idle и офлайн-доход | `t2_idle` |
 | `CatMiners_Ad3_ChestsCollection_45s.mp4` | Сундук и коллекция карточек, «приятный» геймплей | `t3_chest` |
+| `CatMiners_Ad4_CatFactories_45s.mp4` | Заводы: цепи, Deliver, трубы, рынок, автоматизация (ТЗ 2.2) | `t1_progress` |
+| `CatMiners_Ad1_Level1toLevel100_30s_1080x1920.mp4` | Ролик 1, сокращённый до 30 с | `t1_progress_30` |
+| `CatMiners_Ad3_ChestsCollection_30s_1080x1350.mp4` | Ролик 3, 30 с, формат 4:5 для ленты | `t3_chest_30` |
+| `CatMiners_Ad4_CatFactories_60s_1080x1920.mp4` | Ролик 4, расширенный до 60 с | `t1_progress_60` |
 
 Формат: 9:16, 1080×1920, 30 fps CFR, H.264 High yuv420p без B-кадров и edit list, faststart; AAC 192 кбит/с 48 кГц
 стерео; −14 LUFS, пик ≤ −1,4 dBFS; ровно 1350 кадров. Подписи на английском, как интерфейс игры, шрифт Pixeloid Sans,
@@ -78,6 +82,63 @@
 | 37,50–41,25 | Ворота открываются | Open new tunnels! |
 | 41,25–45,00 | Финальный экран | Which cat will you find? |
 
+## Ролик 4 — Cat factories
+
+Съёмка `AdCaptureTests.Factories` (шахты 10, 3, 30, 140; баланс outpost-2.2-b6). Капсула идёт по трубе всего ~2 с,
+поэтому нажатие «Deliver» и проезд камеры вдоль трубы к складу — один дубль, подпись меняется на 9,84 с.
+
+| Время | Кадр | Подпись |
+|---|---|---|
+| 0,00–3,75 | Шахта 10: котики и лапка бьют цепи завода, цепи рвутся на 3,70 с | Break the chains! |
+| 3,75–7,50 | Тост «Sawmill unlocked!», лесопилка, труба к складу; логотип | Unlock a cat factory! |
+| 7,50–9,84 | Кнопка «Deliver ×24», лапка нажимает | Tap Deliver! |
+| 9,84–12,19 | Камера едет вдоль трубы к складу, там всплывает «+24» | Pipes carry the goods |
+| 12,19–15,00 | Шахта 30: лапка нажимает «×24» у трёх заводов | More factories, more goods! |
+| 15,00–18,75 | Рынок: «Sell all +5.69M», монеты летят в кошелёк | Sell goods for gold! |
+| 18,75–22,50 | Карточка Dairy Foreman Lv 1 → Lv 2, «Dairy now delivers automatically» | Level up the Foreman... |
+| 22,50–26,25 | Наезд на два завода со значками AUTO, отправка без нажатий | ...and it runs itself! |
+| 26,25–30,00 | Шахта 140: четыре завода на AUTO, наезд | Every factory on AUTO! |
+| 30,00–33,75 | Панорама шахты 140: заводы и сеть труб | Build a factory empire |
+| 33,75–37,50 | Двор: котики в коронах, «+1.02T» | Cute cats, busy factories |
+| 37,50–41,25 | Рынок с 15 товарами, «Sell all +1.31aa» | Sell for huge profits! |
+| 41,25–45,00 | Финальный экран | Run your own cat factory! |
+
+Подписи над кнопками «Deliver», значками AUTO и текстом карточки стоят в нижнем слоте (y 1140, карточка — 1090),
+чтобы не закрывать доказательство в кадре. Чисел в подписях нет.
+
+## Версии 30 с, 60 с и 4:5 (2026-10-16)
+
+Музыка — те же треки, пересобранные по целым тактам (`Tools/AdVideo/music_cut.py`, стыки с кроссфейдом 12 мс на
+сильную долю): 30 с = хук, 4 такта куплета, нарастание, 6 тактов дропа, финальный аккорд; 60 с = вся форма до
+брейкдауна, затем ещё раз нарастание и 6 тактов дропа, финальный аккорд. Финальный экран — последние 2 такта.
+
+**Ролик 1, 30 с, 1080×1920** — те же кадры и подписи, что в 45 с, без «Mine cleared!», «Deeper and deeper...»,
+«Earn trillions of gold!» и сундуков: LEVEL 100 / LEVEL 1 → It starts with 2 cats... → Hire more cats! →
+Upgrade everything → Equip legendary gear (дроп, 15 с) → Break into new tunnels → ...all the way to Mine 100! →
+финальный экран.
+
+**Ролик 3, 30 с, 1080×1350 (4:5)** — окно 1350 px из кадра 9:16, у каждой сцены своё (`Seg.win_y`), чтобы
+доказательство оставалось в кадре: над сеткой карточек видно «Collected 61 of 61», в сцене «Mine 100» верхняя
+панель игры закреплена поверх поля (`Seg.hud_pin`). Сцены: What's inside? → Full of cat cards! (логотип) →
+Collect 61 cat cards → Level them up (Lv 2 → 3; кнопка Upgrade ниже окна, поэтому без лапки) → Upgrade your gear
+(дроп) → All the way to Mine 100! → Open new tunnels! → финальный экран. Пометка о покупках — на сундуке и в конце.
+
+**Ролик 4, 60 с, 1080×1920** — первые 26 с как в 45 с, дальше:
+
+| Время, с | Кадр | Подпись |
+|---|---|---|
+| 26,25–30,00 | Шахта 3: на склад сама приходит партия «+25» | Goods arrive on their own |
+| 30,00–33,75 | Шахта 140: четыре завода на AUTO | Every factory on AUTO! |
+| 33,75–37,50 | Панорама шахты 140 | Build a factory empire |
+| 37,50–41,25 | Камера идёт по магистральной трубе к базе (брейкдаун) | All pipes lead to your base |
+| 41,25–45,00 | Сплит: шахта 10 с одной лесопилкой / шахта 140 с заводами | MINE 10 / MINE 140 |
+| 45,00–48,75 | Лапка открывает Market, список товаров до Caviar | Wood, fish, yarn... caviar! |
+| 48,75–52,50 | «Sell all +1.31aa» | Sell for huge profits! |
+| 52,50–56,25 | Двор с котиками в коронах | Cute cats, busy factories |
+| 56,25–60,00 | Финальный экран | Run your own cat factory! |
+
+Всё снято в той же съёмке `AdCaptureTests.Factories` (без досъёмки): использованы ранее не вошедшие куски дублей.
+
 ## Честность рекламы (правила Meta, ASA/CAP)
 
 - Только настоящие кадры игры; каждое число в подписи видно в кадре (Mine 100, 7.66T, 61 карточка, 144 шахты).
@@ -88,17 +149,22 @@
 - Кнопка PLAY FREE на финальном экране без нажатия лапкой (правило о несуществующих элементах).
 - Найм в ролике идёт быстрее обычного темпа (золото на съёмке выдано сценарием). Если модерация придерётся —
   переснять найм на заработанном золоте.
+- Ролик 4: состояние заводов подготовлено сценарием съёмки. В шахте 30 циклы трёх заводов досрочно завершены, в шахте 140
+  все заводы переведены на автодоставку, карточка Foreman поднята до уровня, на котором ей не хватает одного улучшения.
+  Само улучшение, «Deliver» и «Sell all» — настоящие нажатия. В хуке на полсекунды виден тост
+  «Chest: cards +1», пометка о покупках стоит на финальном экране.
 
 ## Как пересобрать
 
 1. Съёмка (ПК, ~5–12 мин): `powershell -ExecutionPolicy Bypass -File Tools\AdVideo\start_capture.ps1 -Filter AdCaptureTests`
-   (или `AdCaptureTests.Mine1` и т. п.). Кадры → `build\adcapture\*.mp4`, журналы → `Docs\Reports\ads\*.json`.
+   (или `AdCaptureTests.Mine1`, `AdCaptureTests.Factories` для ролика 4 — ~2 мин). Кадры → `build\adcapture\*.mp4`, журналы → `Docs\Reports\ads\*.json`.
    Нужен ffmpeg проекта: `py -m venv Tools\AdVideo\.venv` + `pip install imageio-ffmpeg`.
    Время записи не зависит от скорости ПК: `Time.captureDeltaTime` → `FrameTime.Delta` (Runtime/FrameTime.cs).
 2. На хаб: `on-remote --fetch build/adcapture/<shot>.mp4` (существующие копии на хабе сначала удалить).
-3. Музыка и стингеры: `Tools/.venv/bin/python -B Tools/AdVideo/ad_music.py` → `Temp/ads/music`, `Temp/ads/sfx`.
+3. Музыка и стингеры: `Tools/.venv/bin/python -B Tools/AdVideo/ad_music.py` → `Temp/ads/music`, `Temp/ads/sfx`;
+   версии на 30 и 60 с: `Tools/.venv/bin/python -B Tools/AdVideo/music_cut.py`.
    Звуки игры для монтажа — `Temp/audio/out/*.ogg` (копии `Assets/Game/Resources/Audio`).
-4. Монтаж: `Tools/.venv/bin/python -B Tools/AdVideo/compose.py ad1 ad2 ad3` (`--stills 1,5,9 --no-video` — кадры для
+4. Монтаж: `Tools/.venv/bin/python -B Tools/AdVideo/compose.py ad1 ad2 ad3 ad4` (и `ad1_30 ad3_30 ad4_60`) (`--stills 1,5,9 --no-video` — кадры для
    проверки, `--audio-only` — пересвести звук). Монтажные листы — `Tools/AdVideo/edl.py`, графика — `overlays.py`.
 5. На ПК: `on-remote --push Docs/Marketing/ads/<file>.mp4`.
 

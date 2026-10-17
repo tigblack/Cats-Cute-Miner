@@ -1,0 +1,15 @@
+{
+  "checked_at": "2026-10-16T16:17:14.891Z",
+  "source_ref": "release/google-play/evidence/branding-console-applied-current.json",
+  "observed_publishing_overview": {
+    "target_audience_summary": "Target age is 13 and older",
+    "privacy_policy_url": "https://multicastgames.com/policy"
+  },
+  "accepted_user_decisions": {
+    "audience": "6+ and adults; under16/unknown protected",
+    "legal": "Separate child-compatible game documents required"
+  },
+  "status": "requires_actual_form_readback_and_reconciliation_before_release",
+  "modified_during_rename": false,
+  "not_authorized_to_claim_release_ready": true
+}

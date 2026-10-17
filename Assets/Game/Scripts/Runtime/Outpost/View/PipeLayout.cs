@@ -36,6 +36,8 @@ namespace CatMiners.Runtime.Outpost
         {
             public Vector2Int A, B;
             public bool Harness;
+            /// <summary>Переход через проём пола (вход в камеру, устье): труба под настилом, а не на стене.</summary>
+            public bool Crossing;
             /// <summary>Расстояние от начала трубы до A (пиксели пути).</summary>
             public int Start;
             public int Length => Mathf.Abs(B.x - A.x) + Mathf.Abs(B.y - A.y);
@@ -62,6 +64,10 @@ namespace CatMiners.Runtime.Outpost
         {
             public int TargetId;
             public string TypeId;
+            /// <summary>Труба идёт по стенам (маршрут <see cref="PipeMountRoutes"/>), а не по кратчайшему пути через пол.</summary>
+            public bool WallMounted;
+            /// <summary>Клеток пола на маршруте (переходы через проёмы) и глубокой породы (запасной путь) — для отчёта и тестов.</summary>
+            public int CrossingCells, DeepRockCells;
             /// <summary>Точки ломаной (концы отрезков), от заглушки к входу склада.</summary>
             public readonly List<Vector2Int> Points = new List<Vector2Int>();
             public readonly List<Segment> Segments = new List<Segment>();
@@ -88,6 +94,7 @@ namespace CatMiners.Runtime.Outpost
             public int[] Order;          // трубы по порядку слева направо (относительно Dir)
             public bool Harness;
             public bool Camp;
+            public bool Crossing;         // ребро касается клетки пола шахты: переход под настилом
             public int Rank;              // оставшиеся шаги пути от From (у всех труб ребра одинаковы)
         }
 
@@ -105,11 +112,14 @@ namespace CatMiners.Runtime.Outpost
             return layout;
         }
 
-        /// <summary>Узел пути: клетка карты (≥ 0) или вход склада (<see cref="InletNode"/>).</summary>
+        /// <summary>Узел пути: клетка карты (≥ 0), вход склада (<see cref="InletNode"/>) или угол под площадкой (<see cref="CampCornerNode"/>).</summary>
         const int InletNode = -2;
+        /// <summary>Угол трубы у склада: под клеткой стены лагеря, на высоте входа (труба не идёт по настилу площадки).</summary>
+        const int CampCornerNode = -3;
+        Vector2Int m_CampCorner;
 
         Vector2Int NodePx(OutpostMap map, int node, Vector2Int inletPx) =>
-            node == InletNode ? inletPx : CellAxis(map, node);
+            node == InletNode ? inletPx : node == CampCornerNode ? m_CampCorner : CellAxis(map, node);
 
         /// <summary>Пиксель оси трубы в клетке.</summary>
         public static Vector2Int CellAxis(OutpostMap map, int cell) =>
@@ -119,8 +129,50 @@ namespace CatMiners.Runtime.Outpost
 
         static Vector2Int Sign(Vector2Int v) => new Vector2Int(Math.Sign(v.x), Math.Sign(v.y));
 
+        /// <summary>
+        /// Пути труб по стенам (Docs/Rework/MINE_DRESSING.md, «Трубы»): клетки маршрута <see cref="PipeMountRoutes"/> от завода до клетки
+        /// правой стены лагеря, затем вниз под площадку и к входу склада. null — маршрут по стенам не строится (старая карта без
+        /// топологии или без склада): прежний путь по <see cref="MapFactory.RouteCells"/>.
+        /// </summary>
+        List<int[]> MountPaths(OutpostMap map, int warehouseCol, Vector2Int inletPx)
+        {
+            if (map.Topology == null || warehouseCol < 0) return null;
+            int end = PipeMountRoutes.CampEndCell(map);
+            if (end < 0) return null;
+            var routes = PipeMountRoutes.Build(map);
+            var endPx = CellAxis(map, end);
+            m_CampCorner = new Vector2Int(endPx.x, inletPx.y);
+            var paths = new List<int[]>();
+            for (int k = 0; k < map.Factories.Length; k++)
+            {
+                var f = map.Factories[k];
+                var route = routes[k];
+                var target = map.Target(f.TargetId);
+                if (target == null || route == null || !route.HasRoute) continue;
+                var nodes = new int[route.Cells.Length + 2];
+                Array.Copy(route.Cells, nodes, route.Cells.Length);
+                nodes[nodes.Length - 2] = CampCornerNode;
+                nodes[nodes.Length - 1] = InletNode;
+                var pipe = new Pipe
+                {
+                    TargetId = f.TargetId, TypeId = f.TypeId, WallMounted = true,
+                    CrossingCells = route.CrossingCells, DeepRockCells = route.DeepRockCells,
+                    OutDir = OutletDir(map, target, route.Cells[0]),
+                };
+                Pipes.Add(pipe);
+                paths.Add(nodes);
+            }
+            return paths;
+        }
+
         void BuildInternal(OutpostMap map, int warehouseCol, Vector2Int inletPx)
         {
+            var mounted = MountPaths(map, warehouseCol, inletPx);
+            if (mounted != null)
+            {
+                BuildFromPaths(map, mounted, inletPx);
+                return;
+            }
             // Декоративный отрезок лагеря: от IntakeCell на строку вниз, затем по этой строке к столбцу склада и в его вход.
             var tail = new List<int>();
             int intake = map.IntakeCell;
@@ -158,6 +210,11 @@ namespace CatMiners.Runtime.Outpost
                 paths.Add(nodes.ToArray());
             }
 
+            BuildFromPaths(map, paths, inletPx);
+        }
+
+        void BuildFromPaths(OutpostMap map, List<int[]> paths, Vector2Int inletPx)
+        {
             // Рёбра и трубы на них.
             for (int p = 0; p < paths.Count; p++)
             {
@@ -173,6 +230,7 @@ namespace CatMiners.Runtime.Outpost
                         {
                             From = nodes[i], To = nodes[i + 1], Dir = Sign(b - a),
                             Camp = nodes[i] >= 0 && map.Row(nodes[i]) >= map.Depth,
+                            Crossing = Pipes[p].WallMounted && (MineFloor(map, nodes[i]) || MineFloor(map, nodes[i + 1])),
                             Rank = nodes.Length - 1 - i,
                         };
                         m_Edges.Add(key, e);
@@ -211,7 +269,8 @@ namespace CatMiners.Runtime.Outpost
                 keys.Sort((x, y) => x.Cat != y.Cat ? x.Cat.CompareTo(y.Cat) : (x.Index != y.Index ? x.Index.CompareTo(y.Index) : x.Id.CompareTo(y.Id)));
                 e.Order = new int[keys.Count];
                 for (int k = 0; k < keys.Count; k++) e.Order[k] = keys[k].Pipe;
-                e.Harness = e.Order.Length > MaxLanes || (e.Camp && e.Order.Length >= 2) || (e.From == InletNode || e.To == InletNode) && e.Order.Length >= 2;
+                e.Harness = e.Order.Length > MaxLanes || (e.Camp && e.Order.Length >= 2) ||
+                            (e.From < 0 || e.To < 0) && e.Order.Length >= 2;
                 if (e.Order.Length > MaxShared) MaxShared = e.Order.Length;
             }
 
@@ -264,6 +323,9 @@ namespace CatMiners.Runtime.Outpost
         Edge EdgeOf(int[] nodes, int i) =>
             m_Edges[((long)(nodes[i] + 4) << 32) | (uint)(nodes[i + 1] + 4)];
 
+        /// <summary>Клетка пола шахты (не порода и не лагерь): ребро через неё — переход под настилом.</summary>
+        static bool MineFloor(OutpostMap map, int node) => node >= 0 && map.Row(node) < map.Depth && map.IsFloor(node) && !map.IsProp(node);
+
         static int LaneOffset(int k, int n) => (2 * k - n + 1) * (LanePitch / 2);
 
         static int HarnessOffset(int k, int n) => k - (n - 1) / 2;
@@ -294,7 +356,7 @@ namespace CatMiners.Runtime.Outpost
         {
             var pipe = Pipes[p];
             var pts = pipe.Points;
-            var modes = new List<bool>();   // modes[i] — режим отрезка pts[i] → pts[i + 1]
+            var modes = new List<int>();    // modes[i] — режим отрезка pts[i] → pts[i + 1]: 1 — жгут, 2 — переход под настилом
             var start = NodePx(map, nodes[0], inletPx);
             var outDir = pipe.OutDir;
             // Начало — граница footprint и клетки выхода; выход вверх — от верха здания (оно на 16 пикселей выше footprint).
@@ -310,35 +372,38 @@ namespace CatMiners.Runtime.Outpost
             Vector2Int inDir = outDir;
             int inOff = 0;
             bool inHarness = false;
+            int inMode = 0;
             for (int i = 0; i < nodes.Length; i++)
             {
                 var basePx = NodePx(map, nodes[i], inletPx);
                 if (i == nodes.Length - 1)
                 {
-                    AddPoint(pts, modes, basePx + Cw(inDir) * inOff, inHarness);
+                    AddPoint(pts, modes, basePx + Cw(inDir) * inOff, inMode);
                     break;
                 }
                 var e = EdgeOf(nodes, i);
                 int outOff = OffsetOn(e, p);
+                int outMode = (e.Harness ? 1 : 0) | (e.Crossing ? 2 : 0);
                 var b = e.Dir;
                 if (e.Harness && !inHarness) joins.Add(basePx);
                 if (b == inDir || b == -inDir)
                 {
-                    AddPoint(pts, modes, basePx + Cw(inDir) * inOff, inHarness);
+                    AddPoint(pts, modes, basePx + Cw(inDir) * inOff, inMode);
                     // Сдвиг на соседнюю полосу (слияние) — короткая перемычка поперёк хода.
-                    if (outOff != inOff) AddPoint(pts, modes, basePx + Cw(b) * outOff, e.Harness);
+                    if (outOff != inOff) AddPoint(pts, modes, basePx + Cw(b) * outOff, outMode);
                 }
-                else AddPoint(pts, modes, basePx + Cw(inDir) * inOff + Cw(b) * outOff, inHarness);
+                else AddPoint(pts, modes, basePx + Cw(inDir) * inOff + Cw(b) * outOff, inMode);
                 inDir = b;
                 inOff = outOff;
                 inHarness = e.Harness;
+                inMode = outMode;
             }
 
             Simplify(pts, modes);
             int run = 0;
             for (int i = 0; i + 1 < pts.Count; i++)
             {
-                var seg = new Segment { A = pts[i], B = pts[i + 1], Harness = modes[i], Start = run };
+                var seg = new Segment { A = pts[i], B = pts[i + 1], Harness = (modes[i] & 1) != 0, Crossing = (modes[i] & 2) != 0, Start = run };
                 run += seg.Length;
                 pipe.Segments.Add(seg);
             }
@@ -352,15 +417,15 @@ namespace CatMiners.Runtime.Outpost
             }
         }
 
-        static void AddPoint(List<Vector2Int> pts, List<bool> modes, Vector2Int v, bool segmentHarness)
+        static void AddPoint(List<Vector2Int> pts, List<int> modes, Vector2Int v, int segmentMode)
         {
             if (pts.Count > 0 && pts[pts.Count - 1] == v) return;
-            if (pts.Count > 0) modes.Add(segmentHarness);
+            if (pts.Count > 0) modes.Add(segmentMode);
             pts.Add(v);
         }
 
         /// <summary>Точки на одной прямой с одинаковым режимом соседних отрезков схлопываются; косой шаг (не бывает) — в два отрезка.</summary>
-        static void Simplify(List<Vector2Int> pts, List<bool> modes)
+        static void Simplify(List<Vector2Int> pts, List<int> modes)
         {
             for (int i = pts.Count - 2; i >= 1; i--)
             {

@@ -124,6 +124,12 @@ namespace CatMiners.Runtime.Outpost
         public void Tap(OutpostSelection selection, Vector3 world)
         {
             if (m_Game == null) return;
+            // Бочка динамита (ТЗ 10.6): тап — взрыв.
+            if (selection.Kind == OutpostSelectionKind.Dynamite)
+            {
+                m_Game.Detonate();
+                return;
+            }
             if (selection.Kind == OutpostSelectionKind.Target)
             {
                 var factory = m_Game.FactoryOf(selection.Id);

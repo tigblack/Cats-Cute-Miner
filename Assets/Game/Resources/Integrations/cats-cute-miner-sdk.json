@@ -3,10 +3,220 @@
   "privacyUrl": "",
   "termsUrl": "",
   "appMetricaKey": "",
-  "adjustPurchaseEventToken": "",
-  "adjustToken": "",
+  "adjustPurchaseEventToken": "fv23mx",
+  "adjustToken": "cdbdt3hkj56o",
   "metaAppId": "5614484342110411",
   "metaClientToken": "f79641703cba243cb07547d76b7838bc",
   "maxSdkKey": "",
-  "rewardedAdUnit": "f27564b55995aa89"
+  "rewardedAdUnit": "f27564b55995aa89",
+  "adjustEvents": [
+    {
+      "name": "game_loaded",
+      "token": "t6olrr"
+    },
+    {
+      "name": "consent_chosen",
+      "token": "ced6cj"
+    },
+    {
+      "name": "mine_started",
+      "token": "z8tx26"
+    },
+    {
+      "name": "mine_completed",
+      "token": "f8dssh"
+    },
+    {
+      "name": "sector_opened",
+      "token": "5mwwa3"
+    },
+    {
+      "name": "upgrade_purchased",
+      "token": "m5ew2n"
+    },
+    {
+      "name": "card_upgraded",
+      "token": "uzce1p"
+    },
+    {
+      "name": "chest_opened",
+      "token": "oj8ypn"
+    },
+    {
+      "name": "store_purchased",
+      "token": "gztpzb"
+    },
+    {
+      "name": "rewarded_offered",
+      "token": "gus6t9"
+    },
+    {
+      "name": "rewarded_earned",
+      "token": "ssmkma"
+    },
+    {
+      "name": "rewarded_delivered",
+      "token": "9gjvko"
+    },
+    {
+      "name": "rewarded_closed",
+      "token": "q81nve"
+    },
+    {
+      "name": "rewarded_failed",
+      "token": "e54bmy"
+    },
+    {
+      "name": "time_spent",
+      "token": "82kmzm"
+    },
+    {
+      "name": "session_started",
+      "token": "9xsnxf"
+    },
+    {
+      "name": "session_ended",
+      "token": "bewubr"
+    },
+    {
+      "name": "ad_requested",
+      "token": "5oqf6k"
+    },
+    {
+      "name": "ad_loaded",
+      "token": "43dlgu"
+    },
+    {
+      "name": "ad_load_failed",
+      "token": "8nbmp3"
+    },
+    {
+      "name": "ad_show",
+      "token": "tsv2ua"
+    },
+    {
+      "name": "ad_displayed",
+      "token": "odg6xd"
+    },
+    {
+      "name": "ad_display_failed",
+      "token": "7qrg49"
+    },
+    {
+      "name": "ad_show_failed",
+      "token": "yf0xpo"
+    },
+    {
+      "name": "ad_clicked",
+      "token": "1374uj"
+    },
+    {
+      "name": "ad_hidden",
+      "token": "m0nd38"
+    },
+    {
+      "name": "ad_completed",
+      "token": "8avpo6"
+    },
+    {
+      "name": "ad_incomplete",
+      "token": "ido58v"
+    },
+    {
+      "name": "ad_reward_saved",
+      "token": "k8qfdy"
+    },
+    {
+      "name": "store_opened",
+      "token": "uw8da9"
+    },
+    {
+      "name": "purchase_started",
+      "token": "megrdp"
+    },
+    {
+      "name": "purchase_pending",
+      "token": "qm8yau"
+    },
+    {
+      "name": "purchase_validation_started",
+      "token": "nsk7aq"
+    },
+    {
+      "name": "purchase_validated",
+      "token": "bpfz8n"
+    },
+    {
+      "name": "purchase_granted",
+      "token": "rm8azx"
+    },
+    {
+      "name": "purchase_cancelled",
+      "token": "f9zt16"
+    },
+    {
+      "name": "purchase_failed",
+      "token": "k7j65g"
+    },
+    {
+      "name": "purchase_restore",
+      "token": "51zk20"
+    },
+    {
+      "name": "purchase_confirmed",
+      "token": "lf2flb"
+    },
+    {
+      "name": "worker_hired",
+      "token": "ths5c0"
+    },
+    {
+      "name": "equipment_changed",
+      "token": "2n5zw4"
+    },
+    {
+      "name": "item_upgraded",
+      "token": "vc3t5r"
+    },
+    {
+      "name": "factory_unlocked",
+      "token": "ndsksc"
+    },
+    {
+      "name": "factory_automated",
+      "token": "6fzscp"
+    },
+    {
+      "name": "goods_sold",
+      "token": "4kwvwm"
+    },
+    {
+      "name": "bonus_granted",
+      "token": "9brnj9"
+    },
+    {
+      "name": "dynamite_launched",
+      "token": "ewmuul"
+    },
+    {
+      "name": "dynamite_exploded",
+      "token": "k98mag"
+    },
+    {
+      "name": "elixir_found",
+      "token": "oyzdl0"
+    },
+    {
+      "name": "currency_earned",
+      "token": "rc8uee"
+    },
+    {
+      "name": "currency_spent",
+      "token": "1ysh7e"
+    },
+    {
+      "name": "ad_revenue_unavailable",
+      "token": "xbj5bw"
+    }
+  ]
 }

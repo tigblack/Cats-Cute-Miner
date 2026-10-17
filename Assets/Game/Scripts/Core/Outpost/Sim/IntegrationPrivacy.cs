@@ -21,7 +21,10 @@ namespace CatMiners.Core.Outpost
     [Serializable]
     public sealed class RewardedOffer
     {
-        public string Id, RunId, ItemId, Gold;
+        /// <summary>ItemId — плитка магазина; Gold — удвоение офлайна или золото бонуса; Bonus — вид бонуса за рекламу (ТЗ 10.6).</summary>
+        public string Id, RunId, ItemId, Gold, Bonus;
+        /// <summary>Эликсир или гемы бонуса (ТЗ 10.6).</summary>
+        public long Amount;
         public long OfferedUtcMs;
         public bool Earned;
     }

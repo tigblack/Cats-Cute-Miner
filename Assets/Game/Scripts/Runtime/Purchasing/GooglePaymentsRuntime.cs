@@ -60,7 +60,8 @@ namespace CatMiners.Runtime.Purchasing
         }
         bool Current(int g) => g == generation && owner != null && progress?.Current == true;
         void Message(string text) { Status = text; owner?.Hud?.RefreshNow(); }
-        public void OpenStore() { if (!Ready && !Busy) Enable(); }
+        public void OpenStore() { Telemetry(GameEvent.StoreOpened); if (!Ready && !Busy) Enable(); }
+        static void Telemetry(GameEvent kind) => GameSdkRuntime.Instance?.Track(kind);
         public void Enable()
         {
             if (Busy || owner == null) return;
@@ -81,7 +82,7 @@ namespace CatMiners.Runtime.Purchasing
 #endif
                 Message(Ready ? "Store ready" : "Waiting for store prices");
             }
-            catch (Exception e) { if (Current(g)) { Ready = false; Message(SafeError(e)); } }
+            catch (Exception e) { if (Current(g)) { Ready = false; Telemetry(GameEvent.PurchaseFailed); Message(SafeError(e)); } }
             finally { if (g == generation) Busy = false; }
         }
         void EnsureBackend()
@@ -100,7 +101,7 @@ namespace CatMiners.Runtime.Purchasing
 #if UNITY_ANDROID && !UNITY_EDITOR
             int g = generation;
             if (!Current(g) || !Ready || Busy || Pending || !owner.CanUseMoneyStore || !products.TryGetValue(sku, out var product)) return;
-            Busy = true; Message("Preparing purchase");
+            Busy = true; Telemetry(GameEvent.PurchaseStarted); Message("Preparing purchase");
             try
             {
                 EnsureBackend(); await backend.Authenticate(); if (!Current(g)) return;
@@ -111,7 +112,7 @@ namespace CatMiners.Runtime.Purchasing
                 store.GooglePlayStoreExtendedService.SetObfuscatedAccountId(OutpostJson.Sha256Hex(backend.UserId));
                 saleGeneration = g; billing = true; waitingSince = Time.unscaledTime; Message("Waiting for Google Play"); store.PurchaseProduct(product);
             }
-            catch (Exception e) { if (Current(g)) Message(SafeError(e)); }
+            catch (Exception e) { if (Current(g)) { Telemetry(GameEvent.PurchaseFailed); Message(SafeError(e)); } }
             finally { if (g == generation) Busy = false; }
 #endif
         }
@@ -123,8 +124,8 @@ namespace CatMiners.Runtime.Purchasing
             if (store == null || fetchWaiting) return;
             if (retryPrices && prices.Count != PaymentRules.Products.Count) { FetchProducts(); return; }
             Message("Checking unfinished purchases (consumed gems are not restored)");
-            try { if (!fence.BeginQuery(generation)) return; fetchWaiting = true; waitingSince = Time.unscaledTime; store.FetchPurchases(); }
-            catch { fence.EndQuery(generation); fetchWaiting = false; Message("Store unavailable — try recovery again"); }
+            try { if (!fence.BeginQuery(generation)) return; fetchWaiting = true; waitingSince = Time.unscaledTime; Telemetry(GameEvent.PurchaseRestore); store.FetchPurchases(); }
+            catch { fence.EndQuery(generation); fetchWaiting = false; Telemetry(GameEvent.PurchaseFailed); Message("Store unavailable — try recovery again"); }
             retryAt = 0;
 #endif
         }
@@ -206,10 +207,10 @@ namespace CatMiners.Runtime.Purchasing
                 connecting = true; waitingSince = Time.unscaledTime;
                 await store.Connect(); if (!Current(g)) return;
             }
-            catch (Exception e) { if (Current(g)) { connecting = false; Message(SafeError(e)); } }
+            catch (Exception e) { if (Current(g)) { connecting = false; Telemetry(GameEvent.PurchaseFailed); Message(SafeError(e)); } }
         }
         void Connected() => Queue(() => { connected = true; connecting = false; FetchProducts(); });
-        void Disconnected(StoreConnectionFailureDescription d) => Queue(() => { connected = Ready = false; connecting = false; Message("Store disconnected — use recovery"); });
+        void Disconnected(StoreConnectionFailureDescription d) => Queue(() => { connected = Ready = false; connecting = false; Telemetry(GameEvent.PurchaseFailed); Message("Store disconnected — use recovery"); });
         void FetchProducts()
         {
             pricesWaiting = true; waitingSince = Time.unscaledTime;
@@ -231,10 +232,11 @@ namespace CatMiners.Runtime.Purchasing
             if (!billing && !processing) Recover(false);
         });
         void RefreshReady() { Ready = connected && catalogReady && prices.Count == PaymentRules.Products.Count; }
-        void ProductsFailed(ProductFetchFailed d) => Queue(() => { pricesWaiting = false; Ready = false; Message("Store prices unavailable — retry recovery"); });
+        void ProductsFailed(ProductFetchFailed d) => Queue(() => { pricesWaiting = false; Ready = false; Telemetry(GameEvent.PurchaseFailed); Message("Store prices unavailable — retry recovery"); });
         void PurchasePending(PendingOrder order) => Queue(() => {
             if (saleGeneration != generation || !billing) { Recover(false); return; }
             billing = false;
+            Telemetry(GameEvent.PurchasePending);
             if (order?.Info != null && !string.IsNullOrWhiteSpace(order.Info.TransactionID) && freshOrderId != null)
                 freshOrders[OutpostJson.Sha256Hex(order.Info.TransactionID)] = freshOrderId;
             freshOrderId = null; AddPending(order);
@@ -244,8 +246,8 @@ namespace CatMiners.Runtime.Purchasing
             if (order?.Info == null || string.IsNullOrWhiteSpace(order.Info.TransactionID)) { Message("Malformed store order — no gems delivered"); return; }
             pending[OutpostJson.Sha256Hex(order.Info.TransactionID)] = order; retryAt = 0; Message("Validating purchase");
         }
-        void Deferred(DeferredOrder order) => Queue(() => { if (saleGeneration != generation) return; billing = false; Message("Payment pending approval — no gems delivered"); });
-        void Failed(FailedOrder order) => Queue(() => { if (saleGeneration != generation) return; billing = false; Message("Purchase cancelled or failed — use recovery to check"); });
+        void Deferred(DeferredOrder order) => Queue(() => { if (saleGeneration != generation) return; billing = false; Telemetry(GameEvent.PurchasePending); Message("Payment pending approval — no gems delivered"); });
+        void Failed(FailedOrder order) => Queue(() => { if (saleGeneration != generation) return; billing = false; Telemetry(order != null && order.FailureReason == PurchaseFailureReason.UserCancelled ? GameEvent.PurchaseCancelled : GameEvent.PurchaseFailed); Message("Purchase cancelled or failed — use recovery to check"); });
         void Confirmed(Order order)
         {
             int g = generation;
@@ -254,7 +256,7 @@ namespace CatMiners.Runtime.Purchasing
                 var hash = OutpostJson.Sha256Hex(order.Info.TransactionID);
                 var result = fence.EndConsume(hash, g, backend?.UserId, order is FailedOrder);
                 if (!Current(g) || result == PaymentConfirmationResult.Ignored) return;
-                if (result == PaymentConfirmationResult.Failed) { Message("Consumption failed — will retry"); retryAt = Time.unscaledTime + Mathf.Min(120, Mathf.Pow(2, Mathf.Min(++failures, 7))); return; }
+                if (result == PaymentConfirmationResult.Failed) { Telemetry(GameEvent.PurchaseFailed); Message("Consumption failed — will retry"); retryAt = Time.unscaledTime + Mathf.Min(120, Mathf.Pow(2, Mathf.Min(++failures, 7))); return; }
                 if (progress.Profile.Payments.Any(x => x.TokenHash == hash && x.Granted && x.UserId == backend.UserId)) { confirmed.Add(hash); retryAt = 0; }
             });
         }
@@ -278,7 +280,7 @@ namespace CatMiners.Runtime.Purchasing
             catch { if (Current(g)) Message("Could not save recovery result"); }
             finally { if (g == generation) Busy = false; }
         }
-        void PurchasesFailed(PurchasesFetchFailureDescription d) => QueueInventory(() => { fetchWaiting = false; Message("Recovery unavailable — try again"); });
+        void PurchasesFailed(PurchasesFetchFailureDescription d) => QueueInventory(() => { fetchWaiting = false; Telemetry(GameEvent.PurchaseFailed); Message("Recovery unavailable — try again"); });
         async void ProcessNext()
         {
             if (pending.Count == 0 && confirmed.Count == 0 && !progress.Profile.Payments.Any(x => x.Granted && !x.Claimed)) return;
@@ -290,7 +292,7 @@ namespace CatMiners.Runtime.Purchasing
                 {
                     var hash = confirmed.First();
                     var d = progress.Profile.Payments.SingleOrDefault(x => x.TokenHash == hash);
-                    if (d != null && d.UserId == backend.UserId) { await pipeline.Confirmed(hash); if (!Current(g)) return; confirmed.Remove(hash); pending.Remove(hash); }
+                    if (d != null && d.UserId == backend.UserId) { bool first = !d.Confirmed; await pipeline.Confirmed(hash); if (!Current(g)) return; if (first) Telemetry(GameEvent.PurchaseConfirmed); confirmed.Remove(hash); pending.Remove(hash); }
                     else throw new PaymentException("account_mismatch");
                 }
                 else if (pending.Count > 0)
@@ -299,9 +301,13 @@ namespace CatMiners.Runtime.Purchasing
                     if (cart == null || cart.Count != 1 || cart[0] == null || cart[0].Quantity != 1 || cart[0].Product?.definition == null || cart[0].Product.definition.type != ProductType.Consumable || cart[0].Product.definition.id != cart[0].Product.definition.storeSpecificId) throw new PaymentException("cart_mismatch");
                     var proof = GooglePurchaseProof.Parse(order.Info.Receipt, order.Info.TransactionID, cart[0].Product.definition.id, OutpostJson.Sha256Hex(backend.UserId));
                     freshOrders.TryGetValue(pair.Key, out var freshIntent);
+                    bool alreadyGranted = progress.Profile.Payments.Any(x => x.TokenHash == pair.Key && x.Granted);
+                    Telemetry(GameEvent.PurchaseValidationStarted);
                     var d = await pipeline.ValidateAndDeliver(proof, GameSdkRuntime.Instance?.Privacy?.Protected != false, freshIntent); if (!Current(g)) return;
+                    Telemetry(GameEvent.PurchaseValidated);
+                    if (!alreadyGranted && d.Granted) Telemetry(GameEvent.PurchaseGranted);
                     // Claim and consumption retry independently. Claim failure never cancels a durable grant.
-                    try { await pipeline.Claim(d); } catch (Exception e) { if (Current(g)) Message(SafeError(e)); }
+                    try { await pipeline.Claim(d); } catch (Exception e) { if (Current(g)) { Telemetry(GameEvent.PurchaseFailed); Message(SafeError(e)); } }
                     if (!Current(g)) return;
                     if (!d.Confirmed)
                     {
@@ -318,7 +324,7 @@ namespace CatMiners.Runtime.Purchasing
                 }
                 failures = 0; retryAt = Time.unscaledTime + 5;
             }
-            catch (Exception e) { if (Current(g)) { Message(SafeError(e)); retryAt = Time.unscaledTime + Mathf.Min(120, Mathf.Pow(2, Mathf.Min(++failures, 7))); } }
+            catch (Exception e) { if (Current(g)) { Telemetry(GameEvent.PurchaseFailed); Message(SafeError(e)); retryAt = Time.unscaledTime + Mathf.Min(120, Mathf.Pow(2, Mathf.Min(++failures, 7))); } }
             finally { if (g == generation) processing = false; }
         }
 #endif

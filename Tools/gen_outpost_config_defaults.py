@@ -18,6 +18,7 @@ FILES = [
     ('DefaultTopologyJson', 'mine_topology.json'),
     ('DefaultStoreJson', 'store_catalog.json'),
     ('DefaultFactoryRulesJson', 'factory_rules.json'),
+    ('DefaultDressingJson', 'mine_dressing.json'),
 ]
 
 

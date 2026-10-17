@@ -1,0 +1,48 @@
+{
+  "status": "source_compile_and_helper_tests_previously_passed_own_53_Adjust_tokens_now_applied_device_delivery_pending",
+  "custom_event_count": 52,
+  "android_compile_ref": "release/google-play/evidence/android-player-api-compile.json",
+  "tests_ref": "release/google-play/evidence/telemetry-playmode-results.xml",
+  "tests": [
+    {
+      "name": "CatMiners.Tests.IntegrationTelemetryTests.EventTokensFailClosedForDuplicatesRevenueReuseAndInvalidSyntax",
+      "result": "Passed"
+    },
+    {
+      "name": "CatMiners.Tests.IntegrationTelemetryTests.MinuteClockDoesNotBackfillRevokedConsentOrRoundUpPartialMinute",
+      "result": "Passed"
+    },
+    {
+      "name": "CatMiners.Tests.IntegrationTelemetryTests.MinuteClockRetainsFractionAcrossBackgroundAndRewardedIntervals",
+      "result": "Passed"
+    }
+  ],
+  "inputs": {
+    "Assets/Game/Scripts/Runtime/Integrations/GameSdkRuntime.cs": "0de60b3bc625e3ae5743fee97c290639f67145d112ef5dcd187342b22907f92e",
+    "Assets/Game/Scripts/Runtime/Integrations/GameSdkRuntime.Telemetry.cs": "4d5f3bf650597de9a2a98d5a9f5847cdfd559ebd28a8c30953ecfb61a3fe810c",
+    "Assets/Game/Scripts/Runtime/Integrations/GameSdkConfiguration.cs": "6749ed6ddeacccd6665cb367be5018e428a69afb45717e930e914a9c153b9618",
+    "Assets/Game/Scripts/Runtime/Integrations/ForegroundMinuteClock.cs": "1187870a79a5b7f99d18d3a2052f37311497046c1c14020ffcca117c9c242165",
+    "Assets/Game/Scripts/Runtime/Integrations/McLog.cs": "5f6b048167e75e24eb6ab9ce07014362ed334bc7bea24ef33e8bf4d787792bae",
+    "Assets/Game/Scripts/Runtime/Outpost/OutpostController.Integrations.cs": "69bb5376c3a0490e0726bb63a54787e713272cb4bcb26626bf84739be215588c",
+    "Assets/Game/Scripts/Runtime/Purchasing/GooglePaymentsRuntime.cs": "203dee9cbeb88ef35fecd225f6296c18b7f21cddebf823aa9bdbfd6a674789ec",
+    "Assets/Game/Tests/PlayMode/IntegrationTelemetryTests.cs": "ec085b082bbca7aafc6d66df3f5e23566d24a35732f9b9e42c71b9c5c07cef1e",
+    "Assets/Game/Resources/Integrations/cats-cute-miner-sdk.json": "27c39b5465b8d1f4a89b21312b18e797ad5e0145c23f85ddd6abf6204cb5d407"
+  },
+  "limitations": [
+    "No signed AAB exists yet; native dependencies, 16KB, merged manifest and installed artifact remain unverified.",
+    "No device or service-dashboard delivery verified; own Adjust app/events now registered; MAX account SDK key/mediation still waiting.",
+    "Existing under16/unknown protection preserved; studio16+ default does not override user audience choice.",
+    "Lightweight logs are memory/logcat only; no console/cheat authorization added."
+  ],
+  "store_capture_tests_ref": "release/google-play/evidence/store-captures-playmode-results.xml",
+  "configuration_change": {
+    "recorded_at": "2026-10-16T12:13:10.215620+00:00",
+    "previous_config_sha256": "27c39b5465b8d1f4a89b21312b18e797ad5e0145c23f85ddd6abf6204cb5d407",
+    "current_config_sha256": "c7d72438f51aacaa8bce88892b4e02ae1192244c94b2b44b854c346f55baf256",
+    "reason": "Own Adjust app plus all52 custom event tokens and separate purchase token read back from dashboard and applied; runtime C# unchanged",
+    "validation": "Exact name set52, format, all53 distinct tokens, own package and USD checked; no claim of compiled artifact/device receipt for new config"
+  },
+  "current_inputs": {
+    "Assets/Game/Resources/Integrations/cats-cute-miner-sdk.json": "c7d72438f51aacaa8bce88892b4e02ae1192244c94b2b44b854c346f55baf256"
+  }
+}

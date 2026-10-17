@@ -324,6 +324,7 @@ namespace CatMiners.Runtime.Outpost
             // Порядок детей SafeArea — порядок слоёв: панели HUD, сведения, тост, полёт монет, окна.
             BuildTopBar();
             BuildBottom();
+            BuildBonus();
             BuildInfo();
             BuildToast();
             BuildLootFly();
@@ -895,6 +896,7 @@ namespace CatMiners.Runtime.Outpost
             if (m_ToastBg.gameObject.activeSelf && Time.unscaledTime > m_ToastUntil) m_ToastBg.gameObject.SetActive(false);
             FlushCardToasts();
             FlushGoodsSold();
+            TickBonus();
             if (PollBackButton && BackPressedThisFrame()) HandleBack();
             if (InTransition) return;
             if (m_FlyCount > 0 || m_Pulse) UpdateLootFly(FrameTime.Delta);
@@ -1225,6 +1227,7 @@ namespace CatMiners.Runtime.Outpost
         void OnGameEvent(OutpostEvent e)
         {
             OnStoreEvent(e);
+            OnBonusEvent(e);
             OnCardEvent(e);
             OnMarketEvent(e);
             var sim = m_Game != null ? m_Game.Sim : null;

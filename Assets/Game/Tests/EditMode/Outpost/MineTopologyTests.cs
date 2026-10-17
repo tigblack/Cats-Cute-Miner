@@ -10,7 +10,8 @@ namespace CatMiners.Tests.Outpost
 {
     public sealed class MineTopologyTests
     {
-        static readonly OutpostConfigSet Configs = OutpostConfigSet.LoadDefault();
+        // Геометрия кампании без обстановки шахт: мусор и препятствия проверяет MineDressingTests на выборке (Docs/Rework/MINE_DRESSING.md).
+        static readonly OutpostConfigSet Configs = OutpostConfigSet.LoadDefault().WithDressing(null);
         static IEnumerable<int> Zones() => Enumerable.Range(1, 144);
 
         [TestCaseSource(nameof(Zones))]

@@ -1,0 +1,29 @@
+{
+  "recorded_at": "2026-10-16T15:53:08.671512+00:00",
+  "archives": [
+    {
+      "path": "Docs/Store/GooglePlay/cat-miner-store-en-US.zip",
+      "sha256": "a5a47d5b708cf7e540544f1da6d652dbd056734670ece3631b23c96d14400bc0",
+      "Windows_copy_hash_verified": true,
+      "Windows_copy_path": "C:/Users/arutt/Downloads/CatMinerRelease/cat-miner-store-en-US.zip"
+    },
+    {
+      "path": "Docs/Legal/CatsCuteMiner/cats-cute-miner-legal-review.zip",
+      "sha256": "d76887c6590996bb571aa0ad4105d16bd491197e7f853af83d16d102b4765a78",
+      "Windows_copy_hash_verified": true
+    },
+    {
+      "path": "release/advertising/applovin/CatMiner_AppLovin_Preparation.zip",
+      "sha256": "f364ff9ec388014efd50b8b7253801d6da1b447a1626a6b2401ca809e2e3c254",
+      "Windows_copy_hash_verified": true
+    }
+  ],
+  "legal_package": "review_copy_not_published",
+  "store_assets": "renamed title and new feature saved/reloaded in Console draft; not submitted",
+  "no_AAB": true,
+  "release_scope": "no_MAX_or_ads_Brazil_excluded",
+  "name": "Cat Miner: Idle Tycoon",
+  "campaign_archive_expanded_on_Windows": true,
+  "Windows_preview_ref": "C:/Unity Projects/Cats Cute Miner/release/advertising/applovin/index.html",
+  "store_archive_transfer_note": "Project worktree synchronization removed newly transferred ZIPs; verified durable copy stored in Windows user Downloads outside synchronized project"
+}

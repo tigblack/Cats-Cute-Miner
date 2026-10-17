@@ -358,3 +358,38 @@ _req('icons', 'icon_auto', 'значок AUTO у полосы завода: дв
 _req('icons', 'icon_deliver', 'кнопка Deliver: ящик и золотая стрелка «отправить», 16×16, центр')
 _req('icons', 'icon_factory', 'завод в сведениях цели (вместо icon_shaft): цех с шестернёй и трубой, 16×16, центр')
 _req('icons', 'icon_chain', 'цепи завода (Locked, HP цепей): три стальных звена, 16×16, центр')
+
+# Mortar / demolition feature (authoring canvas; packing trims transparent margins).
+_req('structures', 'mortar_base', 'wooden mortar bed, 28×24, feet pivot (14, 0)')
+_req('structures', 'mortar_tube', 'cast-iron tube recoil overlay, 28×24, feet pivot (14, 0); muzzle (15, 4) from top-left, axis ~15° up-right')
+_req('structures', ['barrel_tnt_0', 'barrel_tnt_1'], 'wooden barrel with four red dynamite sticks and flickering fuse spark, 20×22, feet pivot (10, 0)')
+_req('card_art', 'card_art_ca063', 'Demolition Expert (rare), ginger miner in red helmet holding lit dynamite, 48×44, centre pivot (24, 22)')
+
+# ───────── dressing: оформление выработки (sprites/dressing.py) ─────────
+# Постоянные препятствия (не разрушаются, котики обходят): ноги (w/2, 0), холст может подниматься над footprint.
+_req('dressing', [f'prop_minecart_{i}' for i in range(3)], 'ржавая вагонетка 2×1: 0 без колеса на обломке рельса, 1 с хламом и рукоятью кирки, 2 опрокинута на валун; 64×48, ноги (32, 0)')
+_req('dressing', 'prop_winch_0', 'ручная лебёдка на брусе и каменном подпятнике 1×1, 32×44, ноги (16, 0)')
+_req('dressing', 'prop_drill_0', 'буровая на салазках 2×1, 64×52, ноги (32, 0)')
+_req('dressing', [f'prop_sealedshaft_{i}' for i in range(2)], 'заколоченный штрек на лицевой грани скальной клетки над полом (1 — с красным крестом и табличкой), 32×32, ноги (16, 0)')
+_req('dressing', [f'prop_reel_{i}' for i in range(2)], 'кабельная катушка 1×1 (0 стоит на ребре, 1 лежит), 32×40, ноги (16, 0)')
+_req('dressing', [f'prop_support_{i}' for i in range(3)], 'усиленная крепь у стены 1×1, чистая лицевая грань стойки под трубы, 32×56, ноги (16, 0)')
+_req('dressing', [f'prop_hopper_{i}' for i in range(2)], 'стальной бункер 2×1 (0 воронка с жёлобом, 1 клёпаный бак с крышкой), 64×60, ноги (32, 0)')
+_req('dressing', [f'prop_tower_{i}' for i in range(2)], 'старая когтеточка на тяжёлом основании 1×1, 32×64, ноги (16, 0)')
+_req('dressing', 'prop_statue_0', 'каменная сидящая кошка на постаменте 1×1, 32×56, ноги (16, 0)')
+_req('dressing', 'prop_statue_1', 'резной камень-лапка 1×1, 32×36, ноги (16, 0)')
+# Разрушаемый мусор: база, стадии _d1/_d2 (тот же холст и pivot), след на полу debris_<семейство>_rest 32×32.
+DEBRIS_SIZES = {
+    'planks': [(32, 36)] * 3, 'crates': [(32, 40), (32, 40), (64, 44)], 'rubble': [(32, 36), (32, 36), (64, 40)],
+    'scrap': [(32, 36), (32, 36), (64, 40)], 'cardboard': [(32, 40)] * 3, 'yarn': [(32, 36)] * 3,
+    'catfurn': [(32, 44)] * 3, 'sacks': [(32, 36)] * 3,
+}
+for _fam, _sizes in DEBRIS_SIZES.items():
+    for _i, (_w, _h) in enumerate(_sizes):
+        _fp = '2×1' if _w == 64 else '1×1'
+        _req('dressing', [f'debris_{_fam}_{_i}'] + [f'debris_{_fam}_{_i}_d{_l}' for _l in (1, 2)],
+             f'разрушаемый мусор {_fam} {_fp}: база и стадии _d1/_d2; {_w}×{_h}, ноги ({_w // 2}, 0)')
+    _req('dressing', f'debris_{_fam}_rest', f'след {_fam} на полу после разрушения, 32×32, ноги (16, 0)')
+_req('dressing', [f'decal_pebbles_{i}' for i in range(3)] + ['decal_paint_0', 'decal_paint_1', 'decal_paws_0', 'decal_stain_0',
+                                                             'decal_stain_1', 'decal_board_0'],
+     'декаль пола под всем (камешки, выцветшая краска, следы лапок, пятна alpha, доска), 32×32, ноги (16, 0)')
+_req('dressing', ['wall_brace_0', 'wall_sign_0', 'wall_rack_0'], 'декор лицевой грани скальной клетки над полом, 32×32, ноги (16, 0)')

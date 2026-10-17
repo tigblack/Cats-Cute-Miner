@@ -108,6 +108,7 @@ namespace CatMiners.Runtime.Outpost
             Board.Fx = Fx;
             Board.Cue += OnBoardCue;
             Board.StrikeHandler = StrikeNow;
+            Board.ShakeRig = Rig;
             Hud = OutpostHud.Create(this, Rig);
             Input = gameObject.AddComponent<OutpostInput>();
             Input.Init(this);

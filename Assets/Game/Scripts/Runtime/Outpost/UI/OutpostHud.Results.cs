@@ -301,6 +301,7 @@ namespace CatMiners.Runtime.Outpost
             m_OfflineShown = sum;
             string gold = PixelUi.AccentTag + "<size=200%>" + OutpostUiText.Money(sum.GoldDelivered) + "</size></color>";
             m_Offline.Begin(Loc.T("outpost.offline.title"), "icon_coin", Loc.F("outpost.offline.gold", gold));
+            m_Offline.ButtonAt(0).Rect.gameObject.SetActive(OutpostController.RewardedOffersSupported);
             m_Offline.Show();
             Opened(m_OfflineEntry);
         }

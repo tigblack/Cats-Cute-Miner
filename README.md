@@ -27,7 +27,7 @@ Unity sources, gameplay data, project settings, development documents, release p
 - `Docs/Rework`: implementation contracts and current game systems.
 - `Docs/Marketing/ads`: completed marketing videos.
 - `Docs/Legal/CatsCuteMiner`: game-specific legal drafts, not approved published policies.
-- `google-play-publish`: the provided publishing skill and references.
+- `google-play-publish-2026-10-16-emulator-consent`: the updated publishing skill bundle and references.
 - `release/google-play`: preparation state and curated evidence. Open statuses are not release-readiness claims.
 - `Tools`: build, test, content and reporting helpers.
 
@@ -36,3 +36,11 @@ Existing automation primarily uses Windows PowerShell, Windows Unity paths and W
 The Android package and reserved iOS bundle ID are `com.multicastgames.catscuteminer`. Google Play upload/release remains subject to the previously deferred artifact approval. Browser account sessions and management credentials are not contained in this repository; log in to service dashboards separately on the new machine. Existing signed upload keys, if any, must be transferred separately through private storage.
 
 Generated builds, Library, Temp, logs, personal agent history, private service/guest credentials and signing keys are ignored. Backend QA guest sessions are not gameplay accounts and must not be copied into a client build.
+
+## Continuation checkpoint — 17 October 2026
+
+The latest changes include mine obstacles and destructible debris, wall-mounted pipe visuals, Nunito UI fonts, rewarded bonuses, SDK telemetry, store artwork, legal drafts and advertising materials. The mine dressing implementation and planned validation are described in `Docs/Rework/MINE_DRESSING.md`.
+
+Before this handoff, the focused `MineDressingTests` suite passed all 88 ordinary tests through dotnet (two explicit report generators were not selected). This includes placement and save/load checks across 25 sampled mines and automatic completion of seven sampled mines. Unity PlayMode visual evidence for the latest dressing and fonts still needs to be generated and reviewed; importing and running this revision on macOS has not been verified.
+
+The fast dotnet checks passed for Runtime, DevTools and Editor. The standalone PlayMode check is blocked by a missing `CatMiners.Playable` reference in `Tools/UnityCheck/PlayModeTests/PlayModeTests.csproj.template`; the actual Unity PlayMode assembly definition already includes that reference. Run the tests in Unity or update that helper before relying on its PlayMode result.

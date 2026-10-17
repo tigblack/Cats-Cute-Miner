@@ -17,6 +17,8 @@ namespace CatMiners.Runtime.Outpost
         Base,
         /// <summary>Склад товаров во дворе лагеря (ТЗ 2.2 §6.1): HUD открывает рынок и снимает выбор (как Base → «База»).</summary>
         Warehouse,
+        /// <summary>Бочка динамита (ТЗ 10.6): тап — взрыв, выбора не остаётся.</summary>
+        Dynamite,
     }
 
     public struct OutpostSelection
@@ -151,6 +153,18 @@ namespace CatMiners.Runtime.Outpost
         void DismissOffline();
         /// <summary>«Double income» (тестовый режим рекламы): золото офлайна ещё раз, один раз; окно закрывается.</summary>
         CommandResult ClaimOfflineDouble();
+
+        /// <summary>
+        /// Бонус за рекламу у левого края (ТЗ 10.6): оферта иконки (Valid = false — иконки нет), её вид и сумма зафиксированы при
+        /// появлении.
+        /// </summary>
+        RewardedBonusOffer BonusOffer { get; }
+        /// <summary>Доля оставшегося времени показа иконки: 1 — только появилась, 0 — сейчас исчезнет.</summary>
+        float BonusTimeLeft01 { get; }
+        /// <summary>Забрать бонус: на Android — показ рекламы и награда после callback, в тестовом режиме — сразу.</summary>
+        CommandResult ClaimBonus();
+        /// <summary>Взорвать бочку динамита на поле.</summary>
+        CommandResult Detonate();
 
         // ---- Настройки (ТЗ 14) ----
         void SetVolume(AudioGroup group, float value);

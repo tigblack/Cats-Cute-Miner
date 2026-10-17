@@ -18,7 +18,7 @@ namespace CatMiners.Runtime
     }
 
     /// <summary>
-    /// Подпись в мире (TextMeshPro, пиксельный шрифт UiFonts.Default), повёрнутая к камере. Это оверлей
+    /// Подпись в мире (TextMeshPro, шрифт интерфейса UiFonts.Default — гладкий SDF поверх пиксельного мира), повёрнутая к камере. Это оверлей
     /// (Docs/Art/PIXEL_STYLE_GUIDE.md, раздел 4): своя SortingGroup с sortAtRoot выводит её из группы объекта,
     /// порядок по умолчанию — <see cref="PixelWorld.OverlayOrderAt"/> по мировой z подписи, <see cref="SetOrder"/> задаёт его явно.
     /// <c>localPos</c> — в пространстве корня родителя: x вправо, +Z вверх по экрану (камера смотрит сверху).
@@ -27,10 +27,10 @@ namespace CatMiners.Runtime
     {
         public TextMeshPro Text;
 
-        /// <summary>Мелкие подписи на поле (уровень, ETA, пузыри, ящики): пиксель шрифта = 1 пиксель арта (9/32 клетки на em).</summary>
-        public const float SmallSize = 2.8125f;
-        /// <summary>Крупные подписи (всплывающие награды): пиксель шрифта = 2 пикселя арта.</summary>
-        public const float LargeSize = 5.625f;
+        /// <summary>Мелкие подписи на поле (уровень, ETA, пузыри, ящики): em ≈ 0,31 клетки (на 11 % крупнее прежнего пиксельного).</summary>
+        public const float SmallSize = 3.125f;
+        /// <summary>Крупные подписи (всплывающие награды): em ≈ 0,62 клетки.</summary>
+        public const float LargeSize = 6.25f;
 
         const float OutlineWidth = 0.2f;
         static readonly Color32 OutlineColor = PixelPalette.Ink1;
@@ -57,9 +57,7 @@ namespace CatMiners.Runtime
             var tmp = go.AddComponent<TextMeshPro>();
             var font = UiFonts.Default;
             if (font != null) tmp.font = font;
-            // Размер TMP 3D: 1 em = size / 10 клетки, пиксель шрифта = 1/9 em (UiFonts.EmPixels), пиксель арта = 1/32 клетки.
-            // Размер 2,8125 (SmallSize) даёт пиксель шрифта ровно в 1 пиксель арта, 5,625 (LargeSize) — в 2; промежуточные
-            // значения размыли бы пиксели шрифта.
+            // Размер TMP 3D: 1 em = size / 10 клетки. Текст — SDF, поэтому любой размер чёткий и не привязан к пикселям арта.
             tmp.fontSize = size;
             tmp.color = color;
             tmp.alignment = TextAlignmentOptions.Center;

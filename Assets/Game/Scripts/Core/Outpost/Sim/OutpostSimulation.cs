@@ -76,6 +76,8 @@ namespace CatMiners.Core.Outpost
                 throw new ArgumentException("Карта " + map.ZoneId + " построена с override " + (map.OverrideName ?? "—") + ", run — с " + (run.MapOverride?.Name ?? "—"));
             if (OutpostJson.Serialize(run.MapTopology) != OutpostJson.Serialize(map.Topology))
                 throw new ArgumentException("Run topology snapshot does not match map");
+            if (OutpostJson.Serialize(run.MapDressing) != OutpostJson.Serialize(map.Dressing))
+                throw new ArgumentException("Run dressing snapshot does not match map");
             if (run.Targets.Count != map.Targets.Length) throw new ArgumentException("Число целей run не совпадает с картой");
 
             m_Occupant = (int[])map.InitialOccupant.Clone();

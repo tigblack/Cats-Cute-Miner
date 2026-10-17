@@ -1,0 +1,54 @@
+{
+  "recorded_at": "2026-10-16T15:39:38.620442+00:00",
+  "browser": {
+    "transport": "agentb",
+    "native_consent_confirmed_by_owner": true,
+    "superleo_login_verified": true,
+    "adjust_login_verified": true,
+    "play_session_transfer": "browserType.connectOverCDP timeout; actual cause not established"
+  },
+  "superleo": {
+    "actor": "sargsyan@multicastgames.com",
+    "project_id": "e4e954f1-59a9-479a-821f-be7eed9aff47",
+    "project_alias": "Cats Cute Miner",
+    "ua_network": "AppLovin",
+    "own_campaign_list": "No campaigns found, All tab selected",
+    "creation_form_opened": true,
+    "creation_not_submitted": true,
+    "library_upload": {
+      "original_three_assets_saved_and_reloaded": true,
+      "renamed_video_and_endcard_uploaded": true,
+      "network_creative_upload": false,
+      "renamed_assets_reloaded": true,
+      "evidence_ref": "studio-assets.json"
+    },
+    "form_defaults_not_adopted": {
+      "optimization": "AD_ROAS",
+      "daily_budget_present": true,
+      "country_count": 1,
+      "starts_today": true,
+      "reason": "User requested preparation only and deliberately left budget/countries empty; game has no ad revenue"
+    }
+  },
+  "adjust": {
+    "app_token": "cdbdt3hkj56o",
+    "provider_alias": "Cats Cute Miner",
+    "partner": "Axon by AppLovin",
+    "android_data_sharing": "Disabled",
+    "sdk_keys_field_empty": true,
+    "sdk_key_verified": false,
+    "save_button_disabled_without_key": true,
+    "partner_modal_cancelled": true,
+    "purchase_event_token": "fv23mx",
+    "purchase_mapping_saved": false,
+    "link_creation": "created_once_after_existing_links_including_hidden_checked",
+    "tracking_urls": "read_from_own_link_URLs_page",
+    "link_token": "25sohm3z",
+    "link_source_url": "https://suite.adjust.com/partners/7/links/25sohm3z/network/link-urls",
+    "link_reloaded_and_own_app_binding_verified": true
+  },
+  "campaign_created": false,
+  "campaign_active": false,
+  "paid_traffic_started": false,
+  "secrets_in_this_package": false
+}

@@ -59,6 +59,17 @@ namespace CatMiners.Core.Outpost
         /// одному событию на каждый товар с ненулевым остатком, по номеру типа; сумма Value одной команды — «+X gold».
         /// </summary>
         GoodsSold,
+
+        // ── Бонус за рекламу и мортира (ТЗ 10.6) ──
+        /// <summary>Награда бонуса за рекламу начислена: ItemId — вид (gold, elixir, gems), Value — сумма.</summary>
+        BonusGranted,
+        /// <summary>Мортира выстрелила бочку динамита: Cell — клетка бочки, TargetId — цель (−1 — нет), BatchSeq — номер бочки.</summary>
+        DynamiteLaunched,
+        /// <summary>
+        /// Бочка взорвана (команда Detonate), до событий TargetStruck задетых целей: Cell — клетка, BatchSeq — номер бочки,
+        /// Count — задето целей, Value — суммарный урон в долях HP.
+        /// </summary>
+        DynamiteExploded,
     }
 
     /// <summary>

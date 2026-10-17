@@ -48,6 +48,7 @@ namespace CatMiners.Runtime.Integrations
         }
         void Finish()
         {
+            if (!GameSdkConfiguration.AdsEnabled) privacy.Ads = false;
             try
             {
                 File.WriteAllText(path + ".tmp", JsonUtility.ToJson(privacy));
@@ -69,6 +70,13 @@ namespace CatMiners.Runtime.Integrations
             float w = Screen.width / scale, h = Screen.height / scale;
             GUI.Box(new Rect(0, 0, w, h), "");
             GUILayout.BeginArea(new Rect(20, 30, w - 40, h - 60));
+            // Documents are available before age selection and in protected mode, without SDK initialization.
+            if (config.LegalValid)
+            {
+                if (GUILayout.Button("Game privacy policy", GUILayout.Height(36))) Application.OpenURL(config.privacyUrl);
+                if (GUILayout.Button("Game terms", GUILayout.Height(36))) Application.OpenURL(config.termsUrl);
+                GUILayout.Space(8);
+            }
             if (saveFailed)
             {
                 GUILayout.Label("Your choice could not be saved. You can still play with privacy protection.");
@@ -88,21 +96,19 @@ namespace CatMiners.Runtime.Integrations
             else if (preferences && privacy.Protected)
             {
                 GUILayout.Label("Privacy protection is on. Analytics and ads are off.");
-                if (config.LegalValid && GUILayout.Button("Game privacy policy", GUILayout.Height(48))) Application.OpenURL(config.privacyUrl);
                 if (GUILayout.Button("Back to game", GUILayout.Height(48))) Finish();
             }
             else
             {
                 GUILayout.Label("Optional privacy choices");
-                GUILayout.Label("You can play with every option off. Choosing analytics does not give consent for ads.");
+                GUILayout.Label(GameSdkConfiguration.AdsEnabled ? "You can play with every option off. Choosing analytics does not give consent for ads." : "You can play with every option off.");
                 if (config.LegalValid)
                 {
-                    if (GUILayout.Button("Game privacy policy", GUILayout.Height(36))) Application.OpenURL(config.privacyUrl);
-                    if (GUILayout.Button("Game terms", GUILayout.Height(36))) Application.OpenURL(config.termsUrl);
-                    privacy.AppMetrica = GUILayout.Toggle(privacy.AppMetrica, "AppMetrica: gameplay analytics");
-                    privacy.Adjust = GUILayout.Toggle(privacy.Adjust, "Adjust: installation attribution and sessions");
+                    // AppMetrica отложена (скилл публикации 2026-10-15): без своего ключа переключатель не показывается.
+                    if (config.AppMetricaValid) privacy.AppMetrica = GUILayout.Toggle(privacy.AppMetrica, "AppMetrica: gameplay analytics");
+                    privacy.Adjust = GUILayout.Toggle(privacy.Adjust, "Adjust: game activity, sessions and attribution");
                     privacy.Meta = GUILayout.Toggle(privacy.Meta, "Meta: app activity measurement");
-                    privacy.Ads = GUILayout.Toggle(privacy.Ads, "Optional rewarded ads (ad privacy choices follow)");
+                    if (GameSdkConfiguration.AdsEnabled) privacy.Ads = GUILayout.Toggle(privacy.Ads, "Optional rewarded ads (ad privacy choices follow)");
                 }
                 if (GUILayout.Button("Continue", GUILayout.Height(48))) { privacy.ChoicesMade = true; Finish(); }
                 if (!preferences && GUILayout.Button("Play with protection", GUILayout.Height(48))) Age(NeutralAge.Unknown);

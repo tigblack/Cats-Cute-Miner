@@ -140,6 +140,18 @@ namespace CatMiners.Tests
                 if (r.Ok) PendingOffline = null;
                 return r;
             }
+            /// <summary>Бонус за рекламу (ТЗ 10.6): тесты HUD задают оферту сами.</summary>
+            public RewardedBonusOffer BonusOffer { get; set; }
+            public float BonusTimeLeft01 { get; set; } = 1f;
+            public CommandResult ClaimBonus()
+            {
+                var offer = BonusOffer;
+                if (!offer.Valid) return CommandResult.Fail("unknown");
+                var r = Submit(OutpostCommand.RewardBonus(offer.Kind, offer.Amount));
+                if (r.Ok) BonusOffer = default;
+                return r;
+            }
+            public CommandResult Detonate() => Submit(OutpostCommand.Detonate());
             public void SetVolume(AudioGroup group, float value) { }
             public void SetVibration(bool on) => State.Profile.Settings.Vibration = on;
             public void SetReduceEffects(bool on) => State.Profile.Settings.ReduceEffects = on;

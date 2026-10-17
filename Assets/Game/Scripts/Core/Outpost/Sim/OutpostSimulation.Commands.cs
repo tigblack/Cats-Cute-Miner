@@ -22,6 +22,10 @@ namespace CatMiners.Core.Outpost
         DeliverFactory,
         /// <summary>ТЗ 2.2 §6.3: продажа всего остатка товара ItemId со склада; ItemId == null — всех товаров («Sell all»).</summary>
         SellGoods,
+        /// <summary>ТЗ 10.6: награда бонуса за рекламу — вид ItemId (gold, elixir, gems, dynamite), сумма Amount.</summary>
+        RewardBonus,
+        /// <summary>ТЗ 10.6: взрыв бочки динамита, лежащей на поле.</summary>
+        Detonate,
     }
 
     /// <summary>Команда игрока (ТЗ 6.5 п.6, CORE_SPEC §8). Переход и офлайн — не команды симуляции.</summary>
@@ -54,6 +58,9 @@ namespace CatMiners.Core.Outpost
         public static OutpostCommand DeliverFactory(int targetId) => new OutpostCommand { Kind = CommandKind.DeliverFactory, TargetId = targetId };
         /// <summary>Продать весь остаток товара goodId; null — продать всё («Sell all»).</summary>
         public static OutpostCommand SellGoods(string goodId) => new OutpostCommand { Kind = CommandKind.SellGoods, ItemId = goodId };
+        public static OutpostCommand RewardBonus(RewardedBonusKind kind, BigInteger amount) =>
+            new OutpostCommand { Kind = CommandKind.RewardBonus, ItemId = RewardedBonus.Id(kind), Amount = amount };
+        public static OutpostCommand Detonate() => new OutpostCommand { Kind = CommandKind.Detonate };
 
         public override string ToString() => Kind + " " + (Kind == CommandKind.BuyUpgrade ? Branch + "×" + Mode : Kind == CommandKind.Unequip ? Slot.ToString() :
             Kind == CommandKind.Strike || Kind == CommandKind.DeliverFactory ? "t" + TargetId :
@@ -150,6 +157,8 @@ namespace CatMiners.Core.Outpost
                 case CommandKind.BonusGold: return ExecuteBonusGold(cmd, t);
                 case CommandKind.DeliverFactory: return ExecuteDeliverFactory(cmd, t);
                 case CommandKind.SellGoods: return ExecuteSellGoods(cmd, t);
+                case CommandKind.RewardBonus: return ExecuteRewardBonus(cmd, t);
+                case CommandKind.Detonate: return ExecuteDetonate(cmd, t);
                 default:
                     return CommandResult.Fail("unknown");
             }

@@ -160,6 +160,9 @@ namespace CatMiners.Runtime
         /// <summary>Мелкие сколы при ударе: 5 штук по 2–3 пикселя арта (цвет материала цели).</summary>
         public void Chips(Vector3 pos, Color color) => Emit(pos, color, VisualSettings.Particles(5), 1.2f, 2f, 0.3f, 0.35f, 0.5f);
 
+        /// <summary>Сдержанные искры удара по металлу: 2–3 короткоживущие янтарные точки.</summary>
+        public void Sparks(Vector3 pos) => Emit(pos, PixelPalette.Amber4, VisualSettings.Particles(3), 1.6f, 2.6f, 0.2f, 0.16f, 0.26f);
+
         /// <summary>Разлёт обломков (разрушение, объединение): count штук, быстрее и шире.</summary>
         public void Burst(Vector3 pos, Color color, int count) => Emit(pos, color, VisualSettings.Particles(count), 1.8f, 3.4f, -0.3f, 0.45f, 0.7f);
 

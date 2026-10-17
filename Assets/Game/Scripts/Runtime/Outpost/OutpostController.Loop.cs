@@ -40,6 +40,7 @@ namespace CatMiners.Runtime.Outpost
                     m_NextSaveMono = Clock.MonotonicSeconds + SaveIntervalSeconds;
                 }
             }
+            StepBonus();
             if (Phase == OutpostControllerPhase.Playing)
             {
                 PresentEvents();
@@ -113,6 +114,12 @@ namespace CatMiners.Runtime.Outpost
                 {
                     var gate = Board.GateWorldPosition(e.Count - 1);
                     Rig.FocusOnSmooth(new UnityEngine.Vector2(gate.x, gate.z));
+                }
+                // Бочка динамита (ТЗ 10.6): камера плавно подходит к месту падения.
+                if (e.Type == OutpostEventType.DynamiteLaunched && e.Cell >= 0)
+                {
+                    var at = Board.CellWorld(e.Cell);
+                    Rig.FocusOnSmooth(new UnityEngine.Vector2(at.x, at.z));
                 }
                 if (e.Type == OutpostEventType.WatchdogFired) UnityEngine.Debug.LogError(Sim.Run.WatchdogDiagnostic);
                 if (AndroidRuntime) Services?.GameAction(e, State.Run.Zone);

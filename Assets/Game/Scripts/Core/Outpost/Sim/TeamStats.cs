@@ -46,6 +46,8 @@ namespace CatMiners.Core.Outpost
         // ── Бонусы карточек (доли и целые; 0 — нет карточек) ──
         public Rational CardGlobalValue, CardGlobalDamage, CardGateDamage, CardMoveSpeed, CardUnload, CardPickup;
         public Rational CardHireDiscount, CardBranchDiscount, CardTapDamage, CardChestLuck, CardChestElixir, CardParts;
+        /// <summary>Карточка «Demolition Expert» (ТЗ 10.6): +доля к урону взрыва динамита по кольцу.</summary>
+        public Rational CardDynamitePower;
         /// <summary>Шанс критического удара (доля) и множитель крита.</summary>
         public Rational CritChance, CritMultiplier = Rational.Of(2, 1);
         /// <summary>Шанс крита в миллионных долях для броска.</summary>
@@ -195,6 +197,7 @@ namespace CatMiners.Core.Outpost
                     case CardEffectKind.HireDiscount: CardHireDiscount += v; break;
                     case CardEffectKind.BranchDiscount: CardBranchDiscount += v; break;
                     case CardEffectKind.TapDamage: CardTapDamage += v; break;
+                    case CardEffectKind.DynamitePower: CardDynamitePower += v; break;
                     case CardEffectKind.ChestLuck: CardChestLuck += v; break;
                     case CardEffectKind.ChestElixir: CardChestElixir += v; break;
                     case CardEffectKind.CompletionParts: CardParts += v; break;

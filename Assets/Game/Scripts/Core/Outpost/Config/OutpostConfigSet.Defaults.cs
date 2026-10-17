@@ -150,7 +150,7 @@ namespace CatMiners.Core.Outpost
 
         /// <summary>Встроенная копия Resources/Outpost/card_rules.json.</summary>
         public const string DefaultCardRulesJson = @"{
-  ""Version"": ""cards-3"",
+  ""Version"": ""cards-4"",
   ""CardRngStream"": 6,
   ""TutorialCard"": ""ca001"",
   ""MaxDiscount"": ""9/10"",
@@ -326,8 +326,18 @@ namespace CatMiners.Core.Outpost
       ""PerLevel"": ""1/2"",
       ""Rule"": ""CatMiners"",
       ""Source"": ""Код 26 (Majestic), смысл неизвестен; в старой игре не выпадала. Новое правило: +случайные карты в каждом сундуке, floor(1 + (L−1)/2)""
+    },
+    ""ca063"": {
+      ""Kind"": ""DynamitePower"",
+      ""Base"": ""1/5"",
+      ""PerLevel"": ""1/10"",
+      ""Rule"": ""CatMiners"",
+      ""Source"": ""ТЗ 10.6 (cards-4): карточка игры сверх источника, «Demolition Expert»; +урон взрыва динамита по кольцу: Lv1 +20 %, +10 % за уровень, Lv9 +100 %""
     }
   },
+  ""ExtraCards"": [
+    { ""Id"": ""ca063"", ""Rarity"": 3, ""MineUnlock"": 1, ""SortingWeight"": 95, ""StatModifierType"": 0, ""TargetIds"": [], ""IsManager"": false }
+  ],
   ""DefaultChances"": [800000, 150000, 40000, 8000, 1800, 200],
   ""ChestChances"": {
     ""GachaWooden"": [800000, 150000, 40000, 8000, 1800, 200],
@@ -353,10 +363,24 @@ namespace CatMiners.Core.Outpost
 
         /// <summary>Встроенная копия Resources/Outpost/store_catalog.json.</summary>
         public const string DefaultStoreJson = @"{
-  ""Version"": ""store-3"",
+  ""Version"": ""store-4"",
   ""TestPurchases"": true,
   ""StartGems"": 0,
   ""StarterConsumables"": { ""skip_1h"": 3, ""skip_4h"": 1 },
+  ""RewardedBonus"": {
+    ""FirstDelaySec"": 120,
+    ""IntervalSec"": 180,
+    ""VisibleSec"": 45,
+    ""Weights"": { ""Gold"": 40, ""Elixir"": 25, ""Gems"": 15, ""Dynamite"": 20 },
+    ""GoldUpgrades"": 2,
+    ""ElixirUpgrades"": 1,
+    ""ElixirFloor"": 50,
+    ""Gems"": 2,
+    ""DynamiteRadius"": ""3/2"",
+    ""DynamiteCenterShare"": ""1"",
+    ""DynamiteRingShare"": ""1/2"",
+    ""DynamiteMinTargets"": 3
+  },
   ""Sections"": [""offers"", ""timeskip"", ""elixir"", ""gems""],
   ""Items"": [
     { ""Id"": ""chest_wooden"", ""Section"": ""offers"", ""Kind"": ""Chest"", ""ChestId"": ""GachaWooden"", ""Currency"": ""Ad"", ""CooldownMinutes"": 240 },
@@ -405,6 +429,90 @@ namespace CatMiners.Core.Outpost
     { ""TypeId"": ""amber"", ""GoodId"": ""honey"", ""CycleSec"": 21600, ""UnitsPerCycle"": 20, ""PriceFactor"": ""4320"", ""Color"": ""amber3"" },
     { ""TypeId"": ""moonstone"", ""GoodId"": ""silk"", ""CycleSec"": 25200, ""UnitsPerCycle"": 20, ""PriceFactor"": ""5040"", ""Color"": ""purple6"" },
     { ""TypeId"": ""sunstone"", ""GoodId"": ""caviar"", ""CycleSec"": 28800, ""UnitsPerCycle"": 20, ""PriceFactor"": ""5760"", ""Color"": ""red5"" }
+  ]
+}
+";
+
+        /// <summary>Встроенная копия Resources/Outpost/mine_dressing.json.</summary>
+        public const string DefaultDressingJson = @"{
+  ""Version"": ""dressing-1"",
+  ""FromZone"": 1,
+  ""ChamberOpenCells"": 15,
+  ""Tiers"": {
+    ""Light"": { ""HpFactor"": ""1/2"", ""ValueFactor"": ""1"" },
+    ""Medium"": { ""HpFactor"": ""1"", ""ValueFactor"": ""1"" },
+    ""Heavy"": { ""HpFactor"": ""2"", ""ValueFactor"": ""1"" }
+  },
+  ""Density"": {
+    ""MainPassage"": ""1/10"",
+    ""SidePassage"": ""11/50"",
+    ""Chamber"": ""3/10""
+  },
+  ""SectionMinCells"": 4,
+  ""ClusterMax"": 3,
+  ""ClusterGrowPercent"": 45,
+  ""Permanent"": {
+    ""FreeCellsPerProp"": 35,
+    ""Min"": 2,
+    ""Max"": 8,
+    ""Spacing"": 4,
+    ""MaxDetour"": 6,
+    ""Candidates"": 10,
+    ""WallCellsPerProp"": 30,
+    ""WallMin"": 1,
+    ""WallMax"": 4
+  },
+  ""Exclusions"": {
+    ""BaseClearance"": 4,
+    ""ExitClearance"": 1,
+    ""GateClearance"": 1,
+    ""FactoryClearance"": true
+  },
+  ""Families"": [
+    { ""Id"": ""minecart"", ""Category"": ""Permanent"", ""Weight"": 4, ""Areas"": [""Chamber"", ""SidePassage""], ""PipeMount"": true,
+      ""Variants"": [{ ""W"": 2, ""H"": 1 }, { ""W"": 2, ""H"": 1 }, { ""W"": 2, ""H"": 1 }] },
+    { ""Id"": ""winch"", ""Category"": ""Permanent"", ""Weight"": 2, ""Areas"": [""Chamber"", ""SidePassage""], ""PipeMount"": true,
+      ""Variants"": [{ ""W"": 1, ""H"": 1 }] },
+    { ""Id"": ""drill"", ""Category"": ""Permanent"", ""Weight"": 2, ""Areas"": [""Chamber""], ""PipeMount"": true,
+      ""Variants"": [{ ""W"": 2, ""H"": 1 }] },
+    { ""Id"": ""reel"", ""Category"": ""Permanent"", ""Weight"": 3, ""Areas"": [""Chamber"", ""SidePassage""],
+      ""Variants"": [{ ""W"": 1, ""H"": 1 }, { ""W"": 1, ""H"": 1 }] },
+    { ""Id"": ""support"", ""Category"": ""Permanent"", ""Weight"": 4, ""Areas"": [""Chamber"", ""SidePassage""], ""PipeMount"": true,
+      ""Variants"": [{ ""W"": 1, ""H"": 1 }, { ""W"": 1, ""H"": 1 }, { ""W"": 1, ""H"": 1 }] },
+    { ""Id"": ""hopper"", ""Category"": ""Permanent"", ""Weight"": 2, ""Areas"": [""Chamber""], ""PipeMount"": true,
+      ""Variants"": [{ ""W"": 2, ""H"": 1 }, { ""W"": 2, ""H"": 1 }] },
+    { ""Id"": ""tower"", ""Category"": ""Permanent"", ""Weight"": 2, ""Areas"": [""Chamber"", ""SidePassage""], ""CatThemed"": true,
+      ""Variants"": [{ ""W"": 1, ""H"": 1 }, { ""W"": 1, ""H"": 1 }] },
+    { ""Id"": ""statue"", ""Category"": ""Permanent"", ""Weight"": 1, ""Areas"": [""Chamber"", ""SidePassage""], ""CatThemed"": true,
+      ""Variants"": [{ ""W"": 1, ""H"": 1 }, { ""W"": 1, ""H"": 1 }] },
+    { ""Id"": ""sealedshaft"", ""Category"": ""Wall"", ""Weight"": 1, ""Areas"": [""MainPassage"", ""SidePassage"", ""Chamber""],
+      ""Variants"": [{ ""W"": 1, ""H"": 1 }, { ""W"": 1, ""H"": 1 }] },
+    { ""Id"": ""planks"", ""Category"": ""Destructible"", ""Tier"": ""Light"", ""Weight"": 5, ""Areas"": [""MainPassage"", ""SidePassage"", ""Chamber""],
+      ""Variants"": [{ ""W"": 1, ""H"": 1 }, { ""W"": 1, ""H"": 1 }, { ""W"": 1, ""H"": 1 }] },
+    { ""Id"": ""crates"", ""Category"": ""Destructible"", ""Tier"": ""Medium"", ""Weight"": 4, ""Areas"": [""MainPassage"", ""SidePassage"", ""Chamber""],
+      ""Variants"": [{ ""W"": 1, ""H"": 1, ""Weight"": 2 }, { ""W"": 1, ""H"": 1, ""Weight"": 2 }, { ""W"": 2, ""H"": 1 }] },
+    { ""Id"": ""rubble"", ""Category"": ""Destructible"", ""Tier"": ""Heavy"", ""Weight"": 5, ""Areas"": [""MainPassage"", ""SidePassage"", ""Chamber""],
+      ""Variants"": [{ ""W"": 1, ""H"": 1, ""Weight"": 2 }, { ""W"": 1, ""H"": 1, ""Weight"": 2 }, { ""W"": 2, ""H"": 1 }] },
+    { ""Id"": ""scrap"", ""Category"": ""Destructible"", ""Tier"": ""Heavy"", ""Weight"": 3, ""Areas"": [""MainPassage"", ""SidePassage"", ""Chamber""],
+      ""Variants"": [{ ""W"": 1, ""H"": 1, ""Weight"": 2 }, { ""W"": 1, ""H"": 1, ""Weight"": 2 }, { ""W"": 2, ""H"": 1 }] },
+    { ""Id"": ""cardboard"", ""Category"": ""Destructible"", ""Tier"": ""Light"", ""Weight"": 3, ""Areas"": [""SidePassage"", ""Chamber""], ""CatThemed"": true,
+      ""Variants"": [{ ""W"": 1, ""H"": 1 }, { ""W"": 1, ""H"": 1 }, { ""W"": 1, ""H"": 1 }] },
+    { ""Id"": ""yarn"", ""Category"": ""Destructible"", ""Tier"": ""Medium"", ""Weight"": 2, ""Areas"": [""SidePassage"", ""Chamber""], ""CatThemed"": true,
+      ""Variants"": [{ ""W"": 1, ""H"": 1 }, { ""W"": 1, ""H"": 1 }, { ""W"": 1, ""H"": 1 }] },
+    { ""Id"": ""catfurn"", ""Category"": ""Destructible"", ""Tier"": ""Medium"", ""Weight"": 2, ""Areas"": [""SidePassage"", ""Chamber""], ""CatThemed"": true,
+      ""Variants"": [{ ""W"": 1, ""H"": 1 }, { ""W"": 1, ""H"": 1 }, { ""W"": 1, ""H"": 1 }] },
+    { ""Id"": ""sacks"", ""Category"": ""Destructible"", ""Tier"": ""Light"", ""Weight"": 3, ""Areas"": [""MainPassage"", ""SidePassage"", ""Chamber""],
+      ""Variants"": [{ ""W"": 1, ""H"": 1 }, { ""W"": 1, ""H"": 1 }, { ""W"": 1, ""H"": 1 }] }
+  ],
+  ""Arrangements"": [
+    { ""Anchor"": ""minecart"", ""Debris"": [""scrap"", ""rubble"", ""planks""], ""Min"": 1, ""Max"": 2 },
+    { ""Anchor"": ""support"", ""Debris"": [""planks"", ""crates""], ""Min"": 1, ""Max"": 2 },
+    { ""Anchor"": ""tower"", ""Debris"": [""cardboard"", ""yarn"", ""catfurn""], ""Min"": 1, ""Max"": 3 },
+    { ""Anchor"": ""statue"", ""Debris"": [""cardboard"", ""yarn""], ""Min"": 1, ""Max"": 2 },
+    { ""Anchor"": ""drill"", ""Debris"": [""scrap"", ""rubble""], ""Min"": 1, ""Max"": 2 },
+    { ""Anchor"": ""hopper"", ""Debris"": [""rubble"", ""sacks""], ""Min"": 1, ""Max"": 2 },
+    { ""Anchor"": ""reel"", ""Debris"": [""yarn"", ""scrap""], ""Min"": 1, ""Max"": 2 },
+    { ""Anchor"": ""winch"", ""Debris"": [""scrap"", ""planks""], ""Min"": 1, ""Max"": 2 }
   ]
 }
 ";

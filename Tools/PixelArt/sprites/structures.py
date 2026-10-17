@@ -555,11 +555,58 @@ def barrel_cat(fly: int = -1) -> Canvas:
     return cv
 
 
+def barrel_tnt(frame: int) -> Canvas:
+    """20×22, feet: identical barrel and fuse; only the spark flickers."""
+    cv = Canvas(20, 22)
+    body = blank(cv)
+    for y in range(9, 20):
+        half = 7 if 11 <= y <= 17 else 6
+        body.hline(10-half, 9+half, y, 'wood4')
+        body.set(10-half, y, 'wood6')
+        body.set(9+half, y, 'wood2')
+        for x in (7, 11, 14):
+            body.set(x, y, 'wood3' if x < 10 else 'wood2')
+        body.set(5, y, 'wood5')
+    body.hline(5, 14, 19, 'wood2')
+    for y in (12, 17):
+        body.hline(3, 16, y, 'red4')
+        body.hline(3, 16, y+1, 'red2')
+        body.hline(4, 8, y, 'red5')
+        body.set(5, y+1, 'stone6')
+        body.set(14, y+1, 'stone4')
+    put(cv, body, 'wood0')
+    cv.ellipse(10, 9, 7, 2, 'wood6')
+    cv.ellipse(10, 9, 5, 1, 'wood1')
+    # Four separately outlined sticks, staggered above the open rim.
+    for x, y in ((4, 6), (7, 4), (10, 5), (13, 6)):
+        cv.rect(x, y, 3, 5, 'red0')
+        cv.rect(x, y+1, 2, 4, 'red3')
+        cv.vline(x, y+1, 8, 'red5')
+        cv.set(x+1, y, 'red4')
+    cv.hline(4, 15, 10, 'wood5')
+    cv.line(11, 5, 12, 3, 'wood0')
+    cv.line(12, 3, 15, 3, 'cream1')
+    cv.set(15, 2, 'amber2')
+    if frame == 0:
+        cv.hline(15, 18, 2, 'amber3')
+        cv.vline(16, 0, 4, 'gold4')
+        cv.set(16, 2, 'cream3')
+        cv.set(18, 0, 'amber3')
+    else:
+        cv.line(15, 1, 17, 3, 'amber3')
+        cv.line(15, 3, 17, 1, 'gold4')
+        cv.set(16, 2, 'cream3')
+        cv.set(18, 4, 'amber3')
+    return cv
+
+
 def build_containers(reg) -> None:
     piv = (CW / 2.0, 0.0)
     reg.add('barrel_cat', barrel_cat(), pivot=piv, note='бочка: ушки, глазки и лапки котика над ободом')
     for i in range(2):
         reg.add(f'barrel_fly_{i}', barrel_cat(i), pivot=piv, note='бочка в полёте из пушки: котик машет лапками, 0,1 с/кадр')
+    for i in range(2):
+        reg.add(f'barrel_tnt_{i}', barrel_tnt(i), pivot=(10.0, 0.0), note='20×22 dynamite barrel; spark flicker only')
     reg.add('crate_cat', crate_cat(), pivot=piv, note='ящик с котиком: наклейка с лапкой, дырочки для воздуха')
     reg.add('crate_dynamite', crate_dynamite(), pivot=piv, note='ящик динамита: красная лента, шашки из крышки')
     reg.add('crate_gold', crate_gold(), pivot=piv, note='ящик золота: золотая лента, монета, монеты на крышке')
@@ -2014,6 +2061,68 @@ def build_cannon(reg) -> None:
         reg.add(f'cannon_wheel_{i}', cannon_wheel(i), pivot=piv, note='ближнее колесо поверх ствола; кадр 1 — поворот при откате')
 
 
+# Mortar layers share a 28×24 canvas and feet pivot (14, 0).
+# Canvas axis from breech (12, 15) to muzzle (15, 4): ~15.3° right of vertical.
+MORTAR_MUZZLE = (15, 4)
+MORTAR_AXIS = (3 / math.sqrt(130), -11 / math.sqrt(130))
+
+
+def mortar_base() -> Canvas:
+    cv = Canvas(28, 24)
+    bed = blank(cv)
+    bed.polygon([(3, 17), (7, 14), (22, 14), (25, 17), (25, 21),
+                 (22, 23), (4, 23), (2, 21)], 'wood2')
+    bed.polygon([(3, 17), (7, 14), (22, 14), (24, 17)], 'wood5')
+    bed.rect(3, 18, 21, 4, 'wood4')
+    bed.hline(4, 23, 18, 'wood6')
+    bed.hline(5, 22, 21, 'wood3')
+    bed.line(9, 19, 17, 19, 'wood2')
+    bed.hline(15, 20, 20, 'wood5')
+    put(cv, bed, 'wood0')
+    for x in (5, 20):
+        cv.rect(x, 16, 3, 7, 'stone0')
+        cv.rect(x, 16, 2, 6, 'stone3')
+        cv.vline(x, 16, 20, 'stone5')
+        cv.set(x+1, 18, 'gold4')
+    cv.ellipse(13, 16, 7, 3, 'stone0')
+    cv.ellipse(13, 15, 6, 2, 'stone3')
+    cv.hline(9, 15, 14, 'stone5')
+    return cv
+
+
+def mortar_tube() -> Canvas:
+    cv = Canvas(28, 24)
+    body = blank(cv)
+    dx, dy = MORTAR_AXIS
+    # Draw directly in axis coordinates: no raster rotation or antialiasing.
+    for y in range(2, 19):
+        for x in range(5, 23):
+            vx, vy = x - 12, y - 15
+            along = vx*dx + vy*dy
+            across = vx*(-dy) + vy*dx
+            if -2 <= along <= math.sqrt(130) and abs(across) <= 5.4:
+                col = _tone(IRON_DARK, across/5.4)
+                if -0.5 <= along <= 1.5 or 8 <= along <= 10:
+                    col = _tone(GOLD, across/5.4)
+                body.set(x, y, col)
+    put(cv, body, 'ink1')
+    # Broad elliptical lip, a dark bore, and a highlight on the upper-left rim.
+    cv.ellipse(15, 4, 6, 3, 'gold0')
+    cv.ellipse(15, 3.5, 5, 2.5, 'gold3')
+    cv.ellipse(15, 4, 4, 1.5, 'ink0')
+    cv.hline(12, 16, 1, 'gold5')
+    cv.hline(12, 17, 5, 'stone2')
+    cv.set(11, 3, 'gold4')
+    return cv
+
+
+def build_mortar(reg) -> None:
+    piv = (14.0, 0.0)
+    reg.add('mortar_base', mortar_base(), pivot=piv, note='28×24 wooden mortar bed with iron cradle; feet')
+    reg.add('mortar_tube', mortar_tube(), pivot=piv,
+            note=f'28×24 recoil overlay; muzzle {MORTAR_MUZZLE} top-left; axis {MORTAR_AXIS}')
+
+
 def build_rework(reg) -> None:
     """Новый режим: барьер ворот на всю ширину, стадии повреждения месторождения и завал после расчистки."""
     reg.add('gate_barrier_mid', gate_barrier_mid(), pivot=(16.0, 0.0), note='пролёт барьера закрытых ворот, 1 клетка, бесшовно')
@@ -2028,6 +2137,7 @@ def build_rework(reg) -> None:
 def build(reg) -> None:
     build_containers(reg)
     build_cannon(reg)
+    build_mortar(reg)
     build_forge(reg)
     build_shaft(reg)
     build_gate(reg)

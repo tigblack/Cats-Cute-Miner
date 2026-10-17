@@ -1,0 +1,8 @@
+{
+  "_status": "не откалибровано",
+  "steps": [
+    {"radio": "Yes", "within": "Is all of the user data collected by your app encrypted in transit?"}
+  ],
+  "expect": ["Step 2 of 5, Data collection and security"],
+  "forbid": ["Something went wrong"]
+}

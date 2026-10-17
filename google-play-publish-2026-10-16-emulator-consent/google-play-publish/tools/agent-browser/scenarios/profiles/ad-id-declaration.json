@@ -1,0 +1,43 @@
+{
+  "_status": "метки, адрес и кнопки сняты с живой страницы Piggy Payday 2026-10-14 (только чтение); шаги раннером не прогонялись, после первого успешного прогона убери _status. Значения Piggy Payday (аналитика, реклама, защита от мошенничества): сверь с SDK игры",
+  "url": "{{base}}/app-content/ad-id-declaration?hl=en",
+  "steps": [
+    {
+      "radio": "Yes"
+    },
+    {
+      "check": "App functionality",
+      "value": false
+    },
+    {
+      "check": "Analytics"
+    },
+    {
+      "check": "Developer communications",
+      "value": false
+    },
+    {
+      "check": "Advertising or marketing"
+    },
+    {
+      "check": "Fraud prevention, security, and compliance"
+    },
+    {
+      "check": "Personalization",
+      "value": false
+    },
+    {
+      "check": "Account management",
+      "value": false
+    },
+    {
+      "click": "Save"
+    }
+  ],
+  "expect": [
+    "Advertising ID"
+  ],
+  "forbid": [
+    "Something went wrong"
+  ]
+}

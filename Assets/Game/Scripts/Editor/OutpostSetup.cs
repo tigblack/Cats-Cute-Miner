@@ -24,14 +24,18 @@ namespace CatMiners.Editor
                 texts[i] = File.ReadAllText("Assets/Game/Resources/" + OutpostConfigSet.ResourcePaths[i] + ".json");
             var configs = OutpostConfigSet.ParseResources(texts).WithCards(repo);
             if (repo.ZoneCount != OutpostIds.LastZone) throw new InvalidDataException("Expected 144 source mines");
-            if (configs.Cards.Cards.Count != 61) throw new InvalidDataException("Expected 61 source cards, got " + configs.Cards.Cards.Count);
+            if (repo.CardsInOrder.Count != 61) throw new InvalidDataException("Expected 61 source cards, got " + repo.CardsInOrder.Count);
+            // ТЗ 10.6 (cards-4): каталог — 61 карточка источника и карточки игры из card_rules.json → ExtraCards (ca063).
+            int extra = configs.CardRules.ExtraCards?.Count ?? 0;
+            if (configs.Cards.Cards.Count != 61 + extra)
+                throw new InvalidDataException("Expected " + (61 + extra) + " cards (61 source + " + extra + " extra), got " + configs.Cards.Cards.Count);
             for (int zone = 1; zone <= repo.ZoneCount; zone++)
             {
                 var map = OutpostLevelAdapter.BuildMine(repo, zone, configs);
                 var report = OutpostReachability.Check(map);
                 if (!report.Passed) throw new InvalidDataException(report.Diagnostic);
             }
-            Debug.Log("[Outpost] Source checksum, configs, 61 cards and 144 maps validated; saves untouched");
+            Debug.Log("[Outpost] Source checksum, configs, 61 + " + extra + " cards and 144 maps validated; saves untouched");
         }
     }
 }

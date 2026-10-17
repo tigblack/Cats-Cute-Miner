@@ -32,7 +32,7 @@ namespace CatMiners.Editor
         public const string UiMapName = "UI";
         public const string MarkerPath = "ProjectSettings/CatMinersSetup.json";
         public const string CompanyName = "CatMiners";
-        public const string ProductName = "Cats Cute Miner";
+        public const string ProductName = "Cat Miner: Idle Tycoon";
         public const string BundleId = "com.catminers.prototype";
 
         /// <summary>Папки внутри Assets/Game (ТЗ 5.4). Заглушки префабов и звуков не создаются: всё строится в рантайме.</summary>
@@ -315,7 +315,8 @@ namespace CatMiners.Editor
             PlayerSettings.allowedAutorotateToLandscapeLeft = false;
             PlayerSettings.allowedAutorotateToLandscapeRight = false;
             PlayerSettings.SetScriptingBackend(NamedBuildTarget.Android, ScriptingImplementation.IL2CPP);
-            PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
+            // Google Play (скилл публикации 2026-10-15): ARM64 и ARMv7 — без 32-битной сборки Play прячет установку на бюджетных телефонах.
+            PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARMv7 | AndroidArchitecture.ARM64;
             PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel25;
             PlayerSettings.Android.targetSdkVersion = AndroidSdkVersions.AndroidApiLevelAuto;
             PlayerSettings.SetManagedStrippingLevel(NamedBuildTarget.Android, ManagedStrippingLevel.Minimal);

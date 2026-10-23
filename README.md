@@ -2,7 +2,7 @@
 
 Play WebGL **0.1.18**: [Cat Miners](https://sites.aimulticast.org/sargsyan/cat-miners/?v=0.1.18). The final entrance uses native pixel-art pieces, a four-tile approach with destructible rocks, and four adjacent mining positions, one cat per work cell. After rescuing Bruno, the objective switches to clearing the mine and delivering remaining cargo. Hiring prices use the normal formula in every mine, including existing saves; the unintended 99% final-excavation discount is removed. Factory taps open the manager upgrade window; broken chains offer Activate and a full-screen chest reveal. Factory chests guarantee their own manager and cover automation copies through Mine 7, with diminishing help later. Mine 1 has two columns of blocks and a small right-hand debris branch (15 targets total); the HUD shows gold, elixir and gems. Native pixel-art scenery sits in recessed equipment bays with matching floors and shadows; locked toolbar buttons are dimmed with large centered golden locks replacing their icons; labels remain visible. Mia's Store greeting appears once for two seconds, with the receipt saved across reloads. An automatic completion window offers Stay here or Next mine; staying keeps the current mine and the green banner reopens the choice. All seven Base upgrades are open from Mine 1. The collapsed entrance, varied surroundings, Bruno and Equipment progression are included; browser saves stay on the same address.
 
-Android **0.1.20 (10)**: [installable APK](Builds/Android/CatMiners-0.1.20-rewarded.apk), signed with the existing Android local install key for device checks. Includes rewarded features and Damage ×2 for five minutes. Reward buttons prepare and show an ad instead of opening the analytics screen; unknown age can explicitly confirm16+ without opting into analytics. All reward buttons use the gold Double Income style. Native artifact verification passed; actual phone ad delivery and AdMob published GDPR-message membership remain unverified. [Launch fix and validation](Docs/Rework/REWARDED_AD_LAUNCH.md), [damage bonus](Docs/Rework/REWARDED_DAMAGE_BONUS.md). This APK has not been published to Google Play.
+Android **0.1.21 (11)**: [installable APK](Builds/Android/CatMiners-0.1.21-rewarded.apk), signed with the existing Android local install key for device checks. First launch presents Privacy & ads with Confirm (explicit16+, Ads only), policy/terms links and Play without ads. MAX/Google UMP and rewarded preload now run before normal game entry; failed loading permits retry/play. All reward buttons use the gold Double Income style; Damage ×2 lasts five minutes. Native artifact verification passed and the signature matches0.1.20. Actual phone ad delivery and AdMob published GDPR-message membership remain unverified. [Startup flow and evidence](Docs/Rework/ADS_STARTUP.md), [reward-button fix](Docs/Rework/REWARDED_AD_LAUNCH.md), [damage bonus](Docs/Rework/REWARDED_DAMAGE_BONUS.md). This APK has not been published to Google Play.
 
 Unity sources, gameplay data, project settings, development documents, release preparation, and marketing assets.
 
@@ -19,7 +19,7 @@ The recovered source archive still needs the two original launcher-icon PNG file
 ## Open on macOS
 
 1. Install Git and [Git LFS](https://git-lfs.com/). With an existing Homebrew installation: `brew install git-lfs`.
-2. Run `git lfs install`, then clone this private repository using your authorized GitHub account:
+2. Run `git lfs install`, then clone this public repository:
 
    ```sh
    git clone https://github.com/tigblack/Cats-Cute-Miner.git

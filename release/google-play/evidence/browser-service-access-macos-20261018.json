@@ -1,0 +1,62 @@
+{
+  "checked_at": "2026-10-18T10:20:54.745575+00:00",
+  "route": "agentb_native_chrome_consent_then_hub_session_reuse",
+  "user_authorization": "User enabled remote debugging and requested connection in this chat",
+  "native_endpoint_ready": true,
+  "session_transfer": {
+    "status": "completed",
+    "services": [
+      "play",
+      "adjust",
+      "superleo"
+    ],
+    "expires_at": "2026-10-18T18:16:03.380Z",
+    "private_values_emitted": false
+  },
+  "services": {
+    "play_console": {
+      "status": "authenticated_current_game_read_verified",
+      "actor": "sargsyan@multicastgames.com",
+      "developer": "8879742639795815518",
+      "app_id": "4974963942177850884",
+      "package": "com.multicastgames.catscuteminer",
+      "observed_name": "Cat Miners: Idle Tycoon",
+      "dashboard_observation": "Internal release setup: select testers complete, create release and preview not complete",
+      "publishing_evidence_ref": "release/google-play/evidence/console-publishing-readback-macos-20261018.json",
+      "upload_permission": "not_exercised"
+    },
+    "adjust": {
+      "status": "waiting_for_login",
+      "observed_url": "https://suite.adjust.com/login?redirectUrl=%2Fapps",
+      "native_error": "AUTH_REQUIRED",
+      "user_tab_opened": true
+    },
+    "superleo": {
+      "status": "waiting_for_login",
+      "observed_url": "https://dostupai.aimulticast.org/",
+      "visible_form": [
+        "Email Address",
+        "Access Studio"
+      ],
+      "user_tab_opened": true
+    }
+  },
+  "console_scope_drift": {
+    "expected_owner_choice_minimum_age": 6,
+    "observed_draft_target_age": "13 and older",
+    "observed_draft_privacy_url": "https://multicastgames.com/policy",
+    "observed_draft_name": "Cat Miners: Idle Tycoon",
+    "reconciled": false,
+    "draft_submitted": false
+  },
+  "signing": {
+    "certificate_state_verified": false,
+    "app_integrity_ui": "Moved to Protected with Play; no signing certificate readback obtained",
+    "new_key_created": false
+  },
+  "external_writes": {
+    "release_submitted": false,
+    "policy_declarations_accepted": false,
+    "campaigns_started": false
+  }
+}

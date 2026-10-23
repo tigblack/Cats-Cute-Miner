@@ -1,0 +1,35 @@
+{
+  "status": "saved_and_reloaded_in_Google_Play_Console_draft_not_submitted",
+  "locale": "en-US",
+  "package": "com.multicastgames.catscuteminer",
+  "text": {
+    "title": "Cat Miner: Idle Tycoon",
+    "short_description": "Lead a cat mining crew, build factories, and collect cards and equipment.",
+    "full_description": "Put your cat crew to work in an underground mining adventure. Your cats dig through rocks, fill their bags, and bring the coins back to base. Spend the coins they deliver to improve the whole team.\n\nBUILD YOUR MINING CREW\nUpgrade mining power, movement, carrying capacity, unloading speed, and the value of your haul. Tap rocks to lend your cats a helping paw.\n\nEXPLORE 144 MINES\nOpen gates and uncover branching tunnels as you work through the campaign. Clear each mine and move on to the next challenge.\n\nRUN YOUR CAT FACTORIES\nUncover factories in the mines, deliver their goods to the warehouse, and sell your stock at the market. Collect factory cards to improve production.\n\nCOLLECT 62 CARDS AND UPGRADE YOUR GEAR\nEquip pickaxes, hats, backpacks, and boots. Collect cards and improve their bonuses. Equipment and card progress carry into the next mine, while local mine upgrades start fresh.\n\nRETURN TO YOUR CATS\nYour saved crew can make progress while you are away. Return, collect the results, and decide what to upgrade next.\n\nOptional in-app purchases are available. Randomized card chests have their chances shown in the game."
+  },
+  "character_counts": {
+    "title": 22,
+    "short_description": 73,
+    "full_description": 1137
+  },
+  "source_refs": [
+    "Docs/TZ/Cat_Miners_Auto_Incremental_TZ_v2.1.md",
+    "Assets/Game/Scripts/Runtime/Outpost/OutpostController.Purchasing.cs"
+  ],
+  "google_limits_source": "https://support.google.com/googleplay/android-developer/answer/9859152?hl=en",
+  "pending_before_submission": [
+    "Compare against final installed Android UI and current Console listing field inventory",
+    "Verify chest chance disclosure in final installed UI",
+    "Verify optional services and age-dependent presentation on device",
+    "Finalize and publish the approved game-specific legal documents for the chosen mixed audience"
+  ],
+  "contact": {
+    "email": "support@multicastgames.com",
+    "website": "https://multicastgames.com/",
+    "operator": "Multicast Games Limited"
+  },
+  "console_evidence_ref": "release/google-play/evidence/store-listing-current.json",
+  "rename_evidence_ref": "release/google-play/evidence/branding-play-console-current.json",
+  "saved_at": "2026-10-16T15:51:50.709Z",
+  "reloaded_at": "2026-10-16T15:51:55.097Z"
+}

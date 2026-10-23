@@ -1,0 +1,61 @@
+{
+  "completed_at": "2026-10-20T15:33:50.730667+00:00",
+  "status": "signed_AAB_native_verified_copied_single_latest_analytics_opt_in_fix",
+  "package": "com.multicastgames.catscuteminer",
+  "version_name": "0.1.4",
+  "version_code": 5,
+  "artifact_path_macos": "/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/release/google-play/builds/cat-miners-0.1.4-5-noads.aab",
+  "artifact_path_hub": "/mnt/claude-data/sargsyan-arnos-macbook-pr/cats-cute-miner-main/release/google-play/builds/cat-miners-0.1.4-5-noads.aab",
+  "artifact_bytes": 77794998,
+  "artifact_sha256": "be10e6b2ae4aaf0518725f51b284e8bcaad218a7a880f7d01caf8d783334b759",
+  "signature_verified": true,
+  "native_inspection_ref": "release/google-play/evidence/build-history/cat-miners-0.1.4-5-noads.aab.inspection.json",
+  "legal_configured": true,
+  "local_artifact_only": false,
+  "source_hashes_match_tested_inputs_and_build_mirror": true,
+  "preparation_ref": "release/google-play/evidence/aab-0.1.4-5-preparation-20261020.json",
+  "tests": {
+    "playmode_passed": 36,
+    "editmode_passed": 18,
+    "python_builder_and_retention_passed": 20,
+    "python_dex_detection_passed": 3,
+    "android_player_compile_exit_code": 0,
+    "playmode_receipt": "release/google-play/evidence/analytics-optin-playmode-20261020.xml",
+    "editmode_receipt": "release/google-play/evidence/analytics-optin-editmode-20261020.xml",
+    "android_compile_log_macos": "build/ci-logs/Method-20261020-192743.log"
+  },
+  "appmetrica": {
+    "app_id": 6374386,
+    "configured_key_hash_matches_previously_authenticated_dashboard": true,
+    "binding_evidence_ref": "release/google-play/evidence/appmetrica-own-config-20261018.json",
+    "required_user_action": "Settings → Analytics & privacy → actual neutral age group; eligible16+ can independently switch AppMetrica on → Save choices",
+    "new_installation_default": "unknown age and all optional analytics off",
+    "provider_switches_independent": true,
+    "grant_only_after_durable_save": true,
+    "no_activity_before_consent_backfill": true,
+    "flush_only_consent_initialized_provider_after_save_and_background": true,
+    "actual_device_delivery_verified": false,
+    "actual_dashboard_delivery_verified": false
+  },
+  "public_documents": {
+    "status": "factual_revision_published_HTTP200_exact_content_hashes_verified",
+    "evidence_ref": "release/google-play/evidence/legal-publication-20261020.json",
+    "adoption_ref": "Docs/Legal/CatsCuteMiner/adoption-current.json"
+  },
+  "retention": {
+    "policy_ref": "release/google-play/artifact-retention.json",
+    "macos_evidence_ref": "release/google-play/evidence/single-aab-macos-0.1.4-5-20261020.json",
+    "hub_evidence_ref": "release/google-play/evidence/single-aab-hub-0.1.4-5-20261020.json",
+    "old_aab_removed": true,
+    "remaining_aab": "cat-miners-0.1.4-5-noads.aab"
+  },
+  "ads_enabled": false,
+  "uploaded": false,
+  "device_or_emulator_started": false,
+  "publication_ready": false,
+  "pending": [
+    "Upload/actual Console version-code check for this artifact",
+    "Install updated Android version and perform voluntary eligible opt-in; verify native log and AppMetrica dashboard delivery",
+    "Real-device IAP delivery and generated APK ZIP alignment verification"
+  ]
+}

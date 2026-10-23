@@ -1,0 +1,94 @@
+{
+  "Version": "progression-4",
+  "Features": [
+    {
+      "Id": "branch.pickaxes",
+      "Branch": "Pickaxes",
+      "Zone": 1,
+      "Icon": "icon_branch_pickaxes"
+    },
+    {
+      "Id": "branch.team",
+      "Branch": "Team",
+      "Zone": 1,
+      "Icon": "icon_branch_team"
+    },
+    {
+      "Id": "cards",
+      "Zone": 2,
+      "Event": "own-cards",
+      "Icon": "icon_cards_big"
+    },
+    {
+      "Id": "store",
+      "With": "cards",
+      "Icon": "icon_store"
+    },
+    {
+      "Id": "branch.bags",
+      "Branch": "Bags",
+      "Zone": 1,
+      "Icon": "icon_branch_bags"
+    },
+    {
+      "Id": "equipment",
+      "Zone": 0,
+      "Event": "blacksmith-and-mine2",
+      "Icon": "icon_equipment"
+    },
+    {
+      "Id": "branch.boots",
+      "Branch": "Boots",
+      "Zone": 1,
+      "Icon": "icon_branch_boots"
+    },
+    {
+      "Id": "branch.unload",
+      "Branch": "Unload",
+      "Zone": 1,
+      "Icon": "icon_branch_unload"
+    },
+    {
+      "Id": "branch.value",
+      "Branch": "Value",
+      "Zone": 1,
+      "Icon": "icon_branch_value"
+    },
+    {
+      "Id": "branch.bays",
+      "Branch": "Bays",
+      "Zone": 1,
+      "Icon": "icon_branch_bays"
+    },
+    {
+      "Id": "sellgoods",
+      "Event": "factories",
+      "Icon": "icon_sell_goods"
+    }
+  ],
+  "CardsIntro": {
+    "Card": "ca001",
+    "Upgrades": 1
+  },
+  "EquipmentIntro": {
+    "Item": "pickaxe.common"
+  },
+  "Rescue": {
+    "Zone": 1,
+    "Character": "mia",
+    "CageFamily": "rescuecage",
+    "LockFamily": "cagelock",
+    "LockTier": "Medium",
+    "RouteFocus": 16,
+    "ClearRouteOre": true
+  },
+  "Blacksmith": {
+    "Zone": 2,
+    "Character": "bruno",
+    "CageFamily": "rescuecage",
+    "LockFamily": "cagelock",
+    "LockTier": "Medium",
+    "RouteFocus": 16,
+    "ClearRouteOre": false
+  }
+}

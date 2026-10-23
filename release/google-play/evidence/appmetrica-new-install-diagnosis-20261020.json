@@ -1,0 +1,30 @@
+{
+  "recorded_at": "2026-10-20T15:20:52.811915+00:00",
+  "scope": "Source and built-source receipt diagnosis; no phone logs or live dashboard readback",
+  "owner_report": "Installed game on Android, no AppMetrica data or event events",
+  "screenshot_appmetrica_app_id": 6374386,
+  "affected_local_build": "0.1.3(4)",
+  "privacy_source_sha256": "71b061f24fd581ff3da8e2c2473f8a5e1e18da00daab83161fe5f07108701841",
+  "matches_built_mirror_receipt": true,
+  "root_cause_chain": [
+    "New/missing privacy file -> ProtectedDefaults -> ChooseAge(Unknown)",
+    "Unknown age -> Protected=true and all optional providers=false",
+    "GameSdkRuntime.Initialize returns before AppMetrica.Activate for protected players",
+    "ConsentMask=0; custom events return before enqueue/send",
+    "Settings for protected unknown age only offers Back to game; new installation has no opt-in path"
+  ],
+  "client_key_configured": true,
+  "dashboard_wrong_app_not_indicated_by_screenshot": true,
+  "source_event_hooks_present": true,
+  "current_behavior": "No optional SDK installation/session/gameplay/revenue reporting for protected new installations; essential IAP processing remains separate",
+  "code_or_consent_modified_in_this_diagnosis": false,
+  "new_artifact_built": false,
+  "device_delivery_verified": false,
+  "fix_constraints": [
+    "Keep user-requested immediate startup without mandatory age/privacy screens",
+    "Preserve13+ audience and protected treatment of under16/unknown users",
+    "Do not infer adult age or grant provider choices automatically",
+    "Add an explicit optional eligible-user path before claiming telemetry delivery; validate on real Android and in provider reports"
+  ],
+  "provider_docs": "https://appmetrica.yandex.com/docs/en/sdk/unity/analytics/unity-operations"
+}

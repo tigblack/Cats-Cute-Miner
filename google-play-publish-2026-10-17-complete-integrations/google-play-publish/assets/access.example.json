@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "panel": {
+    "config_ref": null,
+    "browser_session_ref": null
+  },
+  "appmetrica": {
+    "management_oauth_token": null,
+    "browser_session_ref": null,
+    "sdk_config_ref": null
+  },
+  "adjust": {
+    "management_api_token": null,
+    "automation_enabled": null,
+    "template_app_token": null,
+    "browser_session_ref": null,
+    "sdk_config_ref": null
+  },
+  "meta": {
+    "management_config_ref": null,
+    "browser_session_ref": null,
+    "sdk_config_ref": null
+  },
+  "max": {
+    "management_config_ref": null,
+    "browser_session_ref": null,
+    "sdk_config_ref": null
+  },
+  "mediation_networks": {},
+  "google_play": {
+    "management_config_ref": null,
+    "browser_session_ref": null,
+    "artifact_transport_ref": null
+  }
+}

@@ -1,0 +1,206 @@
+{
+  "Version": "cards-4",
+  "CardRngStream": 6,
+  "TutorialCard": "ca001",
+  "MaxDiscount": "9/10",
+  "BaseCritMultiplier": "2",
+  "Effects": {
+    "manager-1": {
+      "Kind": "FactoryOutput",
+      "Base": "1/10",
+      "PerLevel": "1/20",
+      "Rule": "CatMiners",
+      "Source": "Код 9, manager Common: доход генератора из TargetIds ×3^(L−1) (GameSession.cs). ТЗ 2.2 §7.1, «Foreman»: +выпуск товара за цикл заводов этого типа; бонусы Common и Uncommon складываются. Автодоставка — по cardId/cardLevel токена s"
+    },
+    "manager-2": {
+      "Kind": "FactoryOutput",
+      "Base": "1/10",
+      "PerLevel": "1/20",
+      "Rule": "CatMiners",
+      "Source": "Код 9, manager Uncommon: доход генератора из TargetIds ×4^(L−1). ТЗ 2.2 §7.1, «Manager»: +выпуск товара за цикл заводов этого типа, как у Common; бонусы складываются. Автодоставка — по cardId/cardLevel токена s"
+    },
+    "ca001": {
+      "Kind": "UnloadRate",
+      "Base": "1/20",
+      "PerLevel": "1/100",
+      "Rule": "LegacyConfirmed",
+      "Source": "Код 9, TargetIds spawningcart: доход кузницы ×3^(L−1). Стартовый узел заменён складом базы: +скорость разгрузки"
+    },
+    "ca034": {
+      "Kind": "GlobalValue",
+      "Base": "1/10",
+      "PerLevel": "1/10",
+      "Rule": "LegacyConfirmed",
+      "Source": "Код 10: выход всех генераторов ×3^(L−1). Адаптация: +ценность всех новых порций"
+    },
+    "ca029": {
+      "Kind": "HireDiscount",
+      "Base": "1/20",
+      "PerLevel": "1/20",
+      "Rule": "LegacyConfirmed",
+      "Source": "Код 7: интервал бесплатного котика −60·L с. Бесплатных котиков нет: скидка на найм «Команды»"
+    },
+    "ca038": {
+      "Kind": "TeamCap",
+      "Base": "1",
+      "PerLevel": "1",
+      "Rule": "LegacyConfirmed",
+      "Source": "Код 1: лимит котиков +L (FT0). Сохранён: предел «Команды» +L"
+    },
+    "ca036": {
+      "Kind": "StartWorkers",
+      "Base": "1",
+      "PerLevel": "1/4",
+      "Rule": "LegacyAssumed",
+      "Source": "Код 4, предположение старого ТЗ: уровень нанимаемых котиков. Уровней котиков нет: шахта начинается с floor(1 + (L−1)/4) котиками из предела «Команды» (бесплатный найм, предел не растёт)"
+    },
+    "ca031": {
+      "Kind": "CritChance",
+      "Base": "1/20",
+      "PerLevel": "1/40",
+      "Rule": "LegacyAssumed",
+      "Source": "Код 5, предположение старого ТЗ: шанс крита"
+    },
+    "ca035": {
+      "Kind": "CritPower",
+      "Base": "1/4",
+      "PerLevel": "1/4",
+      "Rule": "LegacyAssumed",
+      "Source": "Код 6, предположение старого ТЗ: сила крита. Множитель крита = 2 + значение"
+    },
+    "ca032": {
+      "Kind": "GateDamage",
+      "Base": "1/5",
+      "PerLevel": "1/10",
+      "Rule": "LegacyAssumed",
+      "Source": "Код 8, предположение старого ТЗ: бесплатный котик за ворота. Адаптация: +урон по воротам"
+    },
+    "ca037": {
+      "Kind": "KindValue",
+      "TargetKind": "r",
+      "Base": "3/20",
+      "PerLevel": "3/20",
+      "Rule": "LegacyAssumed",
+      "Source": "Код 11, предположение старого ТЗ: золото с камней. Адаптация: +ценность порций обычных камней r"
+    },
+    "ca027": {
+      "Kind": "MoveSpeed",
+      "Base": "3/100",
+      "PerLevel": "1/100",
+      "Rule": "LegacyAssumed",
+      "Source": "Код 13, предположение старого ТЗ: доставки (удалены). Адаптация: котики-курьеры быстрее ходят"
+    },
+    "ca054": {
+      "Kind": "KindDamage",
+      "TargetKind": "x",
+      "Base": "1/5",
+      "PerLevel": "1/10",
+      "Rule": "LegacyAssumed",
+      "Source": "Код 22, предположение старого ТЗ: урон динамита (удалён). Адаптация: +урон по завалам x"
+    },
+    "ca055": {
+      "Kind": "ChestLuck",
+      "Base": "3/20",
+      "PerLevel": "3/20",
+      "Rule": "LegacyAssumed",
+      "Source": "Код 23, предположение старого ТЗ: шанс легендарной карты. Адаптация: +шансы Rare и выше в сундуках"
+    },
+    "ca028": {
+      "Kind": "Capacity",
+      "Base": "1",
+      "PerLevel": "1/4",
+      "Rule": "CatMiners",
+      "Source": "Код 3, смысл неизвестен. Новое правило: +мест в сумке, floor(1 + (L−1)/4)"
+    },
+    "ca026": {
+      "Kind": "CompletionParts",
+      "Base": "1/10",
+      "PerLevel": "1/10",
+      "Rule": "CatMiners",
+      "Source": "Код 12, смысл неизвестен. Новое правило: +детали экипировки за завершение шахты"
+    },
+    "ca030": {
+      "Kind": "PickupSpeed",
+      "Base": "1/20",
+      "PerLevel": "1/40",
+      "Rule": "CatMiners",
+      "Source": "Код 15, смысл неизвестен. Новое правило: +скорость подбора монет с земли"
+    },
+    "ca033": {
+      "Kind": "GlobalDamage",
+      "Base": "1/20",
+      "PerLevel": "1/40",
+      "Rule": "CatMiners",
+      "Source": "Код 16, смысл неизвестен. Новое правило: +урон котиков по всем целям"
+    },
+    "ca043": {
+      "Kind": "BranchDiscount",
+      "Base": "3/100",
+      "PerLevel": "3/100",
+      "Rule": "CatMiners",
+      "Source": "Код 19, смысл неизвестен. Новое правило: скидка на улучшения базы, кроме «Команды»"
+    },
+    "ca051": {
+      "Kind": "UnloadRate",
+      "Base": "1/20",
+      "PerLevel": "1/20",
+      "Rule": "CatMiners",
+      "Source": "Код 20, смысл неизвестен. Решение владельца 11.10.2026: +5% скорости разгрузки за уровень вместо продления офлайна; общий предел отсутствия — 3 часа"
+    },
+    "ca052": {
+      "Kind": "KindDamage",
+      "TargetKind": "r",
+      "Base": "1/10",
+      "PerLevel": "1/10",
+      "Rule": "CatMiners",
+      "Source": "Код 21, смысл неизвестен. Новое правило: +урон по обычным камням r"
+    },
+    "ca050": {
+      "Kind": "TapDamage",
+      "Base": "1/4",
+      "PerLevel": "1/4",
+      "Rule": "CatMiners",
+      "Source": "Код 24, смысл неизвестен. Новое правило: +урон удара кирки игрока"
+    },
+    "ca053": {
+      "Kind": "ChestElixir",
+      "Base": "1/10",
+      "PerLevel": "1/10",
+      "Rule": "CatMiners",
+      "Source": "Код 25, смысл неизвестен. Новое правило: +эликсир из сундуков"
+    },
+    "ca062": {
+      "Kind": "ChestCards",
+      "Base": "1",
+      "PerLevel": "1/2",
+      "Rule": "CatMiners",
+      "Source": "Код 26 (Majestic), смысл неизвестен; в старой игре не выпадала. Новое правило: +случайные карты в каждом сундуке, floor(1 + (L−1)/2)"
+    },
+    "ca063": {
+      "Kind": "DynamitePower",
+      "Base": "1/5",
+      "PerLevel": "1/10",
+      "Rule": "CatMiners",
+      "Source": "ТЗ 10.6 (cards-4): карточка игры сверх источника, «Demolition Expert»; +урон взрыва динамита по кольцу: Lv1 +20 %, +10 % за уровень, Lv9 +100 %"
+    }
+  },
+  "ExtraCards": [
+    { "Id": "ca063", "Rarity": 3, "MineUnlock": 1, "SortingWeight": 95, "StatModifierType": 0, "TargetIds": [], "IsManager": false }
+  ],
+  "DefaultChances": [800000, 150000, 40000, 8000, 1800, 200],
+  "ChestChances": {
+    "GachaWooden": [800000, 150000, 40000, 8000, 1800, 200],
+    "GachaIron": [700000, 200000, 70000, 20000, 8500, 1500],
+    "GachaForged": [580000, 250000, 110000, 45000, 12000, 3000],
+    "GachaSilver": [500000, 270000, 150000, 60000, 16000, 4000],
+    "GachaGolden": [400000, 300000, 180000, 90000, 25000, 5000],
+    "GachaRoyal": [300000, 300000, 220000, 120000, 50000, 10000],
+    "GachaMythical": [200000, 280000, 250000, 170000, 80000, 20000],
+    "GachaCrusher": [450000, 280000, 160000, 80000, 25000, 5000],
+    "GachaLegendary": [0, 0, 0, 0, 1000000, 0],
+    "GachaEpic": [0, 0, 0, 1000000, 0, 0],
+    "GachaLongEpic": [0, 0, 0, 1000000, 0, 0],
+    "GachaRare": [0, 0, 1000000, 0, 0, 0],
+    "GachaUncommon": [0, 1000000, 0, 0, 0, 0]
+  }
+}

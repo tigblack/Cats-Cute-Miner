@@ -1,0 +1,327 @@
+{
+  "schemaVersion": 1,
+  "observedAtUtc": "2026-10-16T12:18:27.071Z",
+  "app": {
+    "name": "Cats Cute Miner",
+    "packageName": "com.multicastgames.catscuteminer",
+    "playAppId": "4974963942177850884",
+    "developerId": "8879742639795815518",
+    "developerName": "MULTICAST GAMES"
+  },
+  "scope": {
+    "browserPageId": 4,
+    "method": "Rendered Play Console DOM through CDP port 9333, restricted to the Cats Cute Miner page target. No activation or window foreground action.",
+    "submittedForReview": false,
+    "buildUploaded": false,
+    "productionPublished": false
+  },
+  "declarations": [
+    {
+      "type": "Ads",
+      "url": "https://play.google.com/console/u/0/developers/8879742639795815518/app/4974963942177850884/app-content/ads-declaration?source=dashboard",
+      "question": "Does your app contain ads?",
+      "answer": "Yes, my app contains ads",
+      "status": "saved; actioned",
+      "saveConfirmation": "Change saved. Send for review in Publishing overview.",
+      "reloadReadback": {
+        "performed": true,
+        "selectedAnswer": "Yes, my app contains ads",
+        "selectedRadioStates": [
+          true,
+          false
+        ]
+      },
+      "basis": "Optional rewarded ads for consenting 16+; under-16 and unknown protected, no ads."
+    },
+    {
+      "type": "Sign in details",
+      "url": "https://play.google.com/console/u/0/developers/8879742639795815518/app/4974963942177850884/app-content/testing-credentials",
+      "question": "Is any part of your app restricted?",
+      "answer": "No",
+      "status": "saved; actioned",
+      "saveConfirmation": "Change saved. Send for review in Publishing overview.",
+      "reloadReadback": {
+        "performed": true,
+        "selectedAnswer": "No",
+        "selectedRadioStates": [
+          false,
+          true
+        ]
+      },
+      "basis": "No mandatory sign-in/account/credentials; core gameplay accessible without credentials. Optional purchases and neutral age screen do not require user login.",
+      "formCaveat": "Current Yes guidance also lists payments such as one-time products. No was explicitly authorized for this app by the task owner based on unrestricted core gameplay; optional consumable gem IAP still exists."
+    },
+    {
+      "type": "Government apps",
+      "url": "https://play.google.com/console/u/0/developers/8879742639795815518/app/4974963942177850884/app-content/government-apps",
+      "question": "Is your app developed by or on behalf of a government?",
+      "answer": "No",
+      "status": "saved; actioned",
+      "saveConfirmation": "Change saved. Send for review in Publishing overview.",
+      "reloadReadback": {
+        "performed": true,
+        "selectedAnswer": "No"
+      }
+    },
+    {
+      "type": "Financial features",
+      "url": "https://play.google.com/console/u/0/developers/8879742639795815518/app/4974963942177850884/app-content/finance",
+      "answer": "My app doesn't provide any financial features",
+      "otherFeaturesSelected": false,
+      "status": "saved; actioned",
+      "documentation": "At the moment, you're not required to submit any additional documentation for the financial features your app provides. If this changes, we'll let you know.",
+      "saveConfirmation": "Change saved. Send for review in Publishing overview.",
+      "reloadReadback": {
+        "performed": true,
+        "noneCheckboxSelected": true,
+        "allOtherCheckboxesSelected": false
+      },
+      "basis": "Consumable virtual gems in this game are not banking or financial services."
+    },
+    {
+      "type": "Health apps",
+      "url": "https://play.google.com/console/u/0/developers/8879742639795815518/app/4974963942177850884/app-content/health",
+      "answer": "My app does not have any health features",
+      "otherFeaturesSelected": false,
+      "status": "saved; actioned",
+      "regionalRequirements": "Currently, you're not required to provide any regional requirements for your app's health declaration. If this changes, we'll let you know",
+      "saveConfirmation": "Change saved. Send for review in Publishing overview.",
+      "reloadReadback": {
+        "performed": true,
+        "selectedAnswer": "My app does not have any health features",
+        "allOtherCheckboxesSelected": false
+      }
+    }
+  ],
+  "iarc": {
+    "questionnaireUrl": "https://play.google.com/console/u/0/developers/8879742639795815518/app/4974963942177850884/app-content/content-rating-iarc-questionnaire",
+    "overviewUrl": "https://play.google.com/console/u/0/developers/8879742639795815518/app/4974963942177850884/app-content/content-rating-overview?applied=true",
+    "email": "support@multicastgames.com",
+    "category": "Game",
+    "termsAccepted": true,
+    "answers": [
+      {
+        "question": "Does the game contain inferences of, references to, or depictions of violence, blood, or gory images? This includes violence directed at the player's character. Please note that this question does not refer to user-generated content.",
+        "answer": "No"
+      },
+      {
+        "question": "Does the game contain pictures or sounds likely to be scary, horrifying, or disturbing? Please note that this question does not refer to user-generated content.",
+        "answer": "No"
+      },
+      {
+        "question": "Does the game contain inferences of, references to, or depictions of sexuality, sexual violence, suggestiveness, dating games, revealing attire, or nudity? Please note that this question does not refer to user-generated content.",
+        "answer": "No"
+      },
+      {
+        "question": "Does the game contain gambling, simulations of casino gambling/bingo, or gambling themes? Please note that this question does not refer to user-generated content.",
+        "answer": "No"
+      },
+      {
+        "question": "Does the game contain any potentially offensive language? Please note that this question does not refer to user-generated content.",
+        "answer": "No"
+      },
+      {
+        "question": "Does the game contain any reference to or use of drugs, alcohol, or tobacco? Please note that this question does not refer to user-generated content.",
+        "answer": "No"
+      },
+      {
+        "question": "Does the game contain any bodily functions such as belching, flatulence, or vomiting when used for humorous purposes? Please note that this question does not refer to user-generated content.",
+        "answer": "No"
+      },
+      {
+        "question": "Does the game include the purchase or sale of digital goods, cash rewards, gift cards, play-to-earn features, convertible cryptocurrency rewards, or the issuance of transferable digital assets (e.g., NFTs)?",
+        "answer": "Yes"
+      },
+      {
+        "question": "Purchases of digital goods",
+        "answer": true
+      },
+      {
+        "question": "Cash Convertible Rewards - Cash rewards, real-world items of significant monetary value, convertible cryptocurrency rewards or other play-to-earn mechanics",
+        "answer": false
+      },
+      {
+        "question": "Issuance (e.g., minting) of transferable digital assets (e.g., NFTs)",
+        "answer": false
+      },
+      {
+        "question": "Can these purchases include random items where the purchaser doesn't know what specific items or features they will receive (e.g., loot boxes), the purchase of items that will be used to create or unlock an unknown item or feature (e.g., a key to unlock a loot box, material used to craft a random item), items that can improve the rate of earning random items (e.g., random drop boosts), or any other chance-based purchases?",
+        "answer": "Yes"
+      },
+      {
+        "question": "Does the game have a system for players to trade items with each other using real money or in-game currency purchased with real money? (e.g. auction house, item exchange)",
+        "answer": "No"
+      },
+      {
+        "question": "Does the game natively allow users to interact or exchange content with other users through voice communication, text, or sharing images or audio?",
+        "answer": "No"
+      },
+      {
+        "question": "Does the game share the user's current and precise physical location with other users?",
+        "answer": "No"
+      },
+      {
+        "question": "Does the game contain any swastikas, other Nazi symbols or propaganda deemed unconstitutional in Germany?",
+        "answer": "No"
+      },
+      {
+        "question": "Does the game contain any content that can substantially erode the national identity of the Republic of Korea by describing anti-national acts or distorting historical facts?",
+        "answer": "No"
+      },
+      {
+        "question": "Does the game advocate committing acts of terrorism?",
+        "answer": "No"
+      },
+      {
+        "question": "Does the game contain realistic descriptions of crimes (e.g., robbery, kidnapping) or techniques that can be used in criminal offenses?",
+        "answer": "No"
+      }
+    ],
+    "status": "Completed",
+    "questionnaireDraftSaveConfirmation": "Your changes have been saved",
+    "finalSaveConfirmation": "Questionnaire saved",
+    "submittedDisplay": "October 16, 2026, 4:17 PM",
+    "submittedDisplayTimezone": "Not stated by Console; preserved as display time, not converted to UTC.",
+    "certificateId": null,
+    "certificateIdDisplayed": "-",
+    "certificatePendingReason": "Console shows '-' in both current and previous questionnaire rows after reload; no ID was supplied.",
+    "ratings": [
+      {
+        "territory": "Australia",
+        "authority": "Australian Classification Board (ACB)",
+        "rating": "Mature",
+        "contentDescriptors": "Chance-Based In-Game Purchases",
+        "interactiveElements": "In-Game Purchases (Includes Random Items)"
+      },
+      {
+        "territory": "Brazil",
+        "authority": "Classificação Indicativa (ClassInd)",
+        "rating": "Rated 18+",
+        "contentDescriptors": "-",
+        "interactiveElements": "In-Game Purchases (Includes Random Items)"
+      },
+      {
+        "territory": "North America",
+        "authority": "Entertainment Software Rating Board (ESRB)",
+        "rating": "Everyone",
+        "contentDescriptors": "-",
+        "interactiveElements": "In-Game Purchases (Includes Random Items)"
+      },
+      {
+        "territory": "South Korea",
+        "authority": "Game Rating and Administration Committee (GRAC)",
+        "rating": "All ages",
+        "contentDescriptors": "Random Box",
+        "interactiveElements": "In-Game Purchases (Includes Random Items)"
+      },
+      {
+        "territory": "Taiwan",
+        "authority": "Digital Game Self-regulation Committee (DGSC)",
+        "rating": "General Public",
+        "contentDescriptors": "-",
+        "interactiveElements": "In-Game Purchases (Includes Random Items)"
+      },
+      {
+        "territory": "Saudi Arabia",
+        "authority": "General Authority of Media Regulation (Gmedia)",
+        "rating": "3",
+        "contentDescriptors": "-",
+        "interactiveElements": "In-Game Purchases (Includes Random Items)"
+      },
+      {
+        "territory": "Europe",
+        "authority": "Pan-European Game Information (PEGI)",
+        "rating": "PEGI 3",
+        "contentDescriptors": "-",
+        "interactiveElements": "In-Game Purchases (Includes Random Items)"
+      },
+      {
+        "territory": "Germany",
+        "authority": "Unterhaltungssoftware Selbstkontrolle (USK)",
+        "rating": "USK: Ages 12+",
+        "contentDescriptors": "Increased Incentives to Buy",
+        "interactiveElements": "In-Game Purchases (Includes Random Items)"
+      },
+      {
+        "territory": "Rest of world",
+        "authority": "IARC Generic",
+        "rating": "Rated for 3+",
+        "contentDescriptors": "-",
+        "interactiveElements": "In-Game Purchases (Includes Random Items)"
+      },
+      {
+        "territory": "Russia",
+        "authority": "Google Play",
+        "rating": "Rated for 3+",
+        "contentDescriptors": "-",
+        "interactiveElements": "In-Game Purchases (Includes Random Items)"
+      }
+    ],
+    "reloadReadback": {
+      "performed": true,
+      "status": "Completed",
+      "openedViewDetailsAfterReload": true,
+      "summaryText": "\nCategory\nGame\nDigital Purchases, Cash Convertible Rewards, or NFTs\nCan purchase digital goods\nCan include random prizes\nYour ratings\nAustralia\nRating authority: Australian Classification Board (ACB)\nRating\nMature\nContent descriptors\nChance-Based In-Game Purchases\nInteractive elements\nIn-Game Purchases (Includes Random Items)\nBrazil\nRating authority: Classificação Indicativa (ClassInd)\nRating\nRated 18+\nContent descriptors\n-\nInteractive elements\nIn-Game Purchases (Includes Random Items)\nNorth America\nRating authority: Entertainment Software Rating Board (ESRB)\nRating\nEveryone\nContent descriptors\n-\nInteractive elements\nIn-Game Purchases (Includes Random Items)\nSouth Korea\nRating authority: Game Rating and Administration Committee (GRAC)\nRating\nAll ages\nContent descriptors\nRandom Box\nInteractive elements\nIn-Game Purchases (Includes Random Items)\nTaiwan\nRating authority: Digital Game Self-regulation Committee (DGSC)\nRating\nGeneral Public\nContent descriptors\n-\nInteractive elements\nIn-Game Purchases (Includes Random Items)\nSaudi Arabia\nRating authority: General Authority of Media Regulation (Gmedia)\nRating\n3\nContent descriptors\n-\nInteractive elements\nIn-Game Purchases (Includes Random Items)\nEurope\nRating authority: Pan-European Game Information (PEGI)\nRating\nPEGI 3\nContent descriptors\n-\nInteractive elements\nIn-Game Purchases (Includes Random Items)\nGermany\nRating authority: Unterhaltungssoftware Selbstkontrolle (USK)\nRating\nUSK: Ages 12+\nContent descriptors\nIncreased Incentives to Buy\nInteractive elements\nIn-Game Purchases (Includes Random Items)\nRest of world\nRating authority: IARC Generic\nRating\nRated for 3+\nContent descriptors\n-\nInteractive elements\nIn-Game Purchases (Includes Random Items)\nRussia\nRating authority: Google Play\nRating\nRated for 3+\nContent descriptors\n-\nInteractive elements\nIn-Game Purchases (Includes Random Items)"
+    },
+    "basis": "Task-owner-confirmed gameplay: mining rocks only; no injury/combat against humans or animals; random card chests purchasable with gems obtainable by real-money IAP; no cash-out, gambling stakes, player trading, UGC, communication or location sharing."
+  },
+  "finalOverview": {
+    "url": "https://play.google.com/console/u/0/developers/8879742639795815518/app/4974963942177850884/app-content/overview",
+    "actionedCount": 6,
+    "actioned": [
+      "Health apps",
+      "Financial features",
+      "Government apps",
+      "Ads",
+      "Sign in details",
+      "Content ratings"
+    ],
+    "needAttentionCount": 4,
+    "needAttention": [
+      "Privacy policy",
+      "Target audience and content",
+      "Data safety",
+      "Advertising ID"
+    ],
+    "actionedReadbackText": " about the content of your app. This is to make sure your app complies with Google Play policies. Learn more\nNeed attention (4)\nActioned\n6 actioned declarations\nPolicy declarations that you've actioned are shown here. We'll let you know if we find any issues. To comply with Google Play policy, you should review the information you've provided regularly, and make sure that it's kept up to date.\nDeclaration\nLast edited\narrow_right\nHealth apps\nhelp\nOct 16, 2026\nManage\narrow_right\nFinancial features\nhelp\nOct 16, 2026\nManage\narrow_right\nGovernment apps\nhelp\nOct 16, 2026\nManage\narrow_right\nAds\nhelp\n-\nManage\narrow_right\nSign in details\nhelp\n-\nManage\narrow_right\nContent ratings\nhelp\n-\nManage\nProduct updates\nStatus dashboard\nHelp\n© 2026 Google\nPrivacy\nDeveloper Distribution Agreement\nTerms of Service"
+  },
+  "untouched": [
+    {
+      "type": "Target audience and content",
+      "reason": "Owner/parent is confirming lower mixed-audience age groups; studio 16+ default must not be applied."
+    },
+    {
+      "type": "Privacy policy",
+      "reason": "App-specific legal documents under review; no invented URL or studio 16+ policy substitution."
+    },
+    {
+      "type": "Data safety",
+      "reason": "Legal review and final SDK/mediation inventory pending."
+    },
+    {
+      "type": "Advertising ID",
+      "reason": "Outside authorized declaration scope; observed still needing attention."
+    }
+  ],
+  "remainingUncertainty": [
+    "IARC certificate ID is not yet returned (display '-').",
+    "Current Sign in details wording explicitly includes payments in its Yes examples; saved No per explicit authorization and unrestricted core gameplay, with optional consumable IAP disclosed here."
+  ],
+  "sanitization": "No cookies, tokens, passwords, network payloads, other app contents or unrelated tab data included.",
+  "parentReview": {
+    "observedAtUtc": "2026-10-16T12:35:01.910216+00:00",
+    "followupEvidence": "evidence/console-followup-current.json",
+    "correction": "No was a delegated interpretation, not an explicit user decision overriding current form. Saved App access No is not ready for submission.",
+    "targetAgeDecision": "User already confirmed6+ and adults; no further age clarification is needed.",
+    "advertisingIdNowCompleted": true
+  },
+  "noAdsReleaseOverride": {
+    "observedAtUtc": "2026-10-16T13:09:18.502666+00:00",
+    "userDecision": "Пока давай без MAX",
+    "currentAdsAnswer": "No",
+    "currentAdvertisingIdAnswer": "No",
+    "savedAndReloaded": true,
+    "evidenceRef": "evidence/no-max-console-readback.json",
+    "historicalAnswersPreserved": true
+  }
+}

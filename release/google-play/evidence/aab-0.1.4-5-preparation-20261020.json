@@ -1,0 +1,33 @@
+{
+  "recorded_at": "2026-10-20T15:28:34.703138+00:00",
+  "version_name": "0.1.4",
+  "version_code": 5,
+  "status": "complete",
+  "changes": [
+    "Optional neutral age selection only from Settings for previously unknown age",
+    "Independent provider choices off until explicit durable Save choices",
+    "Cancel/save failure does not apply a draft or initialize analytics",
+    "AppMetrica flush after saved consent and background, only for initialized consented provider",
+    "Immediate startup, ads off and earlier consent/protected ages preserved"
+  ],
+  "source_sha256": {
+    "Assets/Game/Scripts/Core/Outpost/Sim/IntegrationPrivacy.cs": "d819dfe5ccf3f592231b80f78c5e534c0a213d1fe88e0f0303c6357899113134",
+    "Assets/Game/Scripts/Runtime/Integrations/NeutralAgeFlow.cs": "e780df393600c9dbfe6cb4610487b82ac804c832bfad2f872aba7c6e7f4eed6c",
+    "Assets/Game/Scripts/Runtime/Integrations/GameSdkRuntime.cs": "ef299f5de36d1887bc1386792965971990f9523a452aecf15f89540c9ae3ce15",
+    "Assets/Game/Scripts/Runtime/Integrations/GameSdkRuntime.Telemetry.cs": "108adbb3b148546c508a4e18b8441d12555e6d3b7c15b1dd210762cf933b36ae",
+    "Assets/Game/Scripts/Runtime/Outpost/UI/OutpostHud.Settings.cs": "96f7113d31dafd9c34f955d6047803ff058682ebd0458d29bc486744c4000ff5",
+    "Assets/Game/Scripts/Runtime/Integrations/GameSdkConfiguration.cs": "45064091ac8ce19041e77858040cb7a30fd732ed051f2be6889081b972b84549",
+    "Assets/Game/Resources/Integrations/cats-cute-miner-sdk.json": "f10bf04af49e20dcf755b0468069ac576bfc65d6e544826f4ceabe832823f77d",
+    "Tools/GooglePlay/google_play_macos.py": "5b2f98e9a9d4f5b069f23226d824521b96ea8530a7f4b728c99cf24c7c0de2ec"
+  },
+  "playmode_tests_passed": 36,
+  "editmode_tests_passed": 18,
+  "python_builder_and_retention_tests_passed": 20,
+  "python_dex_detection_tests_passed": 3,
+  "device_dashboard_delivery_verified": false,
+  "new_store_upload": false,
+  "completed_at": "2026-10-20T15:33:50.730667+00:00",
+  "completion_ref": "release/google-play/evidence/aab-0.1.4-5-complete-20261020.json",
+  "artifact_sha256": "be10e6b2ae4aaf0518725f51b284e8bcaad218a7a880f7d01caf8d783334b759",
+  "artifact_bytes": 77794998
+}

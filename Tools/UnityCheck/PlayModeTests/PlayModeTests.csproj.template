@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><AssemblyName>CatMiners.Tests.PlayMode</AssemblyName></PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(AssetsDir)Tests\PlayMode\**\*.cs" />
+    <ProjectReference Include="..\..\CoreTests\CoreLib\CoreLib.csproj" />
+    <ProjectReference Include="..\Runtime\Runtime.csproj" />
+    <ProjectReference Include="..\DevTools\DevTools.csproj" />
+    <ProjectReference Include="..\Playable\Playable.csproj" />
+    <Reference Include="$(ScriptAssemblies)\Unity.InputSystem.dll" Private="false" />
+    <Reference Include="$(ScriptAssemblies)\Unity.InputSystem.TestFramework.dll" Private="false" />
+    <Reference Include="$(ScriptAssemblies)\Unity.TextMeshPro.dll" Private="false" />
+    <Reference Include="$(ScriptAssemblies)\UnityEngine.UI.dll" Private="false" />
+    <Reference Include="$(ScriptAssemblies)\UnityEngine.TestRunner.dll" Private="false" />
+    <Reference Include="$(UnityManaged)\UnityEngine\UnityEditor.*.dll" Private="false" />
+    <Reference Include="$(NUnitDll)" Private="false" />
+  </ItemGroup>
+</Project>

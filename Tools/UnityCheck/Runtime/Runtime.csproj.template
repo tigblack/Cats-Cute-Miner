@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><AssemblyName>CatMiners.Runtime</AssemblyName></PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(AssetsDir)Scripts\Runtime\**\*.cs" />
+    <ProjectReference Include="..\..\CoreTests\CoreLib\CoreLib.csproj" />
+    <Reference Include="$(ScriptAssemblies)\Unity.InputSystem.dll" Private="false" />
+    <Reference Include="$(ScriptAssemblies)\Unity.TextMeshPro.dll" Private="false" />
+    <Reference Include="$(ScriptAssemblies)\UnityEngine.UI.dll" Private="false" />
+  </ItemGroup>
+</Project>

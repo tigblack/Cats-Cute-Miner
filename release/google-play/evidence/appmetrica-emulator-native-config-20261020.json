@@ -1,0 +1,20 @@
+{
+  "native_stored_configuration_contains_expected_key": true,
+  "matching_config_field_paths": [
+    "/apikey"
+  ],
+  "native_config_field_names": [
+    "apikey",
+    "crash_enabled",
+    "crash_native_enabled",
+    "location_enabled",
+    "error_environment",
+    "data_sending_enabled",
+    "revenue_auto_tracking_enabled",
+    "sessions_auto_tracking_enabled",
+    "app_environment",
+    "additional_config"
+  ],
+  "android_utc": "2026-10-20T16:41:38Z",
+  "no_configuration_values_or_ids_emitted": true
+}

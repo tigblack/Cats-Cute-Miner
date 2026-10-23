@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-18",
+  "package": "com.multicastgames.catscuteminer",
+  "source": "Latest direct user reply",
+  "user_reply": "13+ там стояло",
+  "minimum_age": 13,
+  "target_age_groups": [
+    "13-15",
+    "16-17",
+    "18+"
+  ],
+  "supersedes_previous_minimum_age": 6,
+  "console_observation_ref": "release/google-play/evidence/console-publishing-readback-macos-20261018.json",
+  "protected_mode": "Allunder16 and unknown; no optional SDKs; no ads for any age",
+  "legal_process_confirmed": false,
+  "legal_documents_adopted": false,
+  "console_written": false,
+  "content_rating_changed": false
+}

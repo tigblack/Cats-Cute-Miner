@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="16" result="Passed" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.0211314">
+  <test-suite type="TestSuite" id="1257" name="Cat Miner: Idle Tycoon" fullname="Cat Miner: Idle Tycoon" runstate="Runnable" testcasecount="206" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.021131" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1247" name="CatMiners.Tests.PlayMode.dll" fullname="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/build/ci/Library/ScriptAssemblies/CatMiners.Tests.PlayMode.dll" runstate="Runnable" testcasecount="204" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.017464" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="98086" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1248" name="CatMiners" fullname="CatMiners" runstate="Runnable" testcasecount="204" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.016555" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1249" name="Tests" fullname="CatMiners.Tests" runstate="Runnable" testcasecount="204" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.015752" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1020" name="IntegrationTelemetryTests" fullname="CatMiners.Tests.IntegrationTelemetryTests" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" testcasecount="16" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.014096" total="16" passed="16" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1033" name="ClientResourceContainsPublishedDocumentsAndKeepsAdvertisingOff" fullname="CatMiners.Tests.IntegrationTelemetryTests.ClientResourceContainsPublishedDocumentsAndKeepsAdvertisingOff" methodname="ClientResourceContainsPublishedDocumentsAndKeepsAdvertisingOff" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" seed="1871492012" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.005106" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1037" name="EventTokensFailClosedForDuplicatesRevenueReuseAndInvalidSyntax" fullname="CatMiners.Tests.IntegrationTelemetryTests.EventTokensFailClosedForDuplicatesRevenueReuseAndInvalidSyntax" methodname="EventTokensFailClosedForDuplicatesRevenueReuseAndInvalidSyntax" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" seed="1553999968" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.000332" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1032" name="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles" fullname="CatMiners.Tests.IntegrationTelemetryTests.LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" testcasecount="11" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.002042" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1021" name="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/&quot;,&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/&quot;,True)" fullname="CatMiners.Tests.IntegrationTelemetryTests.LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/&quot;,&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/&quot;,True)" methodname="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" seed="1852397560" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.000697" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1022" name="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;https://multicastgames.com/cats-cute-miner/privacy/&quot;,&quot;https://multicastgames.com/cats-cute-miner/terms/&quot;,True)" fullname="CatMiners.Tests.IntegrationTelemetryTests.LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;https://multicastgames.com/cats-cute-miner/privacy/&quot;,&quot;https://multicastgames.com/cats-cute-miner/terms/&quot;,True)" methodname="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" seed="663616396" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.000032" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1023" name="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;&quot;,&quot;&quot;,False)" fullname="CatMiners.Tests.IntegrationTelemetryTests.LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;&quot;,&quot;&quot;,False)" methodname="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" seed="1525251292" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.000025" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1024" name="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;https://multicastgames.com/policy&quot;,&quot;https://multicastgames.com/termsofuse&quot;,False)" fullname="CatMiners.Tests.IntegrationTelemetryTests.LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;https://multicastgames.com/policy&quot;,&quot;https://multicastgames.com/termsofuse&quot;,False)" methodname="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" seed="1742376114" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.000023" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1025" name="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/&quot;,&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/&quot;,False)" fullname="CatMiners.Tests.IntegrationTelemetryTests.LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/&quot;,&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/&quot;,False)" methodname="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" seed="141944667" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.000029" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1026" name="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/&quot;,&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/&quot;,False)" fullname="CatMiners.Tests.IntegrationTelemetryTests.LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/&quot;,&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/&quot;,False)" methodname="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" seed="2074025221" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.000023" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1027" name="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;https://sites.aimulticast.org/other/cats-cute-miner-legal/privacy/&quot;,&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/&quot;,False)" fullname="CatMiners.Tests.IntegrationTelemetryTests.LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;https://sites.aimulticast.org/other/cats-cute-miner-legal/privacy/&quot;,&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/&quot;,False)" methodname="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" seed="1734571226" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.000022" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1028" name="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;https://sites.aimulticast.org.attacker.invalid/sargsyan/cats-cute-miner-legal/privacy/&quot;,&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/&quot;,False)" fullname="CatMiners.Tests.IntegrationTelemetryTests.LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;https://sites.aimulticast.org.attacker.invalid/sargsyan/cats-cute-miner-legal/privacy/&quot;,&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/&quot;,False)" methodname="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" seed="1599751719" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.000023" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1029" name="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/?redirect=other&quot;,&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/&quot;,False)" fullname="CatMiners.Tests.IntegrationTelemetryTests.LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/?redirect=other&quot;,&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/&quot;,False)" methodname="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" seed="295153439" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.000023" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1030" name="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/#draft&quot;,&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/&quot;,False)" fullname="CatMiners.Tests.IntegrationTelemetryTests.LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/#draft&quot;,&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/&quot;,False)" methodname="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" seed="1666885715" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.000021" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1031" name="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;http://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/&quot;,&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/&quot;,False)" fullname="CatMiners.Tests.IntegrationTelemetryTests.LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles(&quot;http://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/&quot;,&quot;https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/&quot;,False)" methodname="LegalDocumentsRequireOwnedCanonicalPagesAndCorrectRoles" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" seed="399322352" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.000022" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1036" name="MinuteClockDoesNotBackfillRevokedConsentOrRoundUpPartialMinute" fullname="CatMiners.Tests.IntegrationTelemetryTests.MinuteClockDoesNotBackfillRevokedConsentOrRoundUpPartialMinute" methodname="MinuteClockDoesNotBackfillRevokedConsentOrRoundUpPartialMinute" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" seed="2133337915" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.000321" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1035" name="MinuteClockRetainsFractionAcrossBackgroundAndRewardedIntervals" fullname="CatMiners.Tests.IntegrationTelemetryTests.MinuteClockRetainsFractionAcrossBackgroundAndRewardedIntervals" methodname="MinuteClockRetainsFractionAcrossBackgroundAndRewardedIntervals" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" seed="171693147" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.000114" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1034" name="NoAdsReleaseClearsStaleConsentAndNeverIssuesRewardCallbacks" fullname="CatMiners.Tests.IntegrationTelemetryTests.NoAdsReleaseClearsStaleConsentAndNeverIssuesRewardCallbacks" methodname="NoAdsReleaseClearsStaleConsentAndNeverIssuesRewardCallbacks" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" seed="1388968481" result="Passed" start-time="2026-10-19 19:33:26Z" end-time="2026-10-19 19:33:26Z" duration="0.001855" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[Saving results to: /Users/arthuri/Library/Application Support/CatMiners/Cat Miner_ Idle Tycoon/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

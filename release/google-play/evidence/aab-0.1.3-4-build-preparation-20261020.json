@@ -1,0 +1,28 @@
+{
+  "recorded_at": "2026-10-20T09:39:40.291561+00:00",
+  "request": "Build latest AAB and delete old builds, retain only one newest AAB",
+  "version_name": "0.1.3",
+  "version_code": 4,
+  "artifact_path_macos": "/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/release/google-play/builds/cat-miners-0.1.3-4-noads.aab",
+  "source_sha256": {
+    "Assets/Game/Scripts/Runtime/Integrations/NeutralAgeFlow.cs": "71b061f24fd581ff3da8e2c2473f8a5e1e18da00daab83161fe5f07108701841",
+    "Assets/Game/Scripts/Runtime/Integrations/GameSdkConfiguration.cs": "45064091ac8ce19041e77858040cb7a30fd732ed051f2be6889081b972b84549",
+    "Assets/Game/Scripts/Runtime/Integrations/GameSdkRuntime.cs": "10e5357aaa975777111fda3263b1f0594fc8dd2238c5bf233ab93058f78026ef",
+    "Tools/GooglePlay/google_play_macos.py": "5b2f98e9a9d4f5b069f23226d824521b96ea8530a7f4b728c99cf24c7c0de2ec",
+    "Tools/GooglePlay/inspect-aab.py": "7951f890a215386bd5f2ca363a51b546277c26b60145b06a61af044b23b2945c"
+  },
+  "unchanged_source_verification_ref": "release/google-play/evidence/startup-without-prompts-20261020.json",
+  "playmode_tests_passed": 29,
+  "android_player_compilation_exit_code": 0,
+  "python_builder_tests_passed": 20,
+  "python_dex_tests_passed": 3,
+  "retention_policy_ref": "release/google-play/artifact-retention.json",
+  "retention_guards": "signature and matching inspection/receipt SHA/package/code; no cleanup before success; newer-code files/symlinks stop deletion",
+  "browser_session": "expired; no Play read/write attempted; confirm code unused before upload",
+  "store_upload_requested_for_this_step": false,
+  "status": "complete",
+  "completed_at": "2026-10-20T09:43:09.669151+00:00",
+  "artifact_sha256": "8679875cf4d5cba1cd0663790e086b7ca3aa941ee5160ca7423e08ffd9e30a5d",
+  "artifact_bytes": 77792408,
+  "completion_ref": "release/google-play/evidence/aab-0.1.3-4-complete-20261020.json"
+}

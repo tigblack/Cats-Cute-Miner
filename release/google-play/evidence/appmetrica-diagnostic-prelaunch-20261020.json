@@ -1,0 +1,29 @@
+{
+  "at": "2026-10-20T17:14:29.161372+00:00",
+  "status": "diagnostic_apk_ready_waiting_for_separate_emulator_launch_approval",
+  "appId": 6374386,
+  "package": "com.multicastgames.catscuteminer",
+  "keyLiveCheckRef": "release/google-play/evidence/appmetrica-client-key-live-check-20261020.json",
+  "apkRef": "release/google-play/evidence/appmetrica-diagnostic-apk-20261020.json",
+  "apkInspectionRef": "release/google-play/evidence/appmetrica-diagnostic-apk-inspection-20261020.json",
+  "tests": {
+    "playModePassed": 46,
+    "playModeFailed": 0,
+    "macXml": "build/ci-logs/PlayMode-20261020-211054.xml",
+    "androidProductionApiCompilePassed": true,
+    "macLog": "build/ci-logs/Method-20261020-211327.log"
+  },
+  "sourceSha256": {
+    "Assets/Game/Scripts/Runtime/Integrations/AppMetricaDiagnostics.cs": "19bdb3586c66b8d670b2441e18739495e4041f6c373b643a868185daaa0e0938",
+    "Assets/Game/Scripts/Runtime/Integrations/AppMetricaNativeLog.cs": "968e9b54e74e871005620858c9c83a146fabf7b6f0a1498b69df5aee222bb2aa",
+    "Assets/Game/Scripts/Runtime/Integrations/AppMetricaConsole.cs": "fa7afb42e49c4d38effcd8f0b63eaf2252ae10eb9585b790de00284460c5e9f0",
+    "Assets/Game/Scripts/Runtime/Integrations/GameSdkRuntime.cs": "7c7d54c083999fca419f094f1e34f2041fe0a0eb8f24a8610753129bcd892d95",
+    "Assets/Game/Scripts/Runtime/Integrations/GameSdkRuntime.Telemetry.cs": "48ba06ddc1a8106c5baf899e1adae46b44d31e3cd88c02fd317bda1bf7503b6d",
+    "Assets/Game/Scripts/Editor/BuildAppMetricaDiagnostic.cs": "5f410c2a396076a36290dd4bb62a8cd490916bf4d9802b0b3d3dff0cc813beaa"
+  },
+  "nativeActivationVerifiedInNewBuild": false,
+  "nativeServerAcceptanceVerifiedInNewBuild": false,
+  "consoleVisualVerification": "pending",
+  "productionAabChanged": false,
+  "emulatorLaunchedForThisDiagnosticBuild": false
+}

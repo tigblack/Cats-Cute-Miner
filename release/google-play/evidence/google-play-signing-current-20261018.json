@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-10-18T17:50:19.308502+00:00",
+  "package": "com.multicastgames.catscuteminer",
+  "developer_id": "8879742639795815518",
+  "play_app_id": "4974963942177850884",
+  "console_url": "https://play.google.com/console/u/0/developers/8879742639795815518/app/4974963942177850884/keymanagement?hl=en",
+  "actor": "sargsyan@multicastgames.com",
+  "evidence_kind": "native_console_text",
+  "observed_upload_key_message": "Certificate fingerprints will be shown here after you upload your first app bundle",
+  "upload_key_certificate_registered": false,
+  "upload_key_certificate_sha256": null,
+  "registration_inference_basis": "Explicit Console message states the first app bundle has not yet supplied an upload certificate",
+  "app_signing_key": {
+    "manager": "Google Play",
+    "status": "In use",
+    "certificate_sha256": "675FB9F9798F6905D3504A3DDAFF0D473295CBDD48AEB82A879B6C00E42D27F0",
+    "change_requires_admin": true
+  },
+  "read_only": true,
+  "app_signing_changes_performed": false,
+  "upload_key_changes_performed": false,
+  "aab_uploaded": false,
+  "session_refresh_readback": "Authenticated Console rechecked after native consent; exact first-bundle message and own package unchanged"
+}

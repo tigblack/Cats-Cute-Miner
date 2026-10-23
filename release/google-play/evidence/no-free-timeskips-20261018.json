@@ -1,0 +1,55 @@
+{
+  "checked_at": "2026-10-18T21:02:03.036972+00:00",
+  "user_request": "убери бесплатные тайм скипы",
+  "store_version": "store-5",
+  "profile_store_version": 2,
+  "new_profile_starter_consumables": {},
+  "old_profile_migration": "Remove remaining old starter skip_1h and skip_4h once on load; no purchased inventory is involved, paid skips execute immediately",
+  "durations_minutes": [
+    10,
+    30,
+    60
+  ],
+  "prices_gems": [
+    50,
+    150,
+    350
+  ],
+  "checks": [
+    {
+      "mode": "EditMode",
+      "passed": 67,
+      "failed": 0,
+      "evidence_ref": "release/google-play/evidence/no-free-timeskips-store-save-20261018.xml",
+      "sha256": "3db23a9931c73f9564d87b6ae01495016d8f9dcf025c75093f09d1e232cc41b4"
+    },
+    {
+      "mode": "PlayMode",
+      "passed": 8,
+      "failed": 0,
+      "evidence_ref": "release/google-play/evidence/no-free-timeskips-store-ui-20261018.xml",
+      "sha256": "5b2123459c4d4170b4d8678b85466279a1006ba3580fcabd35709d5f9bdd4c6b"
+    }
+  ],
+  "passed_total": 75,
+  "limitations": [
+    "Unity Editor tests on Mac; no newly built/installed Android artifact",
+    "Existing static HTML ads and videos not rebuilt for this Unity gameplay change"
+  ],
+  "source_hashes": {
+    "Assets/Game/Resources/Outpost/store_catalog.json": "7ef7228c66917512117f28d8f844101f763febf1995068303884e804fbbb2942",
+    "Assets/Game/Scripts/Core/Outpost/Config/OutpostConfigSet.Defaults.cs": "48f3348386a4ab8c1e481ffed69b31e0bbf8828ed86a430304ed5742604bc8f3",
+    "Assets/Game/Scripts/Core/Outpost/Store/StoreService.cs": "4552ce053f873681ab8dd8c33af4daa5a3c3b3a4f7b3c83ab732f413dc386114",
+    "Assets/Game/Scripts/Core/Outpost/Sim/OutpostState.cs": "17ecb700ef237c689d72468dfe0a3bb35fa1d3f6914375d0d8f6cbe712a395ce",
+    "Assets/Game/Scripts/Runtime/Outpost/OutpostController.cs": "73f469c56b1e2bdbced7f9b56f2dce4d9b7227b7142e355e8386f94c955705ba",
+    "Assets/Game/Scripts/Playable/PlayableBalance.cs": "7b2cbcd6d3e34c0731c58f092ceacd9e1567a096b67d6e15dfc9024009a43acd",
+    "Assets/Game/Scripts/Core/Text/Loc.Playable.cs": "4f3646f348bac163d21cd749748d08f6874be1747b1628cf21874099c23a3456",
+    "Assets/Game/Tests/EditMode/Outpost/OutpostStoreTests.cs": "d1a65dc5196624d887697fa40eb35281df29757930eb45354e5c0df1d64fea4c",
+    "Assets/Game/Tests/EditMode/Outpost/OutpostSaveTests.cs": "35e0a343d5e30bccf220d291fe5e53c21d379eba192ef91a87e60f5791d75244",
+    "Assets/Game/Tests/PlayMode/Outpost/OutpostStoreUiTests.cs": "e00685b5fdb746d4849ffe1b904c9c2ea8432b0cf925ce0872858a784407efac",
+    "Assets/Game/Tests/PlayMode/Outpost/OutpostRuntimeTests.cs": "1d99f8bdf866a7592ac926ea328f8967b7c77aa332e3879279c02c0c25e50ffd",
+    "Assets/Game/Tests/PlayMode/Playable/PlayableTests.cs": "1c0fb81754c7c07bffa19401612f86e5c02a898c382916854689936156dcebc1",
+    "Assets/Game/Tests/PlayMode/Outpost/OutpostEnglishUiEvidenceTests.cs": "5ab12c5c2c1f659339f604422fd528cb75d8476eeba9de57668d535f0dfdb103",
+    "Assets/Game/Tests/PlayMode/Outpost/AdCaptureTests.cs": "009459ba927635e034080e1f92efa54a8b56acc4c1dd01850a1b1cd620455f15"
+  }
+}

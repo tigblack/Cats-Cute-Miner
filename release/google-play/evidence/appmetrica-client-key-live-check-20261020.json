@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-10-20T17:02:14.568Z",
+  "url": "https://appmetrica.yandex.ru/application/edit?type=edit&appId=6374386&period=2026-10-12%3A2026-10-20&group=day&currency=rub&accuracy=medium",
+  "appId": 6374386,
+  "gameTitlePresent": true,
+  "sdkSpecificKeyFieldRead": true,
+  "configuredClientKeyMatchesLiveDashboard": true,
+  "valuesOrCredentialsEmitted": false,
+  "changed": false
+}

@@ -1,0 +1,35 @@
+{
+  "checked_at": "2026-10-18T22:06:34.579089+00:00",
+  "request": "исправь ошибки в Юнити",
+  "root_cause": "Identical legacy Assets/MaxSdk/Scripts/MaxUserData.cs and official UPM SDK source shared a GUID. Unity ignored the immutable package source and reported CS0246 from MaxSdkAndroid and MaxSdkUnityEditor.",
+  "removed_files": [
+    "Assets/MaxSdk/Scripts/MaxUserData.cs",
+    "Assets/MaxSdk/Scripts/MaxUserData.cs.meta"
+  ],
+  "confirmed_duplicate_source_sha256": "56b0fbea206bb9c91a4efdd20e277983cf1c1bf2aab0043d755c8b0f859cf4cf",
+  "duplicate_GUID": "63e1181a1f2e47d5b3ff52c45f589677",
+  "UPM_SDK_version_preserved": "8.6.6",
+  "SDK_key_settings_preserved": true,
+  "Mac_source_deletion_verified": true,
+  "remaining_MAX_GUID_collisions": 0,
+  "verification": {
+    "editor_compile": {
+      "exit_code": 0,
+      "log_ref": "build/ci-logs/Compile-20261019-020304.log"
+    },
+    "android_player_API_compile": {
+      "exit_code": 0,
+      "log_ref": "build/ci-logs/Method-20261019-020530.log"
+    },
+    "warnings_remaining": [
+      "Existing CS0162 unreachable code warning",
+      "Existing MAX SetSdkKey deprecation warning"
+    ]
+  },
+  "live_editor": {
+    "automatic_refresh_click": "macOS denied osascript assistive access",
+    "manual_action_requested": "Assets > Refresh (Command+R)",
+    "new_live_log_events_after_fix": false,
+    "console_after_manual_refresh_verified": false
+  }
+}

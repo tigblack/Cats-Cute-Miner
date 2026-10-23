@@ -1,0 +1,42 @@
+{
+  "checkedAt": "2026-10-16T12:24:28.534Z",
+  "status": 200,
+  "userRole": 38,
+  "relevantGrants": [
+    "view_account_ad_review_key",
+    "view_account_keys",
+    "view_mediation_full_network_access",
+    "edit_mediation_test_mode",
+    "view_account_report_key",
+    "view_mediation_ad_unit_unity_bidding",
+    "view_mediation_docs",
+    "view_mediation_performance_reports",
+    "view_mediation_test_modes",
+    "view_mediation_user_performance_report",
+    "view_pub_adv_mediation_analytics_reports",
+    "view_pub_adv_mediation_reports"
+  ],
+  "sdkKeyGrants": [],
+  "userManagementGrants": [],
+  "adUnitsMenuPresent": false,
+  "networkManagementMenuPresent": false,
+  "account": "develop@multicastgames.com",
+  "source": "Current authenticated dashboard GET /o/v1/menu, actual frontend request, cache=no-store",
+  "keysPageVisibleFields": [
+    "Report Key",
+    "Ad Review Key"
+  ],
+  "sdkKeyFieldPresent": false,
+  "accountSwitchMenu": "Account and Log out only; no account switch",
+  "canonicalEntry": "dash.applovin.com/account#keys redirects to max.applovin.com/o/account#keys",
+  "adUnitsDirectCheck": {
+    "source": "Official AppLovin Create an ad unit documentation link",
+    "requested": "https://dash.applovin.com/o/mediation/ad_units/",
+    "serverFrameResponse": "https://max.applovin.com/mediation/ad_units/?r=3 ->302 / ->302 /o/mediation/performance",
+    "finalPage": "MAX - Performance",
+    "adUnitManagementOpened": false
+  },
+  "noRoleMeaningInferredFromNumericValue": true,
+  "noPermissionsChanged": true,
+  "noSecretsReadOrExported": true
+}

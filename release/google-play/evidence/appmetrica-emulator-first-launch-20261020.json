@@ -1,0 +1,18 @@
+{
+  "recorded_at": "2026-10-20T16:29:18.332592+00:00",
+  "owner_approved_install_and_one_launch": true,
+  "emulator_sdk_and_image_installed": true,
+  "approved_launch_attempted": true,
+  "android_booted": false,
+  "game_apk_installed_into_emulator": false,
+  "game_started": false,
+  "appmetrica_runtime_test_started": false,
+  "failure_scope": "Emulator environment, before Android boot and before game installation",
+  "failure": "The emulator rejected the isolated SDK root because platform-tools was absent",
+  "correction": "Add project-local platform-tools and Android platform; validate SDK root, AVD image and hypervisor before asking for another launch",
+  "automatic_restart_performed": false,
+  "second_launch_approval": "requested_pending_owner_reply",
+  "game_source_modified": false,
+  "release_aab_changed": false,
+  "correction_completed": true
+}

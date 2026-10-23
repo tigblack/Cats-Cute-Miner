@@ -1,0 +1,82 @@
+{
+  "checked_at": "2026-10-14T12:58:32.533482+00:00",
+  "account": {
+    "actor": "sargsyan@multicastgames.com",
+    "role": "user",
+    "monetization": true,
+    "admin": false
+  },
+  "route": "Actual API client imported from current frontend; read-only GET",
+  "reads": {
+    "panel": {
+      "route": "panel browser API client GET /projects",
+      "status": "ready_for_discovery",
+      "target_operation": "read existing apps/resources",
+      "checked_at": "2026-10-14T12:58:32.533482+00:00",
+      "record_count": 166,
+      "matching_game_records": 0,
+      "create_permission": "not_verified",
+      "evidence_ref": "release/google-play/evidence/service-access.json"
+    },
+    "google_play_lookup": {
+      "route": "panel browser API client GET /google-play-apps",
+      "status": "ready_for_discovery",
+      "target_operation": "read existing apps/resources",
+      "checked_at": "2026-10-14T12:58:32.533482+00:00",
+      "record_count": 50,
+      "matching_game_records": 0,
+      "create_permission": "not_verified",
+      "evidence_ref": "release/google-play/evidence/service-access.json"
+    },
+    "appmetrica": {
+      "route": "panel browser API client GET /appmetrica-apps",
+      "status": "ready_for_discovery",
+      "target_operation": "read existing apps/resources",
+      "checked_at": "2026-10-14T12:58:32.533482+00:00",
+      "record_count": 110,
+      "matching_game_records": 0,
+      "create_permission": "not_verified",
+      "evidence_ref": "release/google-play/evidence/service-access.json"
+    },
+    "adjust": {
+      "route": "panel browser API client GET /adjust-apps",
+      "status": "ready_for_discovery",
+      "target_operation": "read existing apps/resources",
+      "checked_at": "2026-10-14T12:58:32.533482+00:00",
+      "record_count": 95,
+      "matching_game_records": 0,
+      "create_permission": "not_verified",
+      "evidence_ref": "release/google-play/evidence/service-access.json"
+    },
+    "meta": {
+      "route": "panel browser API client GET /facebook-apps",
+      "status": "ready_for_discovery",
+      "target_operation": "read existing apps/resources",
+      "checked_at": "2026-10-14T12:58:32.533482+00:00",
+      "record_count": 133,
+      "matching_game_records": 0,
+      "create_permission": "not_verified",
+      "evidence_ref": "release/google-play/evidence/service-access.json"
+    },
+    "max": {
+      "route": "panel browser API client GET /monetization/ad-units",
+      "status": "ready_for_discovery",
+      "target_operation": "read existing apps/resources",
+      "checked_at": "2026-10-14T12:58:32.533482+00:00",
+      "record_count": 50,
+      "matching_game_records": 0,
+      "create_permission": "not_verified",
+      "evidence_ref": "release/google-play/evidence/service-access.json"
+    }
+  },
+  "meta_provision_health": {
+    "configured": true,
+    "verification": "Actual GET /facebook-apps/provision/health"
+  },
+  "limitations": [
+    "No application created; no provider settings changed",
+    "Name/package search matched no Cats Cute Miner records in returned lists; pagination/full identity search required before creation",
+    "Play lookup is not upload or internal-release authorization",
+    "MAX list contains 50 returned records; filtered exact-package read needed"
+  ]
+}

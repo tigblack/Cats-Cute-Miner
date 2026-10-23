@@ -1,0 +1,14 @@
+{
+  "action": "max_rewarded_create",
+  "created": true,
+  "success": true,
+  "id": "f27564b55995aa89",
+  "name": "Cats Cute Miner Android Rewarded",
+  "package": "com.multicastgames.catscuteminer",
+  "format": "REWARD",
+  "platform": "android",
+  "disabled": false,
+  "mediation_network_count": 0,
+  "verified": true,
+  "checked_at": "2026-10-14T13:15:36.690Z"
+}

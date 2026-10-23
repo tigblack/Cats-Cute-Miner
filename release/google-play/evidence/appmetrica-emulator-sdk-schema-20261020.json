@@ -1,0 +1,273 @@
+{
+  "emulator_only": true,
+  "files_copied_privately": 19,
+  "databases": [
+    {
+      "database_id": "25ec2e3583c2",
+      "database_name": "com.google.android.datatransport.events",
+      "tables": [
+        {
+          "name": "android_metadata",
+          "columns": [
+            "locale"
+          ],
+          "rows": 1
+        },
+        {
+          "name": "events",
+          "columns": [
+            "_id",
+            "context_id",
+            "transport_name",
+            "timestamp_ms",
+            "uptime_ms",
+            "payload",
+            "code",
+            "num_attempts",
+            "payload_encoding",
+            "inline"
+          ],
+          "rows": 0
+        },
+        {
+          "name": "event_metadata",
+          "columns": [
+            "_id",
+            "event_id",
+            "name",
+            "value"
+          ],
+          "rows": 0
+        },
+        {
+          "name": "transport_contexts",
+          "columns": [
+            "_id",
+            "backend_name",
+            "priority",
+            "next_request_ms",
+            "extras"
+          ],
+          "rows": 1
+        },
+        {
+          "name": "event_payloads",
+          "columns": [
+            "sequence_num",
+            "event_id",
+            "bytes"
+          ],
+          "rows": 0
+        },
+        {
+          "name": "log_event_dropped",
+          "columns": [
+            "log_source",
+            "reason",
+            "events_dropped_count"
+          ],
+          "rows": 0
+        },
+        {
+          "name": "global_log_event_state",
+          "columns": [
+            "last_metrics_upload_ms"
+          ],
+          "rows": 1
+        }
+      ]
+    },
+    {
+      "database_id": "0de1fde6432f",
+      "database_name": "auto_inapp.db",
+      "tables": [
+        {
+          "name": "android_metadata",
+          "columns": [
+            "locale"
+          ],
+          "rows": 1
+        },
+        {
+          "name": "binary_data",
+          "columns": [
+            "data_key",
+            "value"
+          ],
+          "rows": 0
+        }
+      ]
+    },
+    {
+      "database_id": "c4d8afe9cf43",
+      "database_name": "client.db",
+      "tables": [
+        {
+          "name": "android_metadata",
+          "columns": [
+            "locale"
+          ],
+          "rows": 1
+        },
+        {
+          "name": "preferences",
+          "columns": [
+            "key",
+            "value",
+            "type"
+          ],
+          "rows": 19
+        }
+      ]
+    },
+    {
+      "database_id": "9a6841a8c5f5",
+      "database_name": "component_[key].db",
+      "tables": [
+        {
+          "name": "android_metadata",
+          "columns": [
+            "locale"
+          ],
+          "rows": 1
+        },
+        {
+          "name": "events",
+          "columns": [
+            "id",
+            "session_id",
+            "session_type",
+            "number_in_session",
+            "type",
+            "global_number",
+            "time",
+            "event_description"
+          ],
+          "rows": 0
+        },
+        {
+          "name": "sessions",
+          "columns": [
+            "id",
+            "type",
+            "report_request_parameters",
+            "session_description"
+          ],
+          "rows": 1
+        },
+        {
+          "name": "preferences",
+          "columns": [
+            "key",
+            "value",
+            "type"
+          ],
+          "rows": 3
+        },
+        {
+          "name": "binary_data",
+          "columns": [
+            "data_key",
+            "value"
+          ],
+          "rows": 1
+        }
+      ]
+    },
+    {
+      "database_id": "737faf56a3de",
+      "database_name": "component_main.db",
+      "tables": [
+        {
+          "name": "android_metadata",
+          "columns": [
+            "locale"
+          ],
+          "rows": 1
+        },
+        {
+          "name": "events",
+          "columns": [
+            "id",
+            "session_id",
+            "session_type",
+            "number_in_session",
+            "type",
+            "global_number",
+            "time",
+            "event_description"
+          ],
+          "rows": 0
+        },
+        {
+          "name": "sessions",
+          "columns": [
+            "id",
+            "type",
+            "report_request_parameters",
+            "session_description"
+          ],
+          "rows": 2
+        },
+        {
+          "name": "preferences",
+          "columns": [
+            "key",
+            "value",
+            "type"
+          ],
+          "rows": 7
+        },
+        {
+          "name": "binary_data",
+          "columns": [
+            "data_key",
+            "value"
+          ],
+          "rows": 1
+        }
+      ]
+    },
+    {
+      "database_id": "623fb1ac96ff",
+      "database_name": "service_main.db",
+      "tables": [
+        {
+          "name": "android_metadata",
+          "columns": [
+            "locale"
+          ],
+          "rows": 1
+        },
+        {
+          "name": "preferences",
+          "columns": [
+            "key",
+            "value",
+            "type"
+          ],
+          "rows": 13
+        },
+        {
+          "name": "binary_data",
+          "columns": [
+            "data_key",
+            "value"
+          ],
+          "rows": 3
+        },
+        {
+          "name": "temp_cache",
+          "columns": [
+            "id",
+            "scope",
+            "data",
+            "timestamp"
+          ],
+          "rows": 0
+        }
+      ]
+    }
+  ],
+  "no_field_values_emitted": true
+}

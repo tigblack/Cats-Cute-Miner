@@ -1,0 +1,10 @@
+{
+  "latest": "release/google-play/builds/cat-miners-0.1.4-5-noads.aab",
+  "sha256": "be10e6b2ae4aaf0518725f51b284e8bcaad218a7a880f7d01caf8d783334b759",
+  "bytes": 77794998,
+  "removed_hub_artifacts": [],
+  "remaining_aabs": [
+    "release/google-play/builds/cat-miners-0.1.4-5-noads.aab"
+  ],
+  "partial_files": []
+}

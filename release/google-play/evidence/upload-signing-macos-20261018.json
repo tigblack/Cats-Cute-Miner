@@ -1,0 +1,12 @@
+{
+  "keystore": "/Users/arthuri/MulticastSigning/com.multicastgames.catscuteminer/first-upload-20261018/upload.jks",
+  "secretRef": "/Users/arthuri/MulticastSigning/com.multicastgames.catscuteminer/first-upload-20261018/signing.secret.json",
+  "alias": "upload",
+  "certificateSha256": "EEA987A598F655D08FD47BA2F336707E6E9EC37F71DB0968E387070E0607AC19",
+  "certificateSha1": "2BE231F08BED35BA37A2F905AAEDD6DCEF2BE8E6",
+  "metaUploadKeyHash": "K+Ix8IvtNbo3ovkFqu3W3O8r6OY=",
+  "status": "first_upload_key_verified",
+  "first_upload_evidence_ref": "release/google-play/evidence/google-play-signing-current-20261018.json",
+  "package": "com.multicastgames.catscuteminer",
+  "checked_at": "2026-10-18T17:50:40.507Z"
+}

@@ -1,0 +1,17 @@
+{
+  "scope": "Read-only own-app discovery via the authenticated SuperLeo frontend client; no SDK or registration changes",
+  "package": "com.multicastgames.catscuteminer",
+  "ok": true,
+  "result": {
+    "read_completed": true,
+    "success": true,
+    "list_available": true,
+    "matching_count": 0,
+    "matches": [],
+    "writes_performed": false,
+    "http_status": 200
+  },
+  "checked_at": "2026-10-18T17:55:03.364191+00:00",
+  "runtime_key_configured": false,
+  "repeat_readback": "HTTP200, success=true, matching_count=0; no registration or SDK configuration writes"
+}

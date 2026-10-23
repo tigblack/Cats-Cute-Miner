@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "stage": "device_qa",
+  "created_at": "2026-10-14T12:58:32.533482+00:00",
+  "scope": {
+    "game": "Cats Cute Miner",
+    "engine": "Unity",
+    "platform": "Android",
+    "track": "internal",
+    "package_name": "com.multicastgames.catscuteminer"
+  },
+  "requirements": [
+    {
+      "id": "device_qa.1",
+      "requirement": "Install exact AAB via internal track",
+      "applicability": "required",
+      "source_ref": "google-play-publish/SKILL.md",
+      "verification": "Actual readback, build or device evidence as appropriate"
+    },
+    {
+      "id": "device_qa.2",
+      "requirement": "Consent and actual SDK event delivery",
+      "applicability": "required",
+      "source_ref": "google-play-publish/SKILL.md",
+      "verification": "Actual readback, build or device evidence as appropriate"
+    },
+    {
+      "id": "device_qa.3",
+      "requirement": "Rewarded lifecycle and purchased product delivery/recovery",
+      "applicability": "required",
+      "source_ref": "google-play-publish/SKILL.md",
+      "verification": "Actual readback, build or device evidence as appropriate"
+    }
+  ]
+}

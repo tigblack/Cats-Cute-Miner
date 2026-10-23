@@ -1,0 +1,119 @@
+{
+  "checked_at": "2026-10-19T14:13:38.003885+00:00",
+  "package": "com.multicastgames.catscuteminer",
+  "game_id": "gm_cats_cute_miner",
+  "status": "catalog_and_runtime_prepared_Play_creation_waiting_for_billing_internal_release",
+  "owner_request": "что осталось сделать для релиза игры Добавь инапы",
+  "products": [
+    {
+      "sku": "gems_handful",
+      "type": "consumable",
+      "gems": 160,
+      "base_price_usd": "1.99",
+      "approved": true,
+      "local_catalog_matches": true,
+      "runtime_rules_match": true,
+      "backend_registration_previously_verified": true,
+      "google_play_created": false
+    },
+    {
+      "sku": "gems_sack",
+      "type": "consumable",
+      "gems": 500,
+      "base_price_usd": "5.99",
+      "approved": true,
+      "local_catalog_matches": true,
+      "runtime_rules_match": true,
+      "backend_registration_previously_verified": true,
+      "google_play_created": false
+    },
+    {
+      "sku": "gems_bag",
+      "type": "consumable",
+      "gems": 1200,
+      "base_price_usd": "11.99",
+      "approved": true,
+      "local_catalog_matches": true,
+      "runtime_rules_match": true,
+      "backend_registration_previously_verified": true,
+      "google_play_created": false
+    },
+    {
+      "sku": "gems_crate",
+      "type": "consumable",
+      "gems": 2500,
+      "base_price_usd": "22.99",
+      "approved": true,
+      "local_catalog_matches": true,
+      "runtime_rules_match": true,
+      "backend_registration_previously_verified": true,
+      "google_play_created": false
+    },
+    {
+      "sku": "gems_cart",
+      "type": "consumable",
+      "gems": 6500,
+      "base_price_usd": "59.99",
+      "approved": true,
+      "local_catalog_matches": true,
+      "runtime_rules_match": true,
+      "backend_registration_previously_verified": true,
+      "google_play_created": false
+    },
+    {
+      "sku": "gems_pile",
+      "type": "consumable",
+      "gems": 14000,
+      "base_price_usd": "119.99",
+      "approved": true,
+      "local_catalog_matches": true,
+      "runtime_rules_match": true,
+      "backend_registration_previously_verified": true,
+      "google_play_created": false
+    }
+  ],
+  "prepared_import_ref": "release/google-play/iap-import.prepared.json",
+  "prepared_import_sha256": "a62ad331822e84b6621a081df965a3501e9865934712ae9100f41076e8b8735b",
+  "approved_catalog_ref": "release/google-play/iap-catalog.approved.json",
+  "current_store_version": "store-5",
+  "price_or_reward_changes": false,
+  "distribution": "all_available_except_BR; automatic Google regional prices per prior approval",
+  "installed_iap_unity_version": "5.2.1",
+  "declared_google_billing_version": "8.3.0",
+  "native_billing_resolution_verified": false,
+  "source_compile_ref": "release/google-play/evidence/no-ads-first-release-android-api-20261019.json",
+  "prior_payment_privacy_reward_tests_ref": "release/google-play/evidence/no-ads-first-release-editmode-20261019.xml",
+  "prior_store_ui_tests_ref": "release/google-play/evidence/no-ads-first-release-playmode-20261019.xml",
+  "macos_preflight_ref": "release/google-play/evidence/iap-build-preflight-20261019.json",
+  "preflight_fix": "Ignore main-project AssetImportWorkerHW processes as release-mirror locks; actual batch jobs and any Unity process on the release mirror still block.",
+  "preflight_and_signing_guard_tests": {
+    "total": 10,
+    "passed": 10,
+    "failed": 0,
+    "command": "python3 -m unittest discover -s Tools/GooglePlay -p test_google_play_macos_*.py"
+  },
+  "new_external_product_writes": false,
+  "backend_current_readback": "six_correct_consumable_products_verified_in_SuperLeo",
+  "google_play_current_readback": "empty_products_BILLING_prerequisite_no_internal_releases_or_bundles",
+  "browser_session_refresh": "succeeded_native_capture_and_authenticated_readbacks",
+  "native_build_launched": false,
+  "aab_built": false,
+  "uploaded": false,
+  "internal_released": false,
+  "device_purchase_tested": false,
+  "remaining": [
+    "Actual support/parental-access-retention-deletion process, adoption and hosting of game-specific13+ no-ads legal documents",
+    "Configure adopted legal URLs; complete native configuration and final signed Billing AAB with ABI/manifest/16KB verification",
+    "Release the verified AAB to internal; then create and activate six approved Play products and read back metadata",
+    "Test license purchase, server verification, durable gem delivery/confirmation/relaunch/recovery and eligible AppMetrica delivery",
+    "Reconcile remaining Console declarations and submit production after release gates"
+  ],
+  "source_sha256": {
+    "Tools/GooglePlay/google_play_macos.py": "389c4357ed80a57bd8a880393bf848e2566023e24bc3f164a489b138942a9f45",
+    "Tools/GooglePlay/test_google_play_macos_processes.py": "2ea878cd8899dd02c1dbe330d0580981e19df01c37c64c150afd7035248be3fc",
+    "Assets/Game/Resources/Outpost/store_catalog.json": "7ef7228c66917512117f28d8f844101f763febf1995068303884e804fbbb2942",
+    "Assets/Game/Scripts/Core/Outpost/Purchasing/PaymentDelivery.cs": "d6d4c7cb9b7306e24132e8473f86c979c9a2d71e0055b95ec30cd3e61ab55748",
+    "Assets/Game/Scripts/Runtime/Purchasing/GooglePaymentsRuntime.cs": "c07dbd7756f159b7110d619a55d88e0e85935a743580049d2ca98b1529c3f663"
+  },
+  "current_console_and_backend_ref": "release/google-play/evidence/iap-console-access-20261019.json"
+}

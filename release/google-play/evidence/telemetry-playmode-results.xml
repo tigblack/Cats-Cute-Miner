@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="4" result="Passed" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-16 09:33:18Z" end-time="2026-10-16 09:33:25Z" duration="7.0070745">
+  <test-suite type="TestSuite" id="1231" name="Cats Cute Miner" fullname="Cats Cute Miner" runstate="Runnable" testcasecount="184" result="Passed" start-time="2026-10-16 09:33:18Z" end-time="2026-10-16 09:33:25Z" duration="7.007075" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1219" name="CatMiners.Tests.PlayMode.dll" fullname="C:/Unity Projects/Cats Cute Miner/build/ci/Library/ScriptAssemblies/CatMiners.Tests.PlayMode.dll" runstate="Runnable" testcasecount="180" result="Passed" start-time="2026-10-16 09:33:18Z" end-time="2026-10-16 09:33:25Z" duration="6.993446" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="151048" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1220" name="CatMiners" fullname="CatMiners" runstate="Runnable" testcasecount="180" result="Passed" start-time="2026-10-16 09:33:18Z" end-time="2026-10-16 09:33:25Z" duration="6.990602" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1221" name="Tests" fullname="CatMiners.Tests" runstate="Runnable" testcasecount="180" result="Passed" start-time="2026-10-16 09:33:18Z" end-time="2026-10-16 09:33:25Z" duration="6.988448" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1020" name="IntegrationTelemetryTests" fullname="CatMiners.Tests.IntegrationTelemetryTests" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-16 09:33:18Z" end-time="2026-10-16 09:33:18Z" duration="0.045090" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1023" name="EventTokensFailClosedForDuplicatesRevenueReuseAndInvalidSyntax" fullname="CatMiners.Tests.IntegrationTelemetryTests.EventTokensFailClosedForDuplicatesRevenueReuseAndInvalidSyntax" methodname="EventTokensFailClosedForDuplicatesRevenueReuseAndInvalidSyntax" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" seed="167958575" result="Passed" start-time="2026-10-16 09:33:18Z" end-time="2026-10-16 09:33:18Z" duration="0.021010" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1022" name="MinuteClockDoesNotBackfillRevokedConsentOrRoundUpPartialMinute" fullname="CatMiners.Tests.IntegrationTelemetryTests.MinuteClockDoesNotBackfillRevokedConsentOrRoundUpPartialMinute" methodname="MinuteClockDoesNotBackfillRevokedConsentOrRoundUpPartialMinute" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" seed="410102656" result="Passed" start-time="2026-10-16 09:33:18Z" end-time="2026-10-16 09:33:18Z" duration="0.001923" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1021" name="MinuteClockRetainsFractionAcrossBackgroundAndRewardedIntervals" fullname="CatMiners.Tests.IntegrationTelemetryTests.MinuteClockRetainsFractionAcrossBackgroundAndRewardedIntervals" methodname="MinuteClockRetainsFractionAcrossBackgroundAndRewardedIntervals" classname="CatMiners.Tests.IntegrationTelemetryTests" runstate="Runnable" seed="2043602921" result="Passed" start-time="2026-10-16 09:33:18Z" end-time="2026-10-16 09:33:18Z" duration="0.000622" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1096" name="OutpostGooglePlayEvidenceTests" fullname="CatMiners.Tests.OutpostGooglePlayEvidenceTests" classname="CatMiners.Tests.OutpostGooglePlayEvidenceTests" runstate="Explicit" testcasecount="1" result="Passed" start-time="2026-10-16 09:33:18Z" end-time="2026-10-16 09:33:25Z" duration="6.934661" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties>
+              <property name="_SKIPREASON" value="Google Play gameplay captures and caption compositions" />
+            </properties>
+            <test-case id="1097" name="CaptureStoreScreens" fullname="CatMiners.Tests.OutpostGooglePlayEvidenceTests.CaptureStoreScreens" methodname="CaptureStoreScreens" classname="CatMiners.Tests.OutpostGooglePlayEvidenceTests" runstate="Runnable" seed="397472875" result="Passed" start-time="2026-10-16 09:33:18Z" end-time="2026-10-16 09:33:25Z" duration="6.930840" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[Saving results to: C:/Users/arutt/AppData/LocalLow/CatMiners/Cats Cute Miner\TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

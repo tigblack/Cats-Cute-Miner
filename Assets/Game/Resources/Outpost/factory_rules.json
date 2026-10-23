@@ -1,0 +1,28 @@
+{
+  "Version": "factories-1",
+  "PriceRate": "4",
+  "PipeSpeedCellsPerSec": "6",
+  "MinTransitSec": "1",
+  "Goods": [
+    { "TypeId": "amethyst", "GoodId": "milk", "CycleSec": 8, "UnitsPerCycle": 20, "PriceFactor": "8/5", "Color": "cream4" },
+    { "TypeId": "citrine", "GoodId": "wood", "CycleSec": 15, "UnitsPerCycle": 20, "PriceFactor": "3", "Color": "wood5" },
+    { "TypeId": "agate", "GoodId": "fish", "CycleSec": 30, "UnitsPerCycle": 20, "PriceFactor": "6", "Color": "navy7" },
+    { "TypeId": "topaz", "GoodId": "yarn", "CycleSec": 60, "UnitsPerCycle": 20, "PriceFactor": "12", "Color": "pink2" },
+    { "TypeId": "opal", "GoodId": "catfood", "CycleSec": 120, "UnitsPerCycle": 20, "PriceFactor": "24", "Color": "amber2" },
+    { "TypeId": "jade", "GoodId": "boxes", "CycleSec": 240, "UnitsPerCycle": 20, "PriceFactor": "48", "Color": "fur_cream2" },
+    { "TypeId": "onyx", "GoodId": "bricks", "CycleSec": 360, "UnitsPerCycle": 20, "PriceFactor": "72", "Color": "red3" },
+    { "TypeId": "sapphire", "GoodId": "steel", "CycleSec": 600, "UnitsPerCycle": 20, "PriceFactor": "120", "Color": "stone6" },
+    { "TypeId": "tourmaline", "GoodId": "glass", "CycleSec": 1200, "UnitsPerCycle": 20, "PriceFactor": "240", "Color": "teal5" },
+    { "TypeId": "aquamarine", "GoodId": "catnip", "CycleSec": 1800, "UnitsPerCycle": 20, "PriceFactor": "360", "Color": "green5" },
+    { "TypeId": "emerald", "GoodId": "toys", "CycleSec": 2700, "UnitsPerCycle": 20, "PriceFactor": "540", "Color": "purple4" },
+    { "TypeId": "diamond", "GoodId": "scratchers", "CycleSec": 3600, "UnitsPerCycle": 20, "PriceFactor": "720", "Color": "copper8" },
+    { "TypeId": "garnet", "GoodId": "cushions", "CycleSec": 5400, "UnitsPerCycle": 20, "PriceFactor": "1080", "Color": "pink3" },
+    { "TypeId": "heliodor", "GoodId": "bells", "CycleSec": 7200, "UnitsPerCycle": 20, "PriceFactor": "1440", "Color": "gold3" },
+    { "TypeId": "ruby", "GoodId": "collars", "CycleSec": 10800, "UnitsPerCycle": 20, "PriceFactor": "2160", "Color": "red4" },
+    { "TypeId": "alexandrite", "GoodId": "gears", "CycleSec": 14400, "UnitsPerCycle": 20, "PriceFactor": "2880", "Color": "gold2" },
+    { "TypeId": "celestine", "GoodId": "lanterns", "CycleSec": 18000, "UnitsPerCycle": 20, "PriceFactor": "3600", "Color": "amber4" },
+    { "TypeId": "amber", "GoodId": "honey", "CycleSec": 21600, "UnitsPerCycle": 20, "PriceFactor": "4320", "Color": "amber3" },
+    { "TypeId": "moonstone", "GoodId": "silk", "CycleSec": 25200, "UnitsPerCycle": 20, "PriceFactor": "5040", "Color": "purple6" },
+    { "TypeId": "sunstone", "GoodId": "caviar", "CycleSec": 28800, "UnitsPerCycle": 20, "PriceFactor": "5760", "Color": "red5" }
+  ]
+}

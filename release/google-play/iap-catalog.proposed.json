@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "status": "proposed_not_created",
+  "source_ref": "Assets/Game/Resources/Outpost/store_catalog.json",
+  "source_version": "store-3",
+  "source_sha256": "e99c4915b066009ecda383be96ff3e7ae367993f85ef9993e7a21e84e8d12d10",
+  "package_name": "com.multicastgames.catscuteminer",
+  "proposed_package_name": "com.multicastgames.catscuteminer",
+  "game_id": null,
+  "products": [
+    {
+      "product_id": "gems_handful",
+      "type": "consumable",
+      "store_type": "one_time_product",
+      "title": "Handful Gems",
+      "rewards": [
+        {
+          "sku": "gems",
+          "quantity": 160
+        }
+      ],
+      "price_usd": "1.99",
+      "base_region": "US",
+      "regions": null,
+      "regional_price_strategy": "Google Play automatic conversion; region scope awaiting user confirmation",
+      "first_purchase_bonus": 0
+    },
+    {
+      "product_id": "gems_sack",
+      "type": "consumable",
+      "store_type": "one_time_product",
+      "title": "Sack Gems",
+      "rewards": [
+        {
+          "sku": "gems",
+          "quantity": 500
+        }
+      ],
+      "price_usd": "5.99",
+      "base_region": "US",
+      "regions": null,
+      "regional_price_strategy": "Google Play automatic conversion; region scope awaiting user confirmation",
+      "first_purchase_bonus": 0
+    },
+    {
+      "product_id": "gems_bag",
+      "type": "consumable",
+      "store_type": "one_time_product",
+      "title": "Bag Gems",
+      "rewards": [
+        {
+          "sku": "gems",
+          "quantity": 1200
+        }
+      ],
+      "price_usd": "11.99",
+      "base_region": "US",
+      "regions": null,
+      "regional_price_strategy": "Google Play automatic conversion; region scope awaiting user confirmation",
+      "first_purchase_bonus": 0
+    },
+    {
+      "product_id": "gems_crate",
+      "type": "consumable",
+      "store_type": "one_time_product",
+      "title": "Crate Gems",
+      "rewards": [
+        {
+          "sku": "gems",
+          "quantity": 2500
+        }
+      ],
+      "price_usd": "22.99",
+      "base_region": "US",
+      "regions": null,
+      "regional_price_strategy": "Google Play automatic conversion; region scope awaiting user confirmation",
+      "first_purchase_bonus": 0
+    },
+    {
+      "product_id": "gems_cart",
+      "type": "consumable",
+      "store_type": "one_time_product",
+      "title": "Cart Gems",
+      "rewards": [
+        {
+          "sku": "gems",
+          "quantity": 6500
+        }
+      ],
+      "price_usd": "59.99",
+      "base_region": "US",
+      "regions": null,
+      "regional_price_strategy": "Google Play automatic conversion; region scope awaiting user confirmation",
+      "first_purchase_bonus": 0
+    },
+    {
+      "product_id": "gems_pile",
+      "type": "consumable",
+      "store_type": "one_time_product",
+      "title": "Pile Gems",
+      "rewards": [
+        {
+          "sku": "gems",
+          "quantity": 14000
+        }
+      ],
+      "price_usd": "119.99",
+      "base_region": "US",
+      "regions": null,
+      "regional_price_strategy": "Google Play automatic conversion; region scope awaiting user confirmation",
+      "first_purchase_bonus": 0
+    }
+  ],
+  "approval": {
+    "approved": false,
+    "evidence_ref": null
+  },
+  "backend": {
+    "required": true,
+    "reward_sku": "gems",
+    "ios_bundle_id": null,
+    "game_registration_status": "not_started"
+  },
+  "billing_prerequisite": "Requires released billing-enabled AAB before Play products are created"
+}

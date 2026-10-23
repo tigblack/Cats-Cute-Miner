@@ -1,0 +1,75 @@
+{
+  "observedAtUtc": "2026-10-16T12:35:01.910216+00:00",
+  "appId": "4974963942177850884",
+  "packageName": "com.multicastgames.catscuteminer",
+  "internalTesting": {
+    "trackId": "4701668636091023018",
+    "lists": [
+      {
+        "name": "License testers (auto-generated)",
+        "users": 27,
+        "selected": true
+      },
+      {
+        "name": "Test",
+        "users": 32,
+        "selected": true
+      }
+    ],
+    "saveClicked": true,
+    "reloadedReadback": true,
+    "status": "testers_saved_track_inactive_no_release",
+    "potentialOverlap": "Counts are per list, not deduplicated people",
+    "optInUrlDisplayed": "https://play.google.com/apps/internaltest/4701668636091023018",
+    "optInActive": false
+  },
+  "licenseTesting": {
+    "separatelyRead": true,
+    "sameTwoListsAlreadySelected": true,
+    "licenseResponse": "RESPOND_NORMALLY",
+    "changed": false
+  },
+  "advertisingId": {
+    "answer": "Yes",
+    "purposes": [
+      "Advertising or marketing"
+    ],
+    "saveConfirmation": "Change saved. Send for review in Publishing overview.",
+    "reloadedReadback": true,
+    "basis": "MAX SDK for consenting 16+; optional SDKs not initialized for under16/unknown. Adjust Google Ad ID reading and Meta advertiser-ID collection explicitly disabled in current source.",
+    "pendingArtifactCheck": "Final merged manifest AD_ID permission and runtime protected-mode verification still required",
+    "sources": [
+      "https://max.applovin.com/p/how-applovin-shows-you-ads",
+      "Assets/Game/Scripts/Runtime/Integrations/GameSdkRuntime.cs"
+    ],
+    "supersededBy": "evidence/no-max-console-readback.json: user deferred MAX, current answer No"
+  },
+  "targetAudience": {
+    "requestedGroups": [
+      "6-8",
+      "9-12",
+      "13-15",
+      "16-17",
+      "18+"
+    ],
+    "selectedInWizard": true,
+    "saved": false,
+    "stoppedAt": "Step2 App details: I certify that this app (including all APIs, SDKs, and ads) complies with all applicable laws and regulations relating to children",
+    "reason": "Brazil excluded by explicit user choice, saved/reloaded. Child game legal pages and final SDK/native/device compliance remain incomplete; certification not submitted."
+  },
+  "appAccess": {
+    "savedAnswer": "No (earlier delegated task)",
+    "currentAnswerReadyForSubmission": false,
+    "attemptedCorrection": "Yes with factual guest/age/shop instructions",
+    "correctionSaved": false,
+    "reason": "Form requires full paid-content access certification to add instructions. No free review access to gem purchases exists; checkbox left unchecked, form rejected Add. No false full-access statement submitted.",
+    "draftInstructions": "No game account, password or invitation is required. Complete the neutral age screen to enter guest gameplay. Mining, progression, cards and equipment are available without payment. The shop offers optional consumable gem packs through Google Play Billing. For under-16 or unknown age, a multiplication challenge precedes real-money purchases. No purchase bypass or premium review account is provided; all gameplay content can be reached by playing."
+  },
+  "rawEvidence": [
+    "evidence/console-followup-raw.json",
+    "evidence/console-testers-and-ad-id-raw.json"
+  ],
+  "submittedForReview": false,
+  "buildUploaded": false,
+  "distributionEvidence": "evidence/countries-current.json"
+}

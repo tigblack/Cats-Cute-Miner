@@ -1,0 +1,158 @@
+{
+  "checkedUtc": "2026-10-16T13:02:44.3741288Z",
+  "status": "unity_settings_assigned_artifact_and_device_verification_pending",
+  "icon": "Assets/Game/Art/Store/CatsCuteMinerIcon.png",
+  "defaultIconAssigned": true,
+  "slots": [
+    {
+      "width": 432,
+      "height": 432,
+      "requiredLayers": 2,
+      "textures": [
+        "Assets/Game/Art/Store/CatsCuteMinerIconBackground.png",
+        "Assets/Game/Art/Store/CatsCuteMinerIcon.png"
+      ]
+    },
+    {
+      "width": 324,
+      "height": 324,
+      "requiredLayers": 2,
+      "textures": [
+        "Assets/Game/Art/Store/CatsCuteMinerIconBackground.png",
+        "Assets/Game/Art/Store/CatsCuteMinerIcon.png"
+      ]
+    },
+    {
+      "width": 216,
+      "height": 216,
+      "requiredLayers": 2,
+      "textures": [
+        "Assets/Game/Art/Store/CatsCuteMinerIconBackground.png",
+        "Assets/Game/Art/Store/CatsCuteMinerIcon.png"
+      ]
+    },
+    {
+      "width": 162,
+      "height": 162,
+      "requiredLayers": 2,
+      "textures": [
+        "Assets/Game/Art/Store/CatsCuteMinerIconBackground.png",
+        "Assets/Game/Art/Store/CatsCuteMinerIcon.png"
+      ]
+    },
+    {
+      "width": 108,
+      "height": 108,
+      "requiredLayers": 2,
+      "textures": [
+        "Assets/Game/Art/Store/CatsCuteMinerIconBackground.png",
+        "Assets/Game/Art/Store/CatsCuteMinerIcon.png"
+      ]
+    },
+    {
+      "width": 81,
+      "height": 81,
+      "requiredLayers": 2,
+      "textures": [
+        "Assets/Game/Art/Store/CatsCuteMinerIconBackground.png",
+        "Assets/Game/Art/Store/CatsCuteMinerIcon.png"
+      ]
+    },
+    {
+      "width": 192,
+      "height": 192,
+      "requiredLayers": 1,
+      "textures": [
+        "Assets/Game/Art/Store/CatsCuteMinerIcon.png"
+      ]
+    },
+    {
+      "width": 144,
+      "height": 144,
+      "requiredLayers": 1,
+      "textures": [
+        "Assets/Game/Art/Store/CatsCuteMinerIcon.png"
+      ]
+    },
+    {
+      "width": 96,
+      "height": 96,
+      "requiredLayers": 1,
+      "textures": [
+        "Assets/Game/Art/Store/CatsCuteMinerIcon.png"
+      ]
+    },
+    {
+      "width": 72,
+      "height": 72,
+      "requiredLayers": 1,
+      "textures": [
+        "Assets/Game/Art/Store/CatsCuteMinerIcon.png"
+      ]
+    },
+    {
+      "width": 48,
+      "height": 48,
+      "requiredLayers": 1,
+      "textures": [
+        "Assets/Game/Art/Store/CatsCuteMinerIcon.png"
+      ]
+    },
+    {
+      "width": 36,
+      "height": 36,
+      "requiredLayers": 1,
+      "textures": [
+        "Assets/Game/Art/Store/CatsCuteMinerIcon.png"
+      ]
+    },
+    {
+      "width": 192,
+      "height": 192,
+      "requiredLayers": 1,
+      "textures": [
+        "Assets/Game/Art/Store/CatsCuteMinerIcon.png"
+      ]
+    },
+    {
+      "width": 144,
+      "height": 144,
+      "requiredLayers": 1,
+      "textures": [
+        "Assets/Game/Art/Store/CatsCuteMinerIcon.png"
+      ]
+    },
+    {
+      "width": 96,
+      "height": 96,
+      "requiredLayers": 1,
+      "textures": [
+        "Assets/Game/Art/Store/CatsCuteMinerIcon.png"
+      ]
+    },
+    {
+      "width": 72,
+      "height": 72,
+      "requiredLayers": 1,
+      "textures": [
+        "Assets/Game/Art/Store/CatsCuteMinerIcon.png"
+      ]
+    },
+    {
+      "width": 48,
+      "height": 48,
+      "requiredLayers": 1,
+      "textures": [
+        "Assets/Game/Art/Store/CatsCuteMinerIcon.png"
+      ]
+    },
+    {
+      "width": 36,
+      "height": 36,
+      "requiredLayers": 1,
+      "textures": [
+        "Assets/Game/Art/Store/CatsCuteMinerIcon.png"
+      ]
+    }
+  ]
+}

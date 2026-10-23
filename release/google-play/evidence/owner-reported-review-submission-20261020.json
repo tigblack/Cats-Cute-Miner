@@ -1,0 +1,17 @@
+{
+  "recorded_at": "2026-10-20T14:40:48.441607+00:00",
+  "source": "User message",
+  "owner_statement": "залил ААВ для релиза и отправил на ревью",
+  "status": "owner_reported_uploaded_and_submitted_for_review",
+  "expected_local_version": "0.1.3(4)",
+  "actual_uploaded_version_confirmed": false,
+  "track_confirmed": false,
+  "console_readback_performed": false,
+  "approval_or_publication_confirmed": false,
+  "new_upload_or_console_mutation_by_agent": false,
+  "remaining_local_items": [
+    "Public policy/terms first-launch description still refers to removed age screen",
+    "Real device IAP delivery/relaunch verification and eligible analytics delivery remain unverified"
+  ],
+  "first_release_ads_enabled": false
+}

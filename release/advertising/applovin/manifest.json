@@ -1,0 +1,113 @@
+{
+  "generated_at": "2026-10-16T15:39:38.748745+00:00",
+  "kind": "non_serving_local_preparation_package",
+  "campaign_created": false,
+  "campaign_active": false,
+  "countries": null,
+  "daily_budget_usd": null,
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 7584,
+      "sha256": "0e63db700e0b5b15c82910b96583aad436e0dc81c4120e714f8e7a535a6faff9"
+    },
+    {
+      "path": "index.html",
+      "bytes": 4483,
+      "sha256": "4c304e4adb865fc69208e8a106f1e3f53fb919eb54a4ae80adaf91eec6235c39"
+    },
+    {
+      "path": "campaign-draft.json",
+      "bytes": 4903,
+      "sha256": "ddf6d13071370b7526f5ecc3447df1e5b0eb31cdb543d58ea83e304712c29381"
+    },
+    {
+      "path": "tracking-plan.json",
+      "bytes": 4483,
+      "sha256": "d448e2889c15bcdc11d7c3b4aec750f1a8d56903d191f9cc67fad3d5bf7f10da"
+    },
+    {
+      "path": "account-readback.json",
+      "bytes": 2021,
+      "sha256": "c6696bcb9db3976d0f2baa6f5a671633158bf6b9c168838a6aa3f73de2a643ae"
+    },
+    {
+      "path": "readiness.json",
+      "bytes": 1383,
+      "sha256": "3e71b5bd56f4d5844936f7b27f0e09e07aa06c92cda57c2069d15f51736e11d5"
+    },
+    {
+      "path": "artifact-checks.json",
+      "bytes": 2472,
+      "sha256": "2348419a1af859c06237296740448ba147b536d8f400125dbc5704429942f40d"
+    },
+    {
+      "path": "creative-source.json",
+      "bytes": 3432,
+      "sha256": "8aa42f70240f5906943c61c4e5a5ec3c62e02fc3a1f1c222dbfd847190bb9c0c"
+    },
+    {
+      "path": "studio-assets.json",
+      "bytes": 1099,
+      "sha256": "b9aa5bedb490c235cae341791b1c3e999add867e691f500cf08256763eaccb5b"
+    },
+    {
+      "path": "assets/CatMiner_Axon_Factories_30s_en.mp4",
+      "bytes": 26189487,
+      "sha256": "4a69ead95ab7ba477c4c844231af376eeba4f5c2872e79a616feee8379125d6f"
+    },
+    {
+      "path": "assets/endcard-1080x1920.png",
+      "bytes": 34934,
+      "sha256": "a1193cc9054763c0844e4dd270cd06d3f5789f93eba2341b93021973e8544b03"
+    },
+    {
+      "path": "assets/icon-512.png",
+      "bytes": 309794,
+      "sha256": "0f7b6e7083ea2758f3d6c9d3774f471c746d519f26ba17c1639f9b6af8d472f5"
+    },
+    {
+      "path": "review/CatMiner_Axon_Factories_30s_en_01.00.png",
+      "bytes": 423389,
+      "sha256": "23f300ba33a917a8101e6db396eebd2dbda7b42324dcf88c1b5b966e88f75ca0"
+    },
+    {
+      "path": "review/CatMiner_Axon_Factories_30s_en_08.50.png",
+      "bytes": 746254,
+      "sha256": "252c7f5fe56655514345911145b94618756b613651d50ec7dc3952eee4d55f99"
+    },
+    {
+      "path": "review/CatMiner_Axon_Factories_30s_en_16.50.png",
+      "bytes": 313315,
+      "sha256": "67de4fb80793b6de3a94a5fa39fd778b1c6a93cb28e4de7535ad7757fba93d85"
+    },
+    {
+      "path": "review/CatMiner_Axon_Factories_30s_en_24.00.png",
+      "bytes": 980451,
+      "sha256": "3230ddd5284725a255218f0094cab249f9224108c617031c0c017acff569090a"
+    },
+    {
+      "path": "review/CatMiner_Axon_Factories_30s_en_28.50.png",
+      "bytes": 34934,
+      "sha256": "a1193cc9054763c0844e4dd270cd06d3f5789f93eba2341b93021973e8544b03"
+    },
+    {
+      "path": "review/preview-desktop.png",
+      "bytes": 370563,
+      "sha256": "f9628455cdeeae25b4bc18869f48f2147169151f3fd04ca9f0ebb661135620d2"
+    },
+    {
+      "path": "review/preview-mobile.png",
+      "bytes": 336775,
+      "sha256": "41e2b814ea45099abddef0b52dc111baa9b42eb8adfdd9b1749f8ec91c3000f7"
+    }
+  ],
+  "excluded": [
+    "private configs",
+    "browser sessions",
+    "keys and credentials",
+    "raw captures",
+    "source audio",
+    "unrelated media"
+  ]
+}

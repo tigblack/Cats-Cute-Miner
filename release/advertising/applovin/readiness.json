@@ -1,0 +1,29 @@
+{
+  "recorded_at": "2026-10-16T15:32:43.306952+00:00",
+  "scope": "Prepare AppLovin UA, rename game; no campaign launch",
+  "local_creatives": "ready_renamed_and_media_checked",
+  "superleo_media_library": "renamed_video_and_endcard_uploaded_icon_reused",
+  "local_campaign_draft": "ready_with_intentionally_unset_owner_fields",
+  "countries": null,
+  "daily_budget_usd": null,
+  "external_campaign": "not_created_not_active",
+  "campaign_launch_authorized": false,
+  "brazil_excluded": true,
+  "max_in_game": false,
+  "waiting_for": [
+    "Own account AppLovin SDK key via authorized panel/private config to finish Adjust partner sharing",
+    "Adjust purchase-event mapping, partner callback configuration and link macro/privacy eligibility verification",
+    "Mixed-age advertising eligibility and eventual targeting review",
+    "Game-specific legal documents adoption/live hosting, final Android AAB and device/internal checks",
+    "Live Play destination and provider creative acceptance",
+    "Owner countries/budget/bid choices and separate explicit launch instruction"
+  ],
+  "not_claimed": [
+    "No paid install or purchase test",
+    "No live store page",
+    "No full perceptual audio review",
+    "No final installed Android comparison",
+    "No provider acceptance from local format validation"
+  ],
+  "tracking_links": "created_and_reloaded_own_Axon_link_25sohm3z"
+}

@@ -1,0 +1,49 @@
+{
+  "checked_at": "2026-10-19T19:49:40.373036+00:00",
+  "artifact_path_macos": "/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/release/google-play/builds/cat-miners-0.1.2-3-noads.aab",
+  "sha256": "13e3712a7f121ac340309432b75a162f799982a1e8dde08e2a836f073ea0c74b",
+  "inspection_command_stdout": {
+    "status": "artifact_static_checks_passed",
+    "bytes": 77793257,
+    "package": "com.multicastgames.catscuteminer",
+    "versionName": "0.1.2",
+    "versionCode": "3",
+    "billingVersion": "8.3.0",
+    "abis": [
+      "arm64-v8a",
+      "armeabi-v7a"
+    ],
+    "errors": []
+  },
+  "inspector_source_sha256": "7951f890a215386bd5f2ca363a51b546277c26b60145b06a61af044b23b2945c",
+  "inspection_execution": "Hub inspector source executed via python3 stdin over existing authenticated SSH master; exit0. Runtime artifact not modified.",
+  "full_inspection_report_macos": "release/google-play/evidence/aab-0.1.2-3-inspection-20261019.json",
+  "full_inspection_report_copied": false,
+  "signature_verified_by_guarded_builder": true,
+  "legalConfiguredAtBuild": true,
+  "localArtifactOnly": false,
+  "maxDexPresent": false,
+  "google_ad_id_permission_present": false,
+  "arm64_elf_alignment_16kb": true,
+  "dex_false_positive_correction": "Original substring check matched optional AppLovin references; corrected inspector reads DEX class definitions. Both DEX files have0defined AppLovin classes.",
+  "python_tests": {
+    "builder_guards": 14,
+    "dex_class_detection": 3,
+    "passed": 17
+  },
+  "unity_playmode_tests_passed": 16,
+  "hub_transfer": {
+    "status": "interrupted_connection_stalled",
+    "partial_file": "release/google-play/builds/cat-miners-0.1.2-3-noads.aab.partial",
+    "bytes": 2326528,
+    "complete": false
+  },
+  "uploaded": false,
+  "device_or_emulator_started": false,
+  "publication_ready": false,
+  "pending": [
+    "Complete binary/receipt/report transfer if a chat download is required",
+    "Device purchase and eligible analytics verification",
+    "Upload and store review for this updated artifact"
+  ]
+}

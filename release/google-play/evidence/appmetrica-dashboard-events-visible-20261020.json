@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-20T17:22:23.109Z",
+  "appId": 6374386,
+  "url": "https://appmetrica.yandex.ru/statistic?appId=6374386&period=2026-10-20%3A2026-10-20&reportId=events&orgId=509950&group=dekaminute&accuracy=medium&chartMetrics=%5B%5B%22ym%3Ace2%3AallEvents%22%5D%5D&selectedDimensionKeys=%5B%5B%22ym%3Ace2%3AeventLabel%22%5D%2C%5B%22ym%3Ace2%3AparamsLevel1%22%5D%2C%5B%22ym%3Ace2%3AparamsLevel2%22%5D%2C%5B%22ym%3Ace2%3AparamsLevel3%22%5D%2C%5B%22ym%3Ace2%3AparamsLevel4%22%5D%2C%5B%22ym%3Ace2%3AparamsLevel5%22%5D%5D&tableMetrics=%5B%5B%22ym%3Ace2%3AallEvents%22%5D%2C%5B%22ym%3Ace2%3AdevicesWithEvent%22%5D%2C%5B%22ym%3Ace2%3AeventsPerDevice%22%5D%2C%5B%22ym%3Ace2%3AdevicesPercent%22%5D%5D&view=Hierarchical&sortBy=-ym%3Ace2%3AallEvents&chartView=Line&metricValueMode=Absolute&screenMode=Default&uaDataSource=Deeplink&selectedDimensionIds=%5B%5B%22currency_earned%22%5D%2C%5B%22time_spent%22%5D%2C%5B%22consent_chosen%22%5D%2C%5B%22elixir_found%22%5D%2C%5B%22game_loaded%22%5D%5D&currency=rub",
+  "expectedEventNamesVisible": [
+    "time_spent",
+    "consent_chosen",
+    "currency_earned",
+    "game_loaded",
+    "mine_started",
+    "session_started",
+    "store_opened",
+    "purchase_failed"
+  ],
+  "screenshot": "release/google-play/evidence/appmetrica-dashboard-events-visible-20261020.png",
+  "writesPerformed": false
+}

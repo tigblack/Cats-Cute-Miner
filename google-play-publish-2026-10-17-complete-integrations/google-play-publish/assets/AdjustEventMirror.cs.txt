@@ -1,0 +1,72 @@
+// Template: mirror the game's telemetry events to Adjust. Adapted from Piggy Payday's AndroidGameServiceBackend
+// (SendAdjust / AdjustEventName). Not compiled in isolation: check the Adjust SDK version (AdjustSdk 5.x API) and
+// replace the JSON parser (Piggy Payday uses Facebook.MiniJSON.Json.Deserialize) with the project's own.
+// Rename to .cs and place under the game's Services folder. Guard with UNITY_ANDROID && !UNITY_EDITOR if needed.
+//
+// Contract (references/analytics.md):
+//  - one Adjust event token per event name, taken from config "adjustEvents": [{"name": "...", "token": "..."}]
+//  - event without a token is not sent (volume is controlled by the config, not by code)
+//  - independent from AppMetrica: call Send for every telemetry event, whether or not AppMetrica is active
+//  - call only after the consent decision allowed measurement and Adjust.InitSdk succeeded
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
+using AdjustSdk;
+
+public static class AdjustEventMirror
+{
+    static Dictionary<string, string> tokens = new Dictionary<string, string>(StringComparer.Ordinal);
+
+    public static bool Configured { get { return tokens.Count > 0; } }
+
+    public static void Configure(IEnumerable<KeyValuePair<string, string>> nameToken)
+    {
+        tokens = new Dictionary<string, string>(StringComparer.Ordinal);
+        if (nameToken == null) return;
+        foreach (var pair in nameToken)
+            if (!string.IsNullOrWhiteSpace(pair.Key) && !string.IsNullOrWhiteSpace(pair.Value)) tokens[pair.Key] = pair.Value;
+    }
+
+    // Game event name -> Adjust event name; null = not mirrored.
+    static string Map(string name)
+    {
+        switch (name)
+        {
+            case "playtime_event": return "time_spent";   // one event per foreground minute: event count = minutes played
+            case "playtime_seconds_event": return null;    // same minute tick, seconds variant
+            case "ad_revenue": return null;                // Adjust ILRD (Adjust.TrackAdRevenue) covers ad revenue
+            default: return name;
+        }
+    }
+
+    // Returns true when Adjust accepted the event. Never throws: analytics must not break the game.
+    public static bool Send(string name, IDictionary<string, object> data)
+    {
+        string key = Map(name);
+        if (key == null || !tokens.TryGetValue(key, out var token)) return false;
+        try
+        {
+            var evt = new AdjustEvent(token);
+            if (data != null)
+            {
+                object id;
+                if (data.TryGetValue("event_id", out id) && id != null)
+                    evt.DeduplicationId = Convert.ToString(id, CultureInfo.InvariantCulture); // safe replays: SDK drops repeats
+                int count = 0;
+                foreach (var pair in data)
+                {
+                    // Callback parameters are flat strings; nested values are skipped. Keep them few.
+                    if (pair.Key == "event_id" || pair.Value == null || pair.Value is IDictionary
+                        || (pair.Value is IEnumerable && !(pair.Value is string))) continue;
+                    if (++count > 24) break;
+                    string text = pair.Value is bool flag ? (flag ? "true" : "false") : Convert.ToString(pair.Value, CultureInfo.InvariantCulture);
+                    evt.AddCallbackParameter(pair.Key, text);
+                }
+            }
+            Adjust.TrackEvent(evt);
+            return true;
+        }
+        catch (Exception) { return false; }
+    }
+}

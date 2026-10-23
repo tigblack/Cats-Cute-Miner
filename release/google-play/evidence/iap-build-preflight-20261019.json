@@ -1,0 +1,61 @@
+{
+  "prebuildRequirements": [
+    "Verified private upload keystore and signing environment or explicit .secret.json.",
+    "Certificate must match profile.release.signing_evidence_ref; builder never generates keys.",
+    "Live adopted legal documents, all Unity release gates and unused Play version code."
+  ],
+  "scope": "read_only_macos_preflight",
+  "project": "/Users/arthuri/Unity Projects/Cats-Cute-Miner-main",
+  "requiredUnity": "6000.6.4f1",
+  "installedUnity": "6000.6.4f1",
+  "unityExe": "/Applications/Unity/Hub/Editor/6000.6.4f1/Unity.app/Contents/MacOS/Unity",
+  "androidPlayer": "/Applications/Unity/Hub/Editor/6000.6.4f1/PlaybackEngines/AndroidPlayer",
+  "tools": {
+    "SDK": {
+      "source": "bundled",
+      "selected": "/Applications/Unity/Hub/Editor/6000.6.4f1/PlaybackEngines/AndroidPlayer/SDK",
+      "candidates": [
+        {
+          "source": "bundled",
+          "path": "/Applications/Unity/Hub/Editor/6000.6.4f1/PlaybackEngines/AndroidPlayer/SDK"
+        }
+      ],
+      "missing": [],
+      "hostRunnable": null
+    },
+    "NDK": {
+      "source": "bundled",
+      "selected": "/Applications/Unity/Hub/Editor/6000.6.4f1/PlaybackEngines/AndroidPlayer/NDK",
+      "candidates": [
+        {
+          "source": "bundled",
+          "path": "/Applications/Unity/Hub/Editor/6000.6.4f1/PlaybackEngines/AndroidPlayer/NDK"
+        }
+      ],
+      "missing": [],
+      "hostRunnable": true
+    },
+    "OpenJDK": {
+      "source": "bundled",
+      "selected": "/Applications/Unity/Hub/Editor/6000.6.4f1/PlaybackEngines/AndroidPlayer/OpenJDK",
+      "candidates": [
+        {
+          "source": "bundled",
+          "path": "/Applications/Unity/Hub/Editor/6000.6.4f1/PlaybackEngines/AndroidPlayer/OpenJDK"
+        }
+      ],
+      "missing": [],
+      "hostRunnable": true
+    }
+  },
+  "legalConfigured": false,
+  "conflictingUnityProcesses": 0,
+  "blockers": [
+    "Real game-specific privacy/terms configuration missing; Unity build must not start."
+  ],
+  "limitations": [
+    "Signing not inspected in preflight. Legal URL availability/adoption not verified.",
+    "No Unity launch, device query, installation or settings writes.",
+    "Provider gates, final native ABI/Billing/16 KB alignment, devices and Play checks remain pending."
+  ]
+}

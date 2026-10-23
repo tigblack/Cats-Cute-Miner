@@ -1,0 +1,19 @@
+{
+  "checked_at": "2026-10-18T21:59:55.223212+00:00",
+  "package": "com.multicastgames.catscuteminer",
+  "source": "Owner supplied MAX SDK client key in current conversation",
+  "runtime_config_ref": "Assets/Game/Resources/Integrations/cats-cute-miner-sdk.json",
+  "Integration_Manager_asset_ref": "Assets/MaxSdk/Resources/AppLovinSettings.asset",
+  "client_key_sha256": "bd316880b6e365bebd2baa169d4079cff2cb162ab279851f4084026f55ff76a1",
+  "runtime_and_Integration_Manager_keys_match": true,
+  "official_Unity_settings_API_run": "passed",
+  "Mac_source_match_verified": true,
+  "rewarded_unit": "f27564b55995aa89",
+  "rewarded_unit_readback_ref": "release/google-play/evidence/max-reenable-20261018.json",
+  "key_value_printed_or_in_report": false,
+  "legal_urls_configured": false,
+  "native_consent_configuration_complete": false,
+  "native_AAB_built": false,
+  "actual_ad_init_playback_reward_revenue_verified": false,
+  "next_step": "Accepted published game-specific legal URLs, native CMP configuration, final build and real rewarded QA"
+}

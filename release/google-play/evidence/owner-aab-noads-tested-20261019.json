@@ -1,0 +1,13 @@
+{
+  "recorded_at": "2026-10-19T18:47:15.597374+00:00",
+  "source": "user_message",
+  "quote": "AAB уже собран и протестирован нет там рекламы",
+  "reported_AAB_built_and_tested": true,
+  "reported_ads_absent": true,
+  "artifact_version_and_sha_not_specified_by_user": true,
+  "does_not_establish": [
+    "purchase_and_server_delivery_test",
+    "analytics_dashboard_event_delivery",
+    "in_app_legal_URLs"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "recorded_at": "2026-10-20T15:27:28.849390+00:00",
+  "package": "com.multicastgames.catscuteminer",
+  "title": "Cat Miners: Idle Tycoon",
+  "adoption_authorized": true,
+  "adoption_evidence": "User requested item1 (adopt and publish the game legal documents): «1. делай»; then explicitly confirmed support responsibility and access.",
+  "operator_process_confirmed": true,
+  "operator_confirmation": "Я — беру процесс на себя; почта работает, доступ к исполнению есть",
+  "responsible_role": "Project owner / current user",
+  "support_email": "support@multicastgames.com",
+  "support_process_ref": "Docs/Legal/CatsCuteMiner/SUPPORT_PROCESS.md",
+  "audience_minimum_age": 13,
+  "protected_under_age": 16,
+  "ads_enabled": false,
+  "iap_products": 6,
+  "adopted_source_sha256": {
+    "privacy-policy.md": "fb316ff2469947e34ad6932f4159ab900740fb4f177e82091ee2c7979be54afe",
+    "terms-of-use.md": "f0a682fd23f9ad4c9e6ae7bac75953ff0e604049688786712def0274e691aaf0",
+    "delete-data.md": "7f144590339fc590501536b8e606b7c934dc559ee54812df195a8ad009fa1c23"
+  },
+  "published": true,
+  "runtime_urls_changed": false,
+  "published_urls": {
+    "privacy": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/",
+    "terms": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/",
+    "data_requests": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/delete-data/"
+  },
+  "publication_evidence_ref": "release/google-play/evidence/legal-publication-automatic-appmetrica-20261020.json",
+  "revision_date": "2026-10-20",
+  "previous_adoption_ref": "Docs/Legal/CatsCuteMiner/history/20261020-optional-analytics/adoption-current.json",
+  "revision_scope": "Version0.1.5 automatic basic AppMetrica gameplay measurement without startup optin, explicit disable control and migration preserving saved refusals; advertising IDs/location/deeplink/crash/automatic revenue disabled; additional providers and protected purchase-revenue guards unchanged",
+  "revision_authorization": "Owner explicitly requested automatic AppMetrica gameplay events for each player without opening Privacy Policy or confirmation windows; prior authorization to adopt and publish truthful game-specific documents and confirmed support process persists.",
+  "revision_prepared_at": "2026-10-20T17:35:08.061026+00:00",
+  "published_at": "2026-10-20T17:38:25.148635+00:00"
+}

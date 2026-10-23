@@ -1,0 +1,3748 @@
+{
+  "offset": 0,
+  "limit": 10,
+  "total": 1,
+  "results": [
+    {
+      "version": "6000.3.11f1",
+      "releaseDate": "2026-03-11T14:52:35.771Z",
+      "releaseNotes": {
+        "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/6000_3_11f1_500c5f352f/6000_3_11f1_500c5f352f.md",
+        "type": "MD"
+      },
+      "downloads": [
+        {
+          "url": "https://download.unity3d.com/download_unity/3000ef702840/LinuxEditorInstaller/Unity-6000.3.11f1.tar.xz",
+          "type": "TAR_XZ",
+          "platform": "LINUX",
+          "architecture": "X86_64",
+          "downloadSize": {
+            "value": 4458039720,
+            "unit": "BYTE"
+          },
+          "installedSize": {
+            "value": 8552263680,
+            "unit": "BYTE"
+          },
+          "modules": [
+            {
+              "id": "android",
+              "slug": "6000.3.11f1-linux-x86_64-android",
+              "name": "Android Build Support",
+              "description": "Allows building your Unity projects for the Android platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-Android-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 2093675367,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 4187350734,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-L33Lg+gzOHGj7TMgpC8ZSQ==",
+              "subModules": [
+                {
+                  "id": "android-open-jdk-17.0.9+9",
+                  "slug": "6000.3.11f1-linux-x86_64-android-open-jdk-17.0.9+9",
+                  "name": "OpenJDK",
+                  "description": "Android Open JDK 17.0.9+9",
+                  "category": "PLATFORM",
+                  "url": "https://download.unity3d.com/download_unity/open-jdk/open-jdk-linux-x64/jdk17.0.9-9_8d1cbcce56285f3146cf7761353a643fe573b39e45bd94f35590dca39277f667.zip",
+                  "type": "ZIP",
+                  "downloadSize": {
+                    "value": 121761411,
+                    "unit": "BYTE"
+                  },
+                  "installedSize": {
+                    "value": 251229403,
+                    "unit": "BYTE"
+                  },
+                  "required": true,
+                  "hidden": false,
+                  "preSelected": false,
+                  "integrity": "",
+                  "subModules": [],
+                  "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/OpenJDK",
+                  "eula": []
+                },
+                {
+                  "id": "android-sdk-ndk-tools",
+                  "slug": "6000.3.11f1-linux-x86_64-android-sdk-ndk-tools",
+                  "name": "Android SDK & NDK Tools",
+                  "description": "android-sdk-ndk-tools 26.1.1",
+                  "category": "PLATFORM",
+                  "url": "https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip",
+                  "type": "ZIP",
+                  "downloadSize": {
+                    "value": 148000000,
+                    "unit": "BYTE"
+                  },
+                  "installedSize": {
+                    "value": 174000000,
+                    "unit": "BYTE"
+                  },
+                  "required": true,
+                  "hidden": false,
+                  "preSelected": false,
+                  "integrity": "",
+                  "subModules": [
+                    {
+                      "id": "android-ndk-r27c",
+                      "slug": "6000.3.11f1-linux-x86_64-android-ndk-r27c",
+                      "name": "Android NDK",
+                      "description": "Android NDK r27c",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/android-ndk-r27c-linux.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 663987688,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 2053737567,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "extractedPathRename": {
+                        "from": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/android-ndk-r27c",
+                        "to": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/NDK"
+                      },
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/NDK",
+                      "eula": []
+                    },
+                    {
+                      "id": "cmake-3.22.1",
+                      "slug": "6000.3.11f1-linux-x86_64-cmake-3.22.1",
+                      "name": "CMake",
+                      "description": "CMake 3.22.1",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/cmake-3.22.1-linux.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 22308647,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 53059675,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "extractedPathRename": {
+                        "from": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/cmake/cmake",
+                        "to": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/cmake/3.22.1"
+                      },
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/cmake/cmake",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-build-tools-36.0.0",
+                      "slug": "6000.3.11f1-linux-x86_64-android-sdk-build-tools-36.0.0",
+                      "name": "Android SDK Build Tools",
+                      "description": "Android SDK Build Tools 36.0.0",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/build-tools_r36_linux.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 63737259,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 153141817,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "extractedPathRename": {
+                        "from": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/build-tools/android-16",
+                        "to": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/build-tools/36.0.0"
+                      },
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/build-tools",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-platform-tools-36.0.0",
+                      "slug": "6000.3.11f1-linux-x86_64-android-sdk-platform-tools-36.0.0",
+                      "name": "Android SDK Platform Tools",
+                      "description": "Android SDK Platform Tools 36.0.0",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/platform-tools_r36.0.0-linux.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 7904253,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 19418777,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-platforms-34",
+                      "slug": "6000.3.11f1-linux-x86_64-android-sdk-platforms-34",
+                      "name": "Android SDK Platforms 34",
+                      "description": "Android SDK Platforms 34",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/platform-34-ext7_r02.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 63180079,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 99855424,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/platforms",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-platforms-35",
+                      "slug": "6000.3.11f1-linux-x86_64-android-sdk-platforms-35",
+                      "name": "Android SDK Platforms 35",
+                      "description": "Android SDK Platforms 35",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/platform-35_r01.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 64281654,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 102618237,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/platforms",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-platforms-36",
+                      "slug": "6000.3.11f1-linux-x86_64-android-sdk-platforms-36",
+                      "name": "Android SDK Platforms 36",
+                      "description": "Android SDK Platforms 36",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/platform-36_r02.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 65878410,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 106177284,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/platforms",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-command-line-tools-16.0",
+                      "slug": "6000.3.11f1-linux-x86_64-android-sdk-command-line-tools-16.0",
+                      "name": "Android SDK Command Line Tools",
+                      "description": "Android SDK Command Line Tools 16.0",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/commandlinetools-linux-12266719_latest.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 165618711,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 165596895,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "sha384-0Jz2jg8aC2DWBq812SXuavU3c1kyCd1N8jfsoKW4eR4xytPuzYvv5tgedLDVDVtE",
+                      "subModules": [],
+                      "extractedPathRename": {
+                        "from": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/cmdline-tools/cmdline-tools",
+                        "to": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/cmdline-tools/16.0"
+                      },
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/cmdline-tools",
+                      "eula": []
+                    }
+                  ],
+                  "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK",
+                  "eula": [
+                    {
+                      "url": "https://dl.google.com/dl/android/repository/repository2-1.xml",
+                      "type": "TEXT",
+                      "label": "Android SDK and NDK License Terms from Google",
+                      "message": "Please review and accept the license terms before downloading and installing Android's SDK and NDK."
+                    }
+                  ]
+                }
+              ],
+              "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer"
+            },
+            {
+              "id": "ios",
+              "slug": "6000.3.11f1-linux-x86_64-ios",
+              "name": "iOS Build Support",
+              "description": "Allows building your Unity projects for the iOS platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/LinuxEditorTargetInstaller/UnitySetup-iOS-Support-for-Editor-6000.3.11f1.tar.xz",
+              "type": "TAR_XZ",
+              "downloadSize": {
+                "value": 331173468,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 1404037120,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-lddhVnxGkoqbMmxSk1Tv6Q==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines"
+            },
+            {
+              "id": "visionos",
+              "slug": "6000.3.11f1-linux-x86_64-visionos",
+              "name": "visionOS Build Support",
+              "description": "Allows building your Unity projects for the VisionOS platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/LinuxEditorTargetInstaller/UnitySetup-VisionOS-Support-for-Editor-6000.3.11f1.tar.xz",
+              "type": "TAR_XZ",
+              "downloadSize": {
+                "value": 203854068,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 892518400,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-itthHNuHg1vFoDQCTouEQA==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "linux-il2cpp",
+              "slug": "6000.3.11f1-linux-x86_64-linux-il2cpp",
+              "name": "Linux Build Support (IL2CPP)",
+              "description": "Allows building your Unity projects for the Linux-IL2CPP platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/LinuxEditorTargetInstaller/UnitySetup-Linux-IL2CPP-Support-for-Editor-6000.3.11f1.tar.xz",
+              "type": "TAR_XZ",
+              "downloadSize": {
+                "value": 58382832,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 220815360,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-SASstVnqS+ei+0oDD/j+qA==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/LinuxStandaloneSupport"
+            },
+            {
+              "id": "linux-server",
+              "slug": "6000.3.11f1-linux-x86_64-linux-server",
+              "name": "Linux Dedicated Server Build Support",
+              "description": "Allows building your Unity projects for the Linux-Server platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/LinuxEditorTargetInstaller/UnitySetup-Linux-Server-Support-for-Editor-6000.3.11f1.tar.xz",
+              "type": "TAR_XZ",
+              "downloadSize": {
+                "value": 160313964,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 615485440,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-ok6U2dUcf560vi2hnBI/iQ==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/LinuxStandaloneSupport"
+            },
+            {
+              "id": "mac-mono",
+              "slug": "6000.3.11f1-linux-x86_64-mac-mono",
+              "name": "Mac Build Support (Mono)",
+              "description": "Allows building your Unity projects for the Mac-Mono platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-Mac-Mono-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 722477647,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 1444955294,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-JfOv6mt29dIEH2vNLJKA8g==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/MacStandaloneSupport"
+            },
+            {
+              "id": "mac-server",
+              "slug": "6000.3.11f1-linux-x86_64-mac-server",
+              "name": "Mac Dedicated Server Build Support",
+              "description": "Allows building your Unity projects for the Mac-Server platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-Mac-Server-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 1414316113,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2828632226,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-raESWeA4gFYRReDbQMjICg==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/MacStandaloneSupport"
+            },
+            {
+              "id": "webgl",
+              "slug": "6000.3.11f1-linux-x86_64-webgl",
+              "name": "Web Build Support",
+              "description": "Allows building your Unity projects for the Web platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/LinuxEditorTargetInstaller/UnitySetup-WebGL-Support-for-Editor-6000.3.11f1.tar.xz",
+              "type": "TAR_XZ",
+              "downloadSize": {
+                "value": 1253101332,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 5819258880,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-6elcoBx9xOEFIsAuegswdQ==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/WebGLSupport"
+            },
+            {
+              "id": "windows-mono",
+              "slug": "6000.3.11f1-linux-x86_64-windows-mono",
+              "name": "Windows Build Support (Mono)",
+              "description": "Allows building your Unity projects for the Windows-Mono platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-Windows-Mono-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 380895729,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 761791458,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-Dd/rNg9qfX+q5i3xboV14w==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/WindowsStandaloneSupport"
+            },
+            {
+              "id": "windows-server",
+              "slug": "6000.3.11f1-linux-x86_64-windows-server",
+              "name": "Windows Dedicated Server Build Support",
+              "description": "Allows building your Unity projects for the Windows-Server platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-Windows-Server-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 380605937,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 761211874,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-oPJhLeImuOQDlXmuxC9r7g==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/WindowsStandaloneSupport"
+            },
+            {
+              "id": "language-ja",
+              "slug": "6000.3.11f1-linux-x86_64-language-ja",
+              "name": "\u65e5\u672c\u8a9e",
+              "description": "\u65e5\u672c\u8a9e",
+              "category": "LANGUAGE_PACK",
+              "url": "https://new-translate.unity3d.jp/v1/live/54/6000.3/ja",
+              "type": "PO",
+              "downloadSize": {
+                "value": 2936241,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2936241,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data/Localization"
+            },
+            {
+              "id": "language-ko",
+              "slug": "6000.3.11f1-linux-x86_64-language-ko",
+              "name": "\ud55c\uad6d\uc5b4",
+              "description": "\ud55c\uad6d\uc5b4",
+              "category": "LANGUAGE_PACK",
+              "url": "https://new-translate.unity3d.jp/v1/live/54/6000.3/ko",
+              "type": "PO",
+              "downloadSize": {
+                "value": 2777994,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2777994,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data/Localization"
+            },
+            {
+              "id": "language-zh-hant",
+              "slug": "6000.3.11f1-linux-x86_64-language-zh-hant",
+              "name": "\u7e41\u9ad4\u4e2d\u6587",
+              "description": "\u7e41\u9ad4\u4e2d\u6587",
+              "category": "LANGUAGE_PACK",
+              "url": "https://new-translate.unity3d.jp/v1/live/54/6000.3/zh-hant",
+              "type": "PO",
+              "downloadSize": {
+                "value": 2558536,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2558536,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data/Localization"
+            },
+            {
+              "id": "language-zh-hans",
+              "slug": "6000.3.11f1-linux-x86_64-language-zh-hans",
+              "name": "\u7b80\u4f53\u4e2d\u6587",
+              "description": "\u7b80\u4f53\u4e2d\u6587",
+              "category": "LANGUAGE_PACK",
+              "url": "https://new-translate.unity3d.jp/v1/live/54/6000.3/zh-hans",
+              "type": "PO",
+              "downloadSize": {
+                "value": 2560890,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2560890,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data/Localization"
+            },
+            {
+              "id": "documentation",
+              "slug": "6000.3.11f1-linux-x86_64-documentation",
+              "name": "Documentation",
+              "description": "Offline Documentation",
+              "category": "DOCUMENTATION",
+              "url": "https://cloudmedia-docs.unity3d.com/docscloudstorage/6000.3/UnityDocumentation.zip",
+              "type": "ZIP",
+              "downloadSize": {
+                "value": 483783006,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 986917332,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data/Documentation"
+            }
+          ],
+          "integrity": "md5-Eb19GJTSaJMe2ExISQJMOA=="
+        },
+        {
+          "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorInstallerArm64/Unity-6000.3.11f1.pkg",
+          "type": "PKG",
+          "platform": "MAC_OS",
+          "architecture": "ARM64",
+          "downloadSize": {
+            "value": 5095489238,
+            "unit": "BYTE"
+          },
+          "installedSize": {
+            "value": 9393480000,
+            "unit": "BYTE"
+          },
+          "modules": [
+            {
+              "id": "visualstudiocode",
+              "slug": "6000.3.11f1-mac_os-arm64-visualstudiocode",
+              "name": "Visual Studio Code",
+              "description": "Code editor with Unity extension.",
+              "category": "DEV_TOOL",
+              "url": "https://go.microsoft.com/fwlink/?linkid=2261605",
+              "type": "DMG",
+              "downloadSize": {
+                "value": 225000000,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 573000000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "/Applications",
+              "eula": [
+                {
+                  "url": "https://code.visualstudio.com/license",
+                  "type": "TEXT",
+                  "label": "Visual Studio Code License Terms",
+                  "message": "Please review and accept the license terms before downloading and installing Visual Studio Code."
+                }
+              ]
+            },
+            {
+              "id": "android",
+              "slug": "6000.3.11f1-mac_os-arm64-android",
+              "name": "Android Build Support",
+              "description": "Allows building your Unity projects for the Android platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-Android-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 2093675367,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 6686304000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-L33Lg+gzOHGj7TMgpC8ZSQ==",
+              "subModules": [
+                {
+                  "id": "android-open-jdk-17.0.9+9",
+                  "slug": "6000.3.11f1-mac_os-arm64-android-open-jdk-17.0.9+9",
+                  "name": "OpenJDK",
+                  "description": "Android Open JDK 17.0.9+9",
+                  "category": "PLATFORM",
+                  "url": "https://download.unity3d.com/download_unity/open-jdk/open-jdk-mac-x64/jdk17.0.9-9_388f7edd2524a9235650fa7cf531302e4676b80526b2d6a0fa199d030779169d.zip",
+                  "type": "ZIP",
+                  "downloadSize": {
+                    "value": 112082169,
+                    "unit": "BYTE"
+                  },
+                  "installedSize": {
+                    "value": 220288498,
+                    "unit": "BYTE"
+                  },
+                  "required": true,
+                  "hidden": false,
+                  "preSelected": false,
+                  "integrity": "",
+                  "subModules": [],
+                  "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/OpenJDK",
+                  "eula": []
+                },
+                {
+                  "id": "android-sdk-ndk-tools",
+                  "slug": "6000.3.11f1-mac_os-arm64-android-sdk-ndk-tools",
+                  "name": "Android SDK & NDK Tools",
+                  "description": "android-sdk-ndk-tools 26.1.1",
+                  "category": "PLATFORM",
+                  "url": "https://dl.google.com/android/repository/sdk-tools-darwin-4333796.zip",
+                  "type": "ZIP",
+                  "downloadSize": {
+                    "value": 148000000,
+                    "unit": "BYTE"
+                  },
+                  "installedSize": {
+                    "value": 174000000,
+                    "unit": "BYTE"
+                  },
+                  "required": true,
+                  "hidden": false,
+                  "preSelected": false,
+                  "integrity": "",
+                  "subModules": [
+                    {
+                      "id": "android-ndk-r27c",
+                      "slug": "6000.3.11f1-mac_os-arm64-android-ndk-r27c",
+                      "name": "Android NDK",
+                      "description": "Android NDK r27c",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/android-ndk-r27c-darwin.dmg",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 921212233,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 2568019969,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "extractedPathRename": {
+                        "from": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/NDK/Contents/NDK",
+                        "to": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/NDK"
+                      },
+                      "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/NDK",
+                      "eula": []
+                    },
+                    {
+                      "id": "cmake-3.22.1",
+                      "slug": "6000.3.11f1-mac_os-arm64-cmake-3.22.1",
+                      "name": "CMake",
+                      "description": "CMake 3.22.1",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/cmake-3.22.1-darwin.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 38223266,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 89092010,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "extractedPathRename": {
+                        "from": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/cmake/cmake",
+                        "to": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/cmake/3.22.1"
+                      },
+                      "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/cmake/cmake",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-build-tools-36.0.0",
+                      "slug": "6000.3.11f1-mac_os-arm64-android-sdk-build-tools-36.0.0",
+                      "name": "Android SDK Build Tools",
+                      "description": "Android SDK Build Tools 36.0.0",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/build-tools_r36_macosx.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 79121749,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 197101194,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "extractedPathRename": {
+                        "from": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/build-tools/android-16",
+                        "to": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/build-tools/36.0.0"
+                      },
+                      "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/build-tools",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-platform-tools-36.0.0",
+                      "slug": "6000.3.11f1-mac_os-arm64-android-sdk-platform-tools-36.0.0",
+                      "name": "Android SDK Platform Tools",
+                      "description": "Android SDK Platform Tools 36.0.0",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/platform-tools_r36.0.0-darwin.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 14186137,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 34000521,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-platforms-34",
+                      "slug": "6000.3.11f1-mac_os-arm64-android-sdk-platforms-34",
+                      "name": "Android SDK Platforms 34",
+                      "description": "Android SDK Platforms 34",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/platform-34-ext7_r02.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 63180079,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 99855424,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/platforms",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-platforms-35",
+                      "slug": "6000.3.11f1-mac_os-arm64-android-sdk-platforms-35",
+                      "name": "Android SDK Platforms 35",
+                      "description": "Android SDK Platforms 35",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/platform-35_r01.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 64281654,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 102618237,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/platforms",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-platforms-36",
+                      "slug": "6000.3.11f1-mac_os-arm64-android-sdk-platforms-36",
+                      "name": "Android SDK Platforms 36",
+                      "description": "Android SDK Platforms 36",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/platform-36_r02.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 65878410,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 106177284,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/platforms",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-command-line-tools-16.0",
+                      "slug": "6000.3.11f1-mac_os-arm64-android-sdk-command-line-tools-16.0",
+                      "name": "Android SDK Command Line Tools",
+                      "description": "Android SDK Command Line Tools 16.0",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/commandlinetools-mac-12266719_latest.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 143967391,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 167124387,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "sha384-Q1n+ef1ChK97sZedZt3cUPS69jRa3Rs5DLfbD9KXI91gb5tncO42czPjW8i7xx4O",
+                      "subModules": [],
+                      "extractedPathRename": {
+                        "from": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/cmdline-tools/cmdline-tools",
+                        "to": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/cmdline-tools/16.0"
+                      },
+                      "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/cmdline-tools",
+                      "eula": []
+                    }
+                  ],
+                  "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK",
+                  "eula": [
+                    {
+                      "url": "https://dl.google.com/dl/android/repository/repository2-1.xml",
+                      "type": "TEXT",
+                      "label": "Android SDK and NDK License Terms from Google",
+                      "message": "Please review and accept the license terms before downloading and installing Android's SDK and NDK."
+                    }
+                  ]
+                }
+              ],
+              "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer"
+            },
+            {
+              "id": "ios",
+              "slug": "6000.3.11f1-mac_os-arm64-ios",
+              "name": "iOS Build Support",
+              "description": "Allows building your Unity projects for the iOS platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-iOS-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 468166939,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 1366671000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-sftZ31ATk283wTlTtcWdzQ==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/PlaybackEngines"
+            },
+            {
+              "id": "appletv",
+              "slug": "6000.3.11f1-mac_os-arm64-appletv",
+              "name": "tvOS Build Support",
+              "description": "Allows building your Unity projects for the AppleTV platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-AppleTV-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 460098926,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 1343697000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-FBRlufu21K84uGLYQ/rw1A==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/PlaybackEngines/AppleTVSupport"
+            },
+            {
+              "id": "visionos",
+              "slug": "6000.3.11f1-mac_os-arm64-visionos",
+              "name": "visionOS Build Support",
+              "description": "Allows building your Unity projects for the VisionOS platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-VisionOS-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 296357294,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 868674000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-U3I7bOCT0RSJWcaui4te3g==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/PlaybackEngines/VisionOSPlayer"
+            },
+            {
+              "id": "linux-il2cpp",
+              "slug": "6000.3.11f1-mac_os-arm64-linux-il2cpp",
+              "name": "Linux Build Support (IL2CPP)",
+              "description": "Allows building your Unity projects for the Linux-IL2CPP platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-Linux-IL2CPP-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 80890143,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 214668000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-Ji/VMkkQJ4jE3jskM79VYA==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/PlaybackEngines/LinuxStandaloneSupport"
+            },
+            {
+              "id": "linux-mono",
+              "slug": "6000.3.11f1-mac_os-arm64-linux-mono",
+              "name": "Linux Build Support (Mono)",
+              "description": "Allows building your Unity projects for the Linux-Mono platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-Linux-Mono-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 81319771,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 214053000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-G3z/5JMXy1PYXd/Xja553A==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/PlaybackEngines/LinuxStandaloneSupport"
+            },
+            {
+              "id": "linux-server",
+              "slug": "6000.3.11f1-mac_os-arm64-linux-server",
+              "name": "Linux Dedicated Server Build Support",
+              "description": "Allows building your Unity projects for the Linux-Server platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-Linux-Server-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 223368781,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 599084000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-YugGPEKJFLogzjwIwMXUpw==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/PlaybackEngines/LinuxStandaloneSupport"
+            },
+            {
+              "id": "mac-il2cpp",
+              "slug": "6000.3.11f1-mac_os-arm64-mac-il2cpp",
+              "name": "Mac Build Support (IL2CPP)",
+              "description": "Allows building your Unity projects for the Mac-IL2CPP platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-Mac-IL2CPP-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 707791850,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2160473000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-OqF9nyAvOhr0QtJfc2SF5A==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport"
+            },
+            {
+              "id": "mac-server",
+              "slug": "6000.3.11f1-mac_os-arm64-mac-server",
+              "name": "Mac Dedicated Server Build Support",
+              "description": "Allows building your Unity projects for the Mac-Server platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-Mac-Server-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 1414316113,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 4314103000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-raESWeA4gFYRReDbQMjICg==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport"
+            },
+            {
+              "id": "webgl",
+              "slug": "6000.3.11f1-mac_os-arm64-webgl",
+              "name": "Web Build Support",
+              "description": "Allows building your Unity projects for the Web platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-WebGL-Support-for-Editor-Arm64-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 1608260260,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 5040058000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-YOwHf9nqe7GQqhXfcbEaqg==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/PlaybackEngines/WebGLSupport"
+            },
+            {
+              "id": "windows-mono",
+              "slug": "6000.3.11f1-mac_os-arm64-windows-mono",
+              "name": "Windows Build Support (Mono)",
+              "description": "Allows building your Unity projects for the Windows-Mono platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-Windows-Mono-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 380895729,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 986441000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-Dd/rNg9qfX+q5i3xboV14w==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/PlaybackEngines/WindowsStandaloneSupport"
+            },
+            {
+              "id": "windows-server",
+              "slug": "6000.3.11f1-mac_os-arm64-windows-server",
+              "name": "Windows Dedicated Server Build Support",
+              "description": "Allows building your Unity projects for the Windows-Server platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-Windows-Server-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 380605937,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 985861000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-oPJhLeImuOQDlXmuxC9r7g==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/PlaybackEngines/WindowsStandaloneSupport"
+            },
+            {
+              "id": "language-ja",
+              "slug": "6000.3.11f1-mac_os-arm64-language-ja",
+              "name": "\u65e5\u672c\u8a9e",
+              "description": "\u65e5\u672c\u8a9e",
+              "category": "LANGUAGE_PACK",
+              "url": "https://new-translate.unity3d.jp/v1/live/54/6000.3/ja",
+              "type": "PO",
+              "downloadSize": {
+                "value": 2936241,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2936241,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Unity.app/Contents/Localization"
+            },
+            {
+              "id": "language-ko",
+              "slug": "6000.3.11f1-mac_os-arm64-language-ko",
+              "name": "\ud55c\uad6d\uc5b4",
+              "description": "\ud55c\uad6d\uc5b4",
+              "category": "LANGUAGE_PACK",
+              "url": "https://new-translate.unity3d.jp/v1/live/54/6000.3/ko",
+              "type": "PO",
+              "downloadSize": {
+                "value": 2777994,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2777994,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Unity.app/Contents/Localization"
+            },
+            {
+              "id": "language-zh-hant",
+              "slug": "6000.3.11f1-mac_os-arm64-language-zh-hant",
+              "name": "\u7e41\u9ad4\u4e2d\u6587",
+              "description": "\u7e41\u9ad4\u4e2d\u6587",
+              "category": "LANGUAGE_PACK",
+              "url": "https://new-translate.unity3d.jp/v1/live/54/6000.3/zh-hant",
+              "type": "PO",
+              "downloadSize": {
+                "value": 2558536,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2558536,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Unity.app/Contents/Localization"
+            },
+            {
+              "id": "language-zh-hans",
+              "slug": "6000.3.11f1-mac_os-arm64-language-zh-hans",
+              "name": "\u7b80\u4f53\u4e2d\u6587",
+              "description": "\u7b80\u4f53\u4e2d\u6587",
+              "category": "LANGUAGE_PACK",
+              "url": "https://new-translate.unity3d.jp/v1/live/54/6000.3/zh-hans",
+              "type": "PO",
+              "downloadSize": {
+                "value": 2560890,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2560890,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Unity.app/Contents/Localization"
+            },
+            {
+              "id": "documentation",
+              "slug": "6000.3.11f1-mac_os-arm64-documentation",
+              "name": "Documentation",
+              "description": "Offline Documentation",
+              "category": "DOCUMENTATION",
+              "url": "https://cloudmedia-docs.unity3d.com/docscloudstorage/6000.3/UnityDocumentation.zip",
+              "type": "ZIP",
+              "downloadSize": {
+                "value": 486621836,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 992708545,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            }
+          ],
+          "integrity": "md5-4YkpV0S1baQVOoTcIal0DQ=="
+        },
+        {
+          "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorInstaller/Unity-6000.3.11f1.pkg",
+          "type": "PKG",
+          "platform": "MAC_OS",
+          "architecture": "X86_64",
+          "downloadSize": {
+            "value": 5120033561,
+            "unit": "BYTE"
+          },
+          "installedSize": {
+            "value": 9340165000,
+            "unit": "BYTE"
+          },
+          "modules": [
+            {
+              "id": "visualstudiocode",
+              "slug": "6000.3.11f1-mac_os-x86_64-visualstudiocode",
+              "name": "Visual Studio Code",
+              "description": "Code editor with Unity extension.",
+              "category": "DEV_TOOL",
+              "url": "https://go.microsoft.com/fwlink/?linkid=2261605",
+              "type": "DMG",
+              "downloadSize": {
+                "value": 225000000,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 573000000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "/Applications",
+              "eula": [
+                {
+                  "url": "https://code.visualstudio.com/license",
+                  "type": "TEXT",
+                  "label": "Visual Studio Code License Terms",
+                  "message": "Please review and accept the license terms before downloading and installing Visual Studio Code."
+                }
+              ]
+            },
+            {
+              "id": "android",
+              "slug": "6000.3.11f1-mac_os-x86_64-android",
+              "name": "Android Build Support",
+              "description": "Allows building your Unity projects for the Android platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-Android-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 2093675367,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 6686304000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-L33Lg+gzOHGj7TMgpC8ZSQ==",
+              "subModules": [
+                {
+                  "id": "android-open-jdk-17.0.9+9",
+                  "slug": "6000.3.11f1-mac_os-x86_64-android-open-jdk-17.0.9+9",
+                  "name": "OpenJDK",
+                  "description": "Android Open JDK 17.0.9+9",
+                  "category": "PLATFORM",
+                  "url": "https://download.unity3d.com/download_unity/open-jdk/open-jdk-mac-x64/jdk17.0.9-9_388f7edd2524a9235650fa7cf531302e4676b80526b2d6a0fa199d030779169d.zip",
+                  "type": "ZIP",
+                  "downloadSize": {
+                    "value": 112082169,
+                    "unit": "BYTE"
+                  },
+                  "installedSize": {
+                    "value": 220288498,
+                    "unit": "BYTE"
+                  },
+                  "required": true,
+                  "hidden": false,
+                  "preSelected": false,
+                  "integrity": "",
+                  "subModules": [],
+                  "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/OpenJDK",
+                  "eula": []
+                },
+                {
+                  "id": "android-sdk-ndk-tools",
+                  "slug": "6000.3.11f1-mac_os-x86_64-android-sdk-ndk-tools",
+                  "name": "Android SDK & NDK Tools",
+                  "description": "android-sdk-ndk-tools 26.1.1",
+                  "category": "PLATFORM",
+                  "url": "https://dl.google.com/android/repository/sdk-tools-darwin-4333796.zip",
+                  "type": "ZIP",
+                  "downloadSize": {
+                    "value": 148000000,
+                    "unit": "BYTE"
+                  },
+                  "installedSize": {
+                    "value": 174000000,
+                    "unit": "BYTE"
+                  },
+                  "required": true,
+                  "hidden": false,
+                  "preSelected": false,
+                  "integrity": "",
+                  "subModules": [
+                    {
+                      "id": "android-ndk-r27c",
+                      "slug": "6000.3.11f1-mac_os-x86_64-android-ndk-r27c",
+                      "name": "Android NDK",
+                      "description": "Android NDK r27c",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/android-ndk-r27c-darwin.dmg",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 921212233,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 2568019969,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "extractedPathRename": {
+                        "from": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/NDK/Contents/NDK",
+                        "to": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/NDK"
+                      },
+                      "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/NDK",
+                      "eula": []
+                    },
+                    {
+                      "id": "cmake-3.22.1",
+                      "slug": "6000.3.11f1-mac_os-x86_64-cmake-3.22.1",
+                      "name": "CMake",
+                      "description": "CMake 3.22.1",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/cmake-3.22.1-darwin.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 38223266,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 89092010,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "extractedPathRename": {
+                        "from": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/cmake/cmake",
+                        "to": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/cmake/3.22.1"
+                      },
+                      "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/cmake/cmake",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-build-tools-36.0.0",
+                      "slug": "6000.3.11f1-mac_os-x86_64-android-sdk-build-tools-36.0.0",
+                      "name": "Android SDK Build Tools",
+                      "description": "Android SDK Build Tools 36.0.0",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/build-tools_r36_macosx.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 79121749,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 197101194,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "extractedPathRename": {
+                        "from": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/build-tools/android-16",
+                        "to": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/build-tools/36.0.0"
+                      },
+                      "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/build-tools",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-platform-tools-36.0.0",
+                      "slug": "6000.3.11f1-mac_os-x86_64-android-sdk-platform-tools-36.0.0",
+                      "name": "Android SDK Platform Tools",
+                      "description": "Android SDK Platform Tools 36.0.0",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/platform-tools_r36.0.0-darwin.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 14186137,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 34000521,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-platforms-34",
+                      "slug": "6000.3.11f1-mac_os-x86_64-android-sdk-platforms-34",
+                      "name": "Android SDK Platforms 34",
+                      "description": "Android SDK Platforms 34",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/platform-34-ext7_r02.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 63180079,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 99855424,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/platforms",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-platforms-35",
+                      "slug": "6000.3.11f1-mac_os-x86_64-android-sdk-platforms-35",
+                      "name": "Android SDK Platforms 35",
+                      "description": "Android SDK Platforms 35",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/platform-35_r01.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 64281654,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 102618237,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/platforms",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-platforms-36",
+                      "slug": "6000.3.11f1-mac_os-x86_64-android-sdk-platforms-36",
+                      "name": "Android SDK Platforms 36",
+                      "description": "Android SDK Platforms 36",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/platform-36_r02.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 65878410,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 106177284,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/platforms",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-command-line-tools-16.0",
+                      "slug": "6000.3.11f1-mac_os-x86_64-android-sdk-command-line-tools-16.0",
+                      "name": "Android SDK Command Line Tools",
+                      "description": "Android SDK Command Line Tools 16.0",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/commandlinetools-mac-12266719_latest.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 143967391,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 167124387,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "sha384-Q1n+ef1ChK97sZedZt3cUPS69jRa3Rs5DLfbD9KXI91gb5tncO42czPjW8i7xx4O",
+                      "subModules": [],
+                      "extractedPathRename": {
+                        "from": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/cmdline-tools/cmdline-tools",
+                        "to": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/cmdline-tools/16.0"
+                      },
+                      "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK/cmdline-tools",
+                      "eula": []
+                    }
+                  ],
+                  "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer/SDK",
+                  "eula": [
+                    {
+                      "url": "https://dl.google.com/dl/android/repository/repository2-1.xml",
+                      "type": "TEXT",
+                      "label": "Android SDK and NDK License Terms from Google",
+                      "message": "Please review and accept the license terms before downloading and installing Android's SDK and NDK."
+                    }
+                  ]
+                }
+              ],
+              "destination": "{UNITY_PATH}/PlaybackEngines/AndroidPlayer"
+            },
+            {
+              "id": "ios",
+              "slug": "6000.3.11f1-mac_os-x86_64-ios",
+              "name": "iOS Build Support",
+              "description": "Allows building your Unity projects for the iOS platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-iOS-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 468166939,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 1366671000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-sftZ31ATk283wTlTtcWdzQ==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/PlaybackEngines"
+            },
+            {
+              "id": "appletv",
+              "slug": "6000.3.11f1-mac_os-x86_64-appletv",
+              "name": "tvOS Build Support",
+              "description": "Allows building your Unity projects for the AppleTV platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-AppleTV-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 460098926,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 1343697000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-FBRlufu21K84uGLYQ/rw1A==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/PlaybackEngines/AppleTVSupport"
+            },
+            {
+              "id": "visionos",
+              "slug": "6000.3.11f1-mac_os-x86_64-visionos",
+              "name": "visionOS Build Support",
+              "description": "Allows building your Unity projects for the VisionOS platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-VisionOS-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 296357294,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 868674000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-U3I7bOCT0RSJWcaui4te3g==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/PlaybackEngines/VisionOSPlayer"
+            },
+            {
+              "id": "linux-il2cpp",
+              "slug": "6000.3.11f1-mac_os-x86_64-linux-il2cpp",
+              "name": "Linux Build Support (IL2CPP)",
+              "description": "Allows building your Unity projects for the Linux-IL2CPP platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-Linux-IL2CPP-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 80890143,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 214668000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-Ji/VMkkQJ4jE3jskM79VYA==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/PlaybackEngines/LinuxStandaloneSupport"
+            },
+            {
+              "id": "linux-mono",
+              "slug": "6000.3.11f1-mac_os-x86_64-linux-mono",
+              "name": "Linux Build Support (Mono)",
+              "description": "Allows building your Unity projects for the Linux-Mono platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-Linux-Mono-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 81319771,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 214053000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-G3z/5JMXy1PYXd/Xja553A==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/PlaybackEngines/LinuxStandaloneSupport"
+            },
+            {
+              "id": "linux-server",
+              "slug": "6000.3.11f1-mac_os-x86_64-linux-server",
+              "name": "Linux Dedicated Server Build Support",
+              "description": "Allows building your Unity projects for the Linux-Server platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-Linux-Server-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 223368781,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 599084000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-YugGPEKJFLogzjwIwMXUpw==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/PlaybackEngines/LinuxStandaloneSupport"
+            },
+            {
+              "id": "mac-il2cpp",
+              "slug": "6000.3.11f1-mac_os-x86_64-mac-il2cpp",
+              "name": "Mac Build Support (IL2CPP)",
+              "description": "Allows building your Unity projects for the Mac-IL2CPP platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-Mac-IL2CPP-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 707791850,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2160473000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-OqF9nyAvOhr0QtJfc2SF5A==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport"
+            },
+            {
+              "id": "mac-server",
+              "slug": "6000.3.11f1-mac_os-x86_64-mac-server",
+              "name": "Mac Dedicated Server Build Support",
+              "description": "Allows building your Unity projects for the Mac-Server platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-Mac-Server-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 1414316113,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 4314103000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-raESWeA4gFYRReDbQMjICg==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport"
+            },
+            {
+              "id": "webgl",
+              "slug": "6000.3.11f1-mac_os-x86_64-webgl",
+              "name": "Web Build Support",
+              "description": "Allows building your Unity projects for the Web platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-WebGL-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 1722090080,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 5021249000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-ck2Mw/gF+LCMDRzA94ELZQ==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/PlaybackEngines/WebGLSupport"
+            },
+            {
+              "id": "windows-mono",
+              "slug": "6000.3.11f1-mac_os-x86_64-windows-mono",
+              "name": "Windows Build Support (Mono)",
+              "description": "Allows building your Unity projects for the Windows-Mono platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-Windows-Mono-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 380895729,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 986441000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-Dd/rNg9qfX+q5i3xboV14w==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/PlaybackEngines/WindowsStandaloneSupport"
+            },
+            {
+              "id": "windows-server",
+              "slug": "6000.3.11f1-mac_os-x86_64-windows-server",
+              "name": "Windows Dedicated Server Build Support",
+              "description": "Allows building your Unity projects for the Windows-Server platform",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/MacEditorTargetInstaller/UnitySetup-Windows-Server-Support-for-Editor-6000.3.11f1.pkg",
+              "type": "PKG",
+              "downloadSize": {
+                "value": 380605937,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 985861000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-oPJhLeImuOQDlXmuxC9r7g==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}/PlaybackEngines/WindowsStandaloneSupport"
+            },
+            {
+              "id": "language-ja",
+              "slug": "6000.3.11f1-mac_os-x86_64-language-ja",
+              "name": "\u65e5\u672c\u8a9e",
+              "description": "\u65e5\u672c\u8a9e",
+              "category": "LANGUAGE_PACK",
+              "url": "https://new-translate.unity3d.jp/v1/live/54/6000.3/ja",
+              "type": "PO",
+              "downloadSize": {
+                "value": 2936241,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2936241,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Unity.app/Contents/Localization"
+            },
+            {
+              "id": "language-ko",
+              "slug": "6000.3.11f1-mac_os-x86_64-language-ko",
+              "name": "\ud55c\uad6d\uc5b4",
+              "description": "\ud55c\uad6d\uc5b4",
+              "category": "LANGUAGE_PACK",
+              "url": "https://new-translate.unity3d.jp/v1/live/54/6000.3/ko",
+              "type": "PO",
+              "downloadSize": {
+                "value": 2777994,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2777994,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Unity.app/Contents/Localization"
+            },
+            {
+              "id": "language-zh-hant",
+              "slug": "6000.3.11f1-mac_os-x86_64-language-zh-hant",
+              "name": "\u7e41\u9ad4\u4e2d\u6587",
+              "description": "\u7e41\u9ad4\u4e2d\u6587",
+              "category": "LANGUAGE_PACK",
+              "url": "https://new-translate.unity3d.jp/v1/live/54/6000.3/zh-hant",
+              "type": "PO",
+              "downloadSize": {
+                "value": 2558536,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2558536,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Unity.app/Contents/Localization"
+            },
+            {
+              "id": "language-zh-hans",
+              "slug": "6000.3.11f1-mac_os-x86_64-language-zh-hans",
+              "name": "\u7b80\u4f53\u4e2d\u6587",
+              "description": "\u7b80\u4f53\u4e2d\u6587",
+              "category": "LANGUAGE_PACK",
+              "url": "https://new-translate.unity3d.jp/v1/live/54/6000.3/zh-hans",
+              "type": "PO",
+              "downloadSize": {
+                "value": 2560890,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2560890,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Unity.app/Contents/Localization"
+            },
+            {
+              "id": "documentation",
+              "slug": "6000.3.11f1-mac_os-x86_64-documentation",
+              "name": "Documentation",
+              "description": "Offline Documentation",
+              "category": "DOCUMENTATION",
+              "url": "https://cloudmedia-docs.unity3d.com/docscloudstorage/6000.3/UnityDocumentation.zip",
+              "type": "ZIP",
+              "downloadSize": {
+                "value": 486621836,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 992708545,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            }
+          ],
+          "integrity": "md5-5MqQvTRSZPr/MiLKbRl7sA=="
+        },
+        {
+          "url": "https://download.unity3d.com/download_unity/3000ef702840/WindowsArm64EditorInstaller/UnitySetupArm64-6000.3.11f1.exe",
+          "type": "EXE",
+          "platform": "WINDOWS",
+          "architecture": "ARM64",
+          "downloadSize": {
+            "value": 4142343272,
+            "unit": "BYTE"
+          },
+          "installedSize": {
+            "value": 7235474070,
+            "unit": "BYTE"
+          },
+          "modules": [
+            {
+              "id": "visualstudio",
+              "slug": "6000.3.11f1-windows-arm64-visualstudio",
+              "name": "Microsoft Visual Studio Community 2022",
+              "description": "Downloads and installs Microsoft Visual Studio Community 2022. By installing this you accept the license terms for Visual Studio.",
+              "category": "DEV_TOOL",
+              "url": "https://go.microsoft.com/fwlink/?linkid=2189815",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 1699733504,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 1702887424,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": true,
+              "subModules": [],
+              "eula": [
+                {
+                  "url": "https://go.microsoft.com/fwlink/?linkid=2189669",
+                  "type": "TEXT",
+                  "label": "Visual Studio 2022 Community License Terms",
+                  "message": "Please review and accept the license terms before downloading and installing Microsoft Visual Studio."
+                }
+              ]
+            },
+            {
+              "id": "visualstudioprofessionalunityworkload",
+              "slug": "6000.3.11f1-windows-arm64-visualstudioprofessionalunityworkload",
+              "name": "Unity Game Development for Microsoft Visual Studio Professional 2022",
+              "description": "Unity Game Development for Microsoft Visual Studio Professional 2022. By installing this you accept the license terms for Visual Studio Tools for Unity.",
+              "category": "PLUGIN",
+              "url": "https://aka.ms/vs/17/release/vs_Professional.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 1024000000,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 327680000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": true,
+              "preSelected": false,
+              "subModules": [],
+              "eula": [
+                {
+                  "url": "https://go.microsoft.com/fwlink/?linkid=617019",
+                  "type": "TEXT",
+                  "label": "Visual Studio Tools for Unity License Terms",
+                  "message": "Please review and accept the license terms before downloading and installing Unity Game Development for Microsoft Visual Studio Professional 2022."
+                }
+              ]
+            },
+            {
+              "id": "visualstudioenterpriseunityworkload",
+              "slug": "6000.3.11f1-windows-arm64-visualstudioenterpriseunityworkload",
+              "name": "Unity Game Development for Microsoft Visual Studio Enterprise 2019",
+              "description": "Unity Game Development for Microsoft Visual Studio Enterprise 2019. By installing this you accept the license terms for Visual Studio Tools for Unity.",
+              "category": "PLUGIN",
+              "url": "https://aka.ms/vs/17/release/vs_Enterprise.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 1024000000,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 327680000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": true,
+              "preSelected": false,
+              "subModules": [],
+              "eula": [
+                {
+                  "url": "https://go.microsoft.com/fwlink/?LinkId=617019",
+                  "type": "TEXT",
+                  "label": "Visual Studio Tools for Unity License Terms",
+                  "message": "Please review and accept the license terms before downloading and installing Unity Game Development for Microsoft Visual Studio Enterprise 2022."
+                }
+              ]
+            },
+            {
+              "id": "android",
+              "slug": "6000.3.11f1-windows-arm64-android",
+              "name": "Android Build Support",
+              "description": "Android Playback Engine",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-Android-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 1537996056,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 6846528607,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-f1An9r4mSLmjm9W6msxa1w==",
+              "subModules": [
+                {
+                  "id": "android-open-jdk-17.0.9+9",
+                  "slug": "6000.3.11f1-windows-arm64-android-open-jdk-17.0.9+9",
+                  "name": "OpenJDK",
+                  "description": "Android Open JDK 17.0.9+9",
+                  "category": "PLATFORM",
+                  "url": "https://download.unity3d.com/download_unity/open-jdk/open-jdk-win-x64/jdk17.0.9-9_f12c2989c2f749b13282640a12d7d624097f6c2d45144d87331f21ad352ab63e.zip",
+                  "type": "ZIP",
+                  "downloadSize": {
+                    "value": 117700264,
+                    "unit": "BYTE"
+                  },
+                  "installedSize": {
+                    "value": 238361918,
+                    "unit": "BYTE"
+                  },
+                  "required": true,
+                  "hidden": false,
+                  "preSelected": false,
+                  "integrity": "",
+                  "subModules": [],
+                  "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/OpenJDK",
+                  "eula": []
+                },
+                {
+                  "id": "android-sdk-ndk-tools",
+                  "slug": "6000.3.11f1-windows-arm64-android-sdk-ndk-tools",
+                  "name": "Android SDK & NDK Tools",
+                  "description": "android-sdk-ndk-tools 26.1.1",
+                  "category": "PLATFORM",
+                  "url": "https://dl.google.com/android/repository/sdk-tools-windows-4333796.zip",
+                  "type": "ZIP",
+                  "downloadSize": {
+                    "value": 148000000,
+                    "unit": "BYTE"
+                  },
+                  "installedSize": {
+                    "value": 174000000,
+                    "unit": "BYTE"
+                  },
+                  "required": true,
+                  "hidden": false,
+                  "preSelected": false,
+                  "integrity": "",
+                  "subModules": [
+                    {
+                      "id": "android-ndk-r27c",
+                      "slug": "6000.3.11f1-windows-arm64-android-ndk-r27c",
+                      "name": "Android NDK",
+                      "description": "Android NDK r27c",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/android-ndk-r27c-windows.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 781511249,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 2361056613,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "extractedPathRename": {
+                        "from": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/android-ndk-r27c",
+                        "to": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/NDK"
+                      },
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/NDK",
+                      "eula": []
+                    },
+                    {
+                      "id": "cmake-3.22.1",
+                      "slug": "6000.3.11f1-windows-arm64-cmake-3.22.1",
+                      "name": "CMake",
+                      "description": "CMake 3.22.1",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/cmake-3.22.1-windows.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 16116742,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 39348489,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "extractedPathRename": {
+                        "from": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/cmake/cmake",
+                        "to": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/cmake/3.22.1"
+                      },
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/cmake/cmake",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-build-tools-36.0.0",
+                      "slug": "6000.3.11f1-windows-arm64-android-sdk-build-tools-36.0.0",
+                      "name": "Android SDK Build Tools",
+                      "description": "Android SDK Build Tools 36.0.0",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/build-tools_r36_windows.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 58699878,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 143241305,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "extractedPathRename": {
+                        "from": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/build-tools/android-16",
+                        "to": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/build-tools/36.0.0"
+                      },
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/build-tools",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-platform-tools-36.0.0",
+                      "slug": "6000.3.11f1-windows-arm64-android-sdk-platform-tools-36.0.0",
+                      "name": "Android SDK Platform Tools",
+                      "description": "Android SDK Platform Tools 36.0.0",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/platform-tools_r36.0.0-win.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 7138784,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 15373885,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-platforms-34",
+                      "slug": "6000.3.11f1-windows-arm64-android-sdk-platforms-34",
+                      "name": "Android SDK Platforms 34",
+                      "description": "Android SDK Platforms 34",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/platform-34-ext7_r02.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 63180079,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 99855424,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/platforms",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-platforms-35",
+                      "slug": "6000.3.11f1-windows-arm64-android-sdk-platforms-35",
+                      "name": "Android SDK Platforms 35",
+                      "description": "Android SDK Platforms 35",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/platform-35_r01.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 64281654,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 102618237,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/platforms",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-platforms-36",
+                      "slug": "6000.3.11f1-windows-arm64-android-sdk-platforms-36",
+                      "name": "Android SDK Platforms 36",
+                      "description": "Android SDK Platforms 36",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/platform-36_r02.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 65878410,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 106177284,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/platforms",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-command-line-tools-16.0",
+                      "slug": "6000.3.11f1-windows-arm64-android-sdk-command-line-tools-16.0",
+                      "name": "Android SDK Command Line Tools",
+                      "description": "Android SDK Command Line Tools 16.0",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/commandlinetools-win-12266719_latest.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 143481958,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 165583436,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "sha384-3H6q0QmivqDyr88w9L8AsYO9yGt41w/Or/JYqclRY2ZbCh3kdguKuyAQYM6JwyWe",
+                      "subModules": [],
+                      "extractedPathRename": {
+                        "from": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/cmdline-tools/cmdline-tools",
+                        "to": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/cmdline-tools/16.0"
+                      },
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/cmdline-tools",
+                      "eula": []
+                    }
+                  ],
+                  "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK",
+                  "eula": [
+                    {
+                      "url": "https://dl.google.com/dl/android/repository/repository2-1.xml",
+                      "type": "TEXT",
+                      "label": "Android SDK and NDK License Terms from Google",
+                      "message": "Please review and accept the license terms before downloading and installing Android's SDK and NDK."
+                    }
+                  ]
+                }
+              ],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "ios",
+              "slug": "6000.3.11f1-windows-arm64-ios",
+              "name": "iOS Build Support",
+              "description": "iOS Playback Engine",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-iOS-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 348139616,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 1412544941,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-2dqUBxALubwM62OMjH4SaQ==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "appletv",
+              "slug": "6000.3.11f1-windows-arm64-appletv",
+              "name": "tvOS Build Support",
+              "description": "tvOS Playback Engine",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-AppleTV-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 342836912,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 1389022534,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-xQG8Mv/v9dfHfIyOpBg6BA==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "visionos",
+              "slug": "6000.3.11f1-windows-arm64-visionos",
+              "name": "visionOS Build Support",
+              "description": "visionOS Playback Engine",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-VisionOS-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 212969592,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 888609404,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-tqZdLIvz8QwiV4Lspr6Ftg==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "linux-il2cpp",
+              "slug": "6000.3.11f1-windows-arm64-linux-il2cpp",
+              "name": "Linux Build Support (IL2CPP)",
+              "description": "Linux Playback Engine (IL2CPP Scripting Backend)",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-Linux-IL2CPP-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 59444824,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 219719121,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-G4xoUaUwjJGflch/9rBZ6w==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "linux-mono",
+              "slug": "6000.3.11f1-windows-arm64-linux-mono",
+              "name": "Linux Build Support (Mono)",
+              "description": "Linux Playback Engine (Mono Scripting Backend)",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-Linux-Mono-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 57742328,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 205452024,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-m7PWfg1jpV1es9Zw7FLftA==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "linux-server",
+              "slug": "6000.3.11f1-windows-arm64-linux-server",
+              "name": "Linux Dedicated Server Build Support",
+              "description": "Linux Server Playback Engine",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-Linux-Server-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 160630752,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 587330480,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-mWC0ZxS5nBJj7asRJlDRCQ==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "mac-mono",
+              "slug": "6000.3.11f1-windows-arm64-mac-mono",
+              "name": "Mac Build Support (Mono)",
+              "description": "Mac Playback Engine (Mono Scripting Backend)",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-Mac-Mono-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 513425048,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2249081318,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-w0Chh+nBQKECz3sfJg/yvg==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "mac-server",
+              "slug": "6000.3.11f1-windows-arm64-mac-server",
+              "name": "Mac Dedicated Server Build Support",
+              "description": "Mac Server Playback Engine",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-Mac-Server-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 509911408,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2220048291,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-P2QWgiBTJeQp0ff6Gg4fjA==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "universal-windows-platform",
+              "slug": "6000.3.11f1-windows-arm64-universal-windows-platform",
+              "name": "Universal Windows Platform Build Support",
+              "description": "UWP Playback Engine",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-Universal-Windows-Platform-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 433977056,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2297067621,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-KH4AKFQ92etp1+mlCMt3qQ==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "webgl",
+              "slug": "6000.3.11f1-windows-arm64-webgl",
+              "name": "Web Build Support",
+              "description": "Web Playback Engine",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-WebGL-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 952786896,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 4423326426,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-7LQ8dE49OyZArBVd7AvmYg==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "windows-il2cpp",
+              "slug": "6000.3.11f1-windows-arm64-windows-il2cpp",
+              "name": "Windows Build Support (IL2CPP)",
+              "description": "Windows Playback Engine (IL2CPP Scripting Backend)",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-Windows-IL2CPP-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 258110728,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 890860420,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-alz0E149knCUqX9zlhMCUg==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "windows-server",
+              "slug": "6000.3.11f1-windows-arm64-windows-server",
+              "name": "Windows Dedicated Server Build Support",
+              "description": "Windows Server Playback Engine",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-Windows-Server-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 466273720,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 1796803828,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-qj+MqSOciYTsRsKZUgp3iw==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "language-ja",
+              "slug": "6000.3.11f1-windows-arm64-language-ja",
+              "name": "\u65e5\u672c\u8a9e",
+              "description": "\u65e5\u672c\u8a9e",
+              "category": "LANGUAGE_PACK",
+              "url": "https://new-translate.unity3d.jp/v1/live/54/6000.3/ja",
+              "type": "PO",
+              "downloadSize": {
+                "value": 2936241,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2936241,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data/Localization"
+            },
+            {
+              "id": "language-ko",
+              "slug": "6000.3.11f1-windows-arm64-language-ko",
+              "name": "\ud55c\uad6d\uc5b4",
+              "description": "\ud55c\uad6d\uc5b4",
+              "category": "LANGUAGE_PACK",
+              "url": "https://new-translate.unity3d.jp/v1/live/54/6000.3/ko",
+              "type": "PO",
+              "downloadSize": {
+                "value": 2777994,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2777994,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data/Localization"
+            },
+            {
+              "id": "language-zh-hant",
+              "slug": "6000.3.11f1-windows-arm64-language-zh-hant",
+              "name": "\u7e41\u9ad4\u4e2d\u6587",
+              "description": "\u7e41\u9ad4\u4e2d\u6587",
+              "category": "LANGUAGE_PACK",
+              "url": "https://new-translate.unity3d.jp/v1/live/54/6000.3/zh-hant",
+              "type": "PO",
+              "downloadSize": {
+                "value": 2558536,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2558536,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data/Localization"
+            },
+            {
+              "id": "language-zh-hans",
+              "slug": "6000.3.11f1-windows-arm64-language-zh-hans",
+              "name": "\u7b80\u4f53\u4e2d\u6587",
+              "description": "\u7b80\u4f53\u4e2d\u6587",
+              "category": "LANGUAGE_PACK",
+              "url": "https://new-translate.unity3d.jp/v1/live/54/6000.3/zh-hans",
+              "type": "PO",
+              "downloadSize": {
+                "value": 2560890,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2560890,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data/Localization"
+            },
+            {
+              "id": "documentation",
+              "slug": "6000.3.11f1-windows-arm64-documentation",
+              "name": "Documentation",
+              "description": "Offline Documentation",
+              "category": "DOCUMENTATION",
+              "url": "https://cloudmedia-docs.unity3d.com/docscloudstorage/6000.3/UnityDocumentation.zip",
+              "type": "ZIP",
+              "downloadSize": {
+                "value": 486447367,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 992352628,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data"
+            }
+          ],
+          "integrity": "md5-7lQAiuP5O0hHkqyoVSatnw=="
+        },
+        {
+          "url": "https://download.unity3d.com/download_unity/3000ef702840/Windows64EditorInstaller/UnitySetup64-6000.3.11f1.exe",
+          "type": "EXE",
+          "platform": "WINDOWS",
+          "architecture": "X86_64",
+          "downloadSize": {
+            "value": 4183040280,
+            "unit": "BYTE"
+          },
+          "installedSize": {
+            "value": 8253123770,
+            "unit": "BYTE"
+          },
+          "modules": [
+            {
+              "id": "visualstudio",
+              "slug": "6000.3.11f1-windows-x86_64-visualstudio",
+              "name": "Microsoft Visual Studio Community 2022",
+              "description": "Downloads and installs Microsoft Visual Studio Community 2022. By installing this you accept the license terms for Visual Studio.",
+              "category": "DEV_TOOL",
+              "url": "https://go.microsoft.com/fwlink/?linkid=2189815",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 1699733504,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 1702887424,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": true,
+              "subModules": [],
+              "eula": [
+                {
+                  "url": "https://go.microsoft.com/fwlink/?linkid=2189669",
+                  "type": "TEXT",
+                  "label": "Visual Studio 2022 Community License Terms",
+                  "message": "Please review and accept the license terms before downloading and installing Microsoft Visual Studio."
+                }
+              ]
+            },
+            {
+              "id": "visualstudioprofessionalunityworkload",
+              "slug": "6000.3.11f1-windows-x86_64-visualstudioprofessionalunityworkload",
+              "name": "Unity Game Development for Microsoft Visual Studio Professional 2022",
+              "description": "Unity Game Development for Microsoft Visual Studio Professional 2022. By installing this you accept the license terms for Visual Studio Tools for Unity.",
+              "category": "PLUGIN",
+              "url": "https://aka.ms/vs/17/release/vs_Professional.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 1024000000,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 327680000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": true,
+              "preSelected": false,
+              "subModules": [],
+              "eula": [
+                {
+                  "url": "https://go.microsoft.com/fwlink/?linkid=617019",
+                  "type": "TEXT",
+                  "label": "Visual Studio Tools for Unity License Terms",
+                  "message": "Please review and accept the license terms before downloading and installing Unity Game Development for Microsoft Visual Studio Professional 2022."
+                }
+              ]
+            },
+            {
+              "id": "visualstudioenterpriseunityworkload",
+              "slug": "6000.3.11f1-windows-x86_64-visualstudioenterpriseunityworkload",
+              "name": "Unity Game Development for Microsoft Visual Studio Enterprise 2019",
+              "description": "Unity Game Development for Microsoft Visual Studio Enterprise 2019. By installing this you accept the license terms for Visual Studio Tools for Unity.",
+              "category": "PLUGIN",
+              "url": "https://aka.ms/vs/17/release/vs_Enterprise.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 1024000000,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 327680000,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": true,
+              "preSelected": false,
+              "subModules": [],
+              "eula": [
+                {
+                  "url": "https://go.microsoft.com/fwlink/?LinkId=617019",
+                  "type": "TEXT",
+                  "label": "Visual Studio Tools for Unity License Terms",
+                  "message": "Please review and accept the license terms before downloading and installing Unity Game Development for Microsoft Visual Studio Enterprise 2022."
+                }
+              ]
+            },
+            {
+              "id": "android",
+              "slug": "6000.3.11f1-windows-x86_64-android",
+              "name": "Android Build Support",
+              "description": "Android Playback Engine",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-Android-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 1537996056,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 6846528607,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-f1An9r4mSLmjm9W6msxa1w==",
+              "subModules": [
+                {
+                  "id": "android-open-jdk-17.0.9+9",
+                  "slug": "6000.3.11f1-windows-x86_64-android-open-jdk-17.0.9+9",
+                  "name": "OpenJDK",
+                  "description": "Android Open JDK 17.0.9+9",
+                  "category": "PLATFORM",
+                  "url": "https://download.unity3d.com/download_unity/open-jdk/open-jdk-win-x64/jdk17.0.9-9_f12c2989c2f749b13282640a12d7d624097f6c2d45144d87331f21ad352ab63e.zip",
+                  "type": "ZIP",
+                  "downloadSize": {
+                    "value": 117700264,
+                    "unit": "BYTE"
+                  },
+                  "installedSize": {
+                    "value": 238361918,
+                    "unit": "BYTE"
+                  },
+                  "required": true,
+                  "hidden": false,
+                  "preSelected": false,
+                  "integrity": "",
+                  "subModules": [],
+                  "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/OpenJDK",
+                  "eula": []
+                },
+                {
+                  "id": "android-sdk-ndk-tools",
+                  "slug": "6000.3.11f1-windows-x86_64-android-sdk-ndk-tools",
+                  "name": "Android SDK & NDK Tools",
+                  "description": "android-sdk-ndk-tools 26.1.1",
+                  "category": "PLATFORM",
+                  "url": "https://dl.google.com/android/repository/sdk-tools-windows-4333796.zip",
+                  "type": "ZIP",
+                  "downloadSize": {
+                    "value": 148000000,
+                    "unit": "BYTE"
+                  },
+                  "installedSize": {
+                    "value": 174000000,
+                    "unit": "BYTE"
+                  },
+                  "required": true,
+                  "hidden": false,
+                  "preSelected": false,
+                  "integrity": "",
+                  "subModules": [
+                    {
+                      "id": "android-ndk-r27c",
+                      "slug": "6000.3.11f1-windows-x86_64-android-ndk-r27c",
+                      "name": "Android NDK",
+                      "description": "Android NDK r27c",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/android-ndk-r27c-windows.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 781511249,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 2361056613,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "extractedPathRename": {
+                        "from": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/NDK/android-ndk-r27c",
+                        "to": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/NDK"
+                      },
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/NDK",
+                      "eula": []
+                    },
+                    {
+                      "id": "cmake-3.22.1",
+                      "slug": "6000.3.11f1-windows-x86_64-cmake-3.22.1",
+                      "name": "CMake",
+                      "description": "CMake 3.22.1",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/cmake-3.22.1-windows.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 16116742,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 39348489,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "extractedPathRename": {
+                        "from": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/cmake/cmake",
+                        "to": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/cmake/3.22.1"
+                      },
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/cmake/cmake",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-build-tools-36.0.0",
+                      "slug": "6000.3.11f1-windows-x86_64-android-sdk-build-tools-36.0.0",
+                      "name": "Android SDK Build Tools",
+                      "description": "Android SDK Build Tools 36.0.0",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/build-tools_r36_windows.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 58699878,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 143241305,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "extractedPathRename": {
+                        "from": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/build-tools/android-16",
+                        "to": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/build-tools/36.0.0"
+                      },
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/build-tools",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-platform-tools-36.0.0",
+                      "slug": "6000.3.11f1-windows-x86_64-android-sdk-platform-tools-36.0.0",
+                      "name": "Android SDK Platform Tools",
+                      "description": "Android SDK Platform Tools 36.0.0",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/platform-tools_r36.0.0-win.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 7138784,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 15373885,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-platforms-34",
+                      "slug": "6000.3.11f1-windows-x86_64-android-sdk-platforms-34",
+                      "name": "Android SDK Platforms 34",
+                      "description": "Android SDK Platforms 34",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/platform-34-ext7_r02.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 63180079,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 99855424,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/platforms",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-platforms-35",
+                      "slug": "6000.3.11f1-windows-x86_64-android-sdk-platforms-35",
+                      "name": "Android SDK Platforms 35",
+                      "description": "Android SDK Platforms 35",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/platform-35_r01.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 64281654,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 102618237,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/platforms",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-platforms-36",
+                      "slug": "6000.3.11f1-windows-x86_64-android-sdk-platforms-36",
+                      "name": "Android SDK Platforms 36",
+                      "description": "Android SDK Platforms 36",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/platform-36_r02.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 65878410,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 106177284,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "",
+                      "subModules": [],
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/platforms",
+                      "eula": []
+                    },
+                    {
+                      "id": "android-sdk-command-line-tools-16.0",
+                      "slug": "6000.3.11f1-windows-x86_64-android-sdk-command-line-tools-16.0",
+                      "name": "Android SDK Command Line Tools",
+                      "description": "Android SDK Command Line Tools 16.0",
+                      "category": "PLATFORM",
+                      "url": "https://dl.google.com/android/repository/commandlinetools-win-12266719_latest.zip",
+                      "type": "ZIP",
+                      "downloadSize": {
+                        "value": 143481958,
+                        "unit": "BYTE"
+                      },
+                      "installedSize": {
+                        "value": 165583436,
+                        "unit": "BYTE"
+                      },
+                      "required": true,
+                      "hidden": true,
+                      "preSelected": false,
+                      "integrity": "sha384-3H6q0QmivqDyr88w9L8AsYO9yGt41w/Or/JYqclRY2ZbCh3kdguKuyAQYM6JwyWe",
+                      "subModules": [],
+                      "extractedPathRename": {
+                        "from": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/cmdline-tools/cmdline-tools",
+                        "to": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/cmdline-tools/16.0"
+                      },
+                      "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/cmdline-tools",
+                      "eula": []
+                    }
+                  ],
+                  "destination": "{UNITY_PATH}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK",
+                  "eula": [
+                    {
+                      "url": "https://dl.google.com/dl/android/repository/repository2-1.xml",
+                      "type": "TEXT",
+                      "label": "Android SDK and NDK License Terms from Google",
+                      "message": "Please review and accept the license terms before downloading and installing Android's SDK and NDK."
+                    }
+                  ]
+                }
+              ],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "ios",
+              "slug": "6000.3.11f1-windows-x86_64-ios",
+              "name": "iOS Build Support",
+              "description": "iOS Playback Engine",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-iOS-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 348139616,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 1412544941,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-2dqUBxALubwM62OMjH4SaQ==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "appletv",
+              "slug": "6000.3.11f1-windows-x86_64-appletv",
+              "name": "tvOS Build Support",
+              "description": "tvOS Playback Engine",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-AppleTV-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 342836912,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 1389022534,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-xQG8Mv/v9dfHfIyOpBg6BA==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "visionos",
+              "slug": "6000.3.11f1-windows-x86_64-visionos",
+              "name": "visionOS Build Support",
+              "description": "visionOS Playback Engine",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-VisionOS-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 212969592,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 888609404,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-tqZdLIvz8QwiV4Lspr6Ftg==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "linux-il2cpp",
+              "slug": "6000.3.11f1-windows-x86_64-linux-il2cpp",
+              "name": "Linux Build Support (IL2CPP)",
+              "description": "Linux Playback Engine (IL2CPP Scripting Backend)",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-Linux-IL2CPP-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 59444824,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 219719121,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-G4xoUaUwjJGflch/9rBZ6w==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "linux-mono",
+              "slug": "6000.3.11f1-windows-x86_64-linux-mono",
+              "name": "Linux Build Support (Mono)",
+              "description": "Linux Playback Engine (Mono Scripting Backend)",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-Linux-Mono-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 57742328,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 205452024,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-m7PWfg1jpV1es9Zw7FLftA==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "linux-server",
+              "slug": "6000.3.11f1-windows-x86_64-linux-server",
+              "name": "Linux Dedicated Server Build Support",
+              "description": "Linux Server Playback Engine",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-Linux-Server-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 160630752,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 587330480,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-mWC0ZxS5nBJj7asRJlDRCQ==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "mac-mono",
+              "slug": "6000.3.11f1-windows-x86_64-mac-mono",
+              "name": "Mac Build Support (Mono)",
+              "description": "Mac Playback Engine (Mono Scripting Backend)",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-Mac-Mono-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 513425048,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2249081318,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-w0Chh+nBQKECz3sfJg/yvg==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "mac-server",
+              "slug": "6000.3.11f1-windows-x86_64-mac-server",
+              "name": "Mac Dedicated Server Build Support",
+              "description": "Mac Server Playback Engine",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-Mac-Server-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 509911408,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2220048291,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-P2QWgiBTJeQp0ff6Gg4fjA==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "universal-windows-platform",
+              "slug": "6000.3.11f1-windows-x86_64-universal-windows-platform",
+              "name": "Universal Windows Platform Build Support",
+              "description": "UWP Playback Engine",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-Universal-Windows-Platform-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 433977056,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2297067621,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-KH4AKFQ92etp1+mlCMt3qQ==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "webgl",
+              "slug": "6000.3.11f1-windows-x86_64-webgl",
+              "name": "Web Build Support",
+              "description": "Web Playback Engine",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-WebGL-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 952786896,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 4423326426,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-7LQ8dE49OyZArBVd7AvmYg==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "windows-il2cpp",
+              "slug": "6000.3.11f1-windows-x86_64-windows-il2cpp",
+              "name": "Windows Build Support (IL2CPP)",
+              "description": "Windows Playback Engine (IL2CPP Scripting Backend)",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-Windows-IL2CPP-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 258110728,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 890860420,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-alz0E149knCUqX9zlhMCUg==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "windows-server",
+              "slug": "6000.3.11f1-windows-x86_64-windows-server",
+              "name": "Windows Dedicated Server Build Support",
+              "description": "Windows Server Playback Engine",
+              "category": "PLATFORM",
+              "url": "https://download.unity3d.com/download_unity/3000ef702840/TargetSupportInstaller/UnitySetup-Windows-Server-Support-for-Editor-6000.3.11f1.exe",
+              "type": "EXE",
+              "downloadSize": {
+                "value": 466273720,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 1796803828,
+                "unit": "BYTE"
+              },
+              "required": false,
+              "hidden": false,
+              "preSelected": false,
+              "integrity": "md5-qj+MqSOciYTsRsKZUgp3iw==",
+              "subModules": [],
+              "destination": "{UNITY_PATH}"
+            },
+            {
+              "id": "language-ja",
+              "slug": "6000.3.11f1-windows-x86_64-language-ja",
+              "name": "\u65e5\u672c\u8a9e",
+              "description": "\u65e5\u672c\u8a9e",
+              "category": "LANGUAGE_PACK",
+              "url": "https://new-translate.unity3d.jp/v1/live/54/6000.3/ja",
+              "type": "PO",
+              "downloadSize": {
+                "value": 2936241,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2936241,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data/Localization"
+            },
+            {
+              "id": "language-ko",
+              "slug": "6000.3.11f1-windows-x86_64-language-ko",
+              "name": "\ud55c\uad6d\uc5b4",
+              "description": "\ud55c\uad6d\uc5b4",
+              "category": "LANGUAGE_PACK",
+              "url": "https://new-translate.unity3d.jp/v1/live/54/6000.3/ko",
+              "type": "PO",
+              "downloadSize": {
+                "value": 2777994,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2777994,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data/Localization"
+            },
+            {
+              "id": "language-zh-hant",
+              "slug": "6000.3.11f1-windows-x86_64-language-zh-hant",
+              "name": "\u7e41\u9ad4\u4e2d\u6587",
+              "description": "\u7e41\u9ad4\u4e2d\u6587",
+              "category": "LANGUAGE_PACK",
+              "url": "https://new-translate.unity3d.jp/v1/live/54/6000.3/zh-hant",
+              "type": "PO",
+              "downloadSize": {
+                "value": 2558536,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2558536,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data/Localization"
+            },
+            {
+              "id": "language-zh-hans",
+              "slug": "6000.3.11f1-windows-x86_64-language-zh-hans",
+              "name": "\u7b80\u4f53\u4e2d\u6587",
+              "description": "\u7b80\u4f53\u4e2d\u6587",
+              "category": "LANGUAGE_PACK",
+              "url": "https://new-translate.unity3d.jp/v1/live/54/6000.3/zh-hans",
+              "type": "PO",
+              "downloadSize": {
+                "value": 2560890,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 2560890,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data/Localization"
+            },
+            {
+              "id": "documentation",
+              "slug": "6000.3.11f1-windows-x86_64-documentation",
+              "name": "Documentation",
+              "description": "Offline Documentation",
+              "category": "DOCUMENTATION",
+              "url": "https://cloudmedia-docs.unity3d.com/docscloudstorage/6000.3/UnityDocumentation.zip",
+              "type": "ZIP",
+              "downloadSize": {
+                "value": 486447367,
+                "unit": "BYTE"
+              },
+              "installedSize": {
+                "value": 992352628,
+                "unit": "BYTE"
+              },
+              "required": true,
+              "hidden": false,
+              "preSelected": false,
+              "subModules": [],
+              "destination": "{UNITY_PATH}/Editor/Data"
+            }
+          ],
+          "integrity": "md5-dK8OhzYmCIlmRgQVTiyJlQ=="
+        }
+      ],
+      "skuFamily": "CLASSIC",
+      "recommended": false,
+      "unityHubDeepLink": "unityhub://6000.3.11f1/3000ef702840",
+      "shortRevision": "3000ef702840",
+      "thirdPartyNotices": [
+        {
+          "originalFileName": "Build-Support-Android-IL2CPP-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Build_Support_Android_IL_2_CPP_6000_3_11f1_612f8e0ad2/Build_Support_Android_IL_2_CPP_6000_3_11f1_612f8e0ad2.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Build-Support-EmbeddedLinux-IL2CPP-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Build_Support_Embedded_Linux_IL_2_CPP_6000_3_11f1_aa2f5e36a2/Build_Support_Embedded_Linux_IL_2_CPP_6000_3_11f1_aa2f5e36a2.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Build-Support-Linux-IL2CPP-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Build_Support_Linux_IL_2_CPP_6000_3_11f1_10a24ecf6c/Build_Support_Linux_IL_2_CPP_6000_3_11f1_10a24ecf6c.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Build-Support-Linux-Mono-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Build_Support_Linux_Mono_6000_3_11f1_322f59e296/Build_Support_Linux_Mono_6000_3_11f1_322f59e296.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Build-Support-VisionOS-IL2CPP-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Build_Support_Vision_OS_IL_2_CPP_6000_3_11f1_a28884deb8/Build_Support_Vision_OS_IL_2_CPP_6000_3_11f1_a28884deb8.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Build-Support-Windows-IL2CPP-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Build_Support_Windows_IL_2_CPP_6000_3_11f1_60837239c6/Build_Support_Windows_IL_2_CPP_6000_3_11f1_60837239c6.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Build-Support-Windows-Mono-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Build_Support_Windows_Mono_6000_3_11f1_7e559a90b8/Build_Support_Windows_Mono_6000_3_11f1_7e559a90b8.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Build-Support-Windows-UWP-Mono-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Build_Support_Windows_UWP_Mono_6000_3_11f1_dd3f39e285/Build_Support_Windows_UWP_Mono_6000_3_11f1_dd3f39e285.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Build-Support-Windows-WebGL-IL2CPP-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Build_Support_Windows_Web_GL_IL_2_CPP_6000_3_11f1_c0e809fa8f/Build_Support_Windows_Web_GL_IL_2_CPP_6000_3_11f1_c0e809fa8f.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Build-Support-iOS-IL2CPP-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Build_Support_i_OS_IL_2_CPP_6000_3_11f1_1fdbc2ed97/Build_Support_i_OS_IL_2_CPP_6000_3_11f1_1fdbc2ed97.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Build-Support-macOS-IL2CPP-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Build_Support_mac_OS_IL_2_CPP_6000_3_11f1_b3edc83d0a/Build_Support_mac_OS_IL_2_CPP_6000_3_11f1_b3edc83d0a.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Build-Support-macOS-Mono-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Build_Support_mac_OS_Mono_6000_3_11f1_1e0fe244ae/Build_Support_mac_OS_Mono_6000_3_11f1_1e0fe244ae.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Build-Support-tvOS-IL2CPP-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Build_Support_tv_OS_IL_2_CPP_6000_3_11f1_2b3eff4b33/Build_Support_tv_OS_IL_2_CPP_6000_3_11f1_2b3eff4b33.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Editor-Linux-Mono-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Editor_Linux_Mono_6000_3_11f1_7d8d927621/Editor_Linux_Mono_6000_3_11f1_7d8d927621.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Editor-Windows-Mono-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Editor_Windows_Mono_6000_3_11f1_0baab1ddb8/Editor_Windows_Mono_6000_3_11f1_0baab1ddb8.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Editor-macOS-Arm64-Mono-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Editor_mac_OS_Arm64_Mono_6000_3_11f1_48c3ef3ac1/Editor_mac_OS_Arm64_Mono_6000_3_11f1_48c3ef3ac1.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Editor-macOS-Mono-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Editor_mac_OS_Mono_6000_3_11f1_25c3c32c6a/Editor_mac_OS_Mono_6000_3_11f1_25c3c32c6a.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Player-Android-IL2CPP-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Player_Android_IL_2_CPP_6000_3_11f1_246c551711/Player_Android_IL_2_CPP_6000_3_11f1_246c551711.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Player-EmbeddedLinux-IL2CPP-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Player_Embedded_Linux_IL_2_CPP_6000_3_11f1_7971a82b4d/Player_Embedded_Linux_IL_2_CPP_6000_3_11f1_7971a82b4d.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Player-Linux-IL2CPP-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Player_Linux_IL_2_CPP_6000_3_11f1_57d2244455/Player_Linux_IL_2_CPP_6000_3_11f1_57d2244455.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Player-Linux-Mono-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Player_Linux_Mono_6000_3_11f1_5bbf04d832/Player_Linux_Mono_6000_3_11f1_5bbf04d832.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Player-VisionOS-IL2CPP-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Player_Vision_OS_IL_2_CPP_6000_3_11f1_d0b76e93bc/Player_Vision_OS_IL_2_CPP_6000_3_11f1_d0b76e93bc.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Player-Windows-IL2CPP-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Player_Windows_IL_2_CPP_6000_3_11f1_8fe136b04e/Player_Windows_IL_2_CPP_6000_3_11f1_8fe136b04e.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Player-Windows-Mono-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Player_Windows_Mono_6000_3_11f1_b7ab078964/Player_Windows_Mono_6000_3_11f1_b7ab078964.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Player-Windows-UWP-Mono-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Player_Windows_UWP_Mono_6000_3_11f1_8afe99745e/Player_Windows_UWP_Mono_6000_3_11f1_8afe99745e.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Player-Windows-WebGL-IL2CPP-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Player_Windows_Web_GL_IL_2_CPP_6000_3_11f1_9f0a4b5b3a/Player_Windows_Web_GL_IL_2_CPP_6000_3_11f1_9f0a4b5b3a.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Player-iOS-IL2CPP-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Player_i_OS_IL_2_CPP_6000_3_11f1_0a35056d7e/Player_i_OS_IL_2_CPP_6000_3_11f1_0a35056d7e.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Player-macOS-IL2CPP-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Player_mac_OS_IL_2_CPP_6000_3_11f1_da85eec43e/Player_mac_OS_IL_2_CPP_6000_3_11f1_da85eec43e.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Player-macOS-Mono-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Player_mac_OS_Mono_6000_3_11f1_b3911353a1/Player_mac_OS_Mono_6000_3_11f1_b3911353a1.pdf",
+          "type": "PDF"
+        },
+        {
+          "originalFileName": "Player-tvOS-IL2CPP-6000.3.11f1.pdf",
+          "url": "https://storage.googleapis.com/live-platform-resources-prd/templates/assets/Player_tv_OS_IL_2_CPP_6000_3_11f1_c756add182/Player_tv_OS_IL_2_CPP_6000_3_11f1_c756add182.pdf",
+          "type": "PDF"
+        }
+      ],
+      "stream": "LTS"
+    }
+  ]
+}

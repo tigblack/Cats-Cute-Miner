@@ -1,0 +1,67 @@
+{
+  "completed_at": "2026-10-19T14:56:07.374858+00:00",
+  "owner_request": "собери AAB версию для релиза",
+  "status": "signed_release_format_AAB_built_static_inspection_and_transfer_pending_Mac_offline",
+  "mac_artifact": "/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/release/google-play/builds/cat-miners-0.1.1-2-noads-r9.aab",
+  "mac_builder_receipt": "/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/release/google-play/builds/cat-miners-0.1.1-2-noads-r9.aab.build.json",
+  "artifact_bytes": 77794443,
+  "artifact_sha256": null,
+  "hash_verified_by_builder": true,
+  "hash_not_retrieved_from_mac": true,
+  "package": "com.multicastgames.catscuteminer",
+  "version_name": "0.1.1",
+  "version_code": 2,
+  "unity": "6000.6.4f1",
+  "backend": "IL2CPP",
+  "requested_architectures": [
+    "armeabi-v7a",
+    "arm64-v8a"
+  ],
+  "development": false,
+  "signature_verified_by_Unity_and_wrapper": true,
+  "expected_upload_certificate_sha256": "EEA987A598F655D08FD47BA2F336707E6E9EC37F71DB0968E387070E0607AC19",
+  "guarded_builder_exit_code": 0,
+  "stdout_confirmation": "Signed AAB and hash verified locally",
+  "local_artifact_only": true,
+  "legal_urls_configured": false,
+  "publication_ready": false,
+  "uploaded": false,
+  "device_or_emulator_started": false,
+  "compile_and_export_checks": {
+    "Csharp": true,
+    "native_both_ABIs_compiled": true,
+    "all_exported_Unity_runtime_elf_load_alignments": 16384,
+    "GoogleBilling_gradle_dependency": "8.3.0",
+    "AppLovin_dependency_excluded": true
+  },
+  "final_aab_manifest_dex_abi_checks": "not_run_connection_timed_out",
+  "download_transfer": "not_run_Mac_reverse_tunnel_down",
+  "friendly_copy_attempt": "SSH banner timed out; command did not run, use actual r9 path only",
+  "launcher_restoration_evidence_ref": "release/google-play/evidence/launcher-restore-20261019.json",
+  "build_fixes": [
+    "Explicit local-artifact-only packaging mode; default publication URL prerequisite and runtime LegalValid unchanged",
+    "Portable AndroidPlayer module lookup",
+    "Runtime SDK source gates inspect all GameSdkRuntime partial files",
+    "Built-in running-Editor test symbols no longer treated as player release overrides; configured unsafe Android symbols still rejected",
+    "Two LFS pointer PNGs restored from current approved Console icon/exact generated background",
+    "Meta editor debug-keystore prerequisite prepared privately inside isolated build; actual upload key unchanged; JDK PATH configured"
+  ],
+  "local_python_guard_tests": {
+    "passed": 10,
+    "failed": 0
+  },
+  "remaining": [
+    "Restore Mac connection and read final artifact receipt/hash",
+    "Run inspect-aab.py with bundled bundletool and transfer AAB to hub for download",
+    "Adopt/publish actual game-specific legal documents before publication; optional analytics currently inactive",
+    "Real-device launch/purchases/telemetry and Console/IAP activation remain pending"
+  ],
+  "source_sha256": {
+    "Tools/GooglePlay/google_play_macos.py": "65746662c52737334ee4d419afd11317c4e8c814f6690bf4b0e1fcc36954c9e2",
+    "Tools/GooglePlay/inspect-aab.py": "ef3fc66073f48619ed72167bb0b9aa3a813708c5e0eb5835b892e32a550bd80d",
+    "Assets/Game/Scripts/Editor/BuildAndroid.cs": "4db5227f99c9dec99e8ac0b1838fd00e2aab8b038c2fbb13130668ee19aec25a",
+    "Assets/Game/Scripts/Editor/GooglePlayProjectConfiguration.cs": "3b8b7965d2d5a472367492b35e942ff54ec1e230db6c8d1fbdede20b68f57152",
+    "Assets/Game/Scripts/Editor/RuntimeSdkReleaseGates.cs": "c387bde45201a7aaf0173ab4db4030cab6228979c399fa664382cb1be2c002b8",
+    "Assets/Game/Scripts/Editor/GooglePlayIcons.cs": "05c1de276332871d59813ac0a316ae90edca70d362ddc58073009338e74dd90f"
+  }
+}

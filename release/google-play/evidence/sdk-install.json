@@ -1,0 +1,40 @@
+{
+  "checked_at": "2026-10-14T12:59:35.276096+00:00",
+  "status": "installed_in_source_pending_unity_resolution",
+  "packages": {
+    "appmetrica": {
+      "version": "6.7.0",
+      "source": "https://github.com/appmetrica/appmetrica-unity-plugin.git#v6.7.0"
+    },
+    "adjust": {
+      "version": "5.8.1",
+      "source": "https://github.com/adjust/unity_sdk.git?path=Assets/Adjust#v5.8.1"
+    },
+    "max": {
+      "version": "8.4.2",
+      "source": "https://unity.packages.applovin.com"
+    },
+    "iap": {
+      "version": "5.2.1",
+      "native_billing_expected": "8.3.0",
+      "source": "https://packages.unity.com/com.unity.purchasing"
+    },
+    "edm4u": {
+      "version": "1.2.187",
+      "source": "https://package.openupm.com"
+    },
+    "meta": {
+      "version": "18.1.1",
+      "source": "https://github.com/facebook/facebook-sdk-for-unity/releases/download/sdk-version-18.1.1/facebook-unity-sdk-18.1.1.zip",
+      "zip_sha256": "2fbae8d3868fa598d1826a7d412159b0b73a66c51fc3c4c02c83676c7abc43ac",
+      "unitypackage_sha256": "d3af19d8b9fd1e775d72708fa22a5a0f4617ae642e87cbc5a32a86bb9e926bcf",
+      "files_installed": 260,
+      "embedded_edm_assets_skipped": 14
+    }
+  },
+  "limitations": [
+    "Package resolution and native Android dependencies not yet verified",
+    "SDK presence is not runtime integration",
+    "Own application configurations not created yet"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "checked_at": "2026-10-18T10:08:11.452639+00:00",
+  "user_responses": {
+    "browser": "Готово, подключайся; затем не подключается со скриншотом File /inspect/%23remote-debugging",
+    "legal_process": "Процесс пока не подтверждён",
+    "signing_file_locations": "не знаю"
+  },
+  "browser": {
+    "screenshot_finding": "Local file URL opened instead of chrome://inspect/#remote-debugging",
+    "correct_page_open_command_exit": 0,
+    "mac_native_endpoint_check": "not_enabled",
+    "sessions_transferred": false
+  },
+  "signing_search": {
+    "method": "macOS Spotlight filename search under /Users/arthuri",
+    "filenames": [
+      "upload.jks",
+      "signing.secret.json"
+    ],
+    "matches": [],
+    "limitation": "Spotlight indexing is not an exhaustive filesystem search"
+  },
+  "legal": {
+    "adopted": false,
+    "process_confirmed": false,
+    "published": false
+  },
+  "publication": {
+    "aab_uploaded": false,
+    "production_submitted": false
+  }
+}

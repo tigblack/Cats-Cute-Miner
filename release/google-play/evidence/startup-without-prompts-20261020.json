@@ -1,0 +1,33 @@
+{
+  "checked_at": "2026-10-20T09:24:24.651892+00:00",
+  "request": "Remove startup age-selection and privacy-confirmation screens",
+  "status": "source_implemented_and_verified",
+  "behavior": {
+    "startup_prompts": false,
+    "startup_requires_privacy_file_write": false,
+    "new_or_invalid_records": "unknown age, all optional providers off",
+    "completed_prior_choices": "preserved, protected ages sanitized and ads disabled",
+    "manual_settings_and_document_links": "retained"
+  },
+  "source_sha256": {
+    "Assets/Game/Scripts/Runtime/Integrations/NeutralAgeFlow.cs": "71b061f24fd581ff3da8e2c2473f8a5e1e18da00daab83161fe5f07108701841",
+    "Assets/Game/Tests/PlayMode/IntegrationTelemetryTests.cs": "cbd4e196075d4159053ebfc2f5feeadb396949224df243a66d8b1f13aaaa8972"
+  },
+  "playmode_tests": {
+    "total": 29,
+    "passed": 29,
+    "failed": 0,
+    "evidence_ref": "release/google-play/evidence/startup-without-prompts-playmode-20261020.xml"
+  },
+  "android_player_compilation": {
+    "exit_code": 0,
+    "evidence_ref": "release/google-play/evidence/startup-without-prompts-android-compile-20261020.json"
+  },
+  "new_aab_built": true,
+  "prior_artifact": "0.1.2(3) remains unchanged and still contains the prior startup screens",
+  "uploaded": false,
+  "public_documents_updated": false,
+  "before_next_release": "Update first-launch wording in the game-specific documents to match the removed prompts, then build and verify a new versioned artifact.",
+  "included_in_version": "0.1.3(4)",
+  "new_aab_evidence_ref": "release/google-play/evidence/aab-0.1.3-4-complete-20261020.json"
+}

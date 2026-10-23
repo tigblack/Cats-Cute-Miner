@@ -1,0 +1,43 @@
+{
+  "checked_at": "2026-10-18T19:35:28.367Z",
+  "package": "com.multicastgames.catscuteminer",
+  "app_id": "6374386",
+  "name": "Cat Miners: Idle Tycoon",
+  "actor": "tigblack2016",
+  "owner_email": "tigblack2016@yandex.ru",
+  "organization_id": "509950",
+  "source": "Authenticated AppMetrica SDK-specific key field; Post API key excluded",
+  "settings_url": "https://appmetrica.yandex.ru/application/edit?type=edit&appId=6374386",
+  "config_ref": "Assets/Game/Resources/Integrations/cats-cute-miner-sdk.json",
+  "client_key_sha256": "eb071302add96a831be50ac7a7be04f3e92f2fbf70c8150ebf9b7f4df9f3c471",
+  "client_key_configured": true,
+  "key_matches_authenticated_dashboard": true,
+  "legal_urls_configured": false,
+  "native_device_delivery_verified": false,
+  "other_app_4712257_modified": false,
+  "external_writes_in_this_call": false,
+  "privacy_tests": {
+    "passed": 10,
+    "failed": 0,
+    "test_filter": "IntegrationPrivacyRewardTests",
+    "evidence_ref": "release/google-play/evidence/appmetrica-privacy-editmode-20261018.xml",
+    "xml_sha256": "ec56806c8d7c8a1f79bc7879875fd51541761c16326c4c37022ed4ddf6222468",
+    "mac_source_and_CI_key_hash_match": true
+  },
+  "registration_created_this_session": true,
+  "registration_method": "AppMetrica application/new UI; new own app read back from authenticated SDK settings",
+  "registration_settings": {
+    "time_zone": "UTC",
+    "EU_full_IP_storage_disabled": true,
+    "category": "not_set",
+    "store_link": "not_set"
+  },
+  "native_sdk_initialization_status": "waiting_for_game_specific_legal_URLs_and_eligible_opt_in",
+  "event_delivery_status": "not_verified_on_device_or_dashboard",
+  "original_link_app": {
+    "app_id": "4712257",
+    "name": "Art Puzzle World",
+    "used_for_game_configuration": false
+  },
+  "settings_category_attempt": "No settings save performed; genre metadata remains pending"
+}

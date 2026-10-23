@@ -1,0 +1,6 @@
+{
+  "package": "com.multicastgames.catscuteminer",
+  "mode": "single_verified_aab",
+  "folder": "release/google-play/builds",
+  "owner_request": "2026-10-20: keep only the newest AAB and delete older ones after the new build passes verification"
+}

@@ -1,0 +1,8 @@
+{
+  "name": "agent-browser",
+  "private": true,
+  "type": "module",
+  "bin": { "agentb": "agentb.mjs" },
+  "engines": { "node": ">=20" },
+  "dependencies": { "playwright-core": "^1.55.0" }
+}

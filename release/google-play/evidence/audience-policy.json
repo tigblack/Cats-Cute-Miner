@@ -1,0 +1,35 @@
+{
+  "checked_at": "2026-10-14T13:02:24.703984+00:00",
+  "user_decision": {
+    "package_name": "com.multicastgames.catscuteminer",
+    "audience_includes_under_13": true
+  },
+  "actual_observations": [
+    {
+      "source": "https://multicastgames.com/policy",
+      "section": "9. Children",
+      "minimum_age": 16
+    },
+    {
+      "source": "https://multicastgames.com/termsofuse",
+      "section": "1. Eligibility",
+      "minimum_age": 16
+    },
+    {
+      "source": "https://support.applovin.com/en/max/android/overview/privacy",
+      "sections": [
+        "Prohibition on children data",
+        "Google Play families policy"
+      ],
+      "rule": "Do not initialize/use AppLovin SDK for a child; mixed audience must gate children out of MAX"
+    },
+    {
+      "source": "https://support.google.com/googleplay/android-developer/answer/9867159",
+      "rule": "Mixed audience requires neutral age screen; any child ads must use self-certified ads SDK"
+    }
+  ],
+  "status": "waiting_for_user",
+  "proposed_resolution": "Keep chosen mixed audience; neutral age screen; children/unknown age without MAX/Meta/ads; game-specific privacy/terms draft for review",
+  "age_rating": "Not assigned; IARC is separate",
+  "external_documents_changed": false
+}

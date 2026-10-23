@@ -1,0 +1,57 @@
+{
+  "methods": [
+    "getMulticastStatus",
+    "getMulticastGames",
+    "getAdjustApps",
+    "getMulticastAdjustEvents",
+    "getMulticastGameConfig",
+    "createMulticastGame",
+    "getMulticastProducts",
+    "getMulticastStoreProducts",
+    "saveMulticastProduct",
+    "importMulticastPurchasesFile"
+  ],
+  "contracts": [
+    {
+      "name": "getMulticastStatus",
+      "signature": "async getMulticastStatus(){return this.get(\"/admin/multicast/status\")}"
+    },
+    {
+      "name": "getMulticastGames",
+      "signature": "async getMulticastGames(){return this.get(\"/admin/multicast/games\")}"
+    },
+    {
+      "name": "getMulticastAdjustEvents",
+      "signature": "async getMulticastAdjustEvents(e){return this.get(\"/admin/multicast/adjust-events\",{params:{appToken:e}})}"
+    },
+    {
+      "name": "getMulticastGameConfig",
+      "signature": "async getMulticastGameConfig(e){return this.get(`/admin/multicast/games/${encodeURIComponent(e)}/config`)}"
+    },
+    {
+      "name": "createMulticastGame",
+      "signature": "async createMulticastGame(e){return this.post(\"/admin/multicast/games\",e)}"
+    },
+    {
+      "name": "getMulticastProducts",
+      "signature": "async getMulticastProducts(e){return this.get(\"/admin/multicast/products\",{params:{gameId:e}})}"
+    },
+    {
+      "name": "getMulticastStoreProducts",
+      "signature": "async getMulticastStoreProducts(e,s){return this.get(\"/admin/multicast/store-products\",{params:{platform:e,packageName:s}})}"
+    },
+    {
+      "name": "saveMulticastProduct",
+      "signature": "async saveMulticastProduct(e){return this.post(\"/admin/multicast/products\",e)}"
+    },
+    {
+      "name": "importMulticastPurchasesFile",
+      "signature": "async importMulticastPurchasesFile(e){return this.post(\"/admin/multicast/import-purchases-file\",e)}"
+    }
+  ],
+  "writes_performed": false,
+  "status": {
+    "success": true,
+    "configured": true
+  }
+}

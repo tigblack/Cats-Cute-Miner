@@ -1,0 +1,12 @@
+{
+  "at": "2026-10-20T17:12:25.516070+00:00",
+  "artifact": "/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/build/private/appmetrica-diagnostic-20261020/cat-miners-appmetrica-diagnostic.apk",
+  "sha256": "065585cd52e816c73f23eda40e7d8d741a1b50429ef0f7fa57d64d5eb0f6a361",
+  "bytes": 82978470,
+  "localDiagnosticOnly": true,
+  "nativeVerboseSdkLogs": true,
+  "readOnlyConsole": true,
+  "productionAabChanged": false,
+  "emulatorLaunched": false,
+  "runtimeVerification": "pending"
+}

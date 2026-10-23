@@ -1,0 +1,15 @@
+{
+  "version": "0.1.7",
+  "balanceVersion": "outpost-2.2-b7",
+  "siteName": "cat-miners",
+  "url": "https://sites.aimulticast.org/sargsyan/cat-miners/",
+  "publishedAt": "2026-10-20T20:31:09.966893+00:00",
+  "status": "published_live_runtime_and_browser_persistence_verified",
+  "evidenceRef": "Docs/Reports/webgl-20261020/publication.json",
+  "buildDir": "Builds/Web",
+  "bytes": 28611453,
+  "fullGame": true,
+  "appMetricaWebEventsEnabled": false,
+  "nativePaymentsEnabled": false,
+  "browserSaveVerified": true
+}

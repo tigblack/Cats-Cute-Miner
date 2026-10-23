@@ -1,0 +1,18 @@
+{
+  "Version": "rewards-2",
+  "RewardRngVersion": 1,
+  "RewardRngStream": 5,
+  "NoItem": [1, 2],
+  "Guaranteed": {
+    "3": "hat.common",
+    "4": "backpack.common",
+    "5": "boots.common",
+    "10": "pickaxe.rare",
+    "25": "pickaxe.epic",
+    "50": "pickaxe.legendary"
+  },
+  "RarityThresholds": [70, 94, 99, 100],
+  "CompletionPartsBase": 10,
+  "CompletionPartsPerFive": 5,
+  "DuplicateParts": [5, 15, 40, 120]
+}

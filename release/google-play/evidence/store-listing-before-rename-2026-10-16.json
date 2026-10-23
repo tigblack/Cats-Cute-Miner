@@ -1,0 +1,74 @@
+{
+  "url": "https://play.google.com/console/u/0/developers/8879742639795815518/app/4974963942177850884/store-listings/default/edit",
+  "title": "Default store listing | Cats Cute Miner",
+  "fields": [
+    {
+      "label": null,
+      "value": "Cats Cute Miner"
+    },
+    {
+      "label": null,
+      "value": "Lead a cat mining crew, build factories, and collect cards and equipment."
+    },
+    {
+      "label": null,
+      "value": "Put your cat crew to work in an underground mining adventure. Your cats dig through rocks, fill their bags, and bring the coins back to base. Spend the coins they deliver to improve the whole team.\n\nBUILD YOUR MINING CREW\nUpgrade mining power, movement, carrying capacity, unloading speed, and the value of your haul. Tap rocks to lend your cats a helping paw.\n\nEXPLORE 144 MINES\nOpen gates and uncover branching tunnels as you work through the campaign. Clear each mine and move on to the next challenge.\n\nRUN YOUR CAT FACTORIES\nUncover factories in the mines, deliver their goods to the warehouse, and sell your stock at the market. Collect factory cards to improve production.\n\nCOLLECT 62 CARDS AND UPGRADE YOUR GEAR\nEquip pickaxes, hats, backpacks, and boots. Collect cards and improve their bonuses. Equipment and card progress carry into the next mine, while local mine upgrades start fresh.\n\nRETURN TO YOUR CATS\nYour saved crew can make progress while you are away. Return, collect the results, and decide what to upgrade next.\n\nOptional in-app purchases are available. Randomized card chests have their chances shown in the game."
+    }
+  ],
+  "assignedImages": [
+    {
+      "name": "icon-512.png",
+      "url": "https://lh3.googleusercontent.com/Gx0HmNtUprC8bO5rrgAhus9bgbd7PeHtDJ_g8zrMcv3zTowiJ1kSM1TXZK4hQdRnvWXPdg4VT2siOJrz-APSWb0"
+    },
+    {
+      "name": "feature-1024x500.png",
+      "url": "https://lh3.googleusercontent.com/E1Z_xNzX-480vG1KwS_NOII0gGSg55kC2sF9B5DuL4IW9Wo9hkCiWDY5zqRzFzajIQOWTabWN5ulzuOao37a"
+    },
+    {
+      "name": "01-cat-crew-caption.png",
+      "url": "https://lh3.googleusercontent.com/PQdaXBD0Ju4KzksXzUkH0v2TBwx7bU-HS6TMpCx1p68cIX7UrvSKivNB-D-lwY5coCcc9sWUwH2ws95rk0LFmg"
+    },
+    {
+      "name": "02-upgrades-caption.png",
+      "url": "https://lh3.googleusercontent.com/rq8irJw_DLJ67f4pKWPUhzD8uTm3XvElS4f-f2hIQRxEYGB3VojdjT6u5AAHxj5RmdG_G8T8wboA_kT_3nK8qg"
+    },
+    {
+      "name": "03-cards-caption.png",
+      "url": "https://lh3.googleusercontent.com/-y1GkoVreDMyjU1hPOKzbr1-hbQqhqn_9Fq-v5XefOu31XU_uE1DuZMZRx04f1k0oRdYPlgn8bBzyPWGy_fbAA"
+    },
+    {
+      "name": "04-equipment-caption.png",
+      "url": "https://lh3.googleusercontent.com/4hmN8u1EehPH85FCq00V3klLdw7ZIpQuBM1sPL-RkSyQcBPpJyAZ2hxQnt5ixpm1MM-xNWh2CjucF4x5K_Osag"
+    }
+  ],
+  "containsValidationErrors": false,
+  "checkedAt": "2026-10-16T12:06:09.552Z",
+  "status": "saved_and_reloaded_Console_listing_pending_submission",
+  "playAppId": "4974963942177850884",
+  "phoneOrder": [
+    "01-cat-crew-caption.png",
+    "02-upgrades-caption.png",
+    "03-cards-caption.png",
+    "04-equipment-caption.png"
+  ],
+  "aiAssetDeclaration": {
+    "iconAndFeature": "AI generated; declaration UI checkbox not exposed in reviewed asset details/review flow; verify before submission",
+    "gameplayScreenshots": "Real Unity game camera renders with separate caption; no image generation editing"
+  },
+  "nativeAndroidScreenshots": false,
+  "storeSettingsReadback": {
+    "checkedAt": "2026-10-16T12:08:46.208Z",
+    "method": "reload store-settings then DOM read",
+    "category": "Simulation",
+    "email": "support@multicastgames.com",
+    "website": "https://multicastgames.com/",
+    "allThreeConfirmed": true
+  },
+  "no_ads_update": {
+    "observedAtUtc": "2026-10-16T13:09:18.502666+00:00",
+    "saved": true,
+    "reloaded_readback": true,
+    "evidence_ref": "evidence/no-max-console-readback.json",
+    "assignedImagesUnchanged": 6
+  }
+}

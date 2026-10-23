@@ -1,0 +1,86 @@
+{
+  "checked_at": "2026-10-19T14:25:50.448835+00:00",
+  "package": "com.multicastgames.catscuteminer",
+  "google_play_developer_id": "8879742639795815518",
+  "google_play_app_id": "4974963942177850884",
+  "session_refresh": {
+    "status": "succeeded_after_owner_confirmation",
+    "services": [
+      "play",
+      "superleo"
+    ],
+    "method": "agentb_login_hub_native_chrome_consent",
+    "session_secrets_written_to_evidence": false
+  },
+  "google_play": {
+    "authenticated_own_app_access": true,
+    "products_url": "https://play.google.com/console/u/0/developers/8879742639795815518/app/4974963942177850884/one-time-products?hl=en",
+    "products_empty": true,
+    "observed_message": "Your app doesn't have any one-time products yet",
+    "billing_prerequisite_message": "To add one-time products, you need to add the BILLING permission to your APK",
+    "observed_button": "Upload a new APK",
+    "create_product_available": false,
+    "internal_track_status": "Inactive; No releases",
+    "all_releases_overview": "No releases; Latest app bundles: None"
+  },
+  "superleo": {
+    "authenticated_actor": "sargsyan@multicastgames.com",
+    "role": "user",
+    "project_id": "e4e954f1-59a9-479a-821f-be7eed9aff47",
+    "matching_package_projects": 1,
+    "game_id": "gm_cats_cute_miner",
+    "game_status": "Enabled",
+    "iap_url": "https://dostupai.aimulticast.org/monetization-iap",
+    "product_rows": [
+      {
+        "sku": "gems_bag",
+        "type": "Consumable",
+        "google_play_mapping": "gems_bag",
+        "reward_sku": "gems",
+        "quantity": 1200
+      },
+      {
+        "sku": "gems_cart",
+        "type": "Consumable",
+        "google_play_mapping": "gems_cart",
+        "reward_sku": "gems",
+        "quantity": 6500
+      },
+      {
+        "sku": "gems_crate",
+        "type": "Consumable",
+        "google_play_mapping": "gems_crate",
+        "reward_sku": "gems",
+        "quantity": 2500
+      },
+      {
+        "sku": "gems_handful",
+        "type": "Consumable",
+        "google_play_mapping": "gems_handful",
+        "reward_sku": "gems",
+        "quantity": 160
+      },
+      {
+        "sku": "gems_pile",
+        "type": "Consumable",
+        "google_play_mapping": "gems_pile",
+        "reward_sku": "gems",
+        "quantity": 14000
+      },
+      {
+        "sku": "gems_sack",
+        "type": "Consumable",
+        "google_play_mapping": "gems_sack",
+        "reward_sku": "gems",
+        "quantity": 500
+      }
+    ],
+    "registration_is_not_Play_activation": true
+  },
+  "writes_performed": false,
+  "google_play_products_created": false,
+  "aab_uploaded": false,
+  "iap_blocker": "Missing Billing-enabled internal release; access restored, no longer an authentication blocker.",
+  "remaining_build_dependency": "Actual support process and adoption/hosting/configuration of game-specific13+ no-ads legal documents remain unconfirmed; no placeholder URLs supplied.",
+  "selector_failure_note": "Earlier read-only scenarios timed out waiting for the hidden-app-title/loading-label conditions. Actual page screenshot and final heading-based readback showed authenticated products page; no session retransfer required for selector errors."
+}

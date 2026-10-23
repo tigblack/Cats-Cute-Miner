@@ -1,0 +1,61 @@
+{
+  "checked_at": "2026-10-19T18:12:55.659Z",
+  "package": "com.multicastgames.catscuteminer",
+  "pages": {
+    "products": {
+      "url": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/one-time-products?hl=en",
+      "text": "Loading Google Play Console\nnotifications_unread\nUnread notifications\nmore_vert\nhome\nbadge\nplay_prism\ndashboard\nbar_chart\noverview\nshield\nrocket_launch\nvital_signs\nfinance_mode\nsell\nOne-time products\nSell products, such as in-game currency or premium content, for a one-time payment. Show more\nManage your one-time products with flexibility\nOne-time products (formerly in-app products) help you reach diverse buyers by setting unique regional pricing, availability, and promotional offers across multiple selling methods. Learn more\nCreate one-time product\nsearch\nSearch by name or ID\nProduct name\nProduct ID\nLast updated\nActive purchase options and offers\n",
+      "buttons": [
+        {
+          "text": "Hide detailed description about One-time products",
+          "disabled": false
+        }
+      ]
+    },
+    "dashboard": {
+      "url": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/app-dashboard?hl=en",
+      "text": "Loading Google Play Console\nnotifications_unread\nUnread notifications\nmore_vert\nhome\nbadge\nplay_prism\ndashboard\nbar_chart\noverview\nshield\nrocket_launch\nvital_signs\nfinance_mode\nsell\nDashboard\nGet started setting up your app. Show more\nCat Miners: Idle Tycoon\nView releases overview\ncom.multicastgames.catscuteminer\nUpdate status\nschedule\nIn review\nbrightness_1\nGo to Publishing overview\nProduction\nInactive\nShow test tracks\nexpand_more\nRelease your app\nLet anyone sign up to test your app on Google Play\nWith open testing, anyone can join your tests on Google Play. Users can provide feedback without it affecting your public rating.\n1 of 4 complete\nexpand_less\nSet up your open test track\ncheck\nSelect countries and regions\nCreate and roll out a release\nCreate a new release\nchevron_right\nlock\nPreview and confirm the release\nlock\nSend the release to Google for review\nBuild excitement for your app with pre-registration\nWith pre-registration, you can publish your store listing before you launch so that users can register their interest. When you launch, any users who have pre-registered will receive a notification to download your app.\nView tasks\nexpand_more\nCreate and publish a release\nPublish your app to real users on Google Play by releasing it to your production track\n1 of 5 complete\nexpand_less\ncheck\nSelect countries and regions\nCreate and roll out a release\nCreate a new release\nchevron_right\nlock\nPreview and confirm the release\nlock\nSend the release to Google for review\nlock\nPublish your app on Google Play\n",
+      "buttons": []
+    },
+    "publishing": {
+      "url": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/publishing?hl=en",
+      "text": "Loading Google Play Console\nnotifications_unread\nUnread notifications\nmore_vert\nhome\nbadge\nplay_prism\ndashboard\nbar_chart\noverview\nshield\nrocket_launch\nvital_signs\nfinance_mode\nsell\nPublishing overview\nSee an overview of the changes made to your app, and control when changes are sent for review or published. Show more\nsync_disabled\nManaged publishing off\narrow_drop_down\nhistory\nLast published on October 19, 2026\nSubmission activity\narrow_right_alt\nChanges in review\nhelp\nRemove changes\nHide\nexpand_less\ninventory\nYour changes are now in review. We may find additional issues when reviewing your app.\nLearn more\nItem changed\nDescription\nslow_motion_video\nClosed testing - Alpha\n2 (0.1.1)\nStart full rollout\nmore_vert\nTrack status\nResume track\nmore_vert\n",
+      "buttons": [
+        {
+          "text": "Hide detailed description about Publishing overview",
+          "disabled": false
+        }
+      ]
+    },
+    "production": {
+      "url": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/tracks/production?hl=en",
+      "text": "Loading Google Play Console\nnotifications_unread\nUnread notifications\nmore_vert\nhome\nbadge\nplay_prism\ndashboard\nbar_chart\noverview\nshield\nrocket_launch\nvital_signs\nfinance_mode\nsell\nProduction\nphonelink\nPhones, Tablets, Desktop (Googlebook OS, ChromeOS), Google Play Games on PC, Android XR\narrow_drop_down\nCreate new release\nCreate and manage production releases to make your app available to all users in your chosen countries. Learn more\nTrack summary (Phones, Tablets, Desktop, Google Play Games on PC, Android XR)\nInactive\nRelease dashboard\nReleases\nCountries / regions\nRelease dashboard\nrocket_launch\n\nOnce you've released your app to production, come back here to monitor its performance\n\nCreate new release\n",
+      "buttons": [
+        {
+          "text": "Create new release",
+          "disabled": false
+        }
+      ]
+    }
+  },
+  "writes_performed": false,
+  "products_followup": {
+    "result": "No results",
+    "catalogue_empty": true,
+    "create_product_page_available": true,
+    "billing_runtime_verified": false
+  },
+  "source_configuration": {
+    "file": "Assets/Game/Resources/Integrations/cats-cute-miner-sdk.json",
+    "privacyUrl": "",
+    "termsUrl": "",
+    "analytics_initialization_requires_LegalValid": true,
+    "artifact_configuration_not_reverified": true
+  },
+  "remaining": [
+    "Create and activate the six approved Play products and verify licensed purchases/server reward/confirmation",
+    "Adopt and host game documents and configure real legal URLs in the client; studio support process remains unconfirmed",
+    "Complete final AAB inspection and Android runtime QA, including analytics delivery; rebuild after required client configuration fixes",
+    "Create and submit production release separately; current review is closed Alpha only"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "recorded_at": "2026-10-20T15:56:07.880926+00:00",
+  "owner_confirmed_installed_version": "0.1.4(5)",
+  "owner_confirmed_appmetrica_enabled_and_saved": true,
+  "owner_confirmed_android_connected_with_usb_debugging": true,
+  "actual_adb_observation": {
+    "connected_devices": 0,
+    "unauthorized_devices": 0,
+    "repeated_probes": true
+  },
+  "mac_system_profiler_usb_device_names": [],
+  "authenticated_dashboard_checked": true,
+  "appmetrica_app_id": 6374386,
+  "cohort_report": "No data for2026-10-12..2026-10-20",
+  "events_report": "No data for same period, all sessions; not just cohort page",
+  "events_report_evidence_ref": "release/google-play/evidence/appmetrica-events-live-20261020.json",
+  "service_banner": "AppMetrica says collection continues but some reports and tools may work with limitations",
+  "banner_is_not_proof_of_cause": true,
+  "native_artifact_checks": {
+    "android_bridge_class_present": true,
+    "native_analytics_class_present": true,
+    "native_config_class_present": true,
+    "modules_facade_class_present": true,
+    "bridge_class_count": 35,
+    "analytics_class_count": 2106,
+    "enabled_native_service": "io.appmetrica.analytics.internal.AppMetricaService",
+    "enabled_preload_provider": "io.appmetrica.analytics.internal.PreloadInfoContentProvider",
+    "internet_and_network_state_permissions": true
+  },
+  "pinned_sdk_source_review": "Unity6.7.0 Activate calls Android native activate/resume; serializer omits null fields; no native bridge absence found",
+  "device_logs_retrieved": false,
+  "delivery_cause_confirmed": false,
+  "new_build_created": false,
+  "consent_flags_changed": false,
+  "updated_at": "2026-10-20T16:02:07.878505+00:00",
+  "owner_reported_usb_state": "Charging only; file transfer option missing or unavailable",
+  "next_device_step": "Connect directly to Mac using a known data-capable cable; repeat safe ADB detection before reading app logs",
+  "authenticated_current_sdk_key_check": {
+    "app_id": 6374386,
+    "sdk_specific_field_read": true,
+    "matches_client_configuration": true,
+    "evidence_ref": "release/google-play/evidence/appmetrica-client-key-live-check-20261020.json"
+  }
+}

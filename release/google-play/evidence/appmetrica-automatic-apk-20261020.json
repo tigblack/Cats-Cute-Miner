@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-20T17:43:10.055454+00:00",
+  "artifact": "/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/build/private/appmetrica-automatic-0.1.5-6-20261020/cat-miners-appmetrica-automatic.apk",
+  "sha256": "23452084711e258b1ed96e4129430f846efa673c7f4c9beb7290bdc91c6b402a",
+  "bytes": 61001802,
+  "localDiagnosticOnly": true,
+  "nativeVerboseSdkLogs": true,
+  "readOnlyConsole": true,
+  "productionAabChanged": false,
+  "emulatorLaunched": false,
+  "runtimeVerification": "pending",
+  "versionName": "0.1.5",
+  "versionCode": 6,
+  "label": "automatic"
+}

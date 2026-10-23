@@ -1,0 +1,209 @@
+{
+  "checkedAt": "2026-10-20T17:20:27.425Z",
+  "appId": 6374386,
+  "label": "diagnostic-native-accepted",
+  "responses": [
+    {
+      "report": "events",
+      "httpStatus": 200,
+      "hasError": false,
+      "serverDate": "Tue, 20 Oct 2026 17:20:18 GMT",
+      "requestTopKeys": [
+        "query",
+        "variables"
+      ],
+      "baseParamKeys": [
+        "sourceDescriptor",
+        "period",
+        "groupByInterval",
+        "currency",
+        "interfaceReqBatchId",
+        "interfaceReqSource",
+        "accuracy"
+      ],
+      "requestContainsExpectedAppId": true,
+      "requestIdentity": [
+        {
+          "path": "/variables/baseParams/period/timezoneOffset",
+          "value": 0
+        },
+        {
+          "path": "/variables/baseParams/period/from/day",
+          "value": 20
+        },
+        {
+          "path": "/variables/baseParams/period/from/month",
+          "value": 10
+        },
+        {
+          "path": "/variables/baseParams/period/from/year",
+          "value": 2026
+        },
+        {
+          "path": "/variables/baseParams/period/to/day",
+          "value": 20
+        },
+        {
+          "path": "/variables/baseParams/period/to/month",
+          "value": 10
+        },
+        {
+          "path": "/variables/baseParams/period/to/year",
+          "value": 2026
+        }
+      ],
+      "totalItemsCount": 8,
+      "itemCount": 8,
+      "metricsTotals": [
+        99,
+        2,
+        49.5,
+        100
+      ],
+      "expectedEventNamesFound": [
+        "currency_earned",
+        "consent_chosen",
+        "time_spent",
+        "game_loaded",
+        "mine_started",
+        "purchase_failed",
+        "session_started",
+        "store_opened"
+      ]
+    },
+    {
+      "report": "Аудитория",
+      "httpStatus": 200,
+      "hasError": false,
+      "serverDate": "Tue, 20 Oct 2026 17:20:22 GMT",
+      "requestTopKeys": [
+        "query",
+        "variables"
+      ],
+      "baseParamKeys": [
+        "sourceDescriptor",
+        "period",
+        "groupByInterval",
+        "currency",
+        "interfaceReqBatchId",
+        "interfaceReqSource",
+        "accuracy"
+      ],
+      "requestContainsExpectedAppId": true,
+      "requestIdentity": [
+        {
+          "path": "/variables/baseParams/period/timezoneOffset",
+          "value": 0
+        },
+        {
+          "path": "/variables/baseParams/period/from/day",
+          "value": 20
+        },
+        {
+          "path": "/variables/baseParams/period/from/month",
+          "value": 10
+        },
+        {
+          "path": "/variables/baseParams/period/from/year",
+          "value": 2026
+        },
+        {
+          "path": "/variables/baseParams/period/to/day",
+          "value": 20
+        },
+        {
+          "path": "/variables/baseParams/period/to/month",
+          "value": 10
+        },
+        {
+          "path": "/variables/baseParams/period/to/year",
+          "value": 2026
+        }
+      ],
+      "totalItemsCount": 1,
+      "itemCount": 1,
+      "metricsTotals": [
+        2,
+        0,
+        0
+      ],
+      "expectedEventNamesFound": []
+    },
+    {
+      "report": "Вовлеченность",
+      "httpStatus": 200,
+      "hasError": false,
+      "serverDate": "Tue, 20 Oct 2026 17:20:25 GMT",
+      "requestTopKeys": [
+        "query",
+        "variables"
+      ],
+      "baseParamKeys": [
+        "sourceDescriptor",
+        "period",
+        "groupByInterval",
+        "currency",
+        "interfaceReqBatchId",
+        "interfaceReqSource",
+        "accuracy"
+      ],
+      "requestContainsExpectedAppId": true,
+      "requestIdentity": [
+        {
+          "path": "/variables/baseParams/period/timezoneOffset",
+          "value": 0
+        },
+        {
+          "path": "/variables/baseParams/period/from/day",
+          "value": 20
+        },
+        {
+          "path": "/variables/baseParams/period/from/month",
+          "value": 10
+        },
+        {
+          "path": "/variables/baseParams/period/from/year",
+          "value": 2026
+        },
+        {
+          "path": "/variables/baseParams/period/to/day",
+          "value": 20
+        },
+        {
+          "path": "/variables/baseParams/period/to/month",
+          "value": 10
+        },
+        {
+          "path": "/variables/baseParams/period/to/year",
+          "value": 2026
+        }
+      ],
+      "totalItemsCount": 1,
+      "itemCount": 1,
+      "metricsTotals": [
+        136,
+        3,
+        1.5
+      ],
+      "expectedEventNamesFound": []
+    }
+  ],
+  "reports": [
+    {
+      "report": "events",
+      "url": "https://appmetrica.yandex.ru/statistic?appId=6374386&period=2026-10-20%3A2026-10-20&reportId=events&orgId=509950&group=dekaminute&accuracy=medium&chartMetrics=%5B%5B%22ym%3Ace2%3AallEvents%22%5D%5D&selectedDimensionKeys=%5B%5B%22ym%3Ace2%3AeventLabel%22%5D%2C%5B%22ym%3Ace2%3AparamsLevel1%22%5D%2C%5B%22ym%3Ace2%3AparamsLevel2%22%5D%2C%5B%22ym%3Ace2%3AparamsLevel3%22%5D%2C%5B%22ym%3Ace2%3AparamsLevel4%22%5D%2C%5B%22ym%3Ace2%3AparamsLevel5%22%5D%5D&tableMetrics=%5B%5B%22ym%3Ace2%3AallEvents%22%5D%2C%5B%22ym%3Ace2%3AdevicesWithEvent%22%5D%2C%5B%22ym%3Ace2%3AeventsPerDevice%22%5D%2C%5B%22ym%3Ace2%3AdevicesPercent%22%5D%5D&view=Hierarchical&sortBy=-ym%3Ace2%3AallEvents&chartView=Line&metricValueMode=Absolute&screenMode=Default&uaDataSource=Deeplink&selectedDimensionIds=%5B%5B%22currency_earned%22%5D%2C%5B%22consent_chosen%22%5D%2C%5B%22time_spent%22%5D%2C%5B%22game_loaded%22%5D%2C%5B%22mine_started%22%5D%5D&currency=rub",
+      "text": "AppMetrica снова доступна. Сбор данных продолжается, но некоторые отчёты и инструменты пока могут работать с ограничениями. Мы делаем всё возможное, чтобы вернуться в штатный режим. Спасибо, что вы с нами! Подробнее\n\nОбзор\nWorkspaces\nИнсайты\nОтчеты\nПрофили\nТрекинг\nPush-кампании\nВариокуб\nЭкспорт данных\nНастройки\nКоллекция промптов\nСвернуть\nCM\nCat Miners: Idle Tycoon\n6374386\nК организации\nПоиск\nAI-помощник\ntigblack2016\nСобытия\nКак это работает\nНа workspace\nСохранить как...\nСегодня\nВчера\nНеделя\nМесяц\nКвартал\n20 окт\nСегмент\nНе выбран\nСравнение\nM\nL\n100 %\nПроизвольный сегмент\nСбросить сегмент\nГруппировка\nСобытие\n, +5\nМетрики\nСобытия\n, +3\nДанные: по всем сессиям\nНа графике • События\nПо 10 минут\nПримечания\n5\nS\nM\nL\n00:00\n12:00\n23:50\n0\n20\n40\n60\n80\nВыбрано 5 из 5\ncurrency_earned\n89\nconsent_chosen\n3\ntime_spent\n2\ngame_loaded\n1\nmine_started\n1\nЗначение1.Значение2 ...\nСобытие › Все параметры, ур. 1 › Все параметры, ур. 2 › Все параметры, ур. 3 › Все параметры, ур. 4 › Все параметры, ур. 5\nСобытия\nПользователи\nСобытий на пользователя\n% от всех пользователей\nИтого и средние\n99\n100,00 %\n2\n100,00 %\n49,50\n100,00 %\ncurrency_earned\n89\n89,90 %\n2\n100,00 %\n44,50\n100,00 %\nconsent_chosen\n3\n3,03 %\n2\n100,00 %\n1,50\n100,00 %\ntime_spent\n2\n2,02 %\n1\n50,00 %\n1,00\n50,00 %\ngame_loaded\n1\n1,01 %\n1\n50,00 %\n0,50\n50,00 %\nmine_started\n1\n1,01 %\n1\n50,00 %\n0,50\n50,00 %\npurchase_failed\n1\n1,01 %\n1\n50,00 %\n0,50\n50,00 %\nsession_started\n1\n1,01 %\n1\n50,00 %\n0,50\n50,00 %\nstore_opened\n1\n1,01 %\n1\n50,00 %\n0,50\n50,00 %\nПользовательское соглашение\nПредложить идею\nРеклама\nО сервисе\nRu\n© 2008–2026 OOO «ЯНДЕКС»"
+    },
+    {
+      "report": "Аудитория",
+      "url": "https://appmetrica.yandex.ru/statistic?appId=6374386&orgId=509950&period=2026-10-20%3A2026-10-20&group=dekaminute&accuracy=medium&screenMode=Default&reportId=audience&chartMetrics=%5B%5B%22ym%3Au%3AactiveUsers%22%5D%5D&selectedDimensionKeys=%5B%5B%22ym%3Au%3Adate%22%5D%5D&tableMetrics=%5B%5B%22ym%3Au%3AactiveUsers%22%5D%2C%5B%22ym%3Au%3AnewUsers%22%5D%2C%5B%22ym%3Au%3AnewUsersShare%22%5D%5D&view=Hierarchical&sortBy=-ym%3Au%3Adate&chartView=Line&metricValueMode=Absolute&uaDataSource=Deeplink&currency=rub",
+      "text": "AppMetrica снова доступна. Сбор данных продолжается, но некоторые отчёты и инструменты пока могут работать с ограничениями. Мы делаем всё возможное, чтобы вернуться в штатный режим. Спасибо, что вы с нами! Подробнее\n\nОбзор\nWorkspaces\nИнсайты\nОтчеты\nПрофили\nТрекинг\nPush-кампании\nВариокуб\nЭкспорт данных\nНастройки\nКоллекция промптов\nСвернуть\nCM\nCat Miners: Idle Tycoon\n6374386\nК организации\nПоиск\nAI-помощник\ntigblack2016\nАудитория\nКак это работает\nНа workspace\nСохранить как...\nСегодня\nВчера\nНеделя\nМесяц\nКвартал\n20 окт\nСегмент\nНе выбран\nСравнение\nM\nL\n100 %\nПроизвольный сегмент\nСбросить сегмент\nГруппировка\nДень\nМетрики\nПользователи\n, +2\nДней неактивности • 7\nНа графике • Пользователи\nПо 10 минут\nПримечания\n5\nS\nM\nL\n00:00\n12:00\n23:50\n0\n0,3\n0,6\n0,9\n1,2\nВсего\n2\nЗначение1.Значение2 ...\nДень\nПользователи\nНовые пользователи\nДоля новых пользователей\nИтого и средние\n2\n100,00 %\n0\n0,00 %\n20 октября\n2\n100,00 %\n0\n0,00 %\nПользовательское соглашение\nПредложить идею\nРеклама\nО сервисе\nRu\n© 2008–2026 OOO «ЯНДЕКС»"
+    },
+    {
+      "report": "Вовлеченность",
+      "url": "https://appmetrica.yandex.ru/statistic?appId=6374386&orgId=509950&period=2026-10-20%3A2026-10-20&group=dekaminute&accuracy=medium&screenMode=Default&reportId=engagement&chartMetrics=%5B%5B%22ym%3As%3AtotalSessionDurationPerUser%22%5D%5D&selectedDimensionKeys=%5B%5B%22ym%3As%3Adate%22%5D%5D&tableMetrics=%5B%5B%22ym%3As%3AtotalSessionDurationPerUser%22%5D%2C%5B%22ym%3As%3Asessions%22%5D%2C%5B%22ym%3As%3AsessionsPerUser%22%5D%5D&view=Hierarchical&sortBy=-ym%3As%3AtotalSessionDurationPerUser&chartView=Line&metricValueMode=Absolute&uaDataSource=Deeplink&currency=rub",
+      "text": "AppMetrica снова доступна. Сбор данных продолжается, но некоторые отчёты и инструменты пока могут работать с ограничениями. Мы делаем всё возможное, чтобы вернуться в штатный режим. Спасибо, что вы с нами! Подробнее\n\nОбзор\nWorkspaces\nИнсайты\nОтчеты\nПрофили\nТрекинг\nPush-кампании\nВариокуб\nЭкспорт данных\nНастройки\nКоллекция промптов\nСвернуть\nCM\nCat Miners: Idle Tycoon\n6374386\nК организации\nПоиск\nAI-помощник\ntigblack2016\nВовлеченность\nКак это работает\nНа workspace\nСохранить как...\nСегодня\nВчера\nНеделя\nМесяц\nКвартал\n20 окт\nСегмент\nНе выбран\nСравнение\nM\nL\n100 %\nПроизвольный сегмент\nСбросить сегмент\nГруппировка\nДень\nМетрики\nTimespent на пользователя\n, +2\nНа графике • Timespent на пользователя\nПо 10 минут\nПримечания\n5\nS\nM\nL\n00:00\n12:00\n23:50\n0 с\n40 c\n1 м 20 c\n2 м\n2 м 40 c\nСреднее\n2 м 16 c\nЗначение1.Значение2 ...\nДень\nTimespent на пользователя\nСессии\nСессий на пользователя\nИтого и средние\n2 м 16 c\n3\n100,00 %\n1,50\n20 октября\n2 м 16 c\n3\n100,00 %\n1,50\nПользовательское соглашение\nПредложить идею\nРеклама\nО сервисе\nRu\n© 2008–2026 OOO «ЯНДЕКС»"
+    }
+  ],
+  "writesPerformed": false
+}

@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-20T17:50:43.817140+00:00",
+  "status": "completed_native_sdk_acceptance_and_dashboard_events_visible",
+  "versionName": "0.1.4",
+  "versionCode": 5,
+  "appId": 6374386,
+  "keyMatchesLiveDashboard": true,
+  "nativeActivationVerified": true,
+  "nativeServerAcceptedCounts": {
+    "consent_chosen": 1,
+    "currency_earned": 128,
+    "time_spent": 3
+  },
+  "nativeProofRef": "release/google-play/evidence/appmetrica-emulator-diagnostic-final-20261020.json",
+  "consoleFilterVisualProofRef": "release/google-play/evidence/appmetrica-emulator-diagnostic-time-spent-filter-20261020.png",
+  "dashboardApiProofRef": "release/google-play/evidence/appmetrica-emulator-report-automatic-baseline-20261020.json",
+  "dashboardScreenshotRef": "release/google-play/evidence/appmetrica-dashboard-events-visible-20261020.png",
+  "dashboardAtLastApiReadback": {
+    "at": "2026-10-20T17:26:48.044Z",
+    "customEvents": 376,
+    "eventTypes": 9,
+    "users": 2,
+    "sessions": 4
+  },
+  "consoleVisualAndTextFilterVerified": true,
+  "emulatorClosed": true,
+  "physicalPhoneUsed": false,
+  "reportingDelayObserved": true,
+  "internalServiceIncidentRootCauseProven": false,
+  "productionAabAtThatTimeChanged": false
+}

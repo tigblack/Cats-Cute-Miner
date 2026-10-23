@@ -1,0 +1,31 @@
+{
+  "purpose": "Examples of Devour event shapes. Values are synthetic; never send examples as production revenue.",
+  "examples": [
+    {"name": "game_loaded", "payload": {}},
+    {"name": "rewarded", "payload": {"loaded": ""}},
+    {"name": "rewarded", "payload": {"displayed": "afk_double_reward"}},
+    {"name": "rewarded", "payload": {"watched": "afk_double_reward"}},
+    {"name": "rewarded_paid", "payload": {"days_since_install": 1, "playtime_minutes": 12, "last_opened_island": 2}},
+    {"name": "ad_revenue", "payload": {"days_since_install": 1, "playtime_minutes": 12, "last_opened_island": 2, "total_impressions": 4, "total_revenue": 0.04, "total_ecpm": 10.0, "revenue": 0.01, "density": 0.0, "ad_type": "rewarded"}},
+    {"name": "banner", "payload": {"displayed": "main_hud"}},
+    {"name": "purchase", "payload": {"days_since_install": 1, "playtime_minutes": 12, "last_opened_island": 2, "key": "approved_product_id", "transaction_id": "synthetic_contract_transaction", "product_id": "approved_product_id"}},
+    {"name": "playtime_event", "payload": {"playTime": 12}},
+    {"name": "playtime_seconds_event", "payload": {"seconds": 720}}
+  ],
+  "monetary_ad_revenue_fields": ["amount", "currency", "network", "ad_unit_id", "placement", "ad_format"],
+  "monetary_iap_revenue_fields": ["product_id", "actual_store_price", "iso_currency", "verified_transaction_reference"],
+  "note": "Monetary fields describe the adapter contract, not exact SDK API argument names. Custom events do not replace specialized revenue APIs. Consent values must come from real platform state.",
+  "adjust_events": {
+    "note": "Adjust mirrors the game telemetry under the same names (AppMetrica unavailable). One token per name in the game config adjustEvents [{name, token}]; empty token = not sent. Callback parameters reach raw data only, not Datascape. See references/analytics.md and assets/AdjustEventMirror.cs.txt.",
+    "rename": {"playtime_event": "time_spent"},
+    "not_mirrored": ["playtime_seconds_event", "ad_revenue"],
+    "separate_revenue_event": "purchase (own token and code path: revenue + ISO currency + deduplication id; not part of adjustEvents)",
+    "reference_set_piggy_payday": {
+      "lifecycle": ["game_loaded", "session_started", "user_consent", "time_spent"],
+      "ads": ["ad_requested", "ad_loaded", "ad_load_failed", "ad_displayed", "ad_display_failed", "ad_show_failed", "ad_clicked", "ad_hidden", "ad_completed", "ad_incomplete", "ad_reward_saved", "ad_revenue_unavailable", "rewarded_fire_started", "energy_refilled"],
+      "progress": ["tutorial_started", "tutorial_action_completed", "tutorial_completed", "guide_completed", "quest_completed", "table_entered", "table_unlocked", "table_completed", "zone_entered", "zone_unlocked", "run_started", "run_completed", "boss_started", "boss_completed", "boss_failed", "quota_progress", "quota_completed", "hammer_equipped"],
+      "economy": ["currency_spent", "currency_earned", "stat_upgrade", "hammer_bought", "gadget_bought", "hammer_upgrade", "global_upgrade", "hammer_feature_upgrade", "afk_upgrade"],
+      "iap": ["iap_attempt", "iap_delivery", "iap_deferred", "iap_error", "iap_restore"]
+    }
+  }
+}

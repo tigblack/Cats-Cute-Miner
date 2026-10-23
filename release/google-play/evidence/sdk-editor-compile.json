@@ -1,0 +1,9 @@
+{
+  "status": "verified_editor_compile",
+  "exit_code": 0,
+  "duration_seconds": 147,
+  "log_ref": "Docs/Reports/unity-compile.log",
+  "scope": "Ci Editor source compilation after SDK package resolution and verified Meta binary delivery",
+  "open_native_issue": "MAX installer exception: missing Assets/Plugins/Android/mainTemplate.gradle",
+  "runtime_ready": false
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "stage": "store_listing",
+  "created_at": "2026-10-14T12:58:32.533482+00:00",
+  "scope": {
+    "game": "Cats Cute Miner",
+    "engine": "Unity",
+    "platform": "Android",
+    "track": "internal",
+    "package_name": "com.multicastgames.catscuteminer"
+  },
+  "requirements": [
+    {
+      "id": "store_listing.1",
+      "requirement": "User audience and legal declarations",
+      "applicability": "required",
+      "source_ref": "google-play-publish/SKILL.md",
+      "verification": "Actual readback, build or device evidence as appropriate"
+    },
+    {
+      "id": "store_listing.2",
+      "requirement": "Native Console required field inventory",
+      "applicability": "required",
+      "source_ref": "google-play-publish/SKILL.md",
+      "verification": "Actual readback, build or device evidence as appropriate"
+    },
+    {
+      "id": "store_listing.3",
+      "requirement": "Store art/screenshots and factual descriptions",
+      "applicability": "required",
+      "source_ref": "google-play-publish/SKILL.md",
+      "verification": "Actual readback, build or device evidence as appropriate"
+    },
+    {
+      "id": "store_listing.4",
+      "requirement": "Save/reload/readback per field",
+      "applicability": "required",
+      "source_ref": "google-play-publish/SKILL.md",
+      "verification": "Actual readback, build or device evidence as appropriate"
+    }
+  ]
+}

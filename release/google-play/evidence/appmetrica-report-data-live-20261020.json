@@ -1,0 +1,312 @@
+{
+  "url": "https://appmetrica.yandex.ru/statistic?appId=6374386&period=2026-10-12%3A2026-10-20&reportId=events&orgId=509950&group=day&accuracy=medium&chartMetrics=%5B%5B%22ym%3Ace2%3AallEvents%22%5D%5D&selectedDimensionKeys=%5B%5B%22ym%3Ace2%3AeventLabel%22%5D%2C%5B%22ym%3Ace2%3AparamsLevel1%22%5D%2C%5B%22ym%3Ace2%3AparamsLevel2%22%5D%2C%5B%22ym%3Ace2%3AparamsLevel3%22%5D%2C%5B%22ym%3Ace2%3AparamsLevel4%22%5D%2C%5B%22ym%3Ace2%3AparamsLevel5%22%5D%5D&tableMetrics=%5B%5B%22ym%3Ace2%3AallEvents%22%5D%2C%5B%22ym%3Ace2%3AdevicesWithEvent%22%5D%2C%5B%22ym%3Ace2%3AeventsPerDevice%22%5D%2C%5B%22ym%3Ace2%3AdevicesPercent%22%5D%5D&view=Hierarchical&sortBy=-ym%3Ace2%3AallEvents&chartView=Line&metricValueMode=Absolute&screenMode=Default&uaDataSource=Deeplink&currency=rub",
+  "title": "Yandex Appmetrica",
+  "headings": [],
+  "buttons": [
+    "Подробнее",
+    "Обзор",
+    "Инсайты",
+    "Профили",
+    "Push-кампании",
+    "Коллекция промптов",
+    "К организации",
+    "Поиск",
+    "AI-помощник",
+    "Как это работает",
+    "На workspace",
+    "Сохранить как...",
+    "Сегмент Не выбран",
+    "Сравнение",
+    "100 %",
+    "Сбросить сегмент",
+    "Группировка Событие , +5",
+    "Метрики События , +3",
+    "Данные: по всем сессиям",
+    "На графике • События",
+    "По дням",
+    "Примечания 5",
+    "Значение1.Значение2 ...",
+    "Пользовательское соглашение",
+    "Предложить идею",
+    "Реклама",
+    "О сервисе",
+    "ЯНДЕКС"
+  ],
+  "fields": [],
+  "choices": [
+    "[ ] Сегодня",
+    "[ ] Вчера",
+    "[ ] Неделя",
+    "[ ] Месяц",
+    "[ ] Квартал",
+    "[ ] 12 — 20 окт",
+    "[ ] M",
+    "[x] L",
+    "[x] ",
+    "[ ] ",
+    "[ ] ",
+    "[ ] ",
+    "[ ] ",
+    "[ ] ",
+    "[ ] S",
+    "[x] M",
+    "[ ] L",
+    "[x] ",
+    "[ ] "
+  ],
+  "files": 0,
+  "dialogs": [],
+  "bodyText": "AppMetrica снова доступна. Сбор данных продолжается, но некоторые отчёты и инструменты пока могут работать с ограничениями. Мы делаем всё возможное, чтобы вернуться в штатный режим. Спасибо, что вы с нами! Подробнее\n\nОбзор\nWorkspaces\nИнсайты\nОтчеты\nПрофили\nТрекинг\nPush-кампании\nВариокуб\nЭкспорт данных\nНастройки\nКоллекция промптов\nСвернуть\nCM\nCat Miners: Idle Tycoon\n6374386\nК организации\nПоиск\nAI-помощник\ntigblack2016\nСобытия\nКак это работает\nНа workspace\nСохранить как...\nСегодня\nВчера\nНеделя\nМесяц\nКвартал\n12 — 20 окт\nСегмент\nНе выбран\nСравнение\nM\nL\n100 %\nПроизвольный сегмент\nСбросить сегмент\nГруппировка\nСобытие\n, +5\nМетрики\nСобытия\n, +3\nДанные: по всем сессиям\nНа графике • События\nПо дням\nПримечания\n5\nS\nM\nL\nНет данных для выбранного периода\nВ выбранном периоде не было ни одного события, либо период слишком маленький\nЗначение1.Значение2 ...\nСобытие › Все параметры, ур. 1 › Все параметры, ур. 2 › Все параметры, ур. 3 › Все параметры, ур. 4 › Все параметры, ур. 5\nСобытия\nПользователи\nСобытий на пользователя\n% от всех пользователей\nНет данных для выбранного периода\nВ выбранном периоде не было ни одного события, либо период слишком маленький\nПользовательское соглашение\nПредложить идею\nРеклама\nО сервисе\nRu\n© 2008–2026 OOO «ЯНДЕКС»",
+  "responses": [
+    {
+      "host": "appmetrica.yandex.ru",
+      "path": "/api",
+      "status": 200,
+      "keys": [
+        "data"
+      ],
+      "dataRows": null,
+      "totalRows": null,
+      "hasError": false
+    },
+    {
+      "host": "appmetrica.yandex.ru",
+      "path": "/api",
+      "status": 200,
+      "keys": [
+        "data"
+      ],
+      "dataRows": null,
+      "totalRows": null,
+      "hasError": false
+    },
+    {
+      "host": "appmetrica.yandex.ru",
+      "path": "/api",
+      "status": 200,
+      "keys": [
+        "data"
+      ],
+      "dataRows": null,
+      "totalRows": null,
+      "hasError": false
+    },
+    {
+      "host": "appmetrica.yandex.ru",
+      "path": "/api",
+      "status": 200,
+      "keys": [
+        "data"
+      ],
+      "dataRows": null,
+      "totalRows": null,
+      "hasError": false
+    },
+    {
+      "host": "appmetrica.yandex.ru",
+      "path": "/api",
+      "status": 200,
+      "keys": [
+        "data"
+      ],
+      "dataRows": null,
+      "totalRows": null,
+      "hasError": false
+    },
+    {
+      "host": "yandex.ru",
+      "path": "/adfox/13273407/getBulk/v2",
+      "status": 200,
+      "keys": [
+        "jsonapi",
+        "meta",
+        "data",
+        "errors"
+      ],
+      "dataRows": 0,
+      "totalRows": null,
+      "hasError": true
+    },
+    {
+      "host": "mc.yandex.ru",
+      "path": "/watch/22430419",
+      "status": 200,
+      "keys": [
+        "settings",
+        "userData"
+      ],
+      "dataRows": null,
+      "totalRows": null,
+      "hasError": false
+    },
+    {
+      "host": "appmetrica.yandex.ru",
+      "path": "/api",
+      "status": 200,
+      "keys": [
+        "data"
+      ],
+      "dataRows": null,
+      "totalRows": null,
+      "hasError": false
+    },
+    {
+      "host": "appmetrica.yandex.ru",
+      "path": "/api",
+      "status": 200,
+      "keys": [
+        "data"
+      ],
+      "dataRows": null,
+      "totalRows": null,
+      "hasError": false
+    },
+    {
+      "host": "appmetrica.yandex.ru",
+      "path": "/api",
+      "status": 200,
+      "keys": [
+        "data"
+      ],
+      "dataRows": null,
+      "totalRows": null,
+      "hasError": false
+    },
+    {
+      "host": "appmetrica.yandex.ru",
+      "path": "/api",
+      "status": 200,
+      "keys": [
+        "data"
+      ],
+      "dataRows": null,
+      "totalRows": null,
+      "hasError": false
+    },
+    {
+      "host": "appmetrica.yandex.ru",
+      "path": "/api",
+      "status": 200,
+      "keys": [
+        "data"
+      ],
+      "dataRows": null,
+      "totalRows": null,
+      "hasError": false
+    },
+    {
+      "host": "appmetrica.yandex.ru",
+      "path": "/api",
+      "status": 200,
+      "keys": [
+        "data"
+      ],
+      "dataRows": null,
+      "totalRows": null,
+      "hasError": false
+    },
+    {
+      "host": "appmetrica.yandex.ru",
+      "path": "/api",
+      "status": 200,
+      "keys": [
+        "data"
+      ],
+      "dataRows": null,
+      "totalRows": null,
+      "hasError": false
+    },
+    {
+      "host": "appmetrica.yandex.ru",
+      "path": "/api",
+      "status": 200,
+      "keys": [
+        "data"
+      ],
+      "dataRows": null,
+      "totalRows": null,
+      "hasError": false
+    },
+    {
+      "host": "appmetrica.yandex.ru",
+      "path": "/api",
+      "status": 200,
+      "keys": [
+        "data"
+      ],
+      "dataRows": null,
+      "totalRows": null,
+      "hasError": false
+    },
+    {
+      "host": "mc.yandex.ru",
+      "path": "/watch/22430419",
+      "status": 200,
+      "keys": [
+        "settings",
+        "userData"
+      ],
+      "dataRows": null,
+      "totalRows": null,
+      "hasError": false
+    },
+    {
+      "host": "appmetrica.yandex.ru",
+      "path": "/api",
+      "status": 200,
+      "keys": [
+        "data"
+      ],
+      "dataRows": null,
+      "totalRows": null,
+      "hasError": false
+    },
+    {
+      "host": "appmetrica.yandex.ru",
+      "path": "/api",
+      "status": 200,
+      "keys": [
+        "data"
+      ],
+      "dataRows": null,
+      "totalRows": null,
+      "hasError": false
+    },
+    {
+      "host": "yandex.ru",
+      "path": "/adfox/13273407/getBulk/v2",
+      "status": 200,
+      "keys": [
+        "jsonapi",
+        "meta",
+        "data",
+        "errors"
+      ],
+      "dataRows": 0,
+      "totalRows": null,
+      "hasError": true
+    },
+    {
+      "host": "appmetrica.yandex.ru",
+      "path": "/api",
+      "status": 200,
+      "keys": [
+        "data"
+      ],
+      "dataRows": null,
+      "totalRows": null,
+      "hasError": false
+    },
+    {
+      "host": "appmetrica.yandex.ru",
+      "path": "/api",
+      "status": 200,
+      "keys": [
+        "data"
+      ],
+      "dataRows": null,
+      "totalRows": null,
+      "hasError": false
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "checked_at": "2026-10-16T15:34:42.534Z",
+  "project_id": "e4e954f1-59a9-479a-821f-be7eed9aff47",
+  "provider_project_alias": "Cats Cute Miner",
+  "display_name": "Cat Miner: Idle Tycoon",
+  "destination": "SuperLeo project library",
+  "assets": [
+    {
+      "library_name": "CatMiner_Axon_Factories_30s_en.mp4",
+      "file": "assets/CatMiner_Axon_Factories_30s_en.mp4",
+      "sha256": "4a69ead95ab7ba477c4c844231af376eeba4f5c2872e79a616feee8379125d6f",
+      "uploaded_and_reloaded": true
+    },
+    {
+      "library_name": "CatMiner_Axon_Endcard_1080x1920.png",
+      "file": "assets/endcard-1080x1920.png",
+      "sha256": "a1193cc9054763c0844e4dd270cd06d3f5789f93eba2341b93021973e8544b03",
+      "uploaded_and_reloaded": true
+    },
+    {
+      "library_name": "icon-512.png",
+      "file": "assets/icon-512.png",
+      "sha256": "0f7b6e7083ea2758f3d6c9d3774f471c746d519f26ba17c1639f9b6af8d472f5",
+      "uploaded_and_reloaded": true
+    }
+  ],
+  "old_name_video_and_endcard_obsolete": true,
+  "appLovin_network_uploaded": false,
+  "campaign_created": false,
+  "campaign_active": false
+}

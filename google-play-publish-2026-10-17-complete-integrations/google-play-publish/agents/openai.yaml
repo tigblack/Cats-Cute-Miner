@@ -1,0 +1,4 @@
+interface:
+  display_name: "Multicast: Google Play"
+  short_description: "Игра, монетизация, сервисы, Play, internal и production"
+  default_prompt: "Используй $google-play-publish: давай эту игру в Google Play."

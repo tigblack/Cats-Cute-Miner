@@ -1,0 +1,61 @@
+{
+  "checked_at": "2026-10-16T12:01:43.090766+00:00",
+  "route": "Chrome DevTools MCP; dedicated existing agent profile on Windows; port9333",
+  "interactive_browser": {
+    "status": "started_in_logged_on_desktop_session",
+    "windows_user": "arutt",
+    "desktop_session": 1,
+    "browser_session": 1,
+    "previous_problem": "Old WMI launch placed dedicated Chrome in invisible Windows session0",
+    "fix": "Scheduled task with Interactive logon; same agent profile; ordinary Chrome untouched",
+    "desktop_shortcut": "C:\\Users\\arutt\\Desktop\\Cats Cute Miner - Google Play.lnk",
+    "helper": "Tools/ReleaseSdk/show-agent-chrome.ps1"
+  },
+  "observations": [
+    {
+      "service": "Google Play Console",
+      "state": "authenticated_own_draft_created",
+      "visible_heading": "Sign in",
+      "visible_field": "Email or phone",
+      "page_id": 4,
+      "play_app_id": "4974963942177850884",
+      "create_permission": "verified"
+    },
+    {
+      "service": "Adjust",
+      "state": "authenticated_app_creation_and_events_running",
+      "page_id": 5
+    },
+    {
+      "service": "SuperLeo",
+      "state": "authenticated",
+      "actor": "sargsyan@multicastgames.com",
+      "ui_role": "Администратор",
+      "page_id": 6,
+      "project_readback_verified": true
+    },
+    {
+      "service": "AppLovin MAX",
+      "state": "authenticated_but_SDK_key_not_visible_in_current_account",
+      "observed_url": "https://max.applovin.com/login",
+      "tab_reused_then_returned_to_Adjust": true,
+      "account": "develop@multicastgames.com",
+      "checked_url": "https://max.applovin.com/o/account#keys",
+      "available_key_labels": [
+        "Report Key",
+        "Ad Review Key"
+      ],
+      "sdk_key_label_present": false,
+      "ad_units_management_nav_present": false
+    },
+    {
+      "service": "Meta",
+      "state": "direct_dashboard_not_checked",
+      "panel_project_app_id_verified": "5614484342110411"
+    }
+  ],
+  "account_permissions": "SuperLeo own project/provider reads work. Play permissions await sign-in, user reports all access.",
+  "passwords_or_2fa_read_or_entered": false,
+  "authentication_cookie_exported": false,
+  "google_login_page_left_undisturbed": true
+}

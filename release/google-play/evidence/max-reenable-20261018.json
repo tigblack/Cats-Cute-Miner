@@ -1,0 +1,51 @@
+{
+  "checked_at": "2026-10-18T21:48:27.052884+00:00",
+  "package": "com.multicastgames.catscuteminer",
+  "authorization": "Latest user: включи рекламу",
+  "scope": "Android MAX rewarded only; no interstitial/banner or UA campaign launch",
+  "source_enabled": true,
+  "android_symbol": "CATMINERS_MAX",
+  "SDK_version": "8.6.6",
+  "native_android_sdk_version": "13.6.4",
+  "SDK_audit_ref": "release/google-play/evidence/max-sdk-audit-20261018.json",
+  "API_compile_ref": "release/google-play/evidence/max-android-player-api-compile-20261018.json",
+  "tests": {
+    "passed": 75,
+    "failed": 0,
+    "filter": "IntegrationPrivacyRewardTests|OutpostRewardedBonusTests|PaymentDeliveryTests",
+    "evidence_ref": "release/google-play/evidence/max-reward-privacy-editmode-20261018.xml",
+    "sha256": "8af7805bd7dcef23aa97e581d86f9c6f126d4337dc5ca1ec6382d926dad1d3d9"
+  },
+  "own_unit_readback": {
+    "id": "f27564b55995aa89",
+    "name": "Cats Cute Miner Android Rewarded",
+    "platform": "android",
+    "package_name": "com.multicastgames.catscuteminer",
+    "ad_format": "REWARD",
+    "disabled": false,
+    "enabled_networks": [
+      "APPLOVIN_NETWORK",
+      "APPLOVIN_EXCHANGE"
+    ],
+    "read_via": "Authenticated SuperLeo frontend /monetization/ad-units/f27564b55995aa89",
+    "settings_changed": false
+  },
+  "SDK_key_configured": true,
+  "legal_urls_configured": false,
+  "native_consent_configuration_complete": false,
+  "native_AAB_built": false,
+  "real_ad_reward_revenue_verified": false,
+  "additional_networks": {
+    "admob": "Provisioning worker connection closed; subsequent catalog read has no matching game; no blind retry",
+    "unity": "Connected and catalog readable; no matching own app found",
+    "mintegral": "Connected and catalog readable; no matching own app found",
+    "pangle": "Connected and catalog readable; no matching own app found"
+  },
+  "next_steps": [
+    "Accepted public game-specific13+ legal URLs and verified support process",
+    "Apply official MAX key/consent native settings; review mediation/adapters as required",
+    "Final native artifact then real ad/reward/revenue verification"
+  ],
+  "last_updated_at": "2026-10-18T21:59:55.223212+00:00",
+  "client_key_evidence_ref": "release/google-play/evidence/max-client-key-config-20261018.json"
+}

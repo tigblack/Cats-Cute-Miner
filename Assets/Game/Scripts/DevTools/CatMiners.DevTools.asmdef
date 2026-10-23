@@ -1,0 +1,22 @@
+{
+    "name": "CatMiners.DevTools",
+    "rootNamespace": "CatMiners.DevTools",
+    "references": [
+        "CatMiners.Core",
+        "CatMiners.Runtime",
+        "Unity.InputSystem",
+        "Unity.TextMeshPro",
+        "UnityEngine.UI"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_EDITOR || DEVELOPMENT_BUILD"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "stage": "internal_release",
+  "created_at": "2026-10-14T12:58:32.533482+00:00",
+  "scope": {
+    "game": "Cats Cute Miner",
+    "engine": "Unity",
+    "platform": "Android",
+    "track": "internal",
+    "package_name": "com.multicastgames.catscuteminer"
+  },
+  "requirements": [
+    {
+      "id": "internal_release.1",
+      "requirement": "Explicit user confirmation before upload and external release",
+      "applicability": "required",
+      "source_ref": "google-play-publish/SKILL.md",
+      "verification": "Actual readback, build or device evidence as appropriate"
+    },
+    {
+      "id": "internal_release.2",
+      "requirement": "AAB identity/hash/signature checked",
+      "applicability": "required",
+      "source_ref": "google-play-publish/SKILL.md",
+      "verification": "Actual readback, build or device evidence as appropriate"
+    },
+    {
+      "id": "internal_release.3",
+      "requirement": "Internal version, test lists, license testing and opt-in verified",
+      "applicability": "required",
+      "source_ref": "google-play-publish/SKILL.md",
+      "verification": "Actual readback, build or device evidence as appropriate"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+<Project>
+  <!-- Промежуточные и выходные файлы — в корневой obj/ (не синхронизируется Mutagen и не видна Unity). -->
+  <!-- CoreTestsInstance (-p:CoreTestsInstance=имя) — отдельные obj/bin для параллельных прогонов. -->
+  <PropertyGroup>
+    <CoreTestsSuffix Condition="'$(CoreTestsInstance)' != ''">-$(CoreTestsInstance)</CoreTestsSuffix>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)..\..\obj\CoreTests$(CoreTestsSuffix)\$(MSBuildProjectName)\obj\</BaseIntermediateOutputPath>
+    <BaseOutputPath>$(MSBuildThisFileDirectory)..\..\obj\CoreTests$(CoreTestsSuffix)\$(MSBuildProjectName)\bin\</BaseOutputPath>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>$(NoWarn);CS1591;NU1603</NoWarn>
+  </PropertyGroup>
+</Project>

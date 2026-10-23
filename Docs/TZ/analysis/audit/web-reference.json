@@ -1,0 +1,236 @@
+{
+ "summary": "Я провёл веб-исследование публичных контрольных значений Gold & Goblins. Проверил официальный FAQ AppQuantum (дословные тексты статей получены curl'ом), фан-вики goldandgoblins.fandom.com (wikitext через MediaWiki API, потому что WebFetch получает 402), историю версий в App Store и гайды LevelWinner, MumuPlayer, BlueStacks, MobileGamingHub и PocketGamer.biz. Reddit поиском не находится.\n\nСамые сильные результаты получены прямым сравнением с JSON. Скрипты лежат в /mnt/claude-data/sargsyan-tinote/cats-cute-miner/Docs/TZ/analysis/scratch/ (web_compare2.py, web_compare3.py, web_chests.py, wb_extract.py).\n(1) Таблица пороговых множителей кузницы из вики (уровни 10..500) совпала с JSON spawningcart во всех 50 точках, у amethyst — во всех 24 заполненных точках. Это подтверждает гипотезу ТЗ 9.3: ObjectiveCount — интервалы, отсчёт идёт с уровня 1, первый порог — на уровне 10.\n(2) Вики-таблица стоимости улучшения карт полностью совпадает с CardUpgradeCosts для rarity 1–5. Строка «lvl 2» соответствует индексу 0, то есть переходу 1→2. Коды редкости: 1 Common … 5 Legendary, 6 Majestic.\n(3) Вики-таблица сундуков точно воспроизводится по JSON при множителях zone44: карт = round(BaseNumCards × GachaCardsMult(Normal/Premium/Rare по GachaType)), гарантированный минимум = floor(карт / Weight). Совпало 11 из 11 сундуков, так что веса — это знаменатели вида «1 из N».\n(4) MineUnlock всех 10 manager-карт с номерами в вики и 8 немэнеджерских карт совпадает с JSON. Это даёт смысл части кодов StatModifierType: 4 — уровень покупки, 5 — шанс крита, 6 — сила крита, 8 — Alarm Clock, 11 — доход за чекпоинт, 13 — Special Delivery, 22 — урон динамита, 23 — Legendary Seeker.\n(5) Публично подтверждены: рост урона ×2.1 за уровень, цена найма ×4 за покупку, бесплатный гоблин раз в 40 минут, уровень пушки = уровень покупки − 1, динамит = 5 минут работы гоблина того же уровня (×2.1 за уровень, не больше 4 шашек, максимум +3 уровня к сильнейшему гоблину), бесплатный сундук раз в 4 часа, Crusher Truck длится 30 с и запускается между шахтами.\n(6) Датировка JSON: 144 шахты — состояние клиента 1.39.0–1.41.0 (декабрь 2024 — март 2025). Версия 1.42.0 добавила шахты 145–147 и Cosmostone, которого в JSON нет.\n\nДля бонусов CheckPoint основной шахты числа не опубликованы. Но в ивентах чекпоинт даёт такие же наборы из четырёх бонусов в том же порядке (доход, скидка найма, таймер или уровень, лимит), поэтому [10,2,7,1]/[2,10,60,1] с высокой вероятностью означает: ×2 к доходу, скидка найма ×10, −60 с к таймеру, +1 к лимиту. Это вывод средней уверенности.\n\nНичего не нашлось по пунктам: абсолютный урон гоблина 1-го уровня, базовый лимит 10, доход и цены кузницы и шахт по уровням, множитель manager-карты за уровень (×3?), офлайн-лимит (есть только неоднозначные «12 часов» в гайде 2021 года), точная скидка найма за чекпоинт в основной шахте, первая цена найма.",
+ "items": [
+  {
+   "topic": "1. Урон гоблина: рост за уровень",
+   "value_or_rule": "Гоблин уровня L+1 в 2.1 раза сильнее гоблина уровня L: «A single goblin of a higher level is 5% faster than the two goblins merged. In other words, a goblin is 2.1 times stronger than a goblin of one level lower.»",
+   "source_url": "https://goldandgoblins.fandom.com/wiki/Goblins",
+   "confidence": "high",
+   "note": "Совпадает с Miners.tinygoblin.DamageGrowth = 2.1 (FT1). Подтверждён только коэффициент между соседними уровнями. Абсолютный урон уровня 1 и база индекса (2.1^L или 2.1^(L−1)) из этого не следуют. Wikitext получен через api.php (WebFetch получает 402)."
+  },
+  {
+   "topic": "1. Урон гоблина: абсолютные значения (урон/DPS уровня 1, 2, 3…)",
+   "value_or_rule": "Не найдено. Ни официальный FAQ, ни вики, ни гайды не публикуют урон или DPS по уровням и HP камней. Игра показывает только таймер добычи.",
+   "source_url": "none",
+   "confidence": "low",
+   "note": "Проверить можно только по таймерам в игре: rockonboardingmine1 L1 HP 16 при уроне 1/с дал бы 16 с, при уроне 2.1/с — около 7.6 с."
+  },
+  {
+   "topic": "1. Крит гоблинов",
+   "value_or_rule": "Базового крита нет; криты дают карты. Lucky Charm (Rare, открывается в шахте 23): «Goblins have a chance to deal extra damage every time they strike». Golden Dumbbells (Legendary, шахта 36): «Goblins deal even more damage when they do a critical strike». Числовых процентов нет.",
+   "source_url": "https://goldandgoblins.fandom.com/wiki/Cards",
+   "confidence": "medium",
+   "note": "В JSON Miners.CritChanceBase = 0, CritPowerBase = 2. Однозначное совпадение по MineUnlock и редкости: ca031 (rarity 3, MU 23) имеет StatModifierType 5 (шанс крита), ca035 (rarity 5, MU 36) — StatModifierType 6 (сила крита). Официальный Cards Guide также описывает «Crit Chance / Crit Damage» как отдельные карты."
+  },
+  {
+   "topic": "2. Цена найма: рост за покупку",
+   "value_or_rule": "«Every time a globlin is purchased, the price is multiplied by 4 in the main mine… The cost multiplier is not necessarily the same in events.» В ивентах: 4.5 (Volcanic Eruption), 3 (Into the Arctic), 2.5 (Candy Frenzy), 2.8 (Jungle Ruins, Gems Galore), 3.5 (Elixir Deluge), 3.7 (Cards Collector), 3.25 (особые ивенты).",
+   "source_url": "https://goldandgoblins.fandom.com/wiki/Goblins",
+   "confidence": "high",
+   "note": "Совпадает с Reinforcements.CostGrowth = 4 и подтверждает, что Growth — геометрический множитель за каждую покупку, свой для каждой темы. CostMultiplier = 2, CostBase = 0 и аргумент (n или n+1) публично не подтверждены. Первая цена нигде не названа."
+  },
+  {
+   "topic": "2. Уровень покупаемого гоблина",
+   "value_or_rule": "Вики: «The more goblins are purchased, the more the gauge behind the indicated level increases. once the gauge is full, the level of future purchased goblins increase by one.» Официально: «This level naturally increases after you purchase a specific number of workers using gold.» Сколько покупок нужно на уровень, не указано.",
+   "source_url": "https://goldandgoblins.fandom.com/wiki/Goblins",
+   "confidence": "medium",
+   "note": "Согласуется с линейной LevelFormulaType 0 (LevelBase 0.4, LevelMultiplier 0.125): дробная часть — шкала, +1 уровень каждые 8 покупок. Это моя интерпретация; публично число 8 и смещение 0.4 не подтверждены. Golden Cannon (Legendary, шахта 50, «Increase the level of all purchased goblins») = ca036 (rarity 5, MU 50), StatModifierType 4."
+  },
+  {
+   "topic": "2. Как ворота меняют найм",
+   "value_or_rule": "Официально: «The hiring cost drops every time you activate a checkpoint on the map, and can be permanently lowered by upgrading the rare card Heavy Discount.» В ивентах скидка за чекпоинт: ×10 (Volcanic Eruption), ×100 (Candy Frenzy), ×500 (особые ивенты). Для основной шахты величина не опубликована.",
+   "source_url": "https://appquantum.helpshift.com/hc/en/7-gold-and-goblins/faq/56-goblins-and-their-levels-1780068453/",
+   "confidence": "high",
+   "note": "Качественное правило подтверждено официально; значения за чекпоинт для ивентов взяты из вики (Volcanic_Eruption, Candy_Frenzy, Template:Special_Events/Checkpoints). Heavy Discount в вики: Rare, «Reduce the cost to purchase goblins every time a checkpoint is activated»; номер шахты открытия не указан."
+  },
+  {
+   "topic": "6. Бонусы чекпоинта (ивенты, точные значения)",
+   "value_or_rule": "Особые ивенты: «each check point grant the following buffs: × 48 Mineshaft profit, × 500 goblin discount, - 5 min goblin spawn time, + 1 goblin limit». Volcanic Eruption: +20% mineshafts speed, ×10 goblin discount, +800% rocks profit, +1 goblin limit. Candy Frenzy: Mineshafts Profit x32, Goblin Discount x100, Goblin Level +1, Goblin Limit +2.",
+   "source_url": "https://goldandgoblins.fandom.com/wiki/Goblins_and_Ghouls",
+   "confidence": "high",
+   "note": "Это значения ивентовых тем, а не основной шахты. Все наборы состоят из 4 бонусов: позиция 2 всегда скидка найма, позиция 4 всегда лимит гоблинов. Текст шаблона: api.php?page=Template:Special_Events/Checkpoints."
+  },
+  {
+   "topic": "6. Бонусы чекпоинта основной шахты (вывод по структуре)",
+   "value_or_rule": "Прямых публичных значений для основной шахты нет. По аналогии с ивентами (тот же порядок из 4 бонусов) JSON CheckPoint [10,2,7,1] / ModifierBase [2,10,60,1] вероятно означает: ×2 к доходу кузницы и шахт; скидка найма ×10; −60 с к таймеру бесплатного гоблина; +1 к лимиту гоблинов.",
+   "source_url": "https://goldandgoblins.fandom.com/wiki/Volcanic_Eruption",
+   "confidence": "medium",
+   "note": "Дополнительные аргументы. Код 10 = ca034 (Legendary, MU 1, Mult 1/Growth 3/FT1); вероятно, это Golden Cart («Increase the profit of the forge and all mineshafts»). Код 7 = ca029 (Rare, MU 1, Mult 60, FT0); вероятно, Pocket Watch (время появления). Код 1 = ca038 (Legendary, MU 1, +1 за уровень, FT0); вероятно, Golden Helmet (лимит). Пары Golden Cart/Golden Helmet и Pocket Watch/другие Rare различены только по форме формулы, потому что в вики у них нет MU. Golden Pickaxes (доход «every time a checkpoint is activated», MU 20) = ca037, код 11, то есть отдельный код от безусловного 10. Volcanic Eruption тоже даёт «× 10 goblin discount»."
+  },
+  {
+   "topic": "3. Лимит гоблинов: правила",
+   "value_or_rule": "Официально: лимит виден справа вверху. При достижении лимита «the Goblin Cannon will stop delivering goblin barrels until you free up some space». «Unopened wooden barrels sitting on your field still occupy space and count toward your population cap!» Лимит навсегда повышают «specific special cards» (Golden Helmet: «Raises the maximum goblin population cap»).",
+   "source_url": "https://appquantum.helpshift.com/hc/en/7-gold-and-goblins/faq/56-goblins-and-their-levels-1780068453/",
+   "confidence": "high",
+   "note": "Подтверждает правило ТЗ 10.4: нераскрытые бочки занимают места лимита, при заполненном лимите пушка ждёт. В ивентах чекпоинт даёт +1 или +2 к лимиту (вики). Golden Helmet — Legendary (вики Cards; описание из официального Cards Guide)."
+  },
+  {
+   "topic": "3. Базовый лимит гоблинов (10?) и прирост за уровень Golden Helmet",
+   "value_or_rule": "Не найдено. Ни один источник не называет стартовый лимит (JSON BaseUnitCap = 10) и прирост за уровень Golden Helmet.",
+   "source_url": "none",
+   "confidence": "low",
+   "note": "Значение 10 есть только в JSON. В вики у Golden Helmet нет MU и числа; предполагаемая карта ca038 (+1 за уровень, FT0) не подтверждена."
+  },
+  {
+   "topic": "4. Пороговые множители кузницы (spawningcart)",
+   "value_or_rule": "Вики-таблица «Multipliers of the Forge profit», Main Mine: уровень 10:×2, 20:×2, 30:×2, 40:×10, 50–70:×2, 80:×100, 90–110:×2, 120:×1000, 160:×10000, 200:×1000, 240:×10000, 280:×1000, 320:×10000, 360:×1000, 400:×10000, 440:×1000, 480:×10000, остальные десятки ×2, до 500.",
+   "source_url": "https://goldandgoblins.fandom.com/wiki/Forge",
+   "confidence": "high",
+   "note": "Скрипт scratch/web_compare2.py: пороги, накопленные от уровня 1 (1+9 = 10, затем +10…), совпали с GeneratorObjectives.spawningcart во всех 50 точках до уровня 500, расхождений 0. Подтверждена гипотеза ТЗ 9.3: ObjectiveCount — интервалы между порогами, старт с уровня 1, первый порог на уровне 10. Вики: «At some levels, the yellow bar resets and a multiplier is applied to the Forge profit»."
+  },
+  {
+   "topic": "5. Пороговые множители шахты amethyst",
+   "value_or_rule": "Вики, Main Mine: 10:×2, 20:×2, 40:×2, 60:×200, 80:×30, 100:×4, 120:×2, 140:×2, 160:×2, 180:×20000, 200:×3000, 220:×400, 240–280:×2, 300:×30000, 320:×4000, 340:×500, 360–400:×2, 420:×40000, 440:×5000, 460:×600.",
+   "source_url": "https://goldandgoblins.fandom.com/wiki/Amethyst_Mineshaft",
+   "confidence": "high",
+   "note": "Совпадение с GeneratorObjectives.amethyst во всех 24 заполненных точках; в вики пусты только 480 и 500 (в JSON там ×2). Это второе независимое подтверждение интервальной трактовки ObjectiveCount. Для citrine, agate, topaz, opal, jade и onyx в вики есть только таблицы ивентов, для основной шахты их нет."
+  },
+  {
+   "topic": "4. Золото кузницы за цикл и цена улучшения по уровням",
+   "value_or_rule": "Не найдено. Официальные статьи The Forge, Upgrading Buildings и Mineshaft Numbers Explained не содержат чисел: выход виден как «floating number at the top of the building», а уровень растёт за золото.",
+   "source_url": "none",
+   "confidence": "low",
+   "note": "Нет публичной проверки для GenerationDelaySecBase 2, CurrencyOutputMultiplier 3, UpgradeCostBase 72 / Growth 1.43 (FT2). Официально: «Every time the bar completes a full spin, coins are instantly added to your treasury». Вики Forge: «the Forge is always automated, so it grants gold production when the game is not being played»."
+  },
+  {
+   "topic": "4. Бонус эликсира за порог",
+   "value_or_rule": "Официально: «reaching a multiplier milestone rewards you with bonus Elixir!» Также «Elixirs… awarded as a bonus for upgrading your shafts».",
+   "source_url": "https://appquantum.helpshift.com/hc/en/7-gold-and-goblins/faq/59-upgrading-buildings/",
+   "confidence": "high",
+   "note": "Подтверждает назначение GeneratorObjectives.SoftCurrencyReward* и zone.GenObjectiveSoftCurrencyMultiplier: эликсир выдаётся за порог. Конкретные суммы не опубликованы."
+  },
+  {
+   "topic": "5. Выход шахт и цены улучшения по уровням",
+   "value_or_rule": "Не найдено. Официально только качественно: шахты различаются «by mining speed, upgrade costs, and level-up multipliers».",
+   "source_url": "none",
+   "confidence": "low",
+   "note": "Проверить amethyst (цикл 8 с, CurrencyOutputMultiplier 400, UpgradeCostBase 512 / Growth 1.46) по публичным данным невозможно."
+  },
+  {
+   "topic": "5. Шахты: появление, ручной сбор, автоматизация, условие выхода",
+   "value_or_rule": "Официально: «Starting from the second mine, you will begin encountering abandoned buildings». Ремонт идёт тем же таймером, что добыча, затем «tap the flashing Activate button». Без автоматизации золото копится «inside a mine cart. You must… manually tap the cart when it arrives at the surface». Автоматизация требует «a specific number of matching Jewel Research Cards (Common or Uncommon) and a set amount of Elixir». «You must find, repair, and activate every single shaft on the map to successfully complete the mine».",
+   "source_url": "https://appquantum.helpshift.com/hc/en/7-gold-and-goblins/faq/58-mine-shafts/",
+   "confidence": "high",
+   "note": "Согласуется с JSON: в zone1 0 шахт, шахты есть с zone2; s-токен требует конкретную manager-карту и уровень. В статье 59: если карту улучшили, а автоматизации нет — «hasn't yet reached the specific level threshold required for full automation»."
+  },
+  {
+   "topic": "5. Буфер ручной шахты",
+   "value_or_rule": "Гайд: «you have to collect the earnings to set them off again» — следующий цикл ручной шахты начинается после сбора. Ещё: «Upon activation, you will receive a chest and elixir».",
+   "source_url": "https://mobilegaminghub.com/gold-and-goblins-what-to-know-to-complete-mines-fast/",
+   "confidence": "medium",
+   "note": "Сторонний гайд. Поддерживает правило ТЗ 9.2: один буфер выплаты, после сбора запускается следующий цикл. Награда при активации соответствует Gacha-ID из s-токена."
+  },
+  {
+   "topic": "10. Эффект manager-карт: множитель дохода за уровень (×3?)",
+   "value_or_rule": "Не найдено. Вики даёт только тип «Profit» и текст «Automate and increase the profit of the X mineshaft»; чисел за уровень нет ни в вики, ни в официальном FAQ.",
+   "source_url": "none",
+   "confidence": "low",
+   "note": "В JSON все manager-карты: StatModifierType 9, Base 0, Mult 1, Growth 3 (rarity 1) или 4 (rarity 2), FT1. Гипотеза «×3 за уровень» публично не подтверждена. Есть и Manager-Forge (Common) с текстом «Automate and increase the profit of the Forge». При этом кузница всегда автоматизирована, что согласуется с тем, что ca001 не требуется ни одним s-токеном."
+  },
+  {
+   "topic": "10. Manager-карты: MineUnlock и редкость",
+   "value_or_rule": "Вики (Unlock at mine). Common: Sapphire 19, Tourmaline 24, Aquamarine 31, Emerald 38, Diamond 47. Uncommon: Jade 17, Onyx 22, Sapphire 27, Tourmaline 33, Aquamarine 42.",
+   "source_url": "https://goldandgoblins.fandom.com/wiki/Cards",
+   "confidence": "high",
+   "note": "Все 10 значений совпали с JSON Cards.MineUnlock: ca009–ca013 (rarity 1) и ca019–ca023 (rarity 2). Значит, Rarity 1 = Common (серые), 2 = Uncommon (зелёные). Официально про серые и зелёные: некоторые поздние шахты принимают «only green cards»."
+  },
+  {
+   "topic": "10. Стоимость улучшения карт (дубликаты и эликсир)",
+   "value_or_rule": "Вики-таблица «Upgrade prices». Common, уровни 2..14: 2/50, 5/100, 10/200, 20/300, 50/400, 100/800, 200/1500, 400/3000, 800/6000, 1000/12000, 2000/24000, 4000/48000, 8000/72000. Uncommon, уровни 2..12: 2/100 … 2000/96000. Rare, уровни 2..9: 2/500 … 200/100000. Epic, уровни 2..7: 2/2000 … 100/100000. Legendary, уровни 2..5: 2/5000 … 20/100000.",
+   "source_url": "https://goldandgoblins.fandom.com/wiki/Cards",
+   "confidence": "high",
+   "note": "Скрипт scratch/web_compare3.py: полное совпадение с CardUpgradeCosts для rarity 1–5. Строка вики «lvl 2» соответствует элементу [0], то есть [0] = переход 1→2; максимальные уровни 14/12/9/7/5. Это подтверждает трактовку ТЗ 10.1. Коды: 3 = Rare, 4 = Epic, 5 = Legendary. Rarity 6 = Majestic (Goblin King): официально «4 matching cards» = Duplicates[0] = 4 для rarity 6."
+  },
+  {
+   "topic": "10/6. Немэнеджерские карты: соответствие ID ↔ название ↔ StatModifierType",
+   "value_or_rule": "Однозначно по MineUnlock и редкости: Lucky Charm (R, 23) = ca031, SMT 5; Special Delivery (R, 30) = ca027, SMT 13; Alarm Clock (R, 40; «Reduce the time required to spawn a free goblin every time a checkpoint is activated») = ca032, SMT 8, Mult 30; Big Blast (E, 44; урон динамита) = ca054, SMT 22; Legendary Seeker (E, 60) = ca055, SMT 23; Golden Pickaxes (L, 20) = ca037, SMT 11; Golden Dumbbells (L, 36) = ca035, SMT 6; Golden Cannon (L, 50) = ca036, SMT 4.",
+   "source_url": "https://goldandgoblins.fandom.com/wiki/Cards",
+   "confidence": "high",
+   "note": "Совпадение однозначное: каждое из этих значений MU встречается у одной карты нужной редкости. Без MU в вики остались Iron Pickaxe, Pocket Watch, Rocket Cart, Heavy Discount (Rare) — это ca026, ca028, ca029, ca030 в неизвестном порядке. Golden Cart и Golden Helmet (Legendary) — это ca034 и ca038. Epic Crusher Tuning, Smuggled Dynamite, Lode of Gems, Bomb Launcher — это ca050–ca053; их точное соответствие не установлено."
+  },
+  {
+   "topic": "7. Офлайн-доход: лимит/длительность",
+   "value_or_rule": "Официального лимита не найдено. Единственная цифра — в гайде LevelWinner (около 2021 г.): «The gains you receive from watching these ads double and cap at 12 hours». Из контекста неясно, ограничение ли это офлайна или рекламного буста.",
+   "source_url": "https://www.levelwinner.com/gold-and-goblins-beginners-guide-tips-tricks-strategies/",
+   "confidence": "low",
+   "note": "Официально: рекламный буст ×2 на золото кузницы и шахт «for 3 hours», его можно складывать «while you are away» (faq/79). Значит, «12 часов» скорее про стопку бустов (например, 4 × 3 ч). На офлайн-лимит в 12 ч опираться нельзя; решение ТЗ (8 ч как продуктовая настройка) остаётся в силе."
+  },
+  {
+   "topic": "7. Что работает офлайн",
+   "value_or_rule": "Официально: кузница даёт «a steady baseline of currency even while idle». Гоблины, закреплённые за целью, продолжают добычу: «assign them to high-level, durable rocks so they keep earning while you're away». В Known Issues офлайн-генерация описана как «offline income, automated goblins, or free spins». Зелья времени дают золото, «that your forge and shafts would have generated». Если гоблины не назначены, «zero automated mining progress».",
+   "source_url": "https://appquantum.helpshift.com/hc/en/7-gold-and-goblins/faq/54-welcome-to-gold-and-goblins-beginner-s-guide/",
+   "confidence": "high",
+   "note": "Согласуется с ТЗ 12.2: офлайн продолжаются назначенная добыча, кузница и автоматизированные шахты; новые цели сами не назначаются. Дополнительные источники: faq/57-the-forge, faq/600-known-issues, faq/45-where-are-my-time-bottles."
+  },
+  {
+   "topic": "8. Таймер бесплатного гоблина",
+   "value_or_rule": "Официально: «At its base level, the cannon automatically launches one free goblin barrel onto your field every 40 minutes». Таймер навсегда сокращается: «The cooldown timer drops every time you activate a checkpoint», а также картами Pocket Watch и Alarm Clock.",
+   "source_url": "https://appquantum.helpshift.com/hc/en/7-gold-and-goblins/faq/62-the-goblin-cannon/",
+   "confidence": "high",
+   "note": "40 мин = SpawningCart.SpawnDelaySecBase 2400 — подтверждено. На сколько сокращает чекпоинт в основной шахте, не опубликовано (в особых ивентах −5 мин). Alarm Clock = ca032 (SMT 8, Mult 30)."
+  },
+  {
+   "topic": "8. Уровень бесплатного гоблина и уровень пушки",
+   "value_or_rule": "Вики Cannon: «Without any card upgrades, the Cannon level will be equivalent to the current purchase level of goblins, minus one». Вики Barrels: «free goblin have a level less than purchased goblins».",
+   "source_url": "https://goldandgoblins.fandom.com/wiki/Cannon",
+   "confidence": "high",
+   "note": "Совпадает с SpawningCart.SpawnLevelOffset = −1: бесплатный гоблин = уровень покупки − 1."
+  },
+  {
+   "topic": "8. Мистические бочки (доставки): тайминг, содержимое, перегрев",
+   "value_or_rule": "Официально: «These start spawning every 25 seconds, though the cooldown between shots increases slightly the more barrels you open in a single session». «A new Mystery Barrel will never spawn if there is already an unclaimed one». Содержимое: Gold, Elixir, Goblins, Dynamite. Золото считается от «the combined production of your Forge and all automated mineshafts». Гоблины — «current Goblin Cannon level minus 1». Динамит — уровень сильнейшего гоблина. При перегреве — «exclusively drop gold», остывание «a couple of hours». Награды идут циклами.",
+   "source_url": "https://appquantum.helpshift.com/hc/en/7-gold-and-goblins/faq/62-the-goblin-cannon/",
+   "confidence": "high",
+   "note": "Сопоставление с JSON — средней уверенности. DeliveryDelaySecBase 22 (±10%) при Growth 1.02 за выдачу примерно соответствует «25 с, растёт за сессию»; сброс счётчика — DeliveryClaimCountResetSec 3600. У Deliveries id 15 (Core gold) единственный MaxDupes −1 (без лимита): когда исчерпаны остальные, остаётся только золото, что совпадает с «перегревом». Сброс через DeliveryMaxDupesResetSec 14400 (4 ч) ≈ «a couple of hours». Золото рассчитывается от дохода кузницы и только автоматизированных шахт, ручные не учитываются; это важно для GetRewardIncomeRate (ТЗ 9.4)."
+  },
+  {
+   "topic": "8. Уровень гоблина в бочке и правило догоняния",
+   "value_or_rule": "Вики: уровень гоблина из бочки — «a minimum of one level less than, and a maximum of two levels higher than the number shown on the Cannon». Исключение: «if the lowest level active goblin is more than one level less than the number shown on the Cannon, then the next barrel… will contain a goblin of that same level».",
+   "source_url": "https://goldandgoblins.fandom.com/wiki/Goblins",
+   "confidence": "medium",
+   "note": "Правило догоняния, вероятно, соответствует BalanceProperties.DeliveryForeverAloneDelta = 2 (разница ≥ 2 = «more than one level less»). В Deliveries 1–5 у гоблинов QuantityBase −2 (обычные) и +2 (рекламные): −2 от уровня покупки = уровень пушки − 1, что совпадает с официальным текстом. Но точная семантика QuantityBase/QuantityRound не установлена."
+  },
+  {
+   "topic": "9. Динамит: урон и уровень",
+   "value_or_rule": "Официально: «Dynamite takes 5 minutes off as if it were a Goblin at the same level». «You can only ever have a dynamite +3 levels above your highest goblin». «You can only have 4 Dynamite out at a time». Применяется «on an item a goblin can reach». Вики: каждый уровень ×2.1; эквивалент +0: 5 мин, +1: 10 мин 30 с, +2: 22 мин 3 с, +3: 46 мин 18.3 с. Динамит появляется на уровне сильнейшего гоблина и применим к камням и шахтам.",
+   "source_url": "https://appquantum.helpshift.com/hc/en/7-gold-and-goblins/faq/63-dynamite/",
+   "confidence": "high",
+   "note": "Совпадает с Spells: EffectMultiplier 300 = 300 с = 5 мин работы гоблина, EffectGrowth 2.1 = рост гоблина. EffectBase 750 публично не объяснён: при уровнях ≥ 8 его вклад меньше 1%, поэтому наблюдения «5 мин» его не опровергают. Таблица вики: https://goldandgoblins.fandom.com/wiki/Dynamite. Урон динамита увеличивают Big Blast (ca054, SMT 22) и Ancestral-бонус (после шахты 100)."
+  },
+  {
+   "topic": "11. Число шахт и датировка JSON",
+   "value_or_rule": "История версий App Store: 1.39.0 (08.12.2024) — «Mines 140–144»; 1.42.0 (14.03.2025) — «Mines 145–147… the Cosmostone Mineshaft and Card»; 1.33.0 (30.03.2024) — «Mines 123–125. New Moonstone Mineshaft and cards». Сейчас официально «over 150+ mines»; последняя версия 1.48.0 добавила шахты 160–165.",
+   "source_url": "https://apps.apple.com/us/app/gold-and-goblins-miner-games/id1529762599",
+   "confidence": "high",
+   "note": "В JSON 144 зоны и 20 типов шахт до sunstone, cosmostone нет. Значит, баланс соответствует клиенту 1.39.0–1.41.0 (декабрь 2024 — март 2025). Moonstone: ca058 MU 123 — совпадает. Пост Facebook о Heliodor («Find the cards starting from mine 68», виден в заголовке поисковой выдачи) соответствует ca041 MU 68. Официальное «over 150+» (faq/55) относится к текущей версии; по ТЗ, Приложение B, числа не обновлять."
+  },
+  {
+   "topic": "11. Crusher Truck и награда выхода",
+   "value_or_rule": "Официально: мини-игра «automatically triggers when you move between mines», длится «exactly 30 seconds». Объекты: Basic Rock (немного эликсира и карт), Soft Currency Rock (эликсир), Hard Currency Rock (гемы, только в основной шахте), сундуки Wooden/Iron/Forged/Silver; «rewards automatically scale higher as you progress». Появилась в 1.27.0: «Play the crusher truck bonus stage at the end of every mine!» (вместе с шахтами 108–112).",
+   "source_url": "https://appquantum.helpshift.com/hc/en/7-gold-and-goblins/faq/466-crusher-truck-mini-game-guide/",
+   "confidence": "high",
+   "note": "Отдельной награды выхода публично не описано. В вики Chests есть «Crusher» chest — это GachaCrusher. В JSON у всех scg_*_exit MimicId = GachaCrusher, а CrushableRewards (10) похожи на награды за объекты трассы. Это согласуется, но связь exit-сундука с мини-игрой публично не подтверждена. Патч 1.27.0 процитирован по зеркалам APK (поиск)."
+  },
+  {
+   "topic": "11. Переход в следующую шахту: сброс/сохранение",
+   "value_or_rule": "Официально: «Gold: Your current coin balance resets to the baseline starter amount». Гоблины уходят, «The shafts and forge on the new map start at level 1». Сохраняются карты с уровнями, эликсир, гемы, исследования. Цель шахты — «the massive wooden gates located at the very end of the map».",
+   "source_url": "https://appquantum.helpshift.com/hc/en/7-gold-and-goblins/faq/55-moving-to-the-next-mine-1780077462/",
+   "confidence": "high",
+   "note": "Совпадает с ТЗ 11 и StartingCoreCurrency (25 — значение из JSON; публично стартовая сумма не названа)."
+  },
+  {
+   "topic": "Доп. Сундуки: число карт и смысл Gacha-весов",
+   "value_or_rule": "Вики Chests: Wooden 24 карты (≥3 Uncommon), Iron 48 (≥6 U), Forged 68 (≥11 U), Silver 170 (≥11 U), Golden 102 (≥25 U, ≥2 Rare), Royal 127 (≥31 U, ≥12 R), Rare 10 (10 R), Epic 6, Mega Epic 11, Legendary 1, Mythical 380 (≥76 U, ≥38 R, ≥1 Legendary).",
+   "source_url": "https://goldandgoblins.fandom.com/wiki/Chests",
+   "confidence": "high",
+   "note": "Скрипт scratch/web_chests.py: все 11 сундуков воспроизводятся точно при множителях одной зоны — zone44 (Normal 3.4, Premium 1.2675, Rare 1.415). Число карт = round(BaseNumCards × GachaCardsMult[GachaType: 0 → Normal, 1 → Premium, 3 → Rare, 2 → ×1]). Гарантированный минимум = floor(карт / UncommonWeight|RareWeight|LegendaryWeight|EventEpicWeight). Это снимает неопределённость ТЗ 10.3: веса — знаменатели «1 гарантированная карта на N карт», а не веса рулетки. Распределение сверх минимума публично не описано."
+  },
+  {
+   "topic": "Доп. Бесплатный сундук",
+   "value_or_rule": "Официально: «You can claim a free chest containing cards and Elixir every 4 hours. If you get lucky, your standard chest might even upgrade to an Iron Chest».",
+   "source_url": "https://appquantum.helpshift.com/hc/en/7-gold-and-goblins/faq/79-free-bonuses-chests-and-income-boosts/",
+   "confidence": "high",
+   "note": "Совпадает с FreeGachaCycle.Hours = 4. MaxFreeGachas = 2 (накопление до 2?) публично не подтверждено. По ТЗ это система магазина, исключённая из первой версии."
+  }
+ ]
+}

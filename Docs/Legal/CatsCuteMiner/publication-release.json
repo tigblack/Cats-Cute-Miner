@@ -1,0 +1,42 @@
+{
+  "package": "com.multicastgames.catscuteminer",
+  "status": "adopted_public_pages_ready_to_publish",
+  "adoption_ref": "Docs/Legal/CatsCuteMiner/adoption-current.json",
+  "adopted": true,
+  "operator_process_confirmed": true,
+  "published": true,
+  "public_folder": "Docs/Legal/CatsCuteMiner/public-site",
+  "files": [
+    {
+      "source": "Docs/Legal/CatsCuteMiner/privacy-policy.md",
+      "path": "Docs/Legal/CatsCuteMiner/public-site/privacy/index.html",
+      "route": "privacy/",
+      "source_sha256": "fb316ff2469947e34ad6932f4159ab900740fb4f177e82091ee2c7979be54afe",
+      "html_sha256": "6e63eca4c8ea984639afb08e3a5e43820b721556a3bcb8a4ec566dba67e1a30a"
+    },
+    {
+      "source": "Docs/Legal/CatsCuteMiner/terms-of-use.md",
+      "path": "Docs/Legal/CatsCuteMiner/public-site/terms/index.html",
+      "route": "terms/",
+      "source_sha256": "f0a682fd23f9ad4c9e6ae7bac75953ff0e604049688786712def0274e691aaf0",
+      "html_sha256": "a8ab370a038394f4c3ce678f850a93ff333fc5e4a4493472caef178c9491922f"
+    },
+    {
+      "source": "Docs/Legal/CatsCuteMiner/delete-data.md",
+      "path": "Docs/Legal/CatsCuteMiner/public-site/delete-data/index.html",
+      "route": "delete-data/",
+      "source_sha256": "7f144590339fc590501536b8e606b7c934dc559ee54812df195a8ad009fa1c23",
+      "html_sha256": "ce3e023f0bdb3968665976b9d7d0f21fba35ad11b5b0f0d7a249ea7f05779770"
+    }
+  ],
+  "home_sha256": "5274a54b8a1ea0edbe99cc0c1cca2f26bc619d86700e9da89bd62608efc748c9",
+  "published_urls": {
+    "privacy": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/",
+    "terms": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/",
+    "data_requests": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/delete-data/"
+  },
+  "runtime_urls_changed": false,
+  "website_contains_tracking_or_forms": false,
+  "published_at": "2026-10-20T17:38:25.148635+00:00",
+  "publication_evidence_ref": "release/google-play/evidence/legal-publication-automatic-appmetrica-20261020.json"
+}

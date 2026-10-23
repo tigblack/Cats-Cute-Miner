@@ -1,0 +1,11 @@
+access.local.json
+*.local.json
+*.local.md
+service-handoff.local.json
+service-handoff.local.md
+superleo.local.env
+superleo-*.local.json
+*.secret.json
+browser-session*.json
+*.keystore
+*.jks

@@ -1,0 +1,13 @@
+{
+  "package": "com.multicastgames.catscuteminer",
+  "versionCode": 6,
+  "versionName": "0.1.5",
+  "signatureVerified": true,
+  "debuggable": true,
+  "apkKeyMatchesVerifiedConfiguration": true,
+  "keySha256": "eb071302add96a831be50ac7a7be04f3e92f2fbf70c8150ebf9b7f4df9f3c471",
+  "nativeAdIdentifiersSetterIncluded": true,
+  "automaticStartupDiagnosticMarkerIncluded": true,
+  "sha256": "23452084711e258b1ed96e4129430f846efa673c7f4c9beb7290bdc91c6b402a",
+  "runtimeVerification": "pending"
+}

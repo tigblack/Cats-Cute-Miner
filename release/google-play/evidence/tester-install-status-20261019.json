@@ -1,0 +1,1111 @@
+{
+  "checked_at": "2026-10-19T17:59:01.701Z",
+  "package": "com.multicastgames.catscuteminer",
+  "pages": {
+    "testers": {
+      "url": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/tracks/internal-testing?hl=en&tab=testers",
+      "text": "Loading Google Play Console\nnotifications_unread\nUnread notifications\nmore_vert\nhome\nbadge\nplay_prism\ndashboard\nbar_chart\noverview\nshield\nrocket_launch\nvital_signs\nfinance_mode\nsell\nInternal testing\nphonelink\nPhones, Tablets, Desktop (Googlebook OS, ChromeOS), Google Play Games on PC, Android XR\narrow_drop_down\nCreate new release\nCreate and manage internal testing releases to make your app available to up to 100 internal testers. Learn more\nTrack summary (Phones, Tablets, Desktop, Google Play Games on PC, Android XR)\nPause track\nActiveDraft release\nReleases\nTesters\nTesters\nUp to 100 testers can join your internal tests. You can choose more than 100 testers, but only the first 100 to join will be successful.\nTesters\nsearch\nEmail lists\nList name\nUsers\nLicense testers (auto-generated)\n27\narrow_right_alt\nTest\n32\narrow_right_alt\nCreate email list\nHow testers join your test\nJoin on the web\nTesters can join your test on the web\nlink\nCopy link\nSave\nProduct updates\nStatus dashboard\nHelp\n© 2026 Google\nPrivacy\nDeveloper Distribution Agreement\nTerms of Service",
+      "links": [
+        {
+          "text": "",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/home"
+        },
+        {
+          "text": "Google Account: Tigran Sargsyan  \n(sargsyan@multicastgames.com)",
+          "href": "https://accounts.google.com/SignOutOptions?hl=en&continue=https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/tracks/internal-testing%3Fhl%3Den&ec=GBRAywQ"
+        },
+        {
+          "text": "home",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/home"
+        },
+        {
+          "text": "badge",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/manage-account"
+        },
+        {
+          "text": "dashboard",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/app-dashboard"
+        },
+        {
+          "text": "bar_chart",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/statistics"
+        },
+        {
+          "text": "overview",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/publishing"
+        },
+        {
+          "text": "shield",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/protect-with-play"
+        },
+        {
+          "text": "rocket_launch",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/test-and-release"
+        },
+        {
+          "text": "arrow_rightLatest releases and bundles",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/releases/overview"
+        },
+        {
+          "text": "arrow_rightProduction",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/tracks/production"
+        },
+        {
+          "text": "arrow_rightEarly access",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/early-access-overview"
+        },
+        {
+          "text": "arrow_rightOpen testing",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/tracks/open-testing"
+        },
+        {
+          "text": "arrow_rightClosed testing",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/closed-testing"
+        },
+        {
+          "text": "arrow_drop_downInternal testing",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/tracks/internal-testing"
+        },
+        {
+          "text": "arrow_rightOverview",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/pre-launch-report/overview"
+        },
+        {
+          "text": "arrow_rightDetails",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/pre-launch-report/details"
+        },
+        {
+          "text": "arrow_rightSettings",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/pre-launch-report/settings"
+        },
+        {
+          "text": "arrow_rightInternal app sharing",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/releases/internal-app-sharing"
+        },
+        {
+          "text": "arrow_rightPre-registration",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/pre-registration"
+        },
+        {
+          "text": "arrow_rightApp integrity",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/app-integrity/overview"
+        },
+        {
+          "text": "arrow_rightAdvanced settings",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/advanced-distribution"
+        },
+        {
+          "text": "vital_signs",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/monitor"
+        },
+        {
+          "text": "arrow_rightOverview",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/devices/dashboard"
+        },
+        {
+          "text": "arrow_rightDevice catalog",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/devices"
+        },
+        {
+          "text": "arrow_rightRatings",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/user-feedback/ratings"
+        },
+        {
+          "text": "arrow_rightReviews",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/user-feedback/reviews"
+        },
+        {
+          "text": "arrow_rightReviews analysis",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/user-feedback/reviews-analysis"
+        },
+        {
+          "text": "arrow_rightTesting feedback",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/user-feedback/beta-feedback"
+        },
+        {
+          "text": "arrow_rightOverview",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/vitals/metrics/overview"
+        },
+        {
+          "text": "arrow_rightCrashes and ANRs",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/vitals/crashes"
+        },
+        {
+          "text": "arrow_rightApp size",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/vitals/app-size"
+        },
+        {
+          "text": "arrow_rightPolicy status",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/policy-center"
+        },
+        {
+          "text": "arrow_rightApp content",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/app-content/overview"
+        },
+        {
+          "text": "arrow_rightLevel Up",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/apps-and-games-program"
+        },
+        {
+          "text": "arrow_rightTeacher Approved",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/teacher-approved"
+        },
+        {
+          "text": "finance_mode",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/grow-overview"
+        },
+        {
+          "text": "arrow_rightStore listings",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/store-listings"
+        },
+        {
+          "text": "arrow_rightLaunch planning",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/launch-planning/overview"
+        },
+        {
+          "text": "arrow_rightPromotional content",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/liveops/overview"
+        },
+        {
+          "text": "arrow_rightYouTube videos",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/gamehub"
+        },
+        {
+          "text": "arrow_rightStore settings",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/store-settings"
+        },
+        {
+          "text": "arrow_rightCustom audiences",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/audiences/overview"
+        },
+        {
+          "text": "arrow_rightStore analysis",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/acquisition/overview"
+        },
+        {
+          "text": "arrow_rightPromotional content",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/liveops/overview"
+        },
+        {
+          "text": "arrow_rightConfiguration",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/configuration-summary"
+        },
+        {
+          "text": "arrow_rightAchievements",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/achievements"
+        },
+        {
+          "text": "arrow_rightGame Stats",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/game-stats"
+        },
+        {
+          "text": "arrow_rightEvents",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/events"
+        },
+        {
+          "text": "arrow_rightLeaderboards",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/leaderboards"
+        },
+        {
+          "text": "arrow_rightPublishing",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/publication"
+        },
+        {
+          "text": "arrow_rightTesters",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/testers"
+        },
+        {
+          "text": "arrow_rightStatistics",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/statistics"
+        },
+        {
+          "text": "arrow_rightApp strings",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/app-translations"
+        },
+        {
+          "text": "arrow_rightStore listings and products",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/app-translation-embed"
+        },
+        {
+          "text": "arrow_rightDeep links",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/deeplinks"
+        },
+        {
+          "text": "sell",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/monetize"
+        },
+        {
+          "text": "arrow_rightApp pricing",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/paid-app"
+        },
+        {
+          "text": "arrow_rightOne-time products",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/one-time-products"
+        },
+        {
+          "text": "arrow_rightSubscriptions",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/subscriptions"
+        },
+        {
+          "text": "arrow_rightPlay Points",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/play-points"
+        },
+        {
+          "text": "arrow_rightMerchandising and optimization",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/monetization-studio"
+        },
+        {
+          "text": "arrow_rightPrice experiments",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/price-experiments/list"
+        },
+        {
+          "text": "arrow_rightPromo codes",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/promotions"
+        },
+        {
+          "text": "arrow_rightStrategic guidance",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/strategic-guidance/monetization/overview"
+        },
+        {
+          "text": "arrow_rightOverview",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/subscriptions/overview"
+        },
+        {
+          "text": "arrow_rightRetention",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/subscriptions/retention"
+        },
+        {
+          "text": "arrow_rightCancellations",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/subscriptions/cancellation"
+        },
+        {
+          "text": "arrow_rightRevenue",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/finance/revenue"
+        },
+        {
+          "text": "arrow_rightBuyer cohorts",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/finance/buyers-conversions"
+        },
+        {
+          "text": "arrow_rightBuyer conversion",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/finance/buyer-conversion"
+        },
+        {
+          "text": "arrow_rightMonetization setup",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/monetization-setup"
+        },
+        {
+          "text": "Learn more",
+          "href": "https://play.google.com/console/about/internal-testing"
+        },
+        {
+          "text": "Product updates",
+          "href": "https://play.google.com/console/about/whats-new/"
+        },
+        {
+          "text": "Status dashboard",
+          "href": "https://status.play.google.com/"
+        },
+        {
+          "text": "Help",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/help-and-support?app=4974963942177850884"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://www.google.com/policies/privacy/"
+        },
+        {
+          "text": "Developer Distribution Agreement",
+          "href": "https://play.google.com/about/developer-distribution-agreement.html"
+        },
+        {
+          "text": "Terms of Service",
+          "href": "https://play.google.com/about/console/terms-of-service/"
+        }
+      ],
+      "fields": [
+        {
+          "label": "Email lists",
+          "type": "text"
+        }
+      ],
+      "choices": [
+        {
+          "text": "Select all rows",
+          "checked": "true"
+        },
+        {
+          "text": "License testers (auto-generated)",
+          "checked": "true"
+        },
+        {
+          "text": "Test",
+          "checked": "true"
+        }
+      ],
+      "buttons": [
+        {
+          "text": "notifications_unread\nUnread notifications",
+          "disabled": false
+        },
+        {
+          "text": "Create new release",
+          "disabled": true
+        },
+        {
+          "text": "Pause track",
+          "disabled": false
+        },
+        {
+          "text": "close",
+          "disabled": false
+        },
+        {
+          "text": "Detailsarrow_right_alt",
+          "disabled": false
+        },
+        {
+          "text": "arrow_right_alt",
+          "disabled": false
+        },
+        {
+          "text": "Detailsarrow_right_alt",
+          "disabled": false
+        },
+        {
+          "text": "arrow_right_alt",
+          "disabled": false
+        },
+        {
+          "text": "Create email list",
+          "disabled": false
+        },
+        {
+          "text": "link\nCopy link",
+          "disabled": false
+        },
+        {
+          "text": "Save",
+          "disabled": true
+        }
+      ]
+    },
+    "production": {
+      "url": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/tracks/production?hl=en",
+      "text": "Loading Google Play Console\nnotifications_unread\nUnread notifications\nmore_vert\nhome\nbadge\nplay_prism\ndashboard\nbar_chart\noverview\nshield\nrocket_launch\nvital_signs\nfinance_mode\nsell\nProduction\nphonelink\nPhones, Tablets, Desktop (Googlebook OS, ChromeOS), Google Play Games on PC, Android XR\narrow_drop_down\nCreate new release\nCreate and manage production releases to make your app available to all users in your chosen countries. Learn more\nTrack summary (Phones, Tablets, Desktop, Google Play Games on PC, Android XR)\nInactive\nRelease dashboard\nReleases\nCountries / regions\nRelease dashboard\nrocket_launch\n\nOnce you've released your app to production, come back here to monitor its performance\n\nCreate new release\nProduct updates\nStatus dashboard\nHelp\n© 2026 Google\nPrivacy\nDeveloper Distribution Agreement\nTerms of Service",
+      "links": [
+        {
+          "text": "",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/home"
+        },
+        {
+          "text": "Google Account: Tigran Sargsyan  \n(sargsyan@multicastgames.com)",
+          "href": "https://accounts.google.com/SignOutOptions?hl=en&continue=https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/tracks/production%3Fhl%3Den&ec=GBRAywQ"
+        },
+        {
+          "text": "home",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/home"
+        },
+        {
+          "text": "badge",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/manage-account"
+        },
+        {
+          "text": "dashboard",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/app-dashboard"
+        },
+        {
+          "text": "bar_chart",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/statistics"
+        },
+        {
+          "text": "overview",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/publishing"
+        },
+        {
+          "text": "shield",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/protect-with-play"
+        },
+        {
+          "text": "rocket_launch",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/test-and-release"
+        },
+        {
+          "text": "arrow_rightLatest releases and bundles",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/releases/overview"
+        },
+        {
+          "text": "arrow_drop_downProduction",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/tracks/production"
+        },
+        {
+          "text": "arrow_rightEarly access",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/early-access-overview"
+        },
+        {
+          "text": "arrow_rightOpen testing",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/tracks/open-testing"
+        },
+        {
+          "text": "arrow_rightClosed testing",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/closed-testing"
+        },
+        {
+          "text": "arrow_rightInternal testing",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/tracks/internal-testing"
+        },
+        {
+          "text": "arrow_rightOverview",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/pre-launch-report/overview"
+        },
+        {
+          "text": "arrow_rightDetails",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/pre-launch-report/details"
+        },
+        {
+          "text": "arrow_rightSettings",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/pre-launch-report/settings"
+        },
+        {
+          "text": "arrow_rightInternal app sharing",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/releases/internal-app-sharing"
+        },
+        {
+          "text": "arrow_rightPre-registration",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/pre-registration"
+        },
+        {
+          "text": "arrow_rightApp integrity",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/app-integrity/overview"
+        },
+        {
+          "text": "arrow_rightAdvanced settings",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/advanced-distribution"
+        },
+        {
+          "text": "vital_signs",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/monitor"
+        },
+        {
+          "text": "arrow_rightOverview",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/devices/dashboard"
+        },
+        {
+          "text": "arrow_rightDevice catalog",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/devices"
+        },
+        {
+          "text": "arrow_rightRatings",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/user-feedback/ratings"
+        },
+        {
+          "text": "arrow_rightReviews",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/user-feedback/reviews"
+        },
+        {
+          "text": "arrow_rightReviews analysis",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/user-feedback/reviews-analysis"
+        },
+        {
+          "text": "arrow_rightTesting feedback",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/user-feedback/beta-feedback"
+        },
+        {
+          "text": "arrow_rightOverview",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/vitals/metrics/overview"
+        },
+        {
+          "text": "arrow_rightCrashes and ANRs",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/vitals/crashes"
+        },
+        {
+          "text": "arrow_rightApp size",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/vitals/app-size"
+        },
+        {
+          "text": "arrow_rightPolicy status",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/policy-center"
+        },
+        {
+          "text": "arrow_rightApp content",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/app-content/overview"
+        },
+        {
+          "text": "arrow_rightLevel Up",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/apps-and-games-program"
+        },
+        {
+          "text": "arrow_rightTeacher Approved",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/teacher-approved"
+        },
+        {
+          "text": "finance_mode",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/grow-overview"
+        },
+        {
+          "text": "arrow_rightStore listings",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/store-listings"
+        },
+        {
+          "text": "arrow_rightLaunch planning",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/launch-planning/overview"
+        },
+        {
+          "text": "arrow_rightPromotional content",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/liveops/overview"
+        },
+        {
+          "text": "arrow_rightYouTube videos",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/gamehub"
+        },
+        {
+          "text": "arrow_rightStore settings",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/store-settings"
+        },
+        {
+          "text": "arrow_rightCustom audiences",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/audiences/overview"
+        },
+        {
+          "text": "arrow_rightStore analysis",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/acquisition/overview"
+        },
+        {
+          "text": "arrow_rightPromotional content",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/liveops/overview"
+        },
+        {
+          "text": "arrow_rightConfiguration",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/configuration-summary"
+        },
+        {
+          "text": "arrow_rightAchievements",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/achievements"
+        },
+        {
+          "text": "arrow_rightGame Stats",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/game-stats"
+        },
+        {
+          "text": "arrow_rightEvents",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/events"
+        },
+        {
+          "text": "arrow_rightLeaderboards",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/leaderboards"
+        },
+        {
+          "text": "arrow_rightPublishing",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/publication"
+        },
+        {
+          "text": "arrow_rightTesters",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/testers"
+        },
+        {
+          "text": "arrow_rightStatistics",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/statistics"
+        },
+        {
+          "text": "arrow_rightApp strings",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/app-translations"
+        },
+        {
+          "text": "arrow_rightStore listings and products",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/app-translation-embed"
+        },
+        {
+          "text": "arrow_rightDeep links",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/deeplinks"
+        },
+        {
+          "text": "sell",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/monetize"
+        },
+        {
+          "text": "arrow_rightApp pricing",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/paid-app"
+        },
+        {
+          "text": "arrow_rightOne-time products",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/one-time-products"
+        },
+        {
+          "text": "arrow_rightSubscriptions",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/subscriptions"
+        },
+        {
+          "text": "arrow_rightPlay Points",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/play-points"
+        },
+        {
+          "text": "arrow_rightMerchandising and optimization",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/monetization-studio"
+        },
+        {
+          "text": "arrow_rightPrice experiments",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/price-experiments/list"
+        },
+        {
+          "text": "arrow_rightPromo codes",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/promotions"
+        },
+        {
+          "text": "arrow_rightStrategic guidance",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/strategic-guidance/monetization/overview"
+        },
+        {
+          "text": "arrow_rightOverview",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/subscriptions/overview"
+        },
+        {
+          "text": "arrow_rightRetention",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/subscriptions/retention"
+        },
+        {
+          "text": "arrow_rightCancellations",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/subscriptions/cancellation"
+        },
+        {
+          "text": "arrow_rightRevenue",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/finance/revenue"
+        },
+        {
+          "text": "arrow_rightBuyer cohorts",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/finance/buyers-conversions"
+        },
+        {
+          "text": "arrow_rightBuyer conversion",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/finance/buyer-conversion"
+        },
+        {
+          "text": "arrow_rightMonetization setup",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/monetization-setup"
+        },
+        {
+          "text": "Learn more",
+          "href": "https://play.google.com/console/about/publicreleases"
+        },
+        {
+          "text": "Create new release",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/tracks/4697524297109954210/create"
+        },
+        {
+          "text": "Product updates",
+          "href": "https://play.google.com/console/about/whats-new/"
+        },
+        {
+          "text": "Status dashboard",
+          "href": "https://status.play.google.com/"
+        },
+        {
+          "text": "Help",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/help-and-support?app=4974963942177850884"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://www.google.com/policies/privacy/"
+        },
+        {
+          "text": "Developer Distribution Agreement",
+          "href": "https://play.google.com/about/developer-distribution-agreement.html"
+        },
+        {
+          "text": "Terms of Service",
+          "href": "https://play.google.com/about/console/terms-of-service/"
+        }
+      ],
+      "fields": [],
+      "choices": [],
+      "buttons": [
+        {
+          "text": "notifications_unread\nUnread notifications",
+          "disabled": false
+        },
+        {
+          "text": "Create new release",
+          "disabled": false
+        }
+      ]
+    },
+    "publishing": {
+      "url": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/publishing?hl=en",
+      "text": "Loading Google Play Console\nnotifications_unread\nUnread notifications\nmore_vert\nhome\nbadge\nplay_prism\ndashboard\nbar_chart\noverview\nshield\nrocket_launch\nvital_signs\nfinance_mode\nsell\nPublishing overview\nSee an overview of the changes made to your app, and control when changes are sent for review or published. Show more\nsync_disabled\nManaged publishing off\narrow_drop_down\nhistory\nLast published on October 19, 2026\nSubmission activity\narrow_right_alt\nChanges in review\nhelp\nRemove changes\nHide\nexpand_less\nItem changed\nDescription\nslow_motion_video\nClosed testing - Alpha\n2 (0.1.1)\nStart full rollout\nmore_vert\nTrack status\nResume track\nmore_vert\nProduct updates\nStatus dashboard\nHelp\n© 2026 Google\nPrivacy\nDeveloper Distribution Agreement\nTerms of Service",
+      "links": [
+        {
+          "text": "",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/home"
+        },
+        {
+          "text": "Google Account: Tigran Sargsyan  \n(sargsyan@multicastgames.com)",
+          "href": "https://accounts.google.com/SignOutOptions?hl=en&continue=https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/publishing%3Fhl%3Den&ec=GBRAywQ"
+        },
+        {
+          "text": "home",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/home"
+        },
+        {
+          "text": "badge",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/manage-account"
+        },
+        {
+          "text": "dashboard",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/app-dashboard"
+        },
+        {
+          "text": "bar_chart",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/statistics"
+        },
+        {
+          "text": "overview",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/publishing"
+        },
+        {
+          "text": "shield",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/protect-with-play"
+        },
+        {
+          "text": "rocket_launch",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/test-and-release"
+        },
+        {
+          "text": "arrow_rightLatest releases and bundles",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/releases/overview"
+        },
+        {
+          "text": "arrow_rightProduction",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/tracks/production"
+        },
+        {
+          "text": "arrow_rightEarly access",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/early-access-overview"
+        },
+        {
+          "text": "arrow_rightOpen testing",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/tracks/open-testing"
+        },
+        {
+          "text": "arrow_rightClosed testing",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/closed-testing"
+        },
+        {
+          "text": "arrow_rightInternal testing",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/tracks/internal-testing"
+        },
+        {
+          "text": "arrow_rightOverview",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/pre-launch-report/overview"
+        },
+        {
+          "text": "arrow_rightDetails",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/pre-launch-report/details"
+        },
+        {
+          "text": "arrow_rightSettings",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/pre-launch-report/settings"
+        },
+        {
+          "text": "arrow_rightInternal app sharing",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/releases/internal-app-sharing"
+        },
+        {
+          "text": "arrow_rightPre-registration",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/pre-registration"
+        },
+        {
+          "text": "arrow_rightApp integrity",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/app-integrity/overview"
+        },
+        {
+          "text": "arrow_rightAdvanced settings",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/advanced-distribution"
+        },
+        {
+          "text": "vital_signs",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/monitor"
+        },
+        {
+          "text": "arrow_rightOverview",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/devices/dashboard"
+        },
+        {
+          "text": "arrow_rightDevice catalog",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/devices"
+        },
+        {
+          "text": "arrow_rightRatings",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/user-feedback/ratings"
+        },
+        {
+          "text": "arrow_rightReviews",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/user-feedback/reviews"
+        },
+        {
+          "text": "arrow_rightReviews analysis",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/user-feedback/reviews-analysis"
+        },
+        {
+          "text": "arrow_rightTesting feedback",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/user-feedback/beta-feedback"
+        },
+        {
+          "text": "arrow_rightOverview",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/vitals/metrics/overview"
+        },
+        {
+          "text": "arrow_rightCrashes and ANRs",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/vitals/crashes"
+        },
+        {
+          "text": "arrow_rightApp size",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/vitals/app-size"
+        },
+        {
+          "text": "arrow_rightPolicy status",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/policy-center"
+        },
+        {
+          "text": "arrow_rightApp content",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/app-content/overview"
+        },
+        {
+          "text": "arrow_rightLevel Up",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/apps-and-games-program"
+        },
+        {
+          "text": "arrow_rightTeacher Approved",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/teacher-approved"
+        },
+        {
+          "text": "finance_mode",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/grow-overview"
+        },
+        {
+          "text": "arrow_rightStore listings",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/store-listings"
+        },
+        {
+          "text": "arrow_rightLaunch planning",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/launch-planning/overview"
+        },
+        {
+          "text": "arrow_rightPromotional content",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/liveops/overview"
+        },
+        {
+          "text": "arrow_rightYouTube videos",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/gamehub"
+        },
+        {
+          "text": "arrow_rightStore settings",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/store-settings"
+        },
+        {
+          "text": "arrow_rightCustom audiences",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/audiences/overview"
+        },
+        {
+          "text": "arrow_rightStore analysis",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/acquisition/overview"
+        },
+        {
+          "text": "arrow_rightPromotional content",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/liveops/overview"
+        },
+        {
+          "text": "arrow_rightConfiguration",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/configuration-summary"
+        },
+        {
+          "text": "arrow_rightAchievements",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/achievements"
+        },
+        {
+          "text": "arrow_rightGame Stats",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/game-stats"
+        },
+        {
+          "text": "arrow_rightEvents",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/events"
+        },
+        {
+          "text": "arrow_rightLeaderboards",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/leaderboards"
+        },
+        {
+          "text": "arrow_rightPublishing",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/publication"
+        },
+        {
+          "text": "arrow_rightTesters",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/testers"
+        },
+        {
+          "text": "arrow_rightStatistics",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/games/statistics"
+        },
+        {
+          "text": "arrow_rightApp strings",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/app-translations"
+        },
+        {
+          "text": "arrow_rightStore listings and products",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/app-translation-embed"
+        },
+        {
+          "text": "arrow_rightDeep links",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/deeplinks"
+        },
+        {
+          "text": "sell",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/monetize"
+        },
+        {
+          "text": "arrow_rightApp pricing",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/paid-app"
+        },
+        {
+          "text": "arrow_rightOne-time products",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/one-time-products"
+        },
+        {
+          "text": "arrow_rightSubscriptions",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/subscriptions"
+        },
+        {
+          "text": "arrow_rightPlay Points",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/play-points"
+        },
+        {
+          "text": "arrow_rightMerchandising and optimization",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/monetization-studio"
+        },
+        {
+          "text": "arrow_rightPrice experiments",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/price-experiments/list"
+        },
+        {
+          "text": "arrow_rightPromo codes",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/promotions"
+        },
+        {
+          "text": "arrow_rightStrategic guidance",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/strategic-guidance/monetization/overview"
+        },
+        {
+          "text": "arrow_rightOverview",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/subscriptions/overview"
+        },
+        {
+          "text": "arrow_rightRetention",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/subscriptions/retention"
+        },
+        {
+          "text": "arrow_rightCancellations",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/subscriptions/cancellation"
+        },
+        {
+          "text": "arrow_rightRevenue",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/finance/revenue"
+        },
+        {
+          "text": "arrow_rightBuyer cohorts",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/finance/buyers-conversions"
+        },
+        {
+          "text": "arrow_rightBuyer conversion",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/reporting/finance/buyer-conversion"
+        },
+        {
+          "text": "arrow_rightMonetization setup",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/monetization-setup"
+        },
+        {
+          "text": "Learn more about Publishing overview (opens in a new tab)",
+          "href": "https://support.google.com/googleplay/android-developer/answer/9859654"
+        },
+        {
+          "text": "Submission activity\narrow_right_alt",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/publishing/submission-activity"
+        },
+        {
+          "text": "Product updates",
+          "href": "https://play.google.com/console/about/whats-new/"
+        },
+        {
+          "text": "Status dashboard",
+          "href": "https://status.play.google.com/"
+        },
+        {
+          "text": "Help",
+          "href": "https://play.google.com/console/u/1/developers/8879742639795815518/help-and-support?app=4974963942177850884"
+        },
+        {
+          "text": "Privacy",
+          "href": "https://www.google.com/policies/privacy/"
+        },
+        {
+          "text": "Developer Distribution Agreement",
+          "href": "https://play.google.com/about/developer-distribution-agreement.html"
+        },
+        {
+          "text": "Terms of Service",
+          "href": "https://play.google.com/about/console/terms-of-service/"
+        }
+      ],
+      "fields": [],
+      "choices": [],
+      "buttons": [
+        {
+          "text": "notifications_unread\nUnread notifications",
+          "disabled": false
+        },
+        {
+          "text": "Hide detailed description about Publishing overview",
+          "disabled": false
+        },
+        {
+          "text": "Remove changes",
+          "disabled": false
+        },
+        {
+          "text": "Hide\nexpand_less",
+          "disabled": false
+        },
+        {
+          "text": "expand_less",
+          "disabled": false
+        },
+        {
+          "text": "more_vert",
+          "disabled": false
+        },
+        {
+          "text": "more_vert",
+          "disabled": false
+        },
+        {
+          "text": "keyboard_arrow_left",
+          "disabled": false
+        },
+        {
+          "text": "Next",
+          "disabled": false
+        },
+        {
+          "text": "keyboard_arrow_right",
+          "disabled": false
+        },
+        {
+          "text": "keyboard_arrow_left",
+          "disabled": false
+        },
+        {
+          "text": "keyboard_arrow_right",
+          "disabled": false
+        }
+      ]
+    }
+  },
+  "writes_performed": false
+}

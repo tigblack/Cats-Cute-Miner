@@ -1,0 +1,44 @@
+{
+  "checked_at": "2026-10-16T12:16:09.454867+00:00",
+  "status": "local_review_not_adopted_or_published",
+  "source_review": "Read-only independent code review of purchase/privacy/reset confirms protected mode, random UUID, encrypted credentials and original receipt submission; draft corrected to say original Google Play receipt explicitly.",
+  "pages": [
+    {
+      "path": "index.html",
+      "local_links_valid": true,
+      "scripts": 0
+    },
+    {
+      "path": "privacy/index.html",
+      "local_links_valid": true,
+      "scripts": 0
+    },
+    {
+      "path": "terms/index.html",
+      "local_links_valid": true,
+      "scripts": 0
+    }
+  ],
+  "visual_review": {
+    "desktop": "1280x900 privacy page viewed",
+    "mobile": "390x844 terms page viewed"
+  },
+  "android_player_scripts_compile": "passed after NeutralAgeFlow legal links and Adjust consent wording changes",
+  "archive": "Docs/Legal/CatsCuteMiner/cats-cute-miner-legal-review.zip",
+  "archive_sha256": "d76887c6590996bb571aa0ad4105d16bd491197e7f853af83d16d102b4765a78",
+  "published": false,
+  "runtime_urls_changed": false,
+  "pending": [
+    "Actual studio child-data retention/deletion facts",
+    "Final enabled-provider/network inventory",
+    "Adoption and live game-specific HTTPS URLs",
+    "Native artifact/device verification"
+  ],
+  "latest_studio_source": "https://multicastgames.com/policy, supplied again by owner; sections7/8 criteria and support route incorporated, section9 remains16+",
+  "no_ads_revision": {
+    "at": "2026-10-16T13:09:18.502666+00:00",
+    "policy_terms_updated": true,
+    "MAX_excluded": true,
+    "retention_and_hosting_still_pending": true
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "checked_at": "2026-10-20T16:51:10.403212+00:00",
+  "status": "exact_release_emulator_sdk_calls_verified_dashboard_and_server_acceptance_not_verified",
+  "package": "com.multicastgames.catscuteminer",
+  "version_name": "0.1.4",
+  "version_code": 5,
+  "appmetrica_app_id": 6374386,
+  "apk_preparation_ref": "release/google-play/evidence/appmetrica-smoke-apk-prepared-20261020.json",
+  "emulator": {
+    "android_api": 35,
+    "abi": "arm64-v8a",
+    "installed": true,
+    "owner_approved_install_and_second_launch": true,
+    "second_launch_booted": true,
+    "app_installed_and_played": true,
+    "closed_after_qa": true,
+    "physical_phone_used": false
+  },
+  "consent": {
+    "first_saved_protected_unknown_record": true,
+    "later_replaced_with_eligible_independent_appmetrica_consent_via_real_ui": true,
+    "native_file_replacement_succeeded": true,
+    "appmetrica_only_selected": true,
+    "all_other_optional_providers_off": true,
+    "saved_choice_survived_app_cold_restart": true,
+    "proof_ref": "release/google-play/evidence/appmetrica-emulator-saved-consent-20261020.json"
+  },
+  "sdk": {
+    "native_key_matches_authenticated_dashboard_key": true,
+    "data_sending_enabled": true,
+    "sessions_auto_tracking_enabled": true,
+    "stats_restricted_in_main": false,
+    "first_initialization_and_cold_restart_succeeded": true,
+    "first_run_observed_sdk_submission_counts": {
+      "consent_chosen": 1,
+      "currency_earned": 30,
+      "time_spent": 2,
+      "store_opened": 1
+    },
+    "cold_restart_observed_sdk_submission_counts": {
+      "consent_chosen": 1,
+      "session_started": 1,
+      "game_loaded": 1,
+      "mine_started": 1,
+      "purchase_failed": 1,
+      "currency_earned": 2
+    },
+    "sdk_call_counts_are_not_backend_event_counts": true,
+    "native_pending_events_at_consistent_snapshot": 0,
+    "native_report_request_id_at_snapshot": 10,
+    "native_startup_results": {
+      "AD_URL_GET_RESULT": "OK",
+      "AD_URL_REPORT_RESULT": "OK",
+      "UUID_RESULT": "OK",
+      "DEVICE_ID_RESULT": "OK"
+    }
+  },
+  "sdk_transport_semantics": {
+    "source_version": "v7.12.0",
+    "source_commit": "516ac2d0335e354ad6dfce1128e32bcc0c8f9af0",
+    "report_task_url": "https://github.com/appmetrica/appmetrica-sdk-android/blob/v7.12.0/analytics/src/main/java/io/appmetrica/analytics/impl/ReportTask.java#L384",
+    "on_post_request_complete_url": "https://github.com/appmetrica/appmetrica-sdk-android/blob/v7.12.0/analytics/src/main/java/io/appmetrica/analytics/impl/ReportTask.java#L420",
+    "event_queue_cleaned_on_accepted_response_or_http_400": true,
+    "empty_queue_or_incremented_request_id_proves_accepted_response": false,
+    "actual_ingestion_response_code_observed": false,
+    "backend_acceptance_confirmed": false
+  },
+  "dashboard": {
+    "latest_ref": "release/google-play/evidence/appmetrica-emulator-report-after-qa-20261020.json",
+    "previous_readback_ref": "release/google-play/evidence/appmetrica-emulator-report-final-20261020.json",
+    "last_completed_readback_utc": "2026-10-20T16:50:18.032Z",
+    "events": 0,
+    "active_users": 0,
+    "sessions": 0,
+    "report_request_mentions_correct_app_id": true,
+    "server_date_matches_test_date": true
+  },
+  "official_service_limitations": {
+    "all_reports_and_api_can_be_delayed": true,
+    "source": "https://yandex.ru/support/appmetrica-io/ru/common/special-mode",
+    "confirmed_as_this_incident_cause": false
+  },
+  "reproducible_game_integration_bug_found": false,
+  "root_cause_confirmed": false,
+  "game_source_modified": false,
+  "new_aab_created": false,
+  "release_aab_changed": false,
+  "scope_limits": [
+    "No real-phone runtime diagnosis",
+    "No successful server ingestion acknowledgment or dashboard event observed",
+    "Billing not verified by this analytics-only Google APIs emulator test"
+  ],
+  "evidence_refs": [
+    "release/google-play/evidence/appmetrica-emulator-opt-in-saved-20261020.json",
+    "release/google-play/evidence/appmetrica-emulator-background-flush-20261020.json",
+    "release/google-play/evidence/appmetrica-emulator-cold-restart-20261020.json",
+    "release/google-play/evidence/appmetrica-emulator-native-config-20261020.json",
+    "release/google-play/evidence/appmetrica-emulator-native-delivery-state-20261020.json",
+    "release/google-play/evidence/appmetrica-emulator-cleanup-20261020.json"
+  ]
+}

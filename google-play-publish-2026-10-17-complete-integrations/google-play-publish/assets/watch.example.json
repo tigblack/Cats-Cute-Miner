@@ -1,0 +1,22 @@
+{
+  "purpose": "State of the release watcher (references/watcher.md). Copy to release/google-play/watch.json; every tick reads it, does the next due check, writes the result and next_check_at.",
+  "package": null,
+  "track": "production",
+  "version_name": null,
+  "version_code": null,
+  "aab_sha256": null,
+  "submitted_at": null,
+  "phase": "review",
+  "phases": ["review", "live_checks", "done", "needs_operator"],
+  "review": {"status": null, "last_checked_at": null, "rejections": [], "resubmits": 0},
+  "live_checks": {
+    "available_at": null,
+    "schedule_hours": [0, 2, 24, 72],
+    "runs": [
+      {"due_at": null, "done_at": null, "store_page": "unknown", "install_from_play": "unknown", "ads_by_network": {}, "purchases": "unknown", "events": "unknown", "vitals": "unknown", "evidence_ref": null}
+    ]
+  },
+  "next_check_at": null,
+  "operator_notified": [],
+  "open_problems": []
+}

@@ -1,0 +1,58 @@
+{
+  "checked_at": "2026-10-18T10:50:17.389541+00:00",
+  "observed_browser": "Chrome 155.0.8059.80 macOS",
+  "playwright_version": "1.64.1",
+  "previous_error": "browserType.connectOverCDP: Timeout 300000ms exceeded.",
+  "owner_report": "Нажал Разрешить",
+  "hypothesis": {
+    "description": "Playwright eagerly initializes all pre-existing tabs; an unresponsive tab may block connection after native approval",
+    "actual_owner_unrelated_tabs_inspected": false,
+    "source": "https://github.com/microsoft/playwright/issues/42882"
+  },
+  "implementation": {
+    "entrypoint": "agentb.mjs login",
+    "helper": "native_capture.mjs",
+    "protocol": "Direct scoped CDP over the same owner-approved native WebSocket",
+    "native_consent_preserved": true,
+    "global_target_auto_attach": false,
+    "selected_origins_only": true,
+    "private_profile_files_read": false,
+    "raw_session_stdout_public": false
+  },
+  "verification": {
+    "unit_and_transfer_tests": {
+      "passed": 28,
+      "failed": 0
+    },
+    "real_isolated_chrome": {
+      "status": "passed",
+      "unrelated_frozen_page_ignored": true,
+      "selected_storage_and_cookies_read": true,
+      "selected_existing_page_preserved": true,
+      "elapsed_ms": 43,
+      "actual_owner_browser_used": false
+    },
+    "mac_module_import": {
+      "native_capture_export": "function",
+      "WebSocket": "function",
+      "node": "26.10.0"
+    }
+  },
+  "active_refresh": {
+    "services": [
+      "adjust",
+      "superleo"
+    ],
+    "status": "completed_and_services_readback_verified",
+    "consent_wait_seconds": 900,
+    "older_capture_stopped": true,
+    "owner_browser_processes_modified": false,
+    "evidence_ref": "release/google-play/evidence/browser-services-ready-macos-20261018.json"
+  },
+  "files_sha256": {
+    "google-play-publish-2026-10-17-complete-integrations/google-play-publish/tools/agent-browser/agentb.mjs": "e4a217f04bafc773bcff4cdf39922bf348362ab2e0e029c263ddb8e6897c6116",
+    "google-play-publish-2026-10-17-complete-integrations/google-play-publish/tools/agent-browser/native_capture.mjs": "d18351ce4b257e1e2e043e5387ea7734d18b5276d79eb755afe33d937dc7081e",
+    "google-play-publish-2026-10-17-complete-integrations/google-play-publish/tools/agent-browser/native_capture.test.mjs": "8a6dc22c682ea3defe1b0cf275f57d5db40e9728ffad4a41df528f29df39edad",
+    "google-play-publish-2026-10-17-complete-integrations/google-play-publish/tools/agent-browser/agentb.test.mjs": "9b2e2a019b995f1a55301cd3c2bcd48ceccc47f29feb1e3e9b3bc251e7da07f2"
+  }
+}

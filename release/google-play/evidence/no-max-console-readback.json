@@ -1,0 +1,61 @@
+{
+  "adsReadback": {
+    "content": [
+      {
+        "type": "text",
+        "text": "## Latest page snapshot\nuid=111_0 RootWebArea \"Ads | Cats Cute Miner\" url=\"https://play.google.com/console/u/0/developers/8879742639795815518/app/4974963942177850884/app-content/ads-declaration?source=dashboard\"\n  uid=111_1 \"Loading Google Play Console\"\n  uid=111_2 banner\n    uid=111_3 link \"Google Play Console logo\" url=\"https://play.google.com/console/u/0/developers/8879742639795815518/app-list\"\n      uid=111_4 button \"Google Play Console logo\"\n    uid=111_5 button \"Unread notifications Open notification center\"\n    uid=111_6 button \"Cats Cute Miner\"\n    uid=111_7 button \"Switch developer accounts\"\n  uid=111_8 navigation\n    uid=111_9 link \"All apps\" url=\"https://play.google.com/console/u/0/developers/8879742639795815518/app-list\"\n    uid=111_11 button \"Dashboard\"\n    uid=111_12 button \"Statistics\"\n    uid=111_13 button \"Publishing overview\"\n    uid=111_14 button \"Protected with Play\"\n    uid=111_15 button \"Test and release\"\n    uid=111_16 button \"Monitor and improve\"\n    uid=111_17 button \"Reach and devices\"\n    uid=111_18 button \"Ratings and reviews\"\n    uid=111_19 button \"Android vitals\"\n    uid=111_20 button \"Policy and programs\"\n    uid=111_21 button \"Policy status\"\n    uid=111_22 button \"App content\"\n    uid=111_23 button \"Programs\"\n    uid=111_24 button \"Grow users\"\n    uid=111_25 button \"Monetize with Play\"\n  uid=111_26 link \"Go back to Dashboard\" url=\"https://play.google.com/console/u/0/developers/8879742639795815518/app/4974963942177850884/app-dashboard\"\n    uid=111_27 \"Dashboard\"\n  uid=111_28 generic live=\"polite\" relevant=\"additions text\"\n    uid=111_29 heading \"Ads\" level=\"1\"\n  uid=111_30 \"Let us know whether your app contains ads. This includes ads delivered by third party ad networks. Make sure this information is accurate and is kept up to date.\"\n  uid=111_31 \" \"\n  uid=111_32 link \"Learn more about ads declaration, Opens in a new tab\" url=\"https://support.google.com/googleplay/android-developer/answer/9815348#ads\"\n    uid=111_33 \"Learn more\"\n  uid=111_34 generic live=\"polite\" relevant=\"additions text\"\n  uid=111_35 \"Ads\"\n  uid=111_36 \"Does your app contain ads? Check the \"\n  uid=111_37 link \"Ads policy\" url=\"https://play.google.com/about/monetization-ads/ads/\"\n  uid=111_39 \" to make sure your app is compliant.\"\n  uid=111_40 radio \"Yes, my app contains ads\"\n  uid=111_41 \"The 'Contains ads' label will be shown next to your app on Google Play.\"\n  uid=111_42 \" \"\n  uid=111_43 link \"Learn more about ads declaration, Opens in a new tab\" url=\"https://support.google.com/googleplay/android-developer/answer/9815348#ads\"\n    uid=111_44 \"Learn more\"\n  uid=111_45 radio \"No, my app does not contain ads\" checked\n  uid=111_46 generic live=\"polite\" relevant=\"additions text\"\n  uid=111_47 button \"Discard\" disableable disabled\n  uid=111_48 button \"Save\" disableable disabled\n  uid=111_49 link \"Product updates\" url=\"https://play.google.com/console/about/whats-new/\"\n  uid=111_51 link \"Status dashboard\" url=\"https://status.play.google.com/\"\n  uid=111_53 link \"Help\" url=\"https://play.google.com/console/u/0/developers/8879742639795815518/help-and-support?app=4974963942177850884\"\n  uid=111_55 \"© 2026 Google\"\n  uid=111_56 link \"Privacy\" url=\"https://www.google.com/policies/privacy/\"\n  uid=111_58 link \"Developer Distribution Agreement\" url=\"https://play.google.com/about/developer-distribution-agreement.html\"\n  uid=111_60 link \"Terms of Service\" url=\"https://play.google.com/about/console/terms-of-service/\"\n"
+      }
+    ]
+  },
+  "adIdReadback": {
+    "content": [
+      {
+        "type": "text",
+        "text": "## Latest page snapshot\nuid=115_0 RootWebArea \"Advertising ID | Cats Cute Miner\" url=\"https://play.google.com/console/u/0/developers/8879742639795815518/app/4974963942177850884/app-content/ad-id-declaration\"\n  uid=115_1 \"Loading Google Play Console\"\n  uid=115_2 banner\n    uid=115_3 link \"Google Play Console logo\" url=\"https://play.google.com/console/u/0/developers/8879742639795815518/app-list\"\n      uid=115_4 button \"Google Play Console logo\"\n    uid=115_5 button \"Unread notifications Open notification center\"\n    uid=115_6 button \"Cats Cute Miner\"\n    uid=115_7 button \"Switch developer accounts\"\n  uid=115_8 navigation\n    uid=115_9 link \"All apps\" url=\"https://play.google.com/console/u/0/developers/8879742639795815518/app-list\"\n    uid=115_11 button \"Dashboard\"\n    uid=115_12 button \"Statistics\"\n    uid=115_13 button \"Publishing overview\"\n    uid=115_14 button \"Protected with Play\"\n    uid=115_15 button \"Test and release\"\n    uid=115_16 button \"Monitor and improve\"\n    uid=115_17 button \"Reach and devices\"\n    uid=115_18 button \"Ratings and reviews\"\n    uid=115_19 button \"Android vitals\"\n    uid=115_20 button \"Policy and programs\"\n    uid=115_21 button \"Policy status\"\n    uid=115_22 button \"App content\"\n    uid=115_23 button \"Programs\"\n    uid=115_24 button \"Grow users\"\n    uid=115_25 button \"Monetize with Play\"\n  uid=115_26 link \"Go back to App content\" url=\"https://play.google.com/console/u/0/developers/8879742639795815518/app/4974963942177850884/app-content/overview\"\n    uid=115_27 \"App content\"\n  uid=115_28 generic live=\"polite\" relevant=\"additions text\"\n    uid=115_29 heading \"Advertising ID\" level=\"1\"\n  uid=115_30 \"Help us understand whether your app uses an Advertising ID\"\n  uid=115_31 heading \"Android 13 (API 33) introduces changes to advertising ID\" level=\"2\"\n  uid=115_32 \"Apps that use advertising ID and target Android 13 or later must declare the com.google.android.gms.permission.AD_ID permission in their app manifest. If you don't include this permission, your advertising identifier will be zeroed out, any attempts to access the identifier will receive a string of zeros instead of the identifier.\"\n  uid=115_33 \" \"\n  uid=115_34 link \"Learn more about Advertising ID, Opens in a new tab\" url=\"https://support.google.com/googleplay/android-developer/answer/6048248?hl=en\"\n    uid=115_35 \"Learn more\"\n  uid=115_36 heading \"We'll use this declaration to provide safeguards\" level=\"2\"\n  uid=115_37 \"If you say that your app uses advertising ID, we will block releases that don't include the com.google.android.gms.permission.AD_ID permission in the manifest file when targeting Android 13. When we block these releases, we will remind you to add the permission. If your release doesn't need advertising ID, you'll be able to skip the error and release. You can also update the declaration to turn off advertising ID release errors.\"\n  uid=115_38 heading \"Declaration\" level=\"2\"\n  uid=115_39 \"You can't rollout releases with artifacts targeting Android 13 until you have completed this declaration.\"\n  uid=115_40 heading \"Does your app use advertising ID?\" level=\"2\"\n  uid=115_41 \"This includes any SDKs that your app imports that use advertising ID\"\n  uid=115_42 radio \"No\" checked\n  uid=115_43 radio \"Yes\"\n  uid=115_44 \"When you answer this question, make sure to verify if any third-party SDK code in your app uses advertising ID. If so, you must declare that your app uses it. Some SDKs, such as the Google Mobile Ads SDK (Play Services-ads) may already declare the com.google.android.gms.permission.AD_ID permission in the SDK's library manifest. If your app uses these SDKs as dependencies, the com.google.android.gms.permission.AD_ID permission from the SDK's library manifest will be merged with your app's main manifest by default, even if you don't explicitly declare the permission in your app's main manifest.\"\n  uid=115_45 \" \"\n  uid=115_46 link \"Learn more about merging multiple manifest files (opens in a new tab)\" url=\"https://developer.android.com/studio/build/manage-manifests#merge-manifests\"\n    uid=115_47 \"Learn more\"\n  uid=115_48 generic live=\"polite\" relevant=\"additions text\"\n  uid=115_49 button \"Discard\" disableable disabled\n  uid=115_50 button \"Save\" disableable disabled\n  uid=115_51 link \"Product updates\" url=\"https://play.google.com/console/about/whats-new/\"\n  uid=115_53 link \"Status dashboard\" url=\"https://status.play.google.com/\"\n  uid=115_55 link \"Help\" url=\"https://play.google.com/console/u/0/developers/8879742639795815518/help-and-support?app=4974963942177850884\"\n  uid=115_57 \"© 2026 Google\"\n  uid=115_58 link \"Privacy\" url=\"https://www.google.com/policies/privacy/\"\n  uid=115_60 link \"Developer Distribution Agreement\" url=\"https://play.google.com/about/developer-distribution-agreement.html\"\n  uid=115_62 link \"Terms of Service\" url=\"https://play.google.com/about/console/terms-of-service/\"\n"
+      }
+    ]
+  },
+  "listingReadback": {
+    "url": "https://play.google.com/console/u/0/developers/8879742639795815518/app/4974963942177850884/store-listings/default/edit",
+    "fields": [
+      {
+        "label": null,
+        "value": "Cats Cute Miner"
+      },
+      {
+        "label": null,
+        "value": "Lead a cat mining crew, build factories, and collect cards and equipment."
+      },
+      {
+        "label": null,
+        "value": "Put your cat crew to work in an underground mining adventure. Your cats dig through rocks, fill their bags, and bring the coins back to base. Spend the coins they deliver to improve the whole team.\n\nBUILD YOUR MINING CREW\nUpgrade mining power, movement, carrying capacity, unloading speed, and the value of your haul. Tap rocks to lend your cats a helping paw.\n\nEXPLORE 144 MINES\nOpen gates and uncover branching tunnels as you work through the campaign. Clear each mine and move on to the next challenge.\n\nRUN YOUR CAT FACTORIES\nUncover factories in the mines, deliver their goods to the warehouse, and sell your stock at the market. Collect factory cards to improve production.\n\nCOLLECT 62 CARDS AND UPGRADE YOUR GEAR\nEquip pickaxes, hats, backpacks, and boots. Collect cards and improve their bonuses. Equipment and card progress carry into the next mine, while local mine upgrades start fresh.\n\nRETURN TO YOUR CATS\nYour saved crew can make progress while you are away. Return, collect the results, and decide what to upgrade next.\n\nOptional in-app purchases are available. Randomized card chests have their chances shown in the game."
+      }
+    ],
+    "images": [
+      {
+        "alt": "icon-512.png",
+        "src": "https://lh3.googleusercontent.com/Gx0HmNtUprC8bO5rrgAhus9bgbd7PeHtDJ_g8zrMcv3zTowiJ1kSM1TXZK4hQdRnvWXPdg4VT2siOJrz-APSWb0"
+      },
+      {
+        "alt": "feature-1024x500.png",
+        "src": "https://lh3.googleusercontent.com/E1Z_xNzX-480vG1KwS_NOII0gGSg55kC2sF9B5DuL4IW9Wo9hkCiWDY5zqRzFzajIQOWTabWN5ulzuOao37a"
+      },
+      {
+        "alt": "01-cat-crew-caption.png",
+        "src": "https://lh3.googleusercontent.com/PQdaXBD0Ju4KzksXzUkH0v2TBwx7bU-HS6TMpCx1p68cIX7UrvSKivNB-D-lwY5coCcc9sWUwH2ws95rk0LFmg"
+      },
+      {
+        "alt": "02-upgrades-caption.png",
+        "src": "https://lh3.googleusercontent.com/rq8irJw_DLJ67f4pKWPUhzD8uTm3XvElS4f-f2hIQRxEYGB3VojdjT6u5AAHxj5RmdG_G8T8wboA_kT_3nK8qg"
+      },
+      {
+        "alt": "03-cards-caption.png",
+        "src": "https://lh3.googleusercontent.com/-y1GkoVreDMyjU1hPOKzbr1-hbQqhqn_9Fq-v5XefOu31XU_uE1DuZMZRx04f1k0oRdYPlgn8bBzyPWGy_fbAA"
+      },
+      {
+        "alt": "04-equipment-caption.png",
+        "src": "https://lh3.googleusercontent.com/4hmN8u1EehPH85FCq00V3klLdw7ZIpQuBM1sPL-RkSyQcBPpJyAZ2hxQnt5ixpm1MM-xNWh2CjucF4x5K_Osag"
+      }
+    ]
+  }
+}

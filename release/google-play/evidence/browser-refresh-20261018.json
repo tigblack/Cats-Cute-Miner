@@ -1,0 +1,31 @@
+{
+  "checked_at": "2026-10-18T10:31:56.730023+00:00",
+  "user_report": "Вошёл в оба кабинета",
+  "services": [
+    "adjust",
+    "superleo"
+  ],
+  "initial_refresh": {
+    "result": "failed_before_new_sessions_saved",
+    "native_wait_seconds": 180,
+    "underlying_error": "not_recovered_from_original_wrapper"
+  },
+  "diagnostics": {
+    "chrome_native_endpoint_present": true,
+    "loopback_connection_succeeded": true,
+    "remote_new_service_sessions_saved": false,
+    "google_play_existing_session_preserved": true
+  },
+  "tool_fix": {
+    "structured_remote_errors_reported_without_raw_transfer_output": true,
+    "functional_tests_passed": 8,
+    "functional_tests_failed": 0
+  },
+  "recovery": {
+    "status": "running_after_single_recovery_attempt",
+    "native_wait_seconds": 300,
+    "chrome_debugging_page_opened": true,
+    "sessions_verified": false
+  },
+  "no_provider_config_writes": true
+}

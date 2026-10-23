@@ -1,0 +1,63 @@
+﻿{
+    "unity_version":  "6000.3.11f1",
+    "status":  "installed_pending_effective_unity_and_license_checks",
+    "components":  [
+                       {
+                           "id":  "android-open-jdk-17.0.9+9",
+                           "status":  "installed",
+                           "path":  "C:\\Unity\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\OpenJDK",
+                           "source":  "https://download.unity3d.com/download_unity/open-jdk/open-jdk-win-x64/jdk17.0.9-9_f12c2989c2f749b13282640a12d7d624097f6c2d45144d87331f21ad352ab63e.zip",
+                           "archive_sha256":  "f12c2989c2f749b13282640a12d7d624097f6c2d45144d87331f21ad352ab63e"
+                       },
+                       {
+                           "id":  "android-sdk-ndk-tools",
+                           "status":  "installed",
+                           "path":  "C:\\Unity\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\SDK\\tools",
+                           "source":  "https://dl.google.com/android/repository/sdk-tools-windows-4333796.zip",
+                           "archive_sha256":  "7e81d69c303e47a4f0e748a6352d85cd0c8fd90a5a95ae4e076b5e5f960d3c7a"
+                       },
+                       {
+                           "id":  "android-ndk-r27c",
+                           "status":  "installed",
+                           "path":  "C:\\Unity\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\NDK",
+                           "source":  "https://dl.google.com/android/repository/android-ndk-r27c-windows.zip",
+                           "archive_sha256":  "27e49f11e0cee5800983d8af8f4acd5bf09987aa6f790d4439dda9f3643d2494"
+                       },
+                       {
+                           "id":  "cmake-3.22.1",
+                           "status":  "installed",
+                           "path":  "C:\\Unity\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\SDK\\cmake\\3.22.1",
+                           "source":  "https://dl.google.com/android/repository/cmake-3.22.1-windows.zip",
+                           "archive_sha256":  "c9a9d568452a20cf27d703cb21ef9529dd67bda6be048c4d4b884acb3ac3a2b8"
+                       },
+                       {
+                           "id":  "android-sdk-build-tools-36.0.0",
+                           "status":  "installed",
+                           "path":  "C:\\Unity\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\SDK\\build-tools\\36.0.0",
+                           "source":  "https://dl.google.com/android/repository/build-tools_r36_windows.zip",
+                           "archive_sha256":  "aa1095cb14d83e483818a748a2c06faaeb8e601561b06a356a119a1b2ca280d3"
+                       },
+                       {
+                           "id":  "android-sdk-platform-tools-36.0.0",
+                           "status":  "installed",
+                           "path":  "C:\\Unity\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\SDK\\platform-tools",
+                           "source":  "https://dl.google.com/android/repository/platform-tools_r36.0.0-win.zip",
+                           "archive_sha256":  "12c2841f354e92a0eb2fd7bf6f0f9bf8538abce7bd6b060ac8349d6f6a61107c"
+                       },
+                       {
+                           "id":  "android-sdk-platforms-36",
+                           "status":  "installed",
+                           "path":  "C:\\Unity\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\SDK\\platforms\\android-36",
+                           "source":  "https://dl.google.com/android/repository/platform-36_r02.zip",
+                           "archive_sha256":  "37607369a28c5b640b3a7998868d45898ebcb777565a0e85f9acf36f29631d2e"
+                       },
+                       {
+                           "id":  "android-sdk-command-line-tools-16.0",
+                           "status":  "installed",
+                           "path":  "C:\\Unity\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\SDK\\cmdline-tools\\16.0",
+                           "source":  "https://dl.google.com/android/repository/commandlinetools-win-12266719_latest.zip",
+                           "archive_sha256":  "f9088c04a44f1f37a8a3a228a7663e11ae9445fa07529c96cef38acb985a88f3"
+                       }
+                   ],
+    "licenses_accepted_by_script":  false
+}

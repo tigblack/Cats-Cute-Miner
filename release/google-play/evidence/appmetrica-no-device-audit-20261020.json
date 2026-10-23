@@ -1,0 +1,75 @@
+{
+  "checked_at": "2026-10-20T16:14:28.515811+00:00",
+  "scope": "Read-only AppMetrica source, signed release artifact and authenticated reporting audit without the owner phone",
+  "package": "com.multicastgames.catscuteminer",
+  "app_id": 6374386,
+  "artifact": {
+    "version_name": "0.1.4",
+    "version_code": 5,
+    "sha256": "be10e6b2ae4aaf0518725f51b284e8bcaad218a7a880f7d01caf8d783334b759",
+    "expected_sdk_key_present_in_packaged_asset": true,
+    "expected_package_and_legal_urls_present_in_packaged_asset": true,
+    "generated_android_cpp_calls_appmetrica_activate": true,
+    "generated_manual_revenue_guard_returns_true": true,
+    "native_sdk_and_unity_bridge_classes_present": true,
+    "internet_and_network_state_permissions_present": true
+  },
+  "client_key_binding_ref": "release/google-play/evidence/appmetrica-client-key-live-check-20261020.json",
+  "server_reports": {
+    "period": "2026-10-01/2026-10-20",
+    "events": 0,
+    "active_users": 0,
+    "sessions": 0,
+    "api_http_status": 200,
+    "api_report_errors": false,
+    "evidence_ref": "release/google-play/evidence/appmetrica-audience-audit-20261020.json"
+  },
+  "application_settings": {
+    "client_key_matches": true,
+    "time_zone": "UTC",
+    "created": "2026-10-18",
+    "evidence_ref": "release/google-play/evidence/appmetrica-integration-status-20261020.json"
+  },
+  "official_service_status": {
+    "url": "https://yandex.ru/support/appmetrica-io/ru/common/special-mode",
+    "read_via": "agentb public documentation page linked from the authenticated dashboard banner",
+    "all_reports_and_reporting_api_subject_to_processing_delays": true,
+    "event_collection_available": true,
+    "logs_api_data_availability_limited": true,
+    "status_notice_proves_this_incident_root_cause": false
+  },
+  "source_review": {
+    "second_independent_review_completed": true,
+    "reproducible_defect_explaining_zero_after_successful_eligible_opt_in_found": false,
+    "activation_requires_saved_eligible_age_and_independent_provider_consent": true,
+    "pre_consent_events_intentionally_discarded": true,
+    "sdk_init_state_and_sent_diagnostics_are_not_delivery_acknowledgements": true,
+    "provider_activation_exception_on_owner_phone_still_unknown": true
+  },
+  "tests": {
+    "existing_unchanged_source_receipts_reused": true,
+    "playmode_passed": 36,
+    "editmode_passed": 18,
+    "playmode_ref": "release/google-play/evidence/analytics-optin-playmode-20261020.xml",
+    "editmode_ref": "release/google-play/evidence/analytics-optin-editmode-20261020.xml",
+    "tests_rerun_during_this_audit": false,
+    "editor_tests_prove_native_delivery": false
+  },
+  "root_cause_confirmed": false,
+  "runtime_delivery_verified": false,
+  "game_source_modified": false,
+  "new_aab_created": false,
+  "phone_required_for_completed_audit": false,
+  "emulator_installed": false,
+  "emulator_launched": false,
+  "next_runtime_check": "Derive APK from exact current AAB; separately authorize installation and one launch of an Android emulator, then inspect native SDK and actual dashboard delivery",
+  "prepared_apk_ref": "release/google-play/evidence/appmetrica-smoke-apk-prepared-20261020.json",
+  "prepared_apk_sha256": "b55ab637e18d23e3d8207667ff3d44af8d24b2e833eeca78f744bfea37f79675",
+  "derived_apk_signature_and_16kb_packaging_verified": true,
+  "emulator_install_and_one_launch_approval": {
+    "approved": true,
+    "recorded_at": "2026-10-20T16:17:56.909961+00:00",
+    "owner_reply": "Да, установить и проверить",
+    "automatic_restart_allowed": false
+  }
+}

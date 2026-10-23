@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><AssemblyName>CatMiners.Editor</AssemblyName></PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(AssetsDir)Scripts\Editor\**\*.cs" />
+    <ProjectReference Include="..\..\CoreTests\CoreLib\CoreLib.csproj" />
+    <ProjectReference Include="..\Runtime\Runtime.csproj" />
+    <Reference Include="$(UnityManaged)\UnityEngine\UnityEditor.*.dll" Private="false" />
+    <Reference Include="$(ScriptAssemblies)\Unity.InputSystem.dll" Private="false" />
+    <Reference Include="$(ScriptAssemblies)\Unity.TextMeshPro.dll" Private="false" />
+    <Reference Include="$(ScriptAssemblies)\UnityEngine.UI.dll" Private="false" />
+  </ItemGroup>
+</Project>

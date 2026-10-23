@@ -1,0 +1,30 @@
+{
+  "recorded_at": "2026-10-19T18:29:02.044483+00:00",
+  "package": "com.multicastgames.catscuteminer",
+  "title": "Cat Miners: Idle Tycoon",
+  "adoption_authorized": true,
+  "adoption_evidence": "User requested item1 (adopt and publish the game legal documents): «1. делай»; then explicitly confirmed support responsibility and access.",
+  "operator_process_confirmed": true,
+  "operator_confirmation": "Я — беру процесс на себя; почта работает, доступ к исполнению есть",
+  "responsible_role": "Project owner / current user",
+  "support_email": "support@multicastgames.com",
+  "support_process_ref": "Docs/Legal/CatsCuteMiner/SUPPORT_PROCESS.md",
+  "audience_minimum_age": 13,
+  "protected_under_age": 16,
+  "ads_enabled": false,
+  "iap_products": 6,
+  "adopted_source_sha256": {
+    "privacy-policy.md": "3e8bf9b348186faf67d93dd733026ef5dbce8089f7d519f9786ecc099cf835d3",
+    "terms-of-use.md": "a094bf0fd2b9dff9e871b3bf57532e7e4e1532db10e0d53afa6acad4637acab4",
+    "delete-data.md": "09de04005b9067b684fc15d1fa24f5379a66e5db5e17f3be3a54c8d9e938291b"
+  },
+  "published": true,
+  "runtime_urls_changed": false,
+  "published_at": "2026-10-19T18:31:37.762369+00:00",
+  "published_urls": {
+    "privacy": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/",
+    "terms": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/",
+    "data_requests": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/delete-data/"
+  },
+  "publication_evidence_ref": "release/google-play/evidence/legal-publication-20261019.json"
+}

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="8" result="Passed" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-18 21:01:20Z" end-time="2026-10-18 21:01:24Z" duration="3.5030178">
+  <test-suite type="TestSuite" id="1243" name="Cat Miner: Idle Tycoon" fullname="Cat Miner: Idle Tycoon" runstate="Runnable" testcasecount="193" result="Passed" start-time="2026-10-18 21:01:20Z" end-time="2026-10-18 21:01:24Z" duration="3.503018" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1233" name="CatMiners.Tests.PlayMode.dll" fullname="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/build/ci/Library/ScriptAssemblies/CatMiners.Tests.PlayMode.dll" runstate="Runnable" testcasecount="191" result="Passed" start-time="2026-10-18 21:01:20Z" end-time="2026-10-18 21:01:24Z" duration="3.498335" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="66937" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1234" name="CatMiners" fullname="CatMiners" runstate="Runnable" testcasecount="191" result="Passed" start-time="2026-10-18 21:01:21Z" end-time="2026-10-18 21:01:24Z" duration="3.496776" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1235" name="Tests" fullname="CatMiners.Tests" runstate="Runnable" testcasecount="191" result="Passed" start-time="2026-10-18 21:01:21Z" end-time="2026-10-18 21:01:24Z" duration="3.495364" total="8" passed="8" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1118" name="OutpostRuntimeTests" fullname="CatMiners.Tests.OutpostRuntimeTests" classname="CatMiners.Tests.OutpostRuntimeTests" runstate="Runnable" testcasecount="37" result="Passed" start-time="2026-10-18 21:01:21Z" end-time="2026-10-18 21:01:22Z" duration="1.144593" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1126" name="PlayTime_ActiveMenus_ExcludesBackgroundAndSkips_PersistsAcrossProfiles" fullname="CatMiners.Tests.OutpostRuntimeTests.PlayTime_ActiveMenus_ExcludesBackgroundAndSkips_PersistsAcrossProfiles" methodname="PlayTime_ActiveMenus_ExcludesBackgroundAndSkips_PersistsAcrossProfiles" classname="CatMiners.Tests.OutpostRuntimeTests" runstate="Runnable" seed="788592089" result="Passed" start-time="2026-10-18 21:01:21Z" end-time="2026-10-18 21:01:22Z" duration="1.138535" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1156" name="OutpostStoreUiTests" fullname="CatMiners.Tests.OutpostStoreUiTests" classname="CatMiners.Tests.OutpostStoreUiTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-18 21:01:22Z" end-time="2026-10-18 21:01:23Z" duration="1.429707" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1159" name="AdChest_RewardWindowDropRatesThenCooldown" fullname="CatMiners.Tests.OutpostStoreUiTests.AdChest_RewardWindowDropRatesThenCooldown" methodname="AdChest_RewardWindowDropRatesThenCooldown" classname="CatMiners.Tests.OutpostStoreUiTests" runstate="Runnable" seed="191435157" result="Passed" start-time="2026-10-18 21:01:22Z" end-time="2026-10-18 21:01:22Z" duration="0.316968" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1157" name="BottomBar_StoreCardsBaseEquipmentMarket" fullname="CatMiners.Tests.OutpostStoreUiTests.BottomBar_StoreCardsBaseEquipmentMarket" methodname="BottomBar_StoreCardsBaseEquipmentMarket" classname="CatMiners.Tests.OutpostStoreUiTests" runstate="Runnable" seed="1937362841" result="Passed" start-time="2026-10-18 21:01:22Z" end-time="2026-10-18 21:01:22Z" duration="0.245865" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1160" name="GemPurchase_ConfirmThenSpend_RefusedWithoutGems" fullname="CatMiners.Tests.OutpostStoreUiTests.GemPurchase_ConfirmThenSpend_RefusedWithoutGems" methodname="GemPurchase_ConfirmThenSpend_RefusedWithoutGems" classname="CatMiners.Tests.OutpostStoreUiTests" runstate="Runnable" seed="1305639181" result="Passed" start-time="2026-10-18 21:01:22Z" end-time="2026-10-18 21:01:23Z" duration="0.295565" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1158" name="Store_SectionsTilesColorsAndBack" fullname="CatMiners.Tests.OutpostStoreUiTests.Store_SectionsTilesColorsAndBack" methodname="Store_SectionsTilesColorsAndBack" classname="CatMiners.Tests.OutpostStoreUiTests" runstate="Runnable" seed="2027239094" result="Passed" start-time="2026-10-18 21:01:23Z" end-time="2026-10-18 21:01:23Z" duration="0.271469" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1161" name="TimeSkip_PaidShort_ConfirmsSpendsAndShowsResult" fullname="CatMiners.Tests.OutpostStoreUiTests.TimeSkip_PaidShort_ConfirmsSpendsAndShowsResult" methodname="TimeSkip_PaidShort_ConfirmsSpendsAndShowsResult" classname="CatMiners.Tests.OutpostStoreUiTests" runstate="Runnable" seed="974192376" result="Passed" start-time="2026-10-18 21:01:23Z" end-time="2026-10-18 21:01:23Z" duration="0.289531" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1168" name="PlayableTests" fullname="CatMiners.Tests.PlayableTests" classname="CatMiners.Tests.PlayableTests" runstate="Runnable" testcasecount="29" result="Passed" start-time="2026-10-18 21:01:23Z" end-time="2026-10-18 21:01:24Z" duration="0.915450" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1179" name="Overlay_IsMeasuredP3Patch_CatalogUnchanged" fullname="CatMiners.Tests.PlayableTests.Overlay_IsMeasuredP3Patch_CatalogUnchanged" methodname="Overlay_IsMeasuredP3Patch_CatalogUnchanged" classname="CatMiners.Tests.PlayableTests" runstate="Runnable" seed="1569906622" result="Passed" start-time="2026-10-18 21:01:23Z" end-time="2026-10-18 21:01:23Z" duration="0.339068" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1174" name="Quests_TimeSkipCountsByUse_NotByStock" fullname="CatMiners.Tests.PlayableTests.Quests_TimeSkipCountsByUse_NotByStock" methodname="Quests_TimeSkipCountsByUse_NotByStock" classname="CatMiners.Tests.PlayableTests" runstate="Runnable" seed="502261407" result="Passed" start-time="2026-10-18 21:01:23Z" end-time="2026-10-18 21:01:24Z" duration="0.564554" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[Saving results to: /Users/arthuri/Library/Application Support/CatMiners/Cat Miner_ Idle Tycoon/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

@@ -1,0 +1,57 @@
+{
+  "verified_at": "2026-10-19T18:31:37.762369+00:00",
+  "package": "com.multicastgames.catscuteminer",
+  "status": "four_public_HTML_pages_verified_HTTP200_content_hash_match",
+  "home": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/",
+  "privacy_url": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/",
+  "terms_url": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/",
+  "data_request_url": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/delete-data/",
+  "pages": [
+    {
+      "url": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/",
+      "final_url": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/",
+      "http_status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 2887,
+      "sha256": "b9e33a4b6d46ce9b9dfd562a16309e2f20d7d46b71cc172a44bfa24bf186df96",
+      "local_sha256": "b9e33a4b6d46ce9b9dfd562a16309e2f20d7d46b71cc172a44bfa24bf186df96",
+      "no_login": true
+    },
+    {
+      "url": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/",
+      "final_url": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/",
+      "http_status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 11261,
+      "sha256": "7c456c38adc77649d179104aafcca172b3bae4c943ced56550d92b377722bca3",
+      "local_sha256": "7c456c38adc77649d179104aafcca172b3bae4c943ced56550d92b377722bca3",
+      "no_login": true
+    },
+    {
+      "url": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/",
+      "final_url": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/",
+      "http_status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 7317,
+      "sha256": "c945e869aa6bd3fed27231c30820d9b69d5455f16587286ba8a0ddb81bc70aeb",
+      "local_sha256": "c945e869aa6bd3fed27231c30820d9b69d5455f16587286ba8a0ddb81bc70aeb",
+      "no_login": true
+    },
+    {
+      "url": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/delete-data/",
+      "final_url": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/delete-data/",
+      "http_status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes": 5287,
+      "sha256": "9571bcb21f2e7b9c559debc9570808011928251629485d4e6985f2e116690a71",
+      "local_sha256": "9571bcb21f2e7b9c559debc9570808011928251629485d4e6985f2e116690a71",
+      "no_login": true
+    }
+  ],
+  "operator_process_confirmed": true,
+  "adoption_ref": "Docs/Legal/CatsCuteMiner/adoption-20261019.json",
+  "host": "sites.aimulticast.org",
+  "studio_domain_modified": false,
+  "runtime_urls_changed": false,
+  "new_AAB_built": false
+}

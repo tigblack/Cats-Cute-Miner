@@ -1,0 +1,38 @@
+{
+  "Version": "store-5",
+  "TestPurchases": true,
+  "StartGems": 0,
+  "StarterConsumables": {},
+  "RewardedBonus": {
+    "FirstDelaySec": 120,
+    "IntervalSec": 180,
+    "VisibleSec": 45,
+    "Weights": { "Gold": 40, "Elixir": 25, "Gems": 15, "Dynamite": 20, "Damage": 20 },
+    "GoldUpgrades": 2,
+    "ElixirUpgrades": 1,
+    "ElixirFloor": 50,
+    "Gems": 2,
+    "DynamiteRadius": "3/2",
+    "DynamiteCenterShare": "1",
+    "DynamiteRingShare": "1/2",
+    "DynamiteMinTargets": 3
+  },
+  "Sections": ["offers", "timeskip", "elixir", "gems"],
+  "Items": [
+    { "Id": "chest_wooden", "Section": "offers", "Kind": "Chest", "ChestId": "GachaWooden", "Currency": "Ad", "CooldownMinutes": 240 },
+    { "Id": "chest_iron", "Section": "offers", "Kind": "Chest", "ChestId": "GachaIron", "Currency": "Gems", "Price": 145 },
+    { "Id": "chest_mythical", "Section": "offers", "Kind": "Chest", "ChestId": "GachaMythical", "Currency": "Gems", "Price": 3500 },
+    { "Id": "skip_1h", "Section": "timeskip", "Kind": "TimeSkip", "Minutes": 10, "Currency": "Gems", "Price": 50 },
+    { "Id": "skip_4h", "Section": "timeskip", "Kind": "TimeSkip", "Minutes": 30, "Currency": "Gems", "Price": 150 },
+    { "Id": "skip_12h", "Section": "timeskip", "Kind": "TimeSkip", "Minutes": 60, "Currency": "Gems", "Price": 350 },
+    { "Id": "elixir_bottle", "Section": "elixir", "Kind": "Elixir", "Amount": 1000, "Currency": "Gems", "Price": 60 },
+    { "Id": "elixir_box", "Section": "elixir", "Kind": "Elixir", "Amount": 10000, "Currency": "Gems", "Price": 500 },
+    { "Id": "elixir_wagon", "Section": "elixir", "Kind": "Elixir", "Amount": 100000, "Currency": "Gems", "Price": 4500 },
+    { "Id": "gems_handful", "Section": "gems", "Kind": "Gems", "Amount": 160, "Currency": "Real", "PriceUsd": "1.99" },
+    { "Id": "gems_sack", "Section": "gems", "Kind": "Gems", "Amount": 500, "Currency": "Real", "PriceUsd": "5.99" },
+    { "Id": "gems_bag", "Section": "gems", "Kind": "Gems", "Amount": 1200, "Currency": "Real", "PriceUsd": "11.99" },
+    { "Id": "gems_crate", "Section": "gems", "Kind": "Gems", "Amount": 2500, "Currency": "Real", "PriceUsd": "22.99" },
+    { "Id": "gems_cart", "Section": "gems", "Kind": "Gems", "Amount": 6500, "Currency": "Real", "PriceUsd": "59.99" },
+    { "Id": "gems_pile", "Section": "gems", "Kind": "Gems", "Amount": 14000, "Currency": "Real", "PriceUsd": "119.99" }
+  ]
+}

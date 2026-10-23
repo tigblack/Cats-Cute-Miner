@@ -1,0 +1,483 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="0ab277c6-de81-445f-9fd0-9ab2e290060f" name="@Arnos-MBP 2026-10-22 18:51:11" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T18:51:11.0659460+04:00" queuing="2026-10-22T18:51:11.0659460+04:00" start="2026-10-22T18:51:09.8768920+04:00" finish="2026-10-22T18:51:15.0587170+04:00" />
+  <TestSettings name="default" id="ad147bdc-9800-41e9-b68f-817159c1ccdd">
+    <Deployment runDeploymentRoot="_Arnos-MBP_2026-10-22_18_51_11" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="a45d7137-fa18-4cc9-8231-157755ef00fa" testId="560fc3fc-67b9-3dd2-88a9-2c2510dd61e2" testName="CostZoneFactor_ExactPrices" computerName="Arnos-MBP" duration="00:00:00.0146640" startTime="2026-10-22T18:51:13.3738720+04:00" endTime="2026-10-22T18:51:13.3885360+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a45d7137-fa18-4cc9-8231-157755ef00fa" />
+    <UnitTestResult executionId="5ccbf10a-e06e-4fe0-ac4d-f42dd3042b48" testId="791d3480-50a8-718d-d3d2-dff27c262362" testName="Unload_MidService_KeepsExactProgressOfCurrentPortion" computerName="Arnos-MBP" duration="00:00:00.0008420" startTime="2026-10-22T18:51:15.0366290+04:00" endTime="2026-10-22T18:51:15.0374720+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5ccbf10a-e06e-4fe0-ac4d-f42dd3042b48" />
+    <UnitTestResult executionId="5273e549-cc70-4b50-8ca8-0bf9bb7765f6" testId="8b15ec06-f820-105b-dcf7-26cb31c72719" testName="BackpackSwapToSmaller_PickupOrWalkingWorker_NoNewCargoUntilDelivered(MovingToWork)" computerName="Arnos-MBP" duration="00:00:00.0008160" startTime="2026-10-22T18:51:14.9893190+04:00" endTime="2026-10-22T18:51:14.9901360+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5273e549-cc70-4b50-8ca8-0bf9bb7765f6" />
+    <UnitTestResult executionId="988419b0-09b2-4e91-a807-e53debded7af" testId="422f43a1-ce2d-6b39-93a6-5ba43fd129b7" testName="BackpackSwapToSmaller_OverflowCargoKept_WorkerDeliversThenUsesNewCapacity" computerName="Arnos-MBP" duration="00:00:00.0143210" startTime="2026-10-22T18:51:13.4300890+04:00" endTime="2026-10-22T18:51:13.4444110+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="988419b0-09b2-4e91-a807-e53debded7af" />
+    <UnitTestResult executionId="de4fb41c-7165-4165-bba7-6dc41b9c1583" testId="db8de8b7-5937-8989-3fb1-1b8d160ea4e0" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(3)" computerName="Arnos-MBP" duration="00:00:00.0977450" startTime="2026-10-22T18:51:10.3818000+04:00" endTime="2026-10-22T18:51:10.4795450+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="de4fb41c-7165-4165-bba7-6dc41b9c1583" />
+    <UnitTestResult executionId="34c3a3ef-0eb6-4dc2-9869-ea05b6c48696" testId="0a8a78c5-e102-2b7e-e801-e84156a781e0" testName="LegacySave_RetainsCrewAndFinalHp_AndChargesFullQuotedPrice(3)" computerName="Arnos-MBP" duration="00:00:00.0181700" startTime="2026-10-22T18:51:13.2830010+04:00" endTime="2026-10-22T18:51:13.3011710+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="34c3a3ef-0eb6-4dc2-9869-ea05b6c48696">
+      <Output>
+        <StdOut>Mine 3: hire rank 4 costs 2354</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8bb023f9-2e29-4a25-93cc-a7e341defe2b" testId="5ee01e05-e1ed-89a3-3016-ed6b9c03008e" testName="HatChange_ExistingCargoKeepsValue_NewPortionsUseNewValue" computerName="Arnos-MBP" duration="00:00:00.0093110" startTime="2026-10-22T18:51:15.0212430+04:00" endTime="2026-10-22T18:51:15.0305540+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8bb023f9-2e29-4a25-93cc-a7e341defe2b" />
+    <UnitTestResult executionId="504e8aa8-e5a9-4e63-ae5b-3d3ccd8273ce" testId="a7f1705e-d4ae-fba0-5256-1189f24ff622" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(49)" computerName="Arnos-MBP" duration="00:00:00.0992659" startTime="2026-10-22T18:51:11.6839330+04:00" endTime="2026-10-22T18:51:11.7832000+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="504e8aa8-e5a9-4e63-ae5b-3d3ccd8273ce" />
+    <UnitTestResult executionId="e92c9449-aaea-43df-bf50-0901f960f873" testId="039298a9-4bda-7127-a250-0f40fc05592f" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(10)" computerName="Arnos-MBP" duration="00:00:00.1154300" startTime="2026-10-22T18:51:10.8031060+04:00" endTime="2026-10-22T18:51:10.9185370+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e92c9449-aaea-43df-bf50-0901f960f873" />
+    <UnitTestResult executionId="1320bb4d-98ee-413c-990d-161beb8e8186" testId="48abf7a3-de36-9325-39d5-29190a76cb0c" testName="BuyMax_ReachesCap_ExactCostBeyond2Pow53_ThenCapBlocks(Bags)" computerName="Arnos-MBP" duration="00:00:00.0018530" startTime="2026-10-22T18:51:14.9992250+04:00" endTime="2026-10-22T18:51:15.0010780+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1320bb4d-98ee-413c-990d-161beb8e8186" />
+    <UnitTestResult executionId="a3b85a85-3c9e-40d2-8b94-4f00026a49ca" testId="b4128f72-413d-c4e9-6f01-40f3eb948120" testName="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Value,1)" computerName="Arnos-MBP" duration="00:00:00.0009320" startTime="2026-10-22T18:51:15.0118220+04:00" endTime="2026-10-22T18:51:15.0127550+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a3b85a85-3c9e-40d2-8b94-4f00026a49ca" />
+    <UnitTestResult executionId="e5f6aa41-ed55-4f55-8e61-bcfebfcfc6c3" testId="bbea6035-a1bb-2342-632f-62e174fa18c9" testName="ReferenceBudget_FallsBackWithoutChangingOrdinaryHpOrLivePrices" computerName="Arnos-MBP" duration="00:00:00.0155910" startTime="2026-10-22T18:51:12.9358950+04:00" endTime="2026-10-22T18:51:12.9514860+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e5f6aa41-ed55-4f55-8e61-bcfebfcfc6c3" />
+    <UnitTestResult executionId="2184eedb-6cbd-4ea0-a737-824fcfce681d" testId="4af4c17c-cce9-e253-2435-3870f3da2f27" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(23)" computerName="Arnos-MBP" duration="00:00:00.1058380" startTime="2026-10-22T18:51:11.1610630+04:00" endTime="2026-10-22T18:51:11.2669020+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2184eedb-6cbd-4ea0-a737-824fcfce681d" />
+    <UnitTestResult executionId="4248a5d8-50e1-4fe2-82c5-5dcbb7a1da00" testId="20c47f6c-004c-9537-edf1-b2856f6e40c1" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(110)" computerName="Arnos-MBP" duration="00:00:00.1109480" startTime="2026-10-22T18:51:12.6349480+04:00" endTime="2026-10-22T18:51:12.7458970+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4248a5d8-50e1-4fe2-82c5-5dcbb7a1da00" />
+    <UnitTestResult executionId="14a8ad66-c0b6-4baa-8305-74818edf0a21" testId="2fea80c4-08f0-acad-0420-9db55f7cdba4" testName="All144Mines_HiringUsesNormalPrices_RegardlessOfLegacyFinalDiscount(0)" computerName="Arnos-MBP" duration="00:00:00.1135490" startTime="2026-10-22T18:51:12.9518760+04:00" endTime="2026-10-22T18:51:13.0654260+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="14a8ad66-c0b6-4baa-8305-74818edf0a21" />
+    <UnitTestResult executionId="9a8fe54f-0b25-40fa-a050-6db4dcc97253" testId="e91356e2-31e3-7315-16a8-9b2d775e1f91" testName="ReadyToContinue_PurchasesRejectedWithPhase_EquipmentAllowed" computerName="Arnos-MBP" duration="00:00:00.0028400" startTime="2026-10-22T18:51:15.0316830+04:00" endTime="2026-10-22T18:51:15.0345230+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9a8fe54f-0b25-40fa-a050-6db4dcc97253" />
+    <UnitTestResult executionId="00422c98-4fff-46be-906f-13c0adf93f2a" testId="143bccfd-5137-54d8-a02c-2b4f6d73d9af" testName="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Unload,37)" computerName="Arnos-MBP" duration="00:00:00.0027529" startTime="2026-10-22T18:51:15.0166230+04:00" endTime="2026-10-22T18:51:15.0193750+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="00422c98-4fff-46be-906f-13c0adf93f2a" />
+    <UnitTestResult executionId="244aeda7-5fae-4b39-9b45-bdfd7fcf436f" testId="f094e048-ebfd-6473-cf26-0e3c9db79de9" testName="BackpackSwapToSmaller_PickupOrWalkingWorker_NoNewCargoUntilDelivered(MovingToCargo)" computerName="Arnos-MBP" duration="00:00:00.7573490" startTime="2026-10-22T18:51:14.2319440+04:00" endTime="2026-10-22T18:51:14.9892970+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="244aeda7-5fae-4b39-9b45-bdfd7fcf436f" />
+    <UnitTestResult executionId="c8bf37b5-f1f2-464e-adcb-bc5c3f17580e" testId="de90e9f2-27f4-359f-cb0e-52294c6266ac" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(2)" computerName="Arnos-MBP" duration="00:00:00.0909180" startTime="2026-10-22T18:51:10.2908510+04:00" endTime="2026-10-22T18:51:10.3817690+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c8bf37b5-f1f2-464e-adcb-bc5c3f17580e" />
+    <UnitTestResult executionId="d49aae20-b422-4a95-9d01-e5730ceefb5b" testId="1a96562b-175c-1fe5-159a-2f0469920db4" testName="GoldBonus_UsesFullHirePricesWhenOnlyTeamRemains" computerName="Arnos-MBP" duration="00:00:00.0147640" startTime="2026-10-22T18:51:13.2521460+04:00" endTime="2026-10-22T18:51:13.2669100+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d49aae20-b422-4a95-9d01-e5730ceefb5b" />
+    <UnitTestResult executionId="d6364c03-0132-45b7-93de-ce347f43de25" testId="90a981ad-54e9-380a-1f7f-17370e38dbc9" testName="BuyTen_StopsAtCap_MilestoneAtCapApplies" computerName="Arnos-MBP" duration="00:00:00.0008780" startTime="2026-10-22T18:51:15.0059810+04:00" endTime="2026-10-22T18:51:15.0068590+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d6364c03-0132-45b7-93de-ce347f43de25" />
+    <UnitTestResult executionId="67d04af4-f50b-42e4-8eb1-7af9055c578a" testId="1d629524-2964-f904-ecab-1ca80d4f5d35" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(30)" computerName="Arnos-MBP" duration="00:00:00.1406160" startTime="2026-10-22T18:51:11.2669240+04:00" endTime="2026-10-22T18:51:11.4075410+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="67d04af4-f50b-42e4-8eb1-7af9055c578a" />
+    <UnitTestResult executionId="3a459428-43e3-4e9e-807b-fb0b331c3f49" testId="136aa9b3-ec60-1aeb-aab0-be336ba8fadf" testName="FinalHp_StaysAtPublishedCalibration(5,320320L)" computerName="Arnos-MBP" duration="00:00:00.0150580" startTime="2026-10-22T18:51:13.1956070+04:00" endTime="2026-10-22T18:51:13.2106650+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3a459428-43e3-4e9e-807b-fb0b331c3f49" />
+    <UnitTestResult executionId="f83deb5f-dba9-4259-9dfc-f8cd75448b20" testId="affe2c89-ef11-e288-0e3c-6ce798a7b6b3" testName="Team_OnlySingleHire_NewWorkerAtSpawnGetsTaskImmediately_CapTwelve" computerName="Arnos-MBP" duration="00:00:00.0020740" startTime="2026-10-22T18:51:15.0345400+04:00" endTime="2026-10-22T18:51:15.0366140+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f83deb5f-dba9-4259-9dfc-f8cd75448b20" />
+    <UnitTestResult executionId="2541948b-a681-47ea-9693-c309b861debb" testId="148ddc7b-2da4-b920-3b5f-2d8bc1c110f5" testName="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Boots,1)" computerName="Arnos-MBP" duration="00:00:00.0017900" startTime="2026-10-22T18:51:15.0080830+04:00" endTime="2026-10-22T18:51:15.0098740+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2541948b-a681-47ea-9693-c309b861debb" />
+    <UnitTestResult executionId="d5b696be-835b-4445-a773-37c0d4b26cc5" testId="5273ff4e-2b6d-f4fd-6c11-46b9ace0fb65" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(6)" computerName="Arnos-MBP" duration="00:00:00.0837710" startTime="2026-10-22T18:51:10.6411330+04:00" endTime="2026-10-22T18:51:10.7249040+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d5b696be-835b-4445-a773-37c0d4b26cc5" />
+    <UnitTestResult executionId="5a2bc0e8-f721-4a9b-83c6-6e2ba1f5ccd6" testId="3f141f72-07ee-d40b-bfda-4f108bbf52a6" testName="Bags_CapacityIncrease_KeepsCargo" computerName="Arnos-MBP" duration="00:00:00.0015670" startTime="2026-10-22T18:51:14.9901680+04:00" endTime="2026-10-22T18:51:14.9917350+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5a2bc0e8-f721-4a9b-83c6-6e2ba1f5ccd6" />
+    <UnitTestResult executionId="888ddda1-5811-4970-b56f-871a71d3f305" testId="489f5ab9-946b-54a7-2452-60837ed8a4f4" testName="FinalHp_StaysAtPublishedCalibration(6,2995563L)" computerName="Arnos-MBP" duration="00:00:00.0141750" startTime="2026-10-22T18:51:13.2106830+04:00" endTime="2026-10-22T18:51:13.2248580+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="888ddda1-5811-4970-b56f-871a71d3f305" />
+    <UnitTestResult executionId="fe99e51e-6059-4bc9-800f-2e4067a96a44" testId="83fa91e9-80dd-83fe-b8e5-9ca7fc57e0a0" testName="NoDeliveredGold_EveryPurchaseBlocked_StateUnchanged" computerName="Arnos-MBP" duration="00:00:00.0004880" startTime="2026-10-22T18:51:15.0305690+04:00" endTime="2026-10-22T18:51:15.0310570+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fe99e51e-6059-4bc9-800f-2e4067a96a44" />
+    <UnitTestResult executionId="40df9ba0-0d5f-4a26-80ed-004b9c6ec7d0" testId="33f2e8f0-49c6-8414-03d7-cfecb7ed9ec3" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(66)" computerName="Arnos-MBP" duration="00:00:00.1699090" startTime="2026-10-22T18:51:11.9021470+04:00" endTime="2026-10-22T18:51:12.0720560+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="40df9ba0-0d5f-4a26-80ed-004b9c6ec7d0" />
+    <UnitTestResult executionId="f7eb787f-e8f6-4a28-861b-c4a035568d55" testId="30dd24db-641f-ecdd-77a3-0630a4a941a4" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(59)" computerName="Arnos-MBP" duration="00:00:00.1189010" startTime="2026-10-22T18:51:11.7832210+04:00" endTime="2026-10-22T18:51:11.9021230+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f7eb787f-e8f6-4a28-861b-c4a035568d55" />
+    <UnitTestResult executionId="187a861b-0889-40e7-ab08-4741d602c828" testId="385e95ef-97b8-a3e8-73d4-c8727408f962" testName="Pickaxes_NewDamageFromNextHit_HitTimerNotReset" computerName="Arnos-MBP" duration="00:00:00.0005980" startTime="2026-10-22T18:51:15.0310730+04:00" endTime="2026-10-22T18:51:15.0316710+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="187a861b-0889-40e7-ab08-4741d602c828" />
+    <UnitTestResult executionId="adbc7081-b454-4c0d-a26d-2cfb381c2079" testId="61c80ad0-c3e2-01af-6ea8-418762705a62" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(16)" computerName="Arnos-MBP" duration="00:00:00.1210340" startTime="2026-10-22T18:51:10.9185610+04:00" endTime="2026-10-22T18:51:11.0395950+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="adbc7081-b454-4c0d-a26d-2cfb381c2079" />
+    <UnitTestResult executionId="29e66956-62d3-49b5-9386-3e481147ce78" testId="52bcba6d-7f78-2164-b0a1-40d4d02b1585" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(80)" computerName="Arnos-MBP" duration="00:00:00.1855280" startTime="2026-10-22T18:51:12.2513080+04:00" endTime="2026-10-22T18:51:12.4368370+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="29e66956-62d3-49b5-9386-3e481147ce78" />
+    <UnitTestResult executionId="0ceb708e-c229-402c-b976-d3665e12eed6" testId="c27f29c1-16d4-a4b3-82ab-9e3dca29ea00" testName="FinalHp_StaysAtPublishedCalibration(4,124094L)" computerName="Arnos-MBP" duration="00:00:00.0139500" startTime="2026-10-22T18:51:13.1816430+04:00" endTime="2026-10-22T18:51:13.1955920+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0ceb708e-c229-402c-b976-d3665e12eed6" />
+    <UnitTestResult executionId="5541167f-6718-431d-ae7d-fa8c8d3fd51a" testId="a79c24e8-bd09-77f0-5998-696c3d227e80" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(20)" computerName="Arnos-MBP" duration="00:00:00.1214160" startTime="2026-10-22T18:51:11.0396190+04:00" endTime="2026-10-22T18:51:11.1610350+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5541167f-6718-431d-ae7d-fa8c8d3fd51a" />
+    <UnitTestResult executionId="7ca45385-6d90-4b7f-b220-049f56f8f196" testId="6881b42d-3198-ed39-5063-e5c2d975b103" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(5)" computerName="Arnos-MBP" duration="00:00:00.0860680" startTime="2026-10-22T18:51:10.5550420+04:00" endTime="2026-10-22T18:51:10.6411110+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7ca45385-6d90-4b7f-b220-049f56f8f196" />
+    <UnitTestResult executionId="6c231387-8455-421a-a959-f4da98bc98e6" testId="c87ebc66-7f8b-6a14-c75f-aff81430dc53" testName="Zone1Controls_StartStats_FirstPickaxe20_Damage6_1_Next24" computerName="Arnos-MBP" duration="00:00:00.0007560" startTime="2026-10-22T18:51:15.0374990+04:00" endTime="2026-10-22T18:51:15.0382550+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6c231387-8455-421a-a959-f4da98bc98e6" />
+    <UnitTestResult executionId="7adbbaa0-fabb-4020-b431-0b285bff3205" testId="a08fd568-0d84-9a32-5abc-4c413382b503" testName="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Pickaxes,1)" computerName="Arnos-MBP" duration="00:00:00.0011820" startTime="2026-10-22T18:51:15.0068880+04:00" endTime="2026-10-22T18:51:15.0080700+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7adbbaa0-fabb-4020-b431-0b285bff3205" />
+    <UnitTestResult executionId="bbbcc001-baf8-4308-b727-08a593e90c2a" testId="9631d2f1-036e-e5fb-d610-a2a59ebb9a4a" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(7)" computerName="Arnos-MBP" duration="00:00:00.0781520" startTime="2026-10-22T18:51:10.7249270+04:00" endTime="2026-10-22T18:51:10.8030790+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bbbcc001-baf8-4308-b727-08a593e90c2a" />
+    <UnitTestResult executionId="7a3ae457-c8ad-4ce1-8146-09ae570858ec" testId="957583d8-5007-cf59-a2d3-e71b433dc9a5" testName="LegacySave_RetainsCrewAndFinalHp_AndChargesFullQuotedPrice(7)" computerName="Arnos-MBP" duration="00:00:00.0165310" startTime="2026-10-22T18:51:13.3011880+04:00" endTime="2026-10-22T18:51:13.3177190+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7a3ae457-c8ad-4ce1-8146-09ae570858ec">
+      <Output>
+        <StdOut>Mine 7: hire rank 4 costs 5729</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="fb0e160f-da54-4b3a-926c-7df92109a570" testId="1a7bdb5a-8538-6652-a0cf-33ffd05d634f" testName="BuyMax_ReachesCap_ExactCostBeyond2Pow53_ThenCapBlocks(Pickaxes)" computerName="Arnos-MBP" duration="00:00:00.0032490" startTime="2026-10-22T18:51:14.9932020+04:00" endTime="2026-10-22T18:51:14.9964500+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fb0e160f-da54-4b3a-926c-7df92109a570" />
+    <UnitTestResult executionId="a4851bc3-a713-46cd-810d-4ed13a1897d0" testId="f92c87d1-3788-dcd9-ced3-54229482de0a" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(130)" computerName="Arnos-MBP" duration="00:00:00.0578050" startTime="2026-10-22T18:51:12.8211160+04:00" endTime="2026-10-22T18:51:12.8789210+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a4851bc3-a713-46cd-810d-4ed13a1897d0" />
+    <UnitTestResult executionId="b3e63266-43c3-4846-b5b7-f77ecc1087d1" testId="b48b9c03-137c-bfd8-c0c9-f11d520d3b0d" testName="LegacySave_RetainsCrewAndFinalHp_AndChargesFullQuotedPrice(37)" computerName="Arnos-MBP" duration="00:00:00.0204080" startTime="2026-10-22T18:51:13.3177330+04:00" endTime="2026-10-22T18:51:13.3381410+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b3e63266-43c3-4846-b5b7-f77ecc1087d1">
+      <Output>
+        <StdOut>Mine 37: hire rank 4 costs 81637560</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="0807cd40-b2c3-4c6b-b1f4-bf142219eb93" testId="09c77621-0812-558c-c4aa-ab468d702f13" testName="FinalHp_StaysAtPublishedCalibration(3,82521L)" computerName="Arnos-MBP" duration="00:00:00.0128820" startTime="2026-10-22T18:51:13.1687410+04:00" endTime="2026-10-22T18:51:13.1816230+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0807cd40-b2c3-4c6b-b1f4-bf142219eb93" />
+    <UnitTestResult executionId="7377e2f6-1c23-4573-9220-ed734374eb4f" testId="f3a9948f-34c2-88ca-e7ed-afae543ff3b1" testName="BuyMax_ReachesCap_ExactCostBeyond2Pow53_ThenCapBlocks(Value)" computerName="Arnos-MBP" duration="00:00:00.0023360" startTime="2026-10-22T18:51:15.0030510+04:00" endTime="2026-10-22T18:51:15.0053870+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7377e2f6-1c23-4573-9220-ed734374eb4f" />
+    <UnitTestResult executionId="21414b92-42e4-46b8-b566-860863912510" testId="a12b4332-735d-71f4-0fa3-d108ef2ee1c3" testName="ConfigFiles_MatchEmbeddedDefaults_AndExactParsing" computerName="Arnos-MBP" duration="00:00:00.0271140" startTime="2026-10-22T18:51:13.3885950+04:00" endTime="2026-10-22T18:51:13.4157090+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="21414b92-42e4-46b8-b566-860863912510" />
+    <UnitTestResult executionId="8eb404c7-ae5d-4b2f-9fea-3e5d1f7de313" testId="0024fa38-bd92-7d6d-66c3-181f8f3cbd47" testName="All144Mines_HiringUsesNormalPrices_RegardlessOfLegacyFinalDiscount(5)" computerName="Arnos-MBP" duration="00:00:00.0534690" startTime="2026-10-22T18:51:13.0654440+04:00" endTime="2026-10-22T18:51:13.1189130+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8eb404c7-ae5d-4b2f-9fea-3e5d1f7de313" />
+    <UnitTestResult executionId="340f4ffd-1ff9-4463-8432-d31655679645" testId="760800a7-126a-c400-9310-7d2e91a61b7e" testName="BuyMax_ReachesCap_ExactCostBeyond2Pow53_ThenCapBlocks(Unload)" computerName="Arnos-MBP" duration="00:00:00.0019470" startTime="2026-10-22T18:51:15.0010930+04:00" endTime="2026-10-22T18:51:15.0030400+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="340f4ffd-1ff9-4463-8432-d31655679645" />
+    <UnitTestResult executionId="843c706f-f5e2-4b58-a6d3-d3d980d3fb55" testId="ca63b505-f78c-bf97-5ec8-e32359c96e37" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(70)" computerName="Arnos-MBP" duration="00:00:00.1792030" startTime="2026-10-22T18:51:12.0720820+04:00" endTime="2026-10-22T18:51:12.2512860+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="843c706f-f5e2-4b58-a6d3-d3d980d3fb55" />
+    <UnitTestResult executionId="714c6ba6-5a8b-4790-a635-1b45302ae078" testId="ee8059e3-eb06-fb14-bcea-d63101f92535" testName="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Unload,1)" computerName="Arnos-MBP" duration="00:00:00.0009330" startTime="2026-10-22T18:51:15.0108740+04:00" endTime="2026-10-22T18:51:15.0118070+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="714c6ba6-5a8b-4790-a635-1b45302ae078" />
+    <UnitTestResult executionId="71f8890e-d93b-495f-a9bc-5ed9e8c670fa" testId="4ee9d3f7-6e25-be76-4907-92758708c51f" testName="Boots_MidEdge_KeepsExactProgress_RemainingIsCeilOfRest" computerName="Arnos-MBP" duration="00:00:00.0014160" startTime="2026-10-22T18:51:14.9917530+04:00" endTime="2026-10-22T18:51:14.9931700+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="71f8890e-d93b-495f-a9bc-5ed9e8c670fa" />
+    <UnitTestResult executionId="cb3916a0-b76a-46c4-b50c-d1436c507a14" testId="af64af49-3991-5714-313d-1a5c8272bff6" testName="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Value,37)" computerName="Arnos-MBP" duration="00:00:00.0018230" startTime="2026-10-22T18:51:15.0193890+04:00" endTime="2026-10-22T18:51:15.0212130+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cb3916a0-b76a-46c4-b50c-d1436c507a14" />
+    <UnitTestResult executionId="9e7bfe36-da80-4082-82c2-bf2e696c9d11" testId="245baa6c-5a80-2bd4-d147-35b1eb5290b3" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(1)" computerName="Arnos-MBP" duration="00:00:00.1748690" startTime="2026-10-22T18:51:10.1153780+04:00" endTime="2026-10-22T18:51:10.2902240+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9e7bfe36-da80-4082-82c2-bf2e696c9d11" />
+    <UnitTestResult executionId="174c59a5-f400-4fa1-9985-07528b66635e" testId="e6f4b88b-a34b-4ec9-1432-b68761648e3f" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(4)" computerName="Arnos-MBP" duration="00:00:00.0754500" startTime="2026-10-22T18:51:10.4795680+04:00" endTime="2026-10-22T18:51:10.5550190+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="174c59a5-f400-4fa1-9985-07528b66635e" />
+    <UnitTestResult executionId="b1086884-4eac-4aec-bf88-223cfc3f65b0" testId="d21598b4-ec7d-814a-0731-c534e30cee99" testName="LegacySave_RetainsCrewAndFinalHp_AndChargesFullQuotedPrice(144)" computerName="Arnos-MBP" duration="00:00:00.0356179" startTime="2026-10-22T18:51:13.3381560+04:00" endTime="2026-10-22T18:51:13.3737740+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b1086884-4eac-4aec-bf88-223cfc3f65b0">
+      <Output>
+        <StdOut>Mine 144: hire rank 4 costs 460592988441099522</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="b8c8eee5-8b5a-4e6a-bb33-372ae8e377f8" testId="32852d3d-72c1-4a5f-25df-1e53fad05929" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(144)" computerName="Arnos-MBP" duration="00:00:00.0563060" startTime="2026-10-22T18:51:12.8789460+04:00" endTime="2026-10-22T18:51:12.9352520+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b8c8eee5-8b5a-4e6a-bb33-372ae8e377f8" />
+    <UnitTestResult executionId="5933b44e-6a39-4e42-b27e-517d8f956f5c" testId="965fe99f-a465-9fdf-fa4e-3a7a5df59a24" testName="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Boots,37)" computerName="Arnos-MBP" duration="00:00:00.0018620" startTime="2026-10-22T18:51:15.0147440+04:00" endTime="2026-10-22T18:51:15.0166060+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5933b44e-6a39-4e42-b27e-517d8f956f5c" />
+    <UnitTestResult executionId="0743b3cf-1034-4186-b998-08fef53364b1" testId="246fa3f7-8b04-0e1c-63c6-6f26518de28a" testName="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Bags,1)" computerName="Arnos-MBP" duration="00:00:00.0009680" startTime="2026-10-22T18:51:15.0098910+04:00" endTime="2026-10-22T18:51:15.0108590+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0743b3cf-1034-4186-b998-08fef53364b1" />
+    <UnitTestResult executionId="85febabf-4e8f-49f8-b145-78328fa1f1b2" testId="c8fc2de5-5077-fea8-73fc-508a8df1c01f" testName="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Pickaxes,37)" computerName="Arnos-MBP" duration="00:00:00.0019640" startTime="2026-10-22T18:51:15.0127660+04:00" endTime="2026-10-22T18:51:15.0147300+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="85febabf-4e8f-49f8-b145-78328fa1f1b2" />
+    <UnitTestResult executionId="ec222bbb-ea7d-4f74-bfba-e382f55def7f" testId="bf0ee3e9-ed9b-be48-ec75-da23fb43dd1b" testName="LegacySave_CannotBuyHireForOldOnePercentPrice" computerName="Arnos-MBP" duration="00:00:00.0160450" startTime="2026-10-22T18:51:13.2669230+04:00" endTime="2026-10-22T18:51:13.2829680+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ec222bbb-ea7d-4f74-bfba-e382f55def7f" />
+    <UnitTestResult executionId="08d65e51-c71d-42d6-889c-5ff4bfb3c27d" testId="80a8b2f6-2982-56b5-f96d-fa85bce9c143" testName="BuyMax_ReachesCap_ExactCostBeyond2Pow53_ThenCapBlocks(Boots)" computerName="Arnos-MBP" duration="00:00:00.0027410" startTime="2026-10-22T18:51:14.9964710+04:00" endTime="2026-10-22T18:51:14.9992120+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="08d65e51-c71d-42d6-889c-5ff4bfb3c27d" />
+    <UnitTestResult executionId="906ac257-1ff9-4202-91c3-070bb776d2be" testId="0eb01800-3003-9ef1-ed8f-ecf595cc76a6" testName="All144Mines_HiringUsesNormalPrices_RegardlessOfLegacyFinalDiscount(50)" computerName="Arnos-MBP" duration="00:00:00.0497470" startTime="2026-10-22T18:51:13.1189380+04:00" endTime="2026-10-22T18:51:13.1686850+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="906ac257-1ff9-4202-91c3-070bb776d2be" />
+    <UnitTestResult executionId="00d14038-faba-4985-bd37-d20e2c6ab3a1" testId="e89288f2-19f2-0fd1-35fd-765184451c97" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(91)" computerName="Arnos-MBP" duration="00:00:00.0889920" startTime="2026-10-22T18:51:12.4368660+04:00" endTime="2026-10-22T18:51:12.5258530+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="00d14038-faba-4985-bd37-d20e2c6ab3a1" />
+    <UnitTestResult executionId="7d87bd8d-54af-4010-894e-74a6bb5b64b9" testId="87f8718a-c037-e0de-3293-1195b4a6525d" testName="BackpackSwapToSmaller_PickupOrWalkingWorker_NoNewCargoUntilDelivered(PickingUp)" computerName="Arnos-MBP" duration="00:00:00.7874730" startTime="2026-10-22T18:51:13.4444420+04:00" endTime="2026-10-22T18:51:14.2319200+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7d87bd8d-54af-4010-894e-74a6bb5b64b9" />
+    <UnitTestResult executionId="c6c24e32-df9c-45fb-b436-b80cc1be81e3" testId="ef46dce9-1dca-f008-747a-cc5cdc803f38" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(105)" computerName="Arnos-MBP" duration="00:00:00.1090400" startTime="2026-10-22T18:51:12.5258830+04:00" endTime="2026-10-22T18:51:12.6349230+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c6c24e32-df9c-45fb-b436-b80cc1be81e3" />
+    <UnitTestResult executionId="284db106-06e0-485f-a12d-b4425f20248f" testId="050fb162-c2b8-3105-bbe3-210526093d25" testName="FinalHp_StaysAtPublishedCalibration(144,5490940L)" computerName="Arnos-MBP" duration="00:00:00.0272430" startTime="2026-10-22T18:51:13.2248770+04:00" endTime="2026-10-22T18:51:13.2521200+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="284db106-06e0-485f-a12d-b4425f20248f" />
+    <UnitTestResult executionId="60b0a80c-dbcb-43ec-ab9e-bb2369d5d5d7" testId="694a7d50-3815-03cf-3e5b-7daeef2a0918" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(37)" computerName="Arnos-MBP" duration="00:00:00.1092180" startTime="2026-10-22T18:51:11.4075680+04:00" endTime="2026-10-22T18:51:11.5167870+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="60b0a80c-dbcb-43ec-ab9e-bb2369d5d5d7" />
+    <UnitTestResult executionId="232b94f7-1e78-4a5c-a237-e27ac776a9a9" testId="d1381e89-87bb-311c-ef27-42fdbf7d8a6b" testName="BuyTen_BuysOnlyAffordableLevels" computerName="Arnos-MBP" duration="00:00:00.0005590" startTime="2026-10-22T18:51:15.0054100+04:00" endTime="2026-10-22T18:51:15.0059700+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="232b94f7-1e78-4a5c-a237-e27ac776a9a9" />
+    <UnitTestResult executionId="f3197eee-6e8e-461b-99f7-2aa87b1f56d0" testId="7b049d3f-94bd-2675-cbf9-66edbb7328d2" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(46)" computerName="Arnos-MBP" duration="00:00:00.1670860" startTime="2026-10-22T18:51:11.5168170+04:00" endTime="2026-10-22T18:51:11.6839040+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f3197eee-6e8e-461b-99f7-2aa87b1f56d0" />
+    <UnitTestResult executionId="ca1b31da-6155-4316-95c2-90863308ab78" testId="617bc2e1-dcd8-1b38-bb8a-1d4c0118246b" testName="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(120)" computerName="Arnos-MBP" duration="00:00:00.0751680" startTime="2026-10-22T18:51:12.7459240+04:00" endTime="2026-10-22T18:51:12.8210920+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ca1b31da-6155-4316-95c2-90863308ab78" />
+    <UnitTestResult executionId="033451c2-1638-46f3-be14-af2a775714a5" testId="be9d089b-0245-8973-87a2-74428dff4ca2" testName="Gold_IsTwoCheapestSingleLevelPurchases" computerName="Arnos-MBP" duration="00:00:00.0142280" startTime="2026-10-22T18:51:13.4157980+04:00" endTime="2026-10-22T18:51:13.4300270+04:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="033451c2-1638-46f3-be14-af2a775714a5" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Team_OnlySingleHire_NewWorkerAtSpawnGetsTaskImmediately_CapTwelve" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="affe2c89-ef11-e288-0e3c-6ce798a7b6b3">
+      <Execution id="f83deb5f-dba9-4259-9dfc-f8cd75448b20" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="Team_OnlySingleHire_NewWorkerAtSpawnGetsTaskImmediately_CapTwelve" />
+    </UnitTest>
+    <UnitTest name="FinalHp_StaysAtPublishedCalibration(5,320320L)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="136aa9b3-ec60-1aeb-aab0-be336ba8fadf">
+      <Execution id="3a459428-43e3-4e9e-807b-fb0b331c3f49" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.HiringEconomyTests" name="FinalHp_StaysAtPublishedCalibration(5,320320L)" />
+    </UnitTest>
+    <UnitTest name="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Value,1)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="b4128f72-413d-c4e9-6f01-40f3eb948120">
+      <Execution id="a3b85a85-3c9e-40d2-8b94-4f00026a49ca" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Value,1)" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(110)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="20c47f6c-004c-9537-edf1-b2856f6e40c1">
+      <Execution id="4248a5d8-50e1-4fe2-82c5-5dcbb7a1da00" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(110)" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(37)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="694a7d50-3815-03cf-3e5b-7daeef2a0918">
+      <Execution id="60b0a80c-dbcb-43ec-ab9e-bb2369d5d5d7" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(37)" />
+    </UnitTest>
+    <UnitTest name="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Pickaxes,1)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="a08fd568-0d84-9a32-5abc-4c413382b503">
+      <Execution id="7adbbaa0-fabb-4020-b431-0b285bff3205" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Pickaxes,1)" />
+    </UnitTest>
+    <UnitTest name="Gold_IsTwoCheapestSingleLevelPurchases" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="be9d089b-0245-8973-87a2-74428dff4ca2">
+      <Execution id="033451c2-1638-46f3-be14-af2a775714a5" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostRewardedBonusTests" name="Gold_IsTwoCheapestSingleLevelPurchases" />
+    </UnitTest>
+    <UnitTest name="Unload_MidService_KeepsExactProgressOfCurrentPortion" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="791d3480-50a8-718d-d3d2-dff27c262362">
+      <Execution id="5ccbf10a-e06e-4fe0-ac4d-f42dd3042b48" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="Unload_MidService_KeepsExactProgressOfCurrentPortion" />
+    </UnitTest>
+    <UnitTest name="Bags_CapacityIncrease_KeepsCargo" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="3f141f72-07ee-d40b-bfda-4f108bbf52a6">
+      <Execution id="5a2bc0e8-f721-4a9b-83c6-6e2ba1f5ccd6" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="Bags_CapacityIncrease_KeepsCargo" />
+    </UnitTest>
+    <UnitTest name="LegacySave_RetainsCrewAndFinalHp_AndChargesFullQuotedPrice(144)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="d21598b4-ec7d-814a-0731-c534e30cee99">
+      <Execution id="b1086884-4eac-4aec-bf88-223cfc3f65b0" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.HiringEconomyTests" name="LegacySave_RetainsCrewAndFinalHp_AndChargesFullQuotedPrice(144)" />
+    </UnitTest>
+    <UnitTest name="LegacySave_CannotBuyHireForOldOnePercentPrice" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="bf0ee3e9-ed9b-be48-ec75-da23fb43dd1b">
+      <Execution id="ec222bbb-ea7d-4f74-bfba-e382f55def7f" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.HiringEconomyTests" name="LegacySave_CannotBuyHireForOldOnePercentPrice" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(59)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="30dd24db-641f-ecdd-77a3-0630a4a941a4">
+      <Execution id="f7eb787f-e8f6-4a28-861b-c4a035568d55" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(59)" />
+    </UnitTest>
+    <UnitTest name="FinalHp_StaysAtPublishedCalibration(3,82521L)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="09c77621-0812-558c-c4aa-ab468d702f13">
+      <Execution id="0807cd40-b2c3-4c6b-b1f4-bf142219eb93" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.HiringEconomyTests" name="FinalHp_StaysAtPublishedCalibration(3,82521L)" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(91)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="e89288f2-19f2-0fd1-35fd-765184451c97">
+      <Execution id="00d14038-faba-4985-bd37-d20e2c6ab3a1" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(91)" />
+    </UnitTest>
+    <UnitTest name="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Bags,1)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="246fa3f7-8b04-0e1c-63c6-6f26518de28a">
+      <Execution id="0743b3cf-1034-4186-b998-08fef53364b1" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Bags,1)" />
+    </UnitTest>
+    <UnitTest name="ReadyToContinue_PurchasesRejectedWithPhase_EquipmentAllowed" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="e91356e2-31e3-7315-16a8-9b2d775e1f91">
+      <Execution id="9a8fe54f-0b25-40fa-a050-6db4dcc97253" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="ReadyToContinue_PurchasesRejectedWithPhase_EquipmentAllowed" />
+    </UnitTest>
+    <UnitTest name="ReferenceBudget_FallsBackWithoutChangingOrdinaryHpOrLivePrices" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="bbea6035-a1bb-2342-632f-62e174fa18c9">
+      <Execution id="e5f6aa41-ed55-4f55-8e61-bcfebfcfc6c3" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="ReferenceBudget_FallsBackWithoutChangingOrdinaryHpOrLivePrices" />
+    </UnitTest>
+    <UnitTest name="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Pickaxes,37)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="c8fc2de5-5077-fea8-73fc-508a8df1c01f">
+      <Execution id="85febabf-4e8f-49f8-b145-78328fa1f1b2" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Pickaxes,37)" />
+    </UnitTest>
+    <UnitTest name="All144Mines_HiringUsesNormalPrices_RegardlessOfLegacyFinalDiscount(5)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="0024fa38-bd92-7d6d-66c3-181f8f3cbd47">
+      <Execution id="8eb404c7-ae5d-4b2f-9fea-3e5d1f7de313" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.HiringEconomyTests" name="All144Mines_HiringUsesNormalPrices_RegardlessOfLegacyFinalDiscount(5)" />
+    </UnitTest>
+    <UnitTest name="BuyMax_ReachesCap_ExactCostBeyond2Pow53_ThenCapBlocks(Unload)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="760800a7-126a-c400-9310-7d2e91a61b7e">
+      <Execution id="340f4ffd-1ff9-4463-8432-d31655679645" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="BuyMax_ReachesCap_ExactCostBeyond2Pow53_ThenCapBlocks(Unload)" />
+    </UnitTest>
+    <UnitTest name="BuyMax_ReachesCap_ExactCostBeyond2Pow53_ThenCapBlocks(Bags)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="48abf7a3-de36-9325-39d5-29190a76cb0c">
+      <Execution id="1320bb4d-98ee-413c-990d-161beb8e8186" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="BuyMax_ReachesCap_ExactCostBeyond2Pow53_ThenCapBlocks(Bags)" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(2)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="de90e9f2-27f4-359f-cb0e-52294c6266ac">
+      <Execution id="c8bf37b5-f1f2-464e-adcb-bc5c3f17580e" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(2)" />
+    </UnitTest>
+    <UnitTest name="All144Mines_HiringUsesNormalPrices_RegardlessOfLegacyFinalDiscount(50)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="0eb01800-3003-9ef1-ed8f-ecf595cc76a6">
+      <Execution id="906ac257-1ff9-4202-91c3-070bb776d2be" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.HiringEconomyTests" name="All144Mines_HiringUsesNormalPrices_RegardlessOfLegacyFinalDiscount(50)" />
+    </UnitTest>
+    <UnitTest name="BuyTen_StopsAtCap_MilestoneAtCapApplies" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="90a981ad-54e9-380a-1f7f-17370e38dbc9">
+      <Execution id="d6364c03-0132-45b7-93de-ce347f43de25" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="BuyTen_StopsAtCap_MilestoneAtCapApplies" />
+    </UnitTest>
+    <UnitTest name="Zone1Controls_StartStats_FirstPickaxe20_Damage6_1_Next24" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="c87ebc66-7f8b-6a14-c75f-aff81430dc53">
+      <Execution id="6c231387-8455-421a-a959-f4da98bc98e6" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="Zone1Controls_StartStats_FirstPickaxe20_Damage6_1_Next24" />
+    </UnitTest>
+    <UnitTest name="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Boots,1)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="148ddc7b-2da4-b920-3b5f-2d8bc1c110f5">
+      <Execution id="2541948b-a681-47ea-9693-c309b861debb" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Boots,1)" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(16)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="61c80ad0-c3e2-01af-6ea8-418762705a62">
+      <Execution id="adbc7081-b454-4c0d-a26d-2cfb381c2079" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(16)" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(144)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="32852d3d-72c1-4a5f-25df-1e53fad05929">
+      <Execution id="b8c8eee5-8b5a-4e6a-bb33-372ae8e377f8" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(144)" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(130)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="f92c87d1-3788-dcd9-ced3-54229482de0a">
+      <Execution id="a4851bc3-a713-46cd-810d-4ed13a1897d0" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(130)" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(6)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="5273ff4e-2b6d-f4fd-6c11-46b9ace0fb65">
+      <Execution id="d5b696be-835b-4445-a773-37c0d4b26cc5" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(6)" />
+    </UnitTest>
+    <UnitTest name="Pickaxes_NewDamageFromNextHit_HitTimerNotReset" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="385e95ef-97b8-a3e8-73d4-c8727408f962">
+      <Execution id="187a861b-0889-40e7-ab08-4741d602c828" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="Pickaxes_NewDamageFromNextHit_HitTimerNotReset" />
+    </UnitTest>
+    <UnitTest name="LegacySave_RetainsCrewAndFinalHp_AndChargesFullQuotedPrice(7)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="957583d8-5007-cf59-a2d3-e71b433dc9a5">
+      <Execution id="7a3ae457-c8ad-4ce1-8146-09ae570858ec" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.HiringEconomyTests" name="LegacySave_RetainsCrewAndFinalHp_AndChargesFullQuotedPrice(7)" />
+    </UnitTest>
+    <UnitTest name="NoDeliveredGold_EveryPurchaseBlocked_StateUnchanged" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="83fa91e9-80dd-83fe-b8e5-9ca7fc57e0a0">
+      <Execution id="fe99e51e-6059-4bc9-800f-2e4067a96a44" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="NoDeliveredGold_EveryPurchaseBlocked_StateUnchanged" />
+    </UnitTest>
+    <UnitTest name="BuyMax_ReachesCap_ExactCostBeyond2Pow53_ThenCapBlocks(Boots)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="80a8b2f6-2982-56b5-f96d-fa85bce9c143">
+      <Execution id="08d65e51-c71d-42d6-889c-5ff4bfb3c27d" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="BuyMax_ReachesCap_ExactCostBeyond2Pow53_ThenCapBlocks(Boots)" />
+    </UnitTest>
+    <UnitTest name="Boots_MidEdge_KeepsExactProgress_RemainingIsCeilOfRest" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="4ee9d3f7-6e25-be76-4907-92758708c51f">
+      <Execution id="71f8890e-d93b-495f-a9bc-5ed9e8c670fa" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="Boots_MidEdge_KeepsExactProgress_RemainingIsCeilOfRest" />
+    </UnitTest>
+    <UnitTest name="All144Mines_HiringUsesNormalPrices_RegardlessOfLegacyFinalDiscount(0)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="2fea80c4-08f0-acad-0420-9db55f7cdba4">
+      <Execution id="14a8ad66-c0b6-4baa-8305-74818edf0a21" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.HiringEconomyTests" name="All144Mines_HiringUsesNormalPrices_RegardlessOfLegacyFinalDiscount(0)" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(20)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="a79c24e8-bd09-77f0-5998-696c3d227e80">
+      <Execution id="5541167f-6718-431d-ae7d-fa8c8d3fd51a" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(20)" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(70)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="ca63b505-f78c-bf97-5ec8-e32359c96e37">
+      <Execution id="843c706f-f5e2-4b58-a6d3-d3d980d3fb55" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(70)" />
+    </UnitTest>
+    <UnitTest name="LegacySave_RetainsCrewAndFinalHp_AndChargesFullQuotedPrice(37)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="b48b9c03-137c-bfd8-c0c9-f11d520d3b0d">
+      <Execution id="b3e63266-43c3-4846-b5b7-f77ecc1087d1" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.HiringEconomyTests" name="LegacySave_RetainsCrewAndFinalHp_AndChargesFullQuotedPrice(37)" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(105)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="ef46dce9-1dca-f008-747a-cc5cdc803f38">
+      <Execution id="c6c24e32-df9c-45fb-b436-b80cc1be81e3" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(105)" />
+    </UnitTest>
+    <UnitTest name="CostZoneFactor_ExactPrices" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="560fc3fc-67b9-3dd2-88a9-2c2510dd61e2">
+      <Execution id="a45d7137-fa18-4cc9-8231-157755ef00fa" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostBalanceRegressionTests" name="CostZoneFactor_ExactPrices" />
+    </UnitTest>
+    <UnitTest name="FinalHp_StaysAtPublishedCalibration(144,5490940L)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="050fb162-c2b8-3105-bbe3-210526093d25">
+      <Execution id="284db106-06e0-485f-a12d-b4425f20248f" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.HiringEconomyTests" name="FinalHp_StaysAtPublishedCalibration(144,5490940L)" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(49)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="a7f1705e-d4ae-fba0-5256-1189f24ff622">
+      <Execution id="504e8aa8-e5a9-4e63-ae5b-3d3ccd8273ce" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(49)" />
+    </UnitTest>
+    <UnitTest name="BackpackSwapToSmaller_PickupOrWalkingWorker_NoNewCargoUntilDelivered(MovingToWork)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="8b15ec06-f820-105b-dcf7-26cb31c72719">
+      <Execution id="5273e549-cc70-4b50-8ca8-0bf9bb7765f6" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="BackpackSwapToSmaller_PickupOrWalkingWorker_NoNewCargoUntilDelivered(MovingToWork)" />
+    </UnitTest>
+    <UnitTest name="HatChange_ExistingCargoKeepsValue_NewPortionsUseNewValue" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="5ee01e05-e1ed-89a3-3016-ed6b9c03008e">
+      <Execution id="8bb023f9-2e29-4a25-93cc-a7e341defe2b" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="HatChange_ExistingCargoKeepsValue_NewPortionsUseNewValue" />
+    </UnitTest>
+    <UnitTest name="BackpackSwapToSmaller_PickupOrWalkingWorker_NoNewCargoUntilDelivered(MovingToCargo)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="f094e048-ebfd-6473-cf26-0e3c9db79de9">
+      <Execution id="244aeda7-5fae-4b39-9b45-bdfd7fcf436f" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="BackpackSwapToSmaller_PickupOrWalkingWorker_NoNewCargoUntilDelivered(MovingToCargo)" />
+    </UnitTest>
+    <UnitTest name="GoldBonus_UsesFullHirePricesWhenOnlyTeamRemains" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="1a96562b-175c-1fe5-159a-2f0469920db4">
+      <Execution id="d49aae20-b422-4a95-9d01-e5730ceefb5b" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.HiringEconomyTests" name="GoldBonus_UsesFullHirePricesWhenOnlyTeamRemains" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(5)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="6881b42d-3198-ed39-5063-e5c2d975b103">
+      <Execution id="7ca45385-6d90-4b7f-b220-049f56f8f196" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(5)" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(66)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="33f2e8f0-49c6-8414-03d7-cfecb7ed9ec3">
+      <Execution id="40df9ba0-0d5f-4a26-80ed-004b9c6ec7d0" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(66)" />
+    </UnitTest>
+    <UnitTest name="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Unload,1)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="ee8059e3-eb06-fb14-bcea-d63101f92535">
+      <Execution id="714c6ba6-5a8b-4790-a635-1b45302ae078" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Unload,1)" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(1)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="245baa6c-5a80-2bd4-d147-35b1eb5290b3">
+      <Execution id="9e7bfe36-da80-4082-82c2-bf2e696c9d11" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(1)" />
+    </UnitTest>
+    <UnitTest name="BackpackSwapToSmaller_PickupOrWalkingWorker_NoNewCargoUntilDelivered(PickingUp)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="87f8718a-c037-e0de-3293-1195b4a6525d">
+      <Execution id="7d87bd8d-54af-4010-894e-74a6bb5b64b9" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="BackpackSwapToSmaller_PickupOrWalkingWorker_NoNewCargoUntilDelivered(PickingUp)" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(30)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="1d629524-2964-f904-ecab-1ca80d4f5d35">
+      <Execution id="67d04af4-f50b-42e4-8eb1-7af9055c578a" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(30)" />
+    </UnitTest>
+    <UnitTest name="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Unload,37)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="143bccfd-5137-54d8-a02c-2b4f6d73d9af">
+      <Execution id="00422c98-4fff-46be-906f-13c0adf93f2a" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Unload,37)" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(80)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="52bcba6d-7f78-2164-b0a1-40d4d02b1585">
+      <Execution id="29e66956-62d3-49b5-9386-3e481147ce78" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(80)" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(4)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="e6f4b88b-a34b-4ec9-1432-b68761648e3f">
+      <Execution id="174c59a5-f400-4fa1-9985-07528b66635e" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(4)" />
+    </UnitTest>
+    <UnitTest name="ConfigFiles_MatchEmbeddedDefaults_AndExactParsing" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="a12b4332-735d-71f4-0fa3-d108ef2ee1c3">
+      <Execution id="21414b92-42e4-46b8-b566-860863912510" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostCoreSmokeTests" name="ConfigFiles_MatchEmbeddedDefaults_AndExactParsing" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(23)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="4af4c17c-cce9-e253-2435-3870f3da2f27">
+      <Execution id="2184eedb-6cbd-4ea0-a737-824fcfce681d" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(23)" />
+    </UnitTest>
+    <UnitTest name="FinalHp_StaysAtPublishedCalibration(4,124094L)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="c27f29c1-16d4-a4b3-82ab-9e3dca29ea00">
+      <Execution id="0ceb708e-c229-402c-b976-d3665e12eed6" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.HiringEconomyTests" name="FinalHp_StaysAtPublishedCalibration(4,124094L)" />
+    </UnitTest>
+    <UnitTest name="LegacySave_RetainsCrewAndFinalHp_AndChargesFullQuotedPrice(3)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="0a8a78c5-e102-2b7e-e801-e84156a781e0">
+      <Execution id="34c3a3ef-0eb6-4dc2-9869-ea05b6c48696" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.HiringEconomyTests" name="LegacySave_RetainsCrewAndFinalHp_AndChargesFullQuotedPrice(3)" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(46)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="7b049d3f-94bd-2675-cbf9-66edbb7328d2">
+      <Execution id="f3197eee-6e8e-461b-99f7-2aa87b1f56d0" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(46)" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(120)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="617bc2e1-dcd8-1b38-bb8a-1d4c0118246b">
+      <Execution id="ca1b31da-6155-4316-95c2-90863308ab78" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(120)" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(10)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="039298a9-4bda-7127-a250-0f40fc05592f">
+      <Execution id="e92c9449-aaea-43df-bf50-0901f960f873" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(10)" />
+    </UnitTest>
+    <UnitTest name="BuyTen_BuysOnlyAffordableLevels" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="d1381e89-87bb-311c-ef27-42fdbf7d8a6b">
+      <Execution id="232b94f7-1e78-4a5c-a237-e27ac776a9a9" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="BuyTen_BuysOnlyAffordableLevels" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(7)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="9631d2f1-036e-e5fb-d610-a2a59ebb9a4a">
+      <Execution id="bbbcc001-baf8-4308-b727-08a593e90c2a" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(7)" />
+    </UnitTest>
+    <UnitTest name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(3)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="db8de8b7-5937-8989-3fb1-1b8d160ea4e0">
+      <Execution id="de4fb41c-7165-4165-bba7-6dc41b9c1583" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.FinalExcavationTests" name="Layout_OrdinaryContentAndRuntimeHpRemainIdentical(3)" />
+    </UnitTest>
+    <UnitTest name="FinalHp_StaysAtPublishedCalibration(6,2995563L)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="489f5ab9-946b-54a7-2452-60837ed8a4f4">
+      <Execution id="888ddda1-5811-4970-b56f-871a71d3f305" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.HiringEconomyTests" name="FinalHp_StaysAtPublishedCalibration(6,2995563L)" />
+    </UnitTest>
+    <UnitTest name="BuyMax_ReachesCap_ExactCostBeyond2Pow53_ThenCapBlocks(Value)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="f3a9948f-34c2-88ca-e7ed-afae543ff3b1">
+      <Execution id="7377e2f6-1c23-4573-9220-ed734374eb4f" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="BuyMax_ReachesCap_ExactCostBeyond2Pow53_ThenCapBlocks(Value)" />
+    </UnitTest>
+    <UnitTest name="BackpackSwapToSmaller_OverflowCargoKept_WorkerDeliversThenUsesNewCapacity" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="422f43a1-ce2d-6b39-93a6-5ba43fd129b7">
+      <Execution id="988419b0-09b2-4e91-a807-e53debded7af" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="BackpackSwapToSmaller_OverflowCargoKept_WorkerDeliversThenUsesNewCapacity" />
+    </UnitTest>
+    <UnitTest name="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Value,37)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="af64af49-3991-5714-313d-1a5c8272bff6">
+      <Execution id="cb3916a0-b76a-46c4-b50c-d1436c507a14" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Value,37)" />
+    </UnitTest>
+    <UnitTest name="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Boots,37)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="965fe99f-a465-9fdf-fa4e-3a7a5df59a24">
+      <Execution id="5933b44e-6a39-4e42-b27e-517d8f956f5c" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="BuyTen_TotalEqualsSumOfSequentialOnes_FinalStateIdentical(Boots,37)" />
+    </UnitTest>
+    <UnitTest name="BuyMax_ReachesCap_ExactCostBeyond2Pow53_ThenCapBlocks(Pickaxes)" storage="/users/arthuri/unity projects/cats-cute-miner-main/obj/coretests/tests/bin/debug/net8.0/tests.dll" id="1a7bdb5a-8538-6652-a0cf-33ffd05d634f">
+      <Execution id="fb0e160f-da54-4b3a-926c-7df92109a570" />
+      <TestMethod codeBase="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="CatMiners.Tests.Outpost.OutpostUpgradeTests" name="BuyMax_ReachesCap_ExactCostBeyond2Pow53_ThenCapBlocks(Pickaxes)" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="560fc3fc-67b9-3dd2-88a9-2c2510dd61e2" executionId="a45d7137-fa18-4cc9-8231-157755ef00fa" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="791d3480-50a8-718d-d3d2-dff27c262362" executionId="5ccbf10a-e06e-4fe0-ac4d-f42dd3042b48" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8b15ec06-f820-105b-dcf7-26cb31c72719" executionId="5273e549-cc70-4b50-8ca8-0bf9bb7765f6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="422f43a1-ce2d-6b39-93a6-5ba43fd129b7" executionId="988419b0-09b2-4e91-a807-e53debded7af" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="db8de8b7-5937-8989-3fb1-1b8d160ea4e0" executionId="de4fb41c-7165-4165-bba7-6dc41b9c1583" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0a8a78c5-e102-2b7e-e801-e84156a781e0" executionId="34c3a3ef-0eb6-4dc2-9869-ea05b6c48696" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5ee01e05-e1ed-89a3-3016-ed6b9c03008e" executionId="8bb023f9-2e29-4a25-93cc-a7e341defe2b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a7f1705e-d4ae-fba0-5256-1189f24ff622" executionId="504e8aa8-e5a9-4e63-ae5b-3d3ccd8273ce" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="039298a9-4bda-7127-a250-0f40fc05592f" executionId="e92c9449-aaea-43df-bf50-0901f960f873" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="48abf7a3-de36-9325-39d5-29190a76cb0c" executionId="1320bb4d-98ee-413c-990d-161beb8e8186" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b4128f72-413d-c4e9-6f01-40f3eb948120" executionId="a3b85a85-3c9e-40d2-8b94-4f00026a49ca" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bbea6035-a1bb-2342-632f-62e174fa18c9" executionId="e5f6aa41-ed55-4f55-8e61-bcfebfcfc6c3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4af4c17c-cce9-e253-2435-3870f3da2f27" executionId="2184eedb-6cbd-4ea0-a737-824fcfce681d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="20c47f6c-004c-9537-edf1-b2856f6e40c1" executionId="4248a5d8-50e1-4fe2-82c5-5dcbb7a1da00" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2fea80c4-08f0-acad-0420-9db55f7cdba4" executionId="14a8ad66-c0b6-4baa-8305-74818edf0a21" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e91356e2-31e3-7315-16a8-9b2d775e1f91" executionId="9a8fe54f-0b25-40fa-a050-6db4dcc97253" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="143bccfd-5137-54d8-a02c-2b4f6d73d9af" executionId="00422c98-4fff-46be-906f-13c0adf93f2a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f094e048-ebfd-6473-cf26-0e3c9db79de9" executionId="244aeda7-5fae-4b39-9b45-bdfd7fcf436f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="de90e9f2-27f4-359f-cb0e-52294c6266ac" executionId="c8bf37b5-f1f2-464e-adcb-bc5c3f17580e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1a96562b-175c-1fe5-159a-2f0469920db4" executionId="d49aae20-b422-4a95-9d01-e5730ceefb5b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="90a981ad-54e9-380a-1f7f-17370e38dbc9" executionId="d6364c03-0132-45b7-93de-ce347f43de25" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1d629524-2964-f904-ecab-1ca80d4f5d35" executionId="67d04af4-f50b-42e4-8eb1-7af9055c578a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="136aa9b3-ec60-1aeb-aab0-be336ba8fadf" executionId="3a459428-43e3-4e9e-807b-fb0b331c3f49" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="affe2c89-ef11-e288-0e3c-6ce798a7b6b3" executionId="f83deb5f-dba9-4259-9dfc-f8cd75448b20" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="148ddc7b-2da4-b920-3b5f-2d8bc1c110f5" executionId="2541948b-a681-47ea-9693-c309b861debb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5273ff4e-2b6d-f4fd-6c11-46b9ace0fb65" executionId="d5b696be-835b-4445-a773-37c0d4b26cc5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3f141f72-07ee-d40b-bfda-4f108bbf52a6" executionId="5a2bc0e8-f721-4a9b-83c6-6e2ba1f5ccd6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="489f5ab9-946b-54a7-2452-60837ed8a4f4" executionId="888ddda1-5811-4970-b56f-871a71d3f305" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="83fa91e9-80dd-83fe-b8e5-9ca7fc57e0a0" executionId="fe99e51e-6059-4bc9-800f-2e4067a96a44" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="33f2e8f0-49c6-8414-03d7-cfecb7ed9ec3" executionId="40df9ba0-0d5f-4a26-80ed-004b9c6ec7d0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="30dd24db-641f-ecdd-77a3-0630a4a941a4" executionId="f7eb787f-e8f6-4a28-861b-c4a035568d55" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="385e95ef-97b8-a3e8-73d4-c8727408f962" executionId="187a861b-0889-40e7-ab08-4741d602c828" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="61c80ad0-c3e2-01af-6ea8-418762705a62" executionId="adbc7081-b454-4c0d-a26d-2cfb381c2079" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="52bcba6d-7f78-2164-b0a1-40d4d02b1585" executionId="29e66956-62d3-49b5-9386-3e481147ce78" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c27f29c1-16d4-a4b3-82ab-9e3dca29ea00" executionId="0ceb708e-c229-402c-b976-d3665e12eed6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a79c24e8-bd09-77f0-5998-696c3d227e80" executionId="5541167f-6718-431d-ae7d-fa8c8d3fd51a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6881b42d-3198-ed39-5063-e5c2d975b103" executionId="7ca45385-6d90-4b7f-b220-049f56f8f196" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c87ebc66-7f8b-6a14-c75f-aff81430dc53" executionId="6c231387-8455-421a-a959-f4da98bc98e6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a08fd568-0d84-9a32-5abc-4c413382b503" executionId="7adbbaa0-fabb-4020-b431-0b285bff3205" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9631d2f1-036e-e5fb-d610-a2a59ebb9a4a" executionId="bbbcc001-baf8-4308-b727-08a593e90c2a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="957583d8-5007-cf59-a2d3-e71b433dc9a5" executionId="7a3ae457-c8ad-4ce1-8146-09ae570858ec" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1a7bdb5a-8538-6652-a0cf-33ffd05d634f" executionId="fb0e160f-da54-4b3a-926c-7df92109a570" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f92c87d1-3788-dcd9-ced3-54229482de0a" executionId="a4851bc3-a713-46cd-810d-4ed13a1897d0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b48b9c03-137c-bfd8-c0c9-f11d520d3b0d" executionId="b3e63266-43c3-4846-b5b7-f77ecc1087d1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="09c77621-0812-558c-c4aa-ab468d702f13" executionId="0807cd40-b2c3-4c6b-b1f4-bf142219eb93" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f3a9948f-34c2-88ca-e7ed-afae543ff3b1" executionId="7377e2f6-1c23-4573-9220-ed734374eb4f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a12b4332-735d-71f4-0fa3-d108ef2ee1c3" executionId="21414b92-42e4-46b8-b566-860863912510" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0024fa38-bd92-7d6d-66c3-181f8f3cbd47" executionId="8eb404c7-ae5d-4b2f-9fea-3e5d1f7de313" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="760800a7-126a-c400-9310-7d2e91a61b7e" executionId="340f4ffd-1ff9-4463-8432-d31655679645" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ca63b505-f78c-bf97-5ec8-e32359c96e37" executionId="843c706f-f5e2-4b58-a6d3-d3d980d3fb55" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ee8059e3-eb06-fb14-bcea-d63101f92535" executionId="714c6ba6-5a8b-4790-a635-1b45302ae078" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4ee9d3f7-6e25-be76-4907-92758708c51f" executionId="71f8890e-d93b-495f-a9bc-5ed9e8c670fa" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="af64af49-3991-5714-313d-1a5c8272bff6" executionId="cb3916a0-b76a-46c4-b50c-d1436c507a14" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="245baa6c-5a80-2bd4-d147-35b1eb5290b3" executionId="9e7bfe36-da80-4082-82c2-bf2e696c9d11" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e6f4b88b-a34b-4ec9-1432-b68761648e3f" executionId="174c59a5-f400-4fa1-9985-07528b66635e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d21598b4-ec7d-814a-0731-c534e30cee99" executionId="b1086884-4eac-4aec-bf88-223cfc3f65b0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="32852d3d-72c1-4a5f-25df-1e53fad05929" executionId="b8c8eee5-8b5a-4e6a-bb33-372ae8e377f8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="965fe99f-a465-9fdf-fa4e-3a7a5df59a24" executionId="5933b44e-6a39-4e42-b27e-517d8f956f5c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="246fa3f7-8b04-0e1c-63c6-6f26518de28a" executionId="0743b3cf-1034-4186-b998-08fef53364b1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c8fc2de5-5077-fea8-73fc-508a8df1c01f" executionId="85febabf-4e8f-49f8-b145-78328fa1f1b2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bf0ee3e9-ed9b-be48-ec75-da23fb43dd1b" executionId="ec222bbb-ea7d-4f74-bfba-e382f55def7f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="80a8b2f6-2982-56b5-f96d-fa85bce9c143" executionId="08d65e51-c71d-42d6-889c-5ff4bfb3c27d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0eb01800-3003-9ef1-ed8f-ecf595cc76a6" executionId="906ac257-1ff9-4202-91c3-070bb776d2be" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e89288f2-19f2-0fd1-35fd-765184451c97" executionId="00d14038-faba-4985-bd37-d20e2c6ab3a1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="87f8718a-c037-e0de-3293-1195b4a6525d" executionId="7d87bd8d-54af-4010-894e-74a6bb5b64b9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ef46dce9-1dca-f008-747a-cc5cdc803f38" executionId="c6c24e32-df9c-45fb-b436-b80cc1be81e3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="050fb162-c2b8-3105-bbe3-210526093d25" executionId="284db106-06e0-485f-a12d-b4425f20248f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="694a7d50-3815-03cf-3e5b-7daeef2a0918" executionId="60b0a80c-dbcb-43ec-ab9e-bb2369d5d5d7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d1381e89-87bb-311c-ef27-42fdbf7d8a6b" executionId="232b94f7-1e78-4a5c-a237-e27ac776a9a9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7b049d3f-94bd-2675-cbf9-66edbb7328d2" executionId="f3197eee-6e8e-461b-99f7-2aa87b1f56d0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="617bc2e1-dcd8-1b38-bb8a-1d4c0118246b" executionId="ca1b31da-6155-4316-95c2-90863308ab78" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="be9d089b-0245-8973-87a2-74428dff4ca2" executionId="033451c2-1638-46f3-be14-af2a775714a5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="72" executed="72" passed="72" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>NUnit Adapter 4.6.0.0: Test execution started
+Running selected tests in /Users/arthuri/Unity Projects/Cats-Cute-Miner-main/obj/CoreTests/Tests/bin/Debug/net8.0/Tests.dll
+   NUnit3TestExecutor discovered 72 of 72 NUnit test cases using Current Discovery mode, Non-Explicit run
+Mine 3: hire rank 4 costs 2354
+
+Mine 7: hire rank 4 costs 5729
+
+Mine 37: hire rank 4 costs 81637560
+
+Mine 144: hire rank 4 costs 460592988441099522
+
+NUnit Adapter 4.6.0.0: Test execution complete
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

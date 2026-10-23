@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "stage": "android_build",
+  "created_at": "2026-10-14T12:58:32.533482+00:00",
+  "scope": {
+    "game": "Cats Cute Miner",
+    "engine": "Unity",
+    "platform": "Android",
+    "track": "internal",
+    "package_name": "com.multicastgames.catscuteminer"
+  },
+  "requirements": [
+    {
+      "id": "android_build.1",
+      "requirement": "Actual SDK/NDK/JDK and Unity Android module",
+      "applicability": "required",
+      "source_ref": "google-play-publish/SKILL.md",
+      "verification": "Actual readback, build or device evidence as appropriate"
+    },
+    {
+      "id": "android_build.2",
+      "requirement": "Accepted permanent package name and increasing versions from Console",
+      "applicability": "required",
+      "source_ref": "google-play-publish/SKILL.md",
+      "verification": "Actual readback, build or device evidence as appropriate"
+    },
+    {
+      "id": "android_build.3",
+      "requirement": "ARM64 IL2CPP signed release AAB, API36+, Billing8+",
+      "applicability": "required",
+      "source_ref": "google-play-publish/SKILL.md",
+      "verification": "Actual readback, build or device evidence as appropriate"
+    },
+    {
+      "id": "android_build.4",
+      "requirement": "Own production provider config; no simulation/QA flags",
+      "applicability": "required",
+      "source_ref": "google-play-publish/SKILL.md",
+      "verification": "Actual readback, build or device evidence as appropriate"
+    },
+    {
+      "id": "android_build.5",
+      "requirement": "Artifact signing, SHA256, merged manifest, launcher icons, 16KB native verification",
+      "applicability": "required",
+      "source_ref": "google-play-publish/SKILL.md",
+      "verification": "Actual readback, build or device evidence as appropriate"
+    }
+  ]
+}

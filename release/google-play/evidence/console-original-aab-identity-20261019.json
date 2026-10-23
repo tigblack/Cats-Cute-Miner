@@ -1,0 +1,13 @@
+{
+  "checked_at": "2026-10-19T18:49:00.622Z",
+  "package": "com.multicastgames.catscuteminer",
+  "version": "0.1.1",
+  "version_code": 2,
+  "console_artifact_id": "4860242342446858927",
+  "artifact_path": "build/private/ConsoleArtifactInspection/original-0.1.1-2.aab",
+  "bytes": 77794443,
+  "sha256": "00894758c49ecf3bc8e9ca2c5ccb189fb9f10aa4ab3b6a71c477e418dd8dddc1",
+  "local_builder_sha256": "00894758c49ecf3bc8e9ca2c5ccb189fb9f10aa4ab3b6a71c477e418dd8dddc1",
+  "writes_performed": false,
+  "matches_local_builder_receipt": true
+}

@@ -1,0 +1,84 @@
+{
+  "gameId": "gm_cats_cute_miner",
+  "packageName": "com.multicastgames.catscuteminer",
+  "products": [
+    {
+      "sku": "gems_handful",
+      "type": "consumable",
+      "title": "Handful Gems",
+      "description": "Adds 160 gems. Consumable in-game currency.",
+      "priceUsd": 1.99,
+      "rewards": [
+        {
+          "sku": "gems",
+          "quantity": 160
+        }
+      ]
+    },
+    {
+      "sku": "gems_sack",
+      "type": "consumable",
+      "title": "Sack Gems",
+      "description": "Adds 500 gems. Consumable in-game currency.",
+      "priceUsd": 5.99,
+      "rewards": [
+        {
+          "sku": "gems",
+          "quantity": 500
+        }
+      ]
+    },
+    {
+      "sku": "gems_bag",
+      "type": "consumable",
+      "title": "Bag Gems",
+      "description": "Adds 1,200 gems. Consumable in-game currency.",
+      "priceUsd": 11.99,
+      "rewards": [
+        {
+          "sku": "gems",
+          "quantity": 1200
+        }
+      ]
+    },
+    {
+      "sku": "gems_crate",
+      "type": "consumable",
+      "title": "Crate Gems",
+      "description": "Adds 2,500 gems. Consumable in-game currency.",
+      "priceUsd": 22.99,
+      "rewards": [
+        {
+          "sku": "gems",
+          "quantity": 2500
+        }
+      ]
+    },
+    {
+      "sku": "gems_cart",
+      "type": "consumable",
+      "title": "Cart Gems",
+      "description": "Adds 6,500 gems. Consumable in-game currency.",
+      "priceUsd": 59.99,
+      "rewards": [
+        {
+          "sku": "gems",
+          "quantity": 6500
+        }
+      ]
+    },
+    {
+      "sku": "gems_pile",
+      "type": "consumable",
+      "title": "Pile Gems",
+      "description": "Adds 14,000 gems. Consumable in-game currency.",
+      "priceUsd": 119.99,
+      "rewards": [
+        {
+          "sku": "gems",
+          "quantity": 14000
+        }
+      ]
+    }
+  ]
+}

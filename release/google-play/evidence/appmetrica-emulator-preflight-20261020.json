@@ -1,0 +1,17 @@
+{
+  "checked_at": "2026-10-20T16:29:55.318059+00:00",
+  "required_components": {
+    "emulator": true,
+    "adb": true,
+    "android_platform": true,
+    "system_image": true,
+    "kernel": true,
+    "ramdisk": true
+  },
+  "avd_visible": true,
+  "acceleration_available": true,
+  "first_launch_failed_before_android_boot": true,
+  "first_failure_corrected": true,
+  "second_launch_attempted": false,
+  "next_launch_authorization": "awaiting_explicit_second_launch_approval"
+}

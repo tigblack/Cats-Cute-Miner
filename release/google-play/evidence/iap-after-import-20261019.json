@@ -1,0 +1,239 @@
+{
+  "checked_at": "2026-10-19T18:21:36.477Z",
+  "package": "com.multicastgames.catscuteminer",
+  "panel": {
+    "backend": {
+      "success": true,
+      "products": [
+        {
+          "productSku": "gems_bag",
+          "productType": 0,
+          "googlePlaySku": "gems_bag",
+          "appStoreSku": "",
+          "ruStoreSku": "",
+          "rewards": [
+            {
+              "sku": "gems",
+              "quantity": 1200
+            }
+          ]
+        },
+        {
+          "productSku": "gems_cart",
+          "productType": 0,
+          "googlePlaySku": "gems_cart",
+          "appStoreSku": "",
+          "ruStoreSku": "",
+          "rewards": [
+            {
+              "sku": "gems",
+              "quantity": 6500
+            }
+          ]
+        },
+        {
+          "productSku": "gems_crate",
+          "productType": 0,
+          "googlePlaySku": "gems_crate",
+          "appStoreSku": "",
+          "ruStoreSku": "",
+          "rewards": [
+            {
+              "sku": "gems",
+              "quantity": 2500
+            }
+          ]
+        },
+        {
+          "productSku": "gems_handful",
+          "productType": 0,
+          "googlePlaySku": "gems_handful",
+          "appStoreSku": "",
+          "ruStoreSku": "",
+          "rewards": [
+            {
+              "sku": "gems",
+              "quantity": 160
+            }
+          ]
+        },
+        {
+          "productSku": "gems_pile",
+          "productType": 0,
+          "googlePlaySku": "gems_pile",
+          "appStoreSku": "",
+          "ruStoreSku": "",
+          "rewards": [
+            {
+              "sku": "gems",
+              "quantity": 14000
+            }
+          ]
+        },
+        {
+          "productSku": "gems_sack",
+          "productType": 0,
+          "googlePlaySku": "gems_sack",
+          "appStoreSku": "",
+          "ruStoreSku": "",
+          "rewards": [
+            {
+              "sku": "gems",
+              "quantity": 500
+            }
+          ]
+        }
+      ]
+    },
+    "google": {
+      "success": true,
+      "products": [
+        {
+          "fields": [
+            "id",
+            "price",
+            "title"
+          ],
+          "id": "gems_bag",
+          "title": "Bag Gems",
+          "price": 11.99
+        },
+        {
+          "fields": [
+            "id",
+            "price",
+            "title"
+          ],
+          "id": "gems_cart",
+          "title": "Cart Gems",
+          "price": 59.99
+        },
+        {
+          "fields": [
+            "id",
+            "price",
+            "title"
+          ],
+          "id": "gems_crate",
+          "title": "Crate Gems",
+          "price": 22.99
+        },
+        {
+          "fields": [
+            "id",
+            "price",
+            "title"
+          ],
+          "id": "gems_handful",
+          "title": "Handful Gems",
+          "price": 1.99
+        },
+        {
+          "fields": [
+            "id",
+            "price",
+            "title"
+          ],
+          "id": "gems_pile",
+          "title": "Pile Gems",
+          "price": 119.99
+        },
+        {
+          "fields": [
+            "id",
+            "price",
+            "title"
+          ],
+          "id": "gems_sack",
+          "title": "Sack Gems",
+          "price": 5.99
+        }
+      ]
+    }
+  },
+  "console": {
+    "url": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/one-time-products?hl=en",
+    "text": "Loading Google Play Console\nnotifications_unread\nUnread notifications\nmore_vert\nhome\nbadge\nplay_prism\ndashboard\nbar_chart\noverview\nshield\nrocket_launch\nvital_signs\nfinance_mode\nsell\nOne-time products\nSell products, such as in-game currency or premium content, for a one-time payment. Show more\nManage your one-time products with flexibility\nOne-time products (formerly in-app products) help you reach diverse buyers by setting unique regional pricing, availability, and promotional offers across multiple selling methods. Learn more\nCreate one-time product\nsearch\nSearch by name or ID\nProduct name\nProduct ID\nLast updated\nActive purchase options and offers\nPile Gems\ngems_pile\nOct 19, 2026\n1\n-\narrow_right_alt\nCart Gems\ngems_cart\nOct 19, 2026\n1\n-\narrow_right_alt\nCrate Gems\ngems_crate\nOct 19, 2026\n1\n-\narrow_right_alt\nBag Gems\ngems_bag\nOct 19, 2026\n1\n-\narrow_right_alt\nSack Gems\ngems_sack\nOct 19, 2026\n1\n-\narrow_right_alt\nHandful Gems\ngems_handful\nOct 19, 2026\n1\n-\narrow_right_alt\n1 - 6 of 6\nchevron_left\nchevron_right\n",
+    "rows": [
+      {
+        "text": "Pile Gems\ngems_pile\nOct 19, 2026\n1\n-\narrow_right_alt",
+        "links": [
+          {
+            "text": "arrow_right_alt",
+            "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/one-time-products/sku/gems_pile"
+          },
+          {
+            "text": "arrow_right_alt",
+            "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/one-time-products/sku/gems_pile"
+          }
+        ]
+      },
+      {
+        "text": "Cart Gems\ngems_cart\nOct 19, 2026\n1\n-\narrow_right_alt",
+        "links": [
+          {
+            "text": "arrow_right_alt",
+            "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/one-time-products/sku/gems_cart"
+          },
+          {
+            "text": "arrow_right_alt",
+            "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/one-time-products/sku/gems_cart"
+          }
+        ]
+      },
+      {
+        "text": "Crate Gems\ngems_crate\nOct 19, 2026\n1\n-\narrow_right_alt",
+        "links": [
+          {
+            "text": "arrow_right_alt",
+            "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/one-time-products/sku/gems_crate"
+          },
+          {
+            "text": "arrow_right_alt",
+            "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/one-time-products/sku/gems_crate"
+          }
+        ]
+      },
+      {
+        "text": "Bag Gems\ngems_bag\nOct 19, 2026\n1\n-\narrow_right_alt",
+        "links": [
+          {
+            "text": "arrow_right_alt",
+            "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/one-time-products/sku/gems_bag"
+          },
+          {
+            "text": "arrow_right_alt",
+            "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/one-time-products/sku/gems_bag"
+          }
+        ]
+      },
+      {
+        "text": "Sack Gems\ngems_sack\nOct 19, 2026\n1\n-\narrow_right_alt",
+        "links": [
+          {
+            "text": "arrow_right_alt",
+            "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/one-time-products/sku/gems_sack"
+          },
+          {
+            "text": "arrow_right_alt",
+            "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/one-time-products/sku/gems_sack"
+          }
+        ]
+      },
+      {
+        "text": "Handful Gems\ngems_handful\nOct 19, 2026\n1\n-\narrow_right_alt",
+        "links": [
+          {
+            "text": "arrow_right_alt",
+            "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/one-time-products/sku/gems_handful"
+          },
+          {
+            "text": "arrow_right_alt",
+            "href": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/one-time-products/sku/gems_handful"
+          }
+        ]
+      }
+    ]
+  },
+  "writes_performed": false
+}

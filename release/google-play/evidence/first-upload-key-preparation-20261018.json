@@ -1,0 +1,21 @@
+{
+  "checked_at": "2026-10-18T17:51:01.292007+00:00",
+  "package": "com.multicastgames.catscuteminer",
+  "helper_ref": "Tools/GooglePlay/new-upload-key-macos.py",
+  "helper_sha256": "3507af4608a4ec1ac240120332e80c9fd5bade697800880c0c4f831504800851",
+  "helper_reviewed": true,
+  "signing_guard_tests_passed": 6,
+  "mac_script_hash_matches": true,
+  "private_parent_directories_exist": false,
+  "intended_output_exists": false,
+  "key_created": true,
+  "secret_created": true,
+  "aab_built": false,
+  "play_readback": "Authenticated own app; explicit first-bundle message still present",
+  "native_refresh": "success_after_owner_consent",
+  "next_step": "Adopt and host truthful game-specific13+ legal documents; complete provider/runtime gates; recheck version codes and build final AAB. First upload will bind the prepared upload certificate.",
+  "legal_gate": "Game-specific13+ documents not adopted or hosted",
+  "builder_signing_guard_accepted": true,
+  "private_file_modes": "600",
+  "new_signing_receipt_ref": "release/google-play/evidence/upload-signing-macos-20261018.json"
+}

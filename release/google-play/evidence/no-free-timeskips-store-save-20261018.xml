@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="67" result="Passed" total="67" passed="67" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-18 21:00:51Z" end-time="2026-10-18 21:00:54Z" duration="2.9956724">
+  <test-suite type="TestSuite" id="1000" name="Cat Miner: Idle Tycoon" fullname="Cat Miner: Idle Tycoon" runstate="Runnable" testcasecount="2828" result="Passed" start-time="2026-10-18 21:00:51Z" end-time="2026-10-18 21:00:54Z" duration="2.995672" total="67" passed="67" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="3998" name="CatMiners.Tests.EditMode.dll" fullname="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/build/ci/Library/ScriptAssemblies/CatMiners.Tests.EditMode.dll" runstate="Runnable" testcasecount="2828" result="Passed" start-time="2026-10-18 21:00:51Z" end-time="2026-10-18 21:00:54Z" duration="2.969737" total="67" passed="67" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="66837" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="3999" name="CatMiners" fullname="CatMiners" runstate="Runnable" testcasecount="2828" result="Passed" start-time="2026-10-18 21:00:51Z" end-time="2026-10-18 21:00:54Z" duration="2.946358" total="67" passed="67" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="4000" name="Tests" fullname="CatMiners.Tests" runstate="Runnable" testcasecount="2828" result="Passed" start-time="2026-10-18 21:00:51Z" end-time="2026-10-18 21:00:54Z" duration="2.923577" total="67" passed="67" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="4001" name="Outpost" fullname="CatMiners.Tests.Outpost" runstate="Runnable" testcasecount="2502" result="Passed" start-time="2026-10-18 21:00:51Z" end-time="2026-10-18 21:00:54Z" duration="2.900863" total="67" passed="67" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="3746" name="OutpostSaveTests" fullname="CatMiners.Tests.Outpost.OutpostSaveTests" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" testcasecount="52" result="Passed" start-time="2026-10-18 21:00:51Z" end-time="2026-10-18 21:00:54Z" duration="2.707208" total="52" passed="52" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="3790" name="BalanceChange_DoesNotRebuildCurrentRun" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.BalanceChange_DoesNotRebuildCurrentRun" methodname="BalanceChange_DoesNotRebuildCurrentRun" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="441128955" result="Passed" start-time="2026-10-18 21:00:51Z" end-time="2026-10-18 21:00:51Z" duration="0.161260" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3789" name="BigIntegerAbove2Pow53_RoundTripsExactly" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.BigIntegerAbove2Pow53_RoundTripsExactly" methodname="BigIntegerAbove2Pow53_RoundTripsExactly" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="121510727" result="Passed" start-time="2026-10-18 21:00:51Z" end-time="2026-10-18 21:00:51Z" duration="0.008427" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3771" name="BothCorrupt_StatusCorrupt_FilesUntouched_Quarantined" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.BothCorrupt_StatusCorrupt_FilesUntouched_Quarantined" methodname="BothCorrupt_StatusCorrupt_FilesUntouched_Quarantined" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="1268705058" result="Passed" start-time="2026-10-18 21:00:51Z" end-time="2026-10-18 21:00:51Z" duration="0.016202" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3757" name="CommitSequence_ContinuesAfterRestart" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.CommitSequence_ContinuesAfterRestart" methodname="CommitSequence_ContinuesAfterRestart" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="1665675549" result="Passed" start-time="2026-10-18 21:00:51Z" end-time="2026-10-18 21:00:51Z" duration="0.011864" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3756" name="CommitSequence_IsMonotone_AndBackupKeepsPrevious" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.CommitSequence_IsMonotone_AndBackupKeepsPrevious" methodname="CommitSequence_IsMonotone_AndBackupKeepsPrevious" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="582143197" result="Passed" start-time="2026-10-18 21:00:51Z" end-time="2026-10-18 21:00:51Z" duration="0.004389" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="3770" name="CorruptMain_BackupUsed" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.CorruptMain_BackupUsed" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-18 21:00:51Z" end-time="2026-10-18 21:00:51Z" duration="0.017011" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="3767" name="CorruptMain_BackupUsed(&quot;garbage&quot;)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.CorruptMain_BackupUsed(&quot;garbage&quot;)" methodname="CorruptMain_BackupUsed" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="1811218167" result="Passed" start-time="2026-10-18 21:00:51Z" end-time="2026-10-18 21:00:51Z" duration="0.004341" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3768" name="CorruptMain_BackupUsed(&quot;truncated&quot;)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.CorruptMain_BackupUsed(&quot;truncated&quot;)" methodname="CorruptMain_BackupUsed" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="826778371" result="Passed" start-time="2026-10-18 21:00:51Z" end-time="2026-10-18 21:00:51Z" duration="0.007460" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3769" name="CorruptMain_BackupUsed(&quot;empty&quot;)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.CorruptMain_BackupUsed(&quot;empty&quot;)" methodname="CorruptMain_BackupUsed" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="1785614679" result="Passed" start-time="2026-10-18 21:00:51Z" end-time="2026-10-18 21:00:51Z" duration="0.004100" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="ParameterizedMethod" id="3776" name="CrashAtEveryWriteStep_LoadsPreviousOrNewCommit" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.CrashAtEveryWriteStep_LoadsPreviousOrNewCommit" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-18 21:00:51Z" end-time="2026-10-18 21:00:52Z" duration="0.229199" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="3774" name="CrashAtEveryWriteStep_LoadsPreviousOrNewCommit(False)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.CrashAtEveryWriteStep_LoadsPreviousOrNewCommit(False)" methodname="CrashAtEveryWriteStep_LoadsPreviousOrNewCommit" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="1807783145" result="Passed" start-time="2026-10-18 21:00:51Z" end-time="2026-10-18 21:00:51Z" duration="0.088081" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3775" name="CrashAtEveryWriteStep_LoadsPreviousOrNewCommit(True)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.CrashAtEveryWriteStep_LoadsPreviousOrNewCommit(True)" methodname="CrashAtEveryWriteStep_LoadsPreviousOrNewCommit" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="1571385084" result="Passed" start-time="2026-10-18 21:00:51Z" end-time="2026-10-18 21:00:52Z" duration="0.140731" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="3792" name="DebugGoods_SavedOnlyInDebugSlot" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.DebugGoods_SavedOnlyInDebugSlot" methodname="DebugGoods_SavedOnlyInDebugSlot" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="1152293664" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.009678" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3788" name="DebugProfile_IsSeparate_LegacyFilesUntouched" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.DebugProfile_IsSeparate_LegacyFilesUntouched" methodname="DebugProfile_IsSeparate_LegacyFilesUntouched" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="968484139" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.005365" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3755" name="Envelope_HasAllFields_AndValidChecksum" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.Envelope_HasAllFields_AndValidChecksum" methodname="Envelope_HasAllFields_AndValidChecksum" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="590558640" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.004673" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3791" name="Factories_SaveLoadThroughService_MidCycleReadyAndInPipe_ByteIdentical" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.Factories_SaveLoadThroughService_MidCycleReadyAndInPipe_ByteIdentical" methodname="Factories_SaveLoadThroughService_MidCycleReadyAndInPipe_ByteIdentical" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="477525982" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.025994" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="3787" name="FirstSave_CrashAtEveryStep_NoCommitOrNewCommit" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.FirstSave_CrashAtEveryStep_NoCommitOrNewCommit" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.025443" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="3785" name="FirstSave_CrashAtEveryStep_NoCommitOrNewCommit(False)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.FirstSave_CrashAtEveryStep_NoCommitOrNewCommit(False)" methodname="FirstSave_CrashAtEveryStep_NoCommitOrNewCommit" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="383610050" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.014021" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3786" name="FirstSave_CrashAtEveryStep_NoCommitOrNewCommit(True)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.FirstSave_CrashAtEveryStep_NoCommitOrNewCommit(True)" methodname="FirstSave_CrashAtEveryStep_NoCommitOrNewCommit" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="543404279" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.010434" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="3772" name="FutureSchema_Incompatible_FilesUntouched_Quarantined" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.FutureSchema_Incompatible_FilesUntouched_Quarantined" methodname="FutureSchema_Incompatible_FilesUntouched_Quarantined" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="2128999855" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.014169" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3773" name="FutureSchema_SingleMain_Incompatible" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.FutureSchema_SingleMain_Incompatible" methodname="FutureSchema_SingleMain_Incompatible" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="417083465" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.004823" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3765" name="HigherCommitSequence_WinsEvenInBackup" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.HigherCommitSequence_WinsEvenInBackup" methodname="HigherCommitSequence_WinsEvenInBackup" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="190275351" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.004955" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="3763" name="InvariantViolation_WithValidChecksum_MainRejected" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.InvariantViolation_WithValidChecksum_MainRejected" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.014448" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="3761" name="InvariantViolation_WithValidChecksum_MainRejected(&quot;wallet&quot;)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.InvariantViolation_WithValidChecksum_MainRejected(&quot;wallet&quot;)" methodname="InvariantViolation_WithValidChecksum_MainRejected" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="473781215" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.008688" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3762" name="InvariantViolation_WithValidChecksum_MainRejected(&quot;released&quot;)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.InvariantViolation_WithValidChecksum_MainRejected(&quot;released&quot;)" methodname="InvariantViolation_WithValidChecksum_MainRejected" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="1187388902" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.005469" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="3758" name="Load_NoFiles_ReturnsNoStateWithoutError" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.Load_NoFiles_ReturnsNoStateWithoutError" methodname="Load_NoFiles_ReturnsNoStateWithoutError" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="1019846230" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.000113" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="3806" name="Outdated_BadChecksumOrLedger_StaysCorrupt_AndResetRefuses" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.Outdated_BadChecksumOrLedger_StaysCorrupt_AndResetRefuses" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.122699" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="3801" name="Outdated_BadChecksumOrLedger_StaysCorrupt_AndResetRefuses(&quot;checksum&quot;)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.Outdated_BadChecksumOrLedger_StaysCorrupt_AndResetRefuses(&quot;checksum&quot;)" methodname="Outdated_BadChecksumOrLedger_StaysCorrupt_AndResetRefuses" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="1255349441" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.062952" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3802" name="Outdated_BadChecksumOrLedger_StaysCorrupt_AndResetRefuses(&quot;no-payments&quot;)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.Outdated_BadChecksumOrLedger_StaysCorrupt_AndResetRefuses(&quot;no-payments&quot;)" methodname="Outdated_BadChecksumOrLedger_StaysCorrupt_AndResetRefuses" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="415606964" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.014513" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3803" name="Outdated_BadChecksumOrLedger_StaysCorrupt_AndResetRefuses(&quot;no-pending-field&quot;)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.Outdated_BadChecksumOrLedger_StaysCorrupt_AndResetRefuses(&quot;no-pending-field&quot;)" methodname="Outdated_BadChecksumOrLedger_StaysCorrupt_AndResetRefuses" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="1918753288" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.010424" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3804" name="Outdated_BadChecksumOrLedger_StaysCorrupt_AndResetRefuses(&quot;bad-ledger&quot;)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.Outdated_BadChecksumOrLedger_StaysCorrupt_AndResetRefuses(&quot;bad-ledger&quot;)" methodname="Outdated_BadChecksumOrLedger_StaysCorrupt_AndResetRefuses" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="510078348" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.024012" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3805" name="Outdated_BadChecksumOrLedger_StaysCorrupt_AndResetRefuses(&quot;no-profile&quot;)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.Outdated_BadChecksumOrLedger_StaysCorrupt_AndResetRefuses(&quot;no-profile&quot;)" methodname="Outdated_BadChecksumOrLedger_StaysCorrupt_AndResetRefuses" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="1669151443" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.010244" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="3807" name="Outdated_CandidateSelection_ValidWins_FutureIsIncompatible_HighestOutdatedSequence" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.Outdated_CandidateSelection_ValidWins_FutureIsIncompatible_HighestOutdatedSequence" methodname="Outdated_CandidateSelection_ValidWins_FutureIsIncompatible_HighestOutdatedSequence" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="1120663254" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.032976" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="3797" name="Outdated_LoadReportsOutdated_ResetArchivesAndStartsSchema3Campaign" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.Outdated_LoadReportsOutdated_ResetArchivesAndStartsSchema3Campaign" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.310964" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="3793" name="Outdated_LoadReportsOutdated_ResetArchivesAndStartsSchema3Campaign(2,Running)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.Outdated_LoadReportsOutdated_ResetArchivesAndStartsSchema3Campaign(2,Running)" methodname="Outdated_LoadReportsOutdated_ResetArchivesAndStartsSchema3Campaign" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="1032063867" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.091206" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3794" name="Outdated_LoadReportsOutdated_ResetArchivesAndStartsSchema3Campaign(2,DrainingCargo)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.Outdated_LoadReportsOutdated_ResetArchivesAndStartsSchema3Campaign(2,DrainingCargo)" methodname="Outdated_LoadReportsOutdated_ResetArchivesAndStartsSchema3Campaign" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="915568174" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.071581" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3795" name="Outdated_LoadReportsOutdated_ResetArchivesAndStartsSchema3Campaign(2,ReadyToContinue)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.Outdated_LoadReportsOutdated_ResetArchivesAndStartsSchema3Campaign(2,ReadyToContinue)" methodname="Outdated_LoadReportsOutdated_ResetArchivesAndStartsSchema3Campaign" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="1336885173" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.071949" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3796" name="Outdated_LoadReportsOutdated_ResetArchivesAndStartsSchema3Campaign(1,Running)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.Outdated_LoadReportsOutdated_ResetArchivesAndStartsSchema3Campaign(1,Running)" methodname="Outdated_LoadReportsOutdated_ResetArchivesAndStartsSchema3Campaign" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="312312793" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.075536" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="ParameterizedMethod" id="3800" name="Outdated_RecognizedBeforeRulesAdapterMapAndInvariants_SlotsIndependent" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.Outdated_RecognizedBeforeRulesAdapterMapAndInvariants_SlotsIndependent" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.076700" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="3798" name="Outdated_RecognizedBeforeRulesAdapterMapAndInvariants_SlotsIndependent(False)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.Outdated_RecognizedBeforeRulesAdapterMapAndInvariants_SlotsIndependent(False)" methodname="Outdated_RecognizedBeforeRulesAdapterMapAndInvariants_SlotsIndependent" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="1056999715" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.042439" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3799" name="Outdated_RecognizedBeforeRulesAdapterMapAndInvariants_SlotsIndependent(True)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.Outdated_RecognizedBeforeRulesAdapterMapAndInvariants_SlotsIndependent(True)" methodname="Outdated_RecognizedBeforeRulesAdapterMapAndInvariants_SlotsIndependent" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="1982681386" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:52Z" duration="0.033654" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="ParameterizedMethod" id="3810" name="Outdated_ResetCrashAtEveryStep_KeepsOldSaveOrNewCampaign" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.Outdated_ResetCrashAtEveryStep_KeepsOldSaveOrNewCampaign" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:53Z" duration="1.216768" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="3808" name="Outdated_ResetCrashAtEveryStep_KeepsOldSaveOrNewCampaign(False)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.Outdated_ResetCrashAtEveryStep_KeepsOldSaveOrNewCampaign(False)" methodname="Outdated_ResetCrashAtEveryStep_KeepsOldSaveOrNewCampaign" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="707530365" result="Passed" start-time="2026-10-18 21:00:52Z" end-time="2026-10-18 21:00:53Z" duration="0.522232" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3809" name="Outdated_ResetCrashAtEveryStep_KeepsOldSaveOrNewCampaign(True)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.Outdated_ResetCrashAtEveryStep_KeepsOldSaveOrNewCampaign(True)" methodname="Outdated_ResetCrashAtEveryStep_KeepsOldSaveOrNewCampaign" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="294437934" result="Passed" start-time="2026-10-18 21:00:53Z" end-time="2026-10-18 21:00:53Z" duration="0.694119" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="3759" name="PayloadChecksumMismatch_MainRejected_BackupUsed" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.PayloadChecksumMismatch_MainRejected_BackupUsed" methodname="PayloadChecksumMismatch_MainRejected_BackupUsed" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="1314977623" result="Passed" start-time="2026-10-18 21:00:53Z" end-time="2026-10-18 21:00:53Z" duration="0.006571" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3760" name="PayloadSha256FieldTampered_MainRejected_BackupUsed" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.PayloadSha256FieldTampered_MainRejected_BackupUsed" methodname="PayloadSha256FieldTampered_MainRejected_BackupUsed" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="313369796" result="Passed" start-time="2026-10-18 21:00:53Z" end-time="2026-10-18 21:00:53Z" duration="0.007129" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3748" name="PlayTime_NegativeCounterCannotBeCommitted" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.PlayTime_NegativeCounterCannotBeCommitted" methodname="PlayTime_NegativeCounterCannotBeCommitted" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="1550899286" result="Passed" start-time="2026-10-18 21:00:53Z" end-time="2026-10-18 21:00:53Z" duration="0.001471" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3747" name="PlayTime_OldPayloadStartsAtZero_NewCounterSurvivesSaveAndLoad" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.PlayTime_OldPayloadStartsAtZero_NewCounterSurvivesSaveAndLoad" methodname="PlayTime_OldPayloadStartsAtZero_NewCounterSurvivesSaveAndLoad" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="497840131" result="Passed" start-time="2026-10-18 21:00:53Z" end-time="2026-10-18 21:00:53Z" duration="0.003658" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="3784" name="ReplaceIOException_KeepsPreviousCommit_AndRetriesSameSnapshot" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.ReplaceIOException_KeepsPreviousCommit_AndRetriesSameSnapshot" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-18 21:00:53Z" end-time="2026-10-18 21:00:53Z" duration="0.017791" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="3782" name="ReplaceIOException_KeepsPreviousCommit_AndRetriesSameSnapshot(NothingChanged)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.ReplaceIOException_KeepsPreviousCommit_AndRetriesSameSnapshot(NothingChanged)" methodname="ReplaceIOException_KeepsPreviousCommit_AndRetriesSameSnapshot" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="2008472255" result="Passed" start-time="2026-10-18 21:00:53Z" end-time="2026-10-18 21:00:53Z" duration="0.009084" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3783" name="ReplaceIOException_KeepsPreviousCommit_AndRetriesSameSnapshot(BackupRenamedOnly)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.ReplaceIOException_KeepsPreviousCommit_AndRetriesSameSnapshot(BackupRenamedOnly)" methodname="ReplaceIOException_KeepsPreviousCommit_AndRetriesSameSnapshot" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="265209993" result="Passed" start-time="2026-10-18 21:00:53Z" end-time="2026-10-18 21:00:53Z" duration="0.008127" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="ParameterizedMethod" id="3751" name="ResetBackup_RecoveryKeepsFreshProgress_AndDebugSlotUntouched" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.ResetBackup_RecoveryKeepsFreshProgress_AndDebugSlotUntouched" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-18 21:00:53Z" end-time="2026-10-18 21:00:53Z" duration="0.032553" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="3749" name="ResetBackup_RecoveryKeepsFreshProgress_AndDebugSlotUntouched(False)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.ResetBackup_RecoveryKeepsFreshProgress_AndDebugSlotUntouched(False)" methodname="ResetBackup_RecoveryKeepsFreshProgress_AndDebugSlotUntouched" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="1154980895" result="Passed" start-time="2026-10-18 21:00:53Z" end-time="2026-10-18 21:00:53Z" duration="0.016347" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3750" name="ResetBackup_RecoveryKeepsFreshProgress_AndDebugSlotUntouched(True)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.ResetBackup_RecoveryKeepsFreshProgress_AndDebugSlotUntouched(True)" methodname="ResetBackup_RecoveryKeepsFreshProgress_AndDebugSlotUntouched" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="2013995751" result="Passed" start-time="2026-10-18 21:00:53Z" end-time="2026-10-18 21:00:53Z" duration="0.015916" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="ParameterizedMethod" id="3754" name="ResetBackup_TornBackupWrite_IsReported_AndRetryKeepsNewCommit" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.ResetBackup_TornBackupWrite_IsReported_AndRetryKeepsNewCommit" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-18 21:00:53Z" end-time="2026-10-18 21:00:54Z" duration="0.033474" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="3752" name="ResetBackup_TornBackupWrite_IsReported_AndRetryKeepsNewCommit(False)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.ResetBackup_TornBackupWrite_IsReported_AndRetryKeepsNewCommit(False)" methodname="ResetBackup_TornBackupWrite_IsReported_AndRetryKeepsNewCommit" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="230466995" result="Passed" start-time="2026-10-18 21:00:53Z" end-time="2026-10-18 21:00:54Z" duration="0.014994" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3753" name="ResetBackup_TornBackupWrite_IsReported_AndRetryKeepsNewCommit(True)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.ResetBackup_TornBackupWrite_IsReported_AndRetryKeepsNewCommit(True)" methodname="ResetBackup_TornBackupWrite_IsReported_AndRetryKeepsNewCommit" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="358198495" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.018168" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="ParameterizedMethod" id="3781" name="SaveAfterBackupRecovery_EveryCrashKeepsRecoveredCommit" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.SaveAfterBackupRecovery_EveryCrashKeepsRecoveredCommit" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.265385" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="3777" name="SaveAfterBackupRecovery_EveryCrashKeepsRecoveredCommit(False,False)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.SaveAfterBackupRecovery_EveryCrashKeepsRecoveredCommit(False,False)" methodname="SaveAfterBackupRecovery_EveryCrashKeepsRecoveredCommit" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="263975592" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.057591" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3778" name="SaveAfterBackupRecovery_EveryCrashKeepsRecoveredCommit(False,True)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.SaveAfterBackupRecovery_EveryCrashKeepsRecoveredCommit(False,True)" methodname="SaveAfterBackupRecovery_EveryCrashKeepsRecoveredCommit" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="954349841" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.062867" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3779" name="SaveAfterBackupRecovery_EveryCrashKeepsRecoveredCommit(True,False)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.SaveAfterBackupRecovery_EveryCrashKeepsRecoveredCommit(True,False)" methodname="SaveAfterBackupRecovery_EveryCrashKeepsRecoveredCommit" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="166330351" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.064402" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3780" name="SaveAfterBackupRecovery_EveryCrashKeepsRecoveredCommit(True,True)" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.SaveAfterBackupRecovery_EveryCrashKeepsRecoveredCommit(True,True)" methodname="SaveAfterBackupRecovery_EveryCrashKeepsRecoveredCommit" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="403692531" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.080007" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="3766" name="ValidTmpWithHigherSequence_IsIgnored" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.ValidTmpWithHigherSequence_IsIgnored" methodname="ValidTmpWithHigherSequence_IsIgnored" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="927357712" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.008966" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3764" name="WrongModeId_MainRejected" fullname="CatMiners.Tests.Outpost.OutpostSaveTests.WrongModeId_MainRejected" methodname="WrongModeId_MainRejected" classname="CatMiners.Tests.Outpost.OutpostSaveTests" runstate="Runnable" seed="1144677627" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.004261" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="3857" name="OutpostStoreTests" fullname="CatMiners.Tests.Outpost.OutpostStoreTests" classname="CatMiners.Tests.Outpost.OutpostStoreTests" runstate="Runnable" testcasecount="15" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.171205" total="15" passed="15" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="3868" name="AdChest_OpensWoodenChestFromStore_ThenWaitsFourHours" fullname="CatMiners.Tests.Outpost.OutpostStoreTests.AdChest_OpensWoodenChestFromStore_ThenWaitsFourHours" methodname="AdChest_OpensWoodenChestFromStore_ThenWaitsFourHours" classname="CatMiners.Tests.Outpost.OutpostStoreTests" runstate="Runnable" seed="2127765457" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.056787" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3873" name="BonusGold_GoesToWallet_NotToDeliveryLedger" fullname="CatMiners.Tests.Outpost.OutpostStoreTests.BonusGold_GoesToWallet_NotToDeliveryLedger" methodname="BonusGold_GoesToWallet_NotToDeliveryLedger" classname="CatMiners.Tests.Outpost.OutpostStoreTests" runstate="Runnable" seed="5754318" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.001305" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3858" name="Catalog_SectionsItemsPrices_ChestsAndDropRates" fullname="CatMiners.Tests.Outpost.OutpostStoreTests.Catalog_SectionsItemsPrices_ChestsAndDropRates" methodname="Catalog_SectionsItemsPrices_ChestsAndDropRates" classname="CatMiners.Tests.Outpost.OutpostStoreTests" runstate="Runnable" seed="978901824" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.001125" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3859" name="ConfigFile_MatchesEmbeddedDefault_AndHashIsNotInCatalogHash" fullname="CatMiners.Tests.Outpost.OutpostStoreTests.ConfigFile_MatchesEmbeddedDefault_AndHashIsNotInCatalogHash" methodname="ConfigFile_MatchesEmbeddedDefault_AndHashIsNotInCatalogHash" classname="CatMiners.Tests.Outpost.OutpostStoreTests" runstate="Runnable" seed="407168046" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.093457" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3865" name="ElixirPack_SpendsGems_GrantsElixir_RefusesWithoutGems" fullname="CatMiners.Tests.Outpost.OutpostStoreTests.ElixirPack_SpendsGems_GrantsElixir_RefusesWithoutGems" methodname="ElixirPack_SpendsGems_GrantsElixir_RefusesWithoutGems" classname="CatMiners.Tests.Outpost.OutpostStoreTests" runstate="Runnable" seed="1279488726" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.001492" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3869" name="GemChest_SameSeed_SameCards" fullname="CatMiners.Tests.Outpost.OutpostStoreTests.GemChest_SameSeed_SameCards" methodname="GemChest_SameSeed_SameCards" classname="CatMiners.Tests.Outpost.OutpostStoreTests" runstate="Runnable" seed="763933378" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.002324" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3867" name="GemsPack_FirstPurchaseBonusOnce_WhenCatalogHasIt" fullname="CatMiners.Tests.Outpost.OutpostStoreTests.GemsPack_FirstPurchaseBonusOnce_WhenCatalogHasIt" methodname="GemsPack_FirstPurchaseBonusOnce_WhenCatalogHasIt" classname="CatMiners.Tests.Outpost.OutpostStoreTests" runstate="Runnable" seed="1013821340" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.002381" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3866" name="GemsPack_RegularAmount_NoFirstPurchaseBonus" fullname="CatMiners.Tests.Outpost.OutpostStoreTests.GemsPack_RegularAmount_NoFirstPurchaseBonus" methodname="GemsPack_RegularAmount_NoFirstPurchaseBonus" classname="CatMiners.Tests.Outpost.OutpostStoreTests" runstate="Runnable" seed="1763185893" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.001078" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3860" name="Migration_NewAndPreStoreProfiles_GetNoFreeTimeSkips" fullname="CatMiners.Tests.Outpost.OutpostStoreTests.Migration_NewAndPreStoreProfiles_GetNoFreeTimeSkips" methodname="Migration_NewAndPreStoreProfiles_GetNoFreeTimeSkips" classname="CatMiners.Tests.Outpost.OutpostStoreTests" runstate="Runnable" seed="499670321" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.000157" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="3864" name="Migration_RemovesOldStarterSkipsOnce_PreservesOtherProfileData" fullname="CatMiners.Tests.Outpost.OutpostStoreTests.Migration_RemovesOldStarterSkipsOnce_PreservesOtherProfileData" classname="CatMiners.Tests.Outpost.OutpostStoreTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.001346" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="3861" name="Migration_RemovesOldStarterSkipsOnce_PreservesOtherProfileData(3,1)" fullname="CatMiners.Tests.Outpost.OutpostStoreTests.Migration_RemovesOldStarterSkipsOnce_PreservesOtherProfileData(3,1)" methodname="Migration_RemovesOldStarterSkipsOnce_PreservesOtherProfileData" classname="CatMiners.Tests.Outpost.OutpostStoreTests" runstate="Runnable" seed="156869229" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.000543" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3862" name="Migration_RemovesOldStarterSkipsOnce_PreservesOtherProfileData(1,0)" fullname="CatMiners.Tests.Outpost.OutpostStoreTests.Migration_RemovesOldStarterSkipsOnce_PreservesOtherProfileData(1,0)" methodname="Migration_RemovesOldStarterSkipsOnce_PreservesOtherProfileData" classname="CatMiners.Tests.Outpost.OutpostStoreTests" runstate="Runnable" seed="1342434967" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.000120" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="3863" name="Migration_RemovesOldStarterSkipsOnce_PreservesOtherProfileData(0,0)" fullname="CatMiners.Tests.Outpost.OutpostStoreTests.Migration_RemovesOldStarterSkipsOnce_PreservesOtherProfileData(0,0)" methodname="Migration_RemovesOldStarterSkipsOnce_PreservesOtherProfileData" classname="CatMiners.Tests.Outpost.OutpostStoreTests" runstate="Runnable" seed="234419135" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.000120" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="3870" name="TestPurchasesOff_AdAndMoneyUnavailable_GemsStillWork" fullname="CatMiners.Tests.Outpost.OutpostStoreTests.TestPurchasesOff_AdAndMoneyUnavailable_GemsStillWork" methodname="TestPurchasesOff_AdAndMoneyUnavailable_GemsStillWork" classname="CatMiners.Tests.Outpost.OutpostStoreTests" runstate="Runnable" seed="1830847529" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.000169" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3871" name="TimeSkip_ByCommand_IsUnknown_TheControllerRunsIt" fullname="CatMiners.Tests.Outpost.OutpostStoreTests.TimeSkip_ByCommand_IsUnknown_TheControllerRunsIt" methodname="TimeSkip_ByCommand_IsUnknown_TheControllerRunsIt" classname="CatMiners.Tests.Outpost.OutpostStoreTests" runstate="Runnable" seed="1129582304" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.001008" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="3872" name="TimeSkip_OwnedFirst_ThenGems_ExactMinutes_NoOfflineCap" fullname="CatMiners.Tests.Outpost.OutpostStoreTests.TimeSkip_OwnedFirst_ThenGems_ExactMinutes_NoOfflineCap" methodname="TimeSkip_OwnedFirst_ThenGems_ExactMinutes_NoOfflineCap" classname="CatMiners.Tests.Outpost.OutpostStoreTests" runstate="Runnable" seed="274070483" result="Passed" start-time="2026-10-18 21:00:54Z" end-time="2026-10-18 21:00:54Z" duration="0.007376" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: /Users/arthuri/Library/Application Support/CatMiners/Cat Miner_ Idle Tycoon/TestResults.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

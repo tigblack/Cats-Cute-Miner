@@ -1,0 +1,57 @@
+{
+  "checked_at": "2026-10-19T17:59:01.701Z",
+  "package": "com.multicastgames.catscuteminer",
+  "developer_id": "8879742639795815518",
+  "play_app_id": "4974963942177850884",
+  "actor": "sargsyan@multicastgames.com",
+  "observed_google_account_index": 1,
+  "internal": {
+    "status": "Available to internal testers",
+    "track_state": "Active",
+    "track_id": "4701668636091023018",
+    "release_name": "First Release",
+    "version_name": "0.1.1",
+    "version_code": 2,
+    "released_label": "Oct 19 3:15 PM",
+    "additional_empty_draft": true,
+    "opt_in_url": "https://play.google.com/apps/internaltest/4701668636091023018",
+    "selected_tester_lists": [
+      {
+        "name": "License testers (auto-generated)",
+        "users": 27
+      },
+      {
+        "name": "Test",
+        "users": 32
+      }
+    ]
+  },
+  "closed_alpha": {
+    "status": "In review",
+    "release_name": "2 (0.1.1)",
+    "version_code": 2,
+    "track_id": "4701089849304467397",
+    "last_updated_label": "Oct 19, 2026 5:55 PM",
+    "countries": 177
+  },
+  "production": {
+    "status": "Inactive",
+    "public_release_exists": false
+  },
+  "publishing": {
+    "status": "Changes in review",
+    "changes": "Closed testing - Alpha 2 (0.1.1), Start full rollout; Track status Resume track",
+    "managed_publishing": false
+  },
+  "installation_guidance_source": "https://support.google.com/googleplay/android-developer/answer/9845334?hl=en",
+  "limitations": [
+    "Console availability verified; installation on the user phone and its Google account eligibility not observed",
+    "Console bundle identity/hash not compared to the local signed AAB",
+    "No upload, release, tester-list edit, opt-in enrollment, or publication performed during this status check"
+  ],
+  "readback_refs": [
+    "release/google-play/evidence/tester-install-status-20261019.json",
+    "release/google-play/evidence/internal-opt-in-current-20261019.json"
+  ],
+  "writes_performed": false
+}

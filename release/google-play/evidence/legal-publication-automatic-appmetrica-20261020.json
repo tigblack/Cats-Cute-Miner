@@ -1,0 +1,28 @@
+{
+  "at": "2026-10-20T17:38:25.148635+00:00",
+  "scope": "version_0_1_5_automatic_basic_appmetrica",
+  "package": "com.multicastgames.catscuteminer",
+  "published": true,
+  "liveReadback": [
+    {
+      "route": "privacy",
+      "live_matches_generated": true,
+      "sha256": "6e63eca4c8ea984639afb08e3a5e43820b721556a3bcb8a4ec566dba67e1a30a",
+      "url": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/"
+    },
+    {
+      "route": "terms",
+      "live_matches_generated": true,
+      "sha256": "a8ab370a038394f4c3ce678f850a93ff333fc5e4a4493472caef178c9491922f",
+      "url": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/"
+    },
+    {
+      "route": "delete-data",
+      "live_matches_generated": true,
+      "sha256": "ce3e023f0bdb3968665976b9d7d0f21fba35ad11b5b0f0d7a249ea7f05779770",
+      "url": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/delete-data/"
+    }
+  ],
+  "advertisements": false,
+  "childSupportProcessPreviouslyConfirmed": true
+}

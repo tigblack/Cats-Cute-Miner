@@ -1,0 +1,227 @@
+{
+  "artifact": "release/google-play/builds/cat-miners-0.1.2-3-noads.aab",
+  "bytes": 77793257,
+  "sha256": "13e3712a7f121ac340309432b75a162f799982a1e8dde08e2a836f073ea0c74b",
+  "package": "com.multicastgames.catscuteminer",
+  "versionName": "0.1.2",
+  "versionCode": "3",
+  "minSdk": "26",
+  "targetSdk": "36",
+  "debuggable": "false",
+  "permissions": [
+    "android.permission.INTERNET",
+    "com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE",
+    "android.permission.VIBRATE",
+    "android.permission.ACCESS_ADSERVICES_ATTRIBUTION",
+    "android.permission.ACCESS_ADSERVICES_AD_ID",
+    "android.permission.ACCESS_ADSERVICES_CUSTOM_AUDIENCE",
+    "android.permission.ACCESS_ADSERVICES_TOPICS",
+    "com.android.vending.BILLING",
+    "android.permission.ACCESS_NETWORK_STATE",
+    "com.multicastgames.catscuteminer.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+  ],
+  "billingVersion": "8.3.0",
+  "billingDexPresent": true,
+  "metaAutomaticFlags": {
+    "AutoInitEnabled": "false",
+    "AutoLogAppEventsEnabled": "false",
+    "AdvertiserIDCollectionEnabled": "false"
+  },
+  "legalConfiguredAtBuild": true,
+  "localArtifactOnly": false,
+  "maxDexPresent": true,
+  "abis": [
+    "arm64-v8a",
+    "armeabi-v7a"
+  ],
+  "nativeLibraries": [
+    {
+      "path": "base/lib/arm64-v8a/lib_burst_generated.so",
+      "abi": "arm64-v8a",
+      "load_alignments": [
+        16384,
+        16384,
+        16384,
+        16384
+      ],
+      "aligned_16kb": true
+    },
+    {
+      "path": "base/lib/arm64-v8a/libc++_shared.so",
+      "abi": "arm64-v8a",
+      "load_alignments": [
+        16384,
+        16384,
+        16384,
+        16384
+      ],
+      "aligned_16kb": true
+    },
+    {
+      "path": "base/lib/arm64-v8a/libgame.so",
+      "abi": "arm64-v8a",
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "aligned_16kb": true
+    },
+    {
+      "path": "base/lib/arm64-v8a/libil2cpp.so",
+      "abi": "arm64-v8a",
+      "load_alignments": [
+        16384,
+        16384,
+        16384,
+        16384
+      ],
+      "aligned_16kb": true
+    },
+    {
+      "path": "base/lib/arm64-v8a/libmain.so",
+      "abi": "arm64-v8a",
+      "load_alignments": [
+        16384,
+        16384,
+        16384,
+        16384
+      ],
+      "aligned_16kb": true
+    },
+    {
+      "path": "base/lib/arm64-v8a/libsigner.so",
+      "abi": "arm64-v8a",
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "aligned_16kb": true
+    },
+    {
+      "path": "base/lib/arm64-v8a/libunity.so",
+      "abi": "arm64-v8a",
+      "load_alignments": [
+        16384,
+        16384,
+        16384,
+        16384
+      ],
+      "aligned_16kb": true
+    },
+    {
+      "path": "base/lib/armeabi-v7a/lib_burst_generated.so",
+      "abi": "armeabi-v7a",
+      "load_alignments": [
+        16384,
+        16384,
+        16384,
+        16384
+      ],
+      "aligned_16kb": true
+    },
+    {
+      "path": "base/lib/armeabi-v7a/libc++_shared.so",
+      "abi": "armeabi-v7a",
+      "load_alignments": [
+        4096,
+        4096,
+        4096,
+        4096
+      ],
+      "aligned_16kb": false
+    },
+    {
+      "path": "base/lib/armeabi-v7a/libgame.so",
+      "abi": "armeabi-v7a",
+      "load_alignments": [
+        4096,
+        4096,
+        4096
+      ],
+      "aligned_16kb": false
+    },
+    {
+      "path": "base/lib/armeabi-v7a/libil2cpp.so",
+      "abi": "armeabi-v7a",
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "aligned_16kb": true
+    },
+    {
+      "path": "base/lib/armeabi-v7a/libmain.so",
+      "abi": "armeabi-v7a",
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "aligned_16kb": true
+    },
+    {
+      "path": "base/lib/armeabi-v7a/libsigner.so",
+      "abi": "armeabi-v7a",
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "aligned_16kb": true
+    },
+    {
+      "path": "base/lib/armeabi-v7a/libunity.so",
+      "abi": "armeabi-v7a",
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "aligned_16kb": true
+    }
+  ],
+  "bundleOptimizations": {
+    "splitsConfig": {
+      "splitDimension": [
+        {
+          "value": "ABI"
+        },
+        {
+          "value": "SCREEN_DENSITY",
+          "negate": true
+        },
+        {
+          "value": "LANGUAGE",
+          "negate": true
+        },
+        {
+          "value": "TEXTURE_COMPRESSION_FORMAT",
+          "suffixStripping": {
+            "enabled": true
+          }
+        }
+      ]
+    },
+    "uncompressNativeLibraries": {
+      "alignment": "PAGE_ALIGNMENT_16K"
+    },
+    "storeArchive": {
+      "enabled": true
+    }
+  },
+  "errors": [
+    "Advertising SDK/permission present"
+  ],
+  "status": "artifact_checks_failed",
+  "signature": "verified separately by guarded builder",
+  "deviceOrEmulatorStarted": false,
+  "uploaded": false,
+  "publicationReady": false,
+  "pending": [
+    "In-app links/age consent, device launch, purchases and provider delivery",
+    "Generated APK ZIP alignment on 16KB devices and Console reconciliation"
+  ]
+}

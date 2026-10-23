@@ -1,0 +1,87 @@
+{
+  "checked_at": "2026-10-19T11:35:21.080257+00:00",
+  "package": "com.multicastgames.catscuteminer",
+  "owner_decision": "Убери сейчас рекламу из игры. Первый релиз без нее. Потом второй подключим",
+  "status": "no_ads_source_and_editor_verified_pending_final_native_artifact",
+  "ads_enabled": false,
+  "ads_deferred_until": "second_release",
+  "max_package_installed": false,
+  "android_max_define": false,
+  "max_runtime_assembly": false,
+  "native_applovin_dependency_declared": false,
+  "advertising_id_permission": "tools:node=remove; final merged manifest pending",
+  "visible_offers_removed": [
+    "wooden_chest_for_ad",
+    "floating_reward_bonus",
+    "offline_income_double",
+    "advertising_opt_in"
+  ],
+  "editor_follows_no_ads_release": true,
+  "simulated_ad_rewards": "explicit UNITY_EDITOR-only test opt-in; absent from Android player",
+  "direct_disabled_actions": "ad store purchase, offline doubling and bonus claim cannot grant rewards",
+  "earned_reward_recovery_preserved": true,
+  "purchases_preserved": true,
+  "consumable_sku_count": 6,
+  "analytics_preserved": [
+    "AppMetrica",
+    "Adjust",
+    "Meta App Events"
+  ],
+  "age_protection_preserved": "13+ audience; allunder16/unknown protected",
+  "deferred_settings_ref": "Tools/GooglePlay/DeferredMaxSdk/Resources/AppLovinSettings.asset",
+  "deferred_settings_sha256": "4688dbeff2186aac1160416312e1dc07ad9f0a0453d2573007b434f2f9b3f6f0",
+  "retained_client_key_matches_runtime": true,
+  "retained_rewarded_unit": "f27564b55995aa89",
+  "backend_unit_changed": false,
+  "mac_source_and_ci_sync_verified": true,
+  "source_sha256": {
+    "Packages/manifest.json": "58a7b09ef8ff0e12bcd691e2a1b0d7e25c9b2af23ba24bb2e244b9c006ecf9b9",
+    "Packages/packages-lock.json": "69f3bf56b2d060ab1c032db4809dbb4009b00d27984c6f757ee00d97df744531",
+    "Assets/Game/Scripts/Runtime/CatMiners.Runtime.asmdef": "1a57efef81579c001ea66c9b6bab36350911f7f8fe4f0dddd2e9f5ec58545e3e",
+    "ProjectSettings/ProjectSettings.asset": "0172f2bd7f2372ed155e7268319f3c416d469caa68bb211e20f4dcfe02b2041b",
+    "Assets/Plugins/Android/mainTemplate.gradle": "4e87123f92614b2d20a3eca8a08d325be1cb9184c21e7889429247841b006f52",
+    "ProjectSettings/AndroidResolverDependencies.xml": "1b1b29b6e7d9c1f7d7fe3ac31814b1bfb81e754dec0ee0656d19438d0e5000a0",
+    "Assets/Plugins/Android/AndroidManifest.xml": "30b242ab9a80daebdc88c4da9e2fcc6e666a42e33ab7bc3c6d17f52243941cd9",
+    "Assets/Game/Scripts/Runtime/Integrations/GameSdkConfiguration.cs": "72b818869c9be6abacd242b431a43cd1588f19e87090d83bfb2561f39113a18d",
+    "Assets/Game/Scripts/Runtime/Outpost/OutpostController.Integrations.cs": "6749dac4c7b3ac480e4e42afd60c439a5903d2d09462d53f6ed6b537bad7614f",
+    "Assets/Game/Scripts/Runtime/Outpost/OutpostController.Commands.cs": "bc42f67ea07fa11567e51e77f1448136b07fff59b6d570efeb0a1904032d6313",
+    "Assets/Game/Scripts/Editor/GooglePlayProjectConfiguration.cs": "c1de46f3ec979cad77c9bfabddaf26e805794a2dc19afa504c74c48562101ba8",
+    "Assets/Game/Scripts/Editor/RuntimeSdkReleaseGates.cs": "01aa4449d420df26fd53d8c1fbf554f4fa1d058f577362fe5160c52b2a9ad7af",
+    "Assets/Game/Scripts/Editor/AndroidPlayerApiCheck.cs": "83255dd93a62b3188edd82966afc04ed7c057ac22055038ce54796b3afdebfa6",
+    "Assets/Game/Tests/PlayMode/Outpost/OutpostStoreUiTests.cs": "6207751f218c3420a1d81b7cb6fec1edc768fd22eaf94050ef20d384953d1bd0",
+    "Assets/Game/Tests/PlayMode/Outpost/OutpostBonusUiTests.cs": "ff7b74c4d632798a2469cde56c99678afae0405e1d4725a1fdbaea73a81cfdb9",
+    "Assets/Game/Tests/PlayMode/Outpost/OutpostCardsUiTests.cs": "484fa9f7cfcc5e8a17d0e3892a8e4ce16c0ceab1d005e2cf94dbafec945f75b8"
+  },
+  "tests": {
+    "playmode": {
+      "evidence_ref": "release/google-play/evidence/no-ads-first-release-playmode-20261019.xml",
+      "passed": 18,
+      "failed": 0,
+      "sha256": "698dac367bca0ecfb54ea9e511afc437adddaac89051ee5f48ba41f089401b1b"
+    },
+    "editmode": {
+      "evidence_ref": "release/google-play/evidence/no-ads-first-release-editmode-20261019.xml",
+      "passed": 75,
+      "failed": 0,
+      "sha256": "7315aeb0710b903a15ade8c2e438116799bb9ce2627a79020a14cb020fa05dfc"
+    }
+  },
+  "android_player_csharp": {
+    "evidence_ref": "release/google-play/evidence/no-ads-first-release-android-api-20261019.json",
+    "sha256": "9f805d3f9189a11737c732ee963c8a2a8b0a7b2a69957f957fad2738d1abd569",
+    "passed": true,
+    "ads_enabled": false,
+    "max_assembly_present": false,
+    "purchasing_assembly_present": true,
+    "log_on_mac": "build/ci-logs/Method-20261019-153205.log",
+    "unity_version": "6000.6.4f1",
+    "no_ads_source_gate_passed": true
+  },
+  "test_fixture_adjustment": "Dynamite UI fixture waits for workers to open the narrow mine entrance before requesting an eligible simulated reward; production reward rules unchanged.",
+  "native_gradle_build": "not_run",
+  "aab_built": false,
+  "uploaded": false,
+  "device_or_emulator_started": false,
+  "legal_documents": "review_only_not_adopted_not_published",
+  "operator_process_confirmed": false
+}

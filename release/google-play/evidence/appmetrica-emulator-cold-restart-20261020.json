@@ -1,0 +1,62 @@
+{
+  "at": "2026-10-20T16:40:11.767210+00:00",
+  "emulator": true,
+  "installed_version": "0.1.4",
+  "installed_version_code": 5,
+  "process_running": true,
+  "screenshot_ref": "release/google-play/evidence/appmetrica-emulator-cold-restart-20261020.png",
+  "mc_lines": [
+    "564.134 Consent Game detail=1 ms=0",
+    "564.135 Consent AppMetrica detail=1 ms=0",
+    "564.135 Consent Adjust detail=0 ms=0",
+    "564.135 Consent Meta detail=0 ms=0",
+    "564.135 Consent Max detail=0 ms=0",
+    "564.135 SessionStart Game detail=0 ms=0",
+    "564.135 SdkInitStart AppMetrica detail=0 ms=0",
+    "564.137 Event Game detail=1 ms=0 event=consent_chosen",
+    "564.145 Sent AppMetrica detail=1 ms=0 event=consent_chosen",
+    "564.145 Event Game detail=15 ms=0 event=session_started",
+    "564.146 Sent AppMetrica detail=15 ms=0 event=session_started",
+    "564.398 Event Game detail=0 ms=0 event=game_loaded",
+    "564.398 Sent AppMetrica detail=0 ms=0 event=game_loaded",
+    "564.398 Event Game detail=2 ms=0 event=mine_started",
+    "564.398 Sent AppMetrica detail=2 ms=0 event=mine_started",
+    "564.419 Foreground Game detail=0 ms=0",
+    "564.419 Focused Game detail=0 ms=0",
+    "564.434 SdkInitResult AppMetrica detail=3 ms=299",
+    "564.454 Event Game detail=36 ms=0 event=purchase_failed",
+    "564.454 Sent AppMetrica detail=36 ms=0 event=purchase_failed",
+    "567.358 Event Game detail=49 ms=0 event=currency_earned",
+    "567.358 Sent AppMetrica detail=49 ms=0 event=currency_earned",
+    "568.786 Event Game detail=49 ms=0 event=currency_earned",
+    "568.786 Sent AppMetrica detail=49 ms=0 event=currency_earned"
+  ],
+  "error_marker_counts": {
+    "ClassNotFoundException": 1,
+    "NoClassDefFoundError": 0,
+    "AndroidJavaException": 0,
+    "NoSuchMethodError": 0,
+    "Failed to activate": 0,
+    "SSLHandshakeException": 0,
+    "UnknownHostException": 0,
+    "JSONException": 0,
+    "FATAL EXCEPTION": 0,
+    "Fatal signal": 0,
+    "NullReferenceException": 0,
+    "ExecutionEngineException": 0
+  },
+  "raw_logs_private": true,
+  "diagnostics_are_not_delivery_acknowledgements": true,
+  "sdk_submission_event_counts": {
+    "consent_chosen": 1,
+    "session_started": 1,
+    "game_loaded": 1,
+    "mine_started": 1,
+    "purchase_failed": 1,
+    "currency_earned": 2
+  },
+  "sdk_initialization_lines": [
+    "564.135 SdkInitStart AppMetrica detail=0 ms=0",
+    "564.434 SdkInitResult AppMetrica detail=3 ms=299"
+  ]
+}

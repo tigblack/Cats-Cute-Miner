@@ -1,0 +1,52 @@
+{
+  "checked_at": "2026-10-18T10:59:04.415979+00:00",
+  "package": "com.multicastgames.catscuteminer",
+  "route": "agentb scoped native CDP transfer then fresh hub browser per command",
+  "session_transfer": {
+    "services": [
+      "adjust",
+      "superleo"
+    ],
+    "status": "completed",
+    "warnings": [],
+    "private_values_emitted": false
+  },
+  "play_console": {
+    "status": "authenticated_current_game_read_verified",
+    "developer_id": "8879742639795815518",
+    "app_id": "4974963942177850884",
+    "actor": "sargsyan@multicastgames.com",
+    "signing_evidence_ref": "release/google-play/evidence/google-play-signing-current-20261018.json"
+  },
+  "adjust": {
+    "status": "authenticated_own_app_readback_verified",
+    "organization": "MULTICAST GAMES LIMITED",
+    "actor_display": "Gdev Gdev",
+    "app_name": "Cats Cute Miner",
+    "app_token": "cdbdt3hkj56o",
+    "reporting_currency": "USD",
+    "visible_events_count": 53,
+    "outside_eea_only": false,
+    "url": "https://suite.adjust.com/apps/cdbdt3hkj56o/details",
+    "all_event_tokens_rechecked": false,
+    "runtime_delivery_verified": false
+  },
+  "superleo": {
+    "status": "authenticated_own_project_readback_verified",
+    "actor": "sargsyan@multicastgames.com",
+    "role": "user",
+    "frontend_entry": "/assets/index-BZptIBm_.js",
+    "verified_ui_api_client_export": "a",
+    "matching_package_records": 1,
+    "project_id": "e4e954f1-59a9-479a-821f-be7eed9aff47",
+    "name": "Cats Cute Miner",
+    "platform": "android",
+    "android_package": "com.multicastgames.catscuteminer",
+    "facebook_app_id": "5614484342110411",
+    "adjust_sdk_app_token": "cdbdt3hkj56o",
+    "appmetrica_binding_observed": false,
+    "write_permissions_exercised": false
+  },
+  "provider_configuration_writes": false,
+  "release_submitted": false
+}

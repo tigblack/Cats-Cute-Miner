@@ -1,0 +1,20 @@
+{
+  "action": "backend_game_create",
+  "created": true,
+  "success": true,
+  "game_id": "gm_cats_cute_miner",
+  "package": "com.multicastgames.catscuteminer",
+  "ios_bundle": "com.multicastgames.catscuteminer",
+  "verified": true,
+  "checked_at": "2026-10-14T13:14:57.278Z",
+  "config_shape": [
+    "googlePlayPackageName",
+    "appStoreBundleId",
+    "ruStoreEnabled",
+    "ruStorePackageName",
+    "ruStoreAppId",
+    "adjustEnabled",
+    "adjustAppTokenSet",
+    "adjustPurchaseEventToken"
+  ]
+}

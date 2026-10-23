@@ -1,0 +1,13 @@
+{
+  "Version": "overrides-3",
+  "Zones": {
+    "zone1": {
+      "Name": "mia-two-lane-mine-2",
+      "Reason": "Owner revision: compact two-lane Mine 1, 12 rocks, two debris blocks on a short right branch, and the rescue lock (15 total). Prior runs keep their saved layout.",
+      "ReplacementWidth": 13,
+      "ReplacementDepth": 11,
+      "ReplacementGrid": ".,.,.,.,.,.,e:exit:1:scg_m001_exit,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,r:rockonboardingmine1:1,r:rockonboardingmine1:1,.,.,.,.,.,.,.,.,.,.,.,r:rockonboardingmine1:1,r:rockonboardingmine1:1,.,.,.,.,.,.,.,.,.,.,.,r:rockonboardingmine1:1,r:rockonboardingmine1:1,.,.,.,.,.,.,.,.,.,.,.,r:rockonboardingmine1:1,r:rockonboardingmine1:1,.,.,.,.,.,.,.,.,.,.,.,r:rockonboardingmine1:1,r:rockonboardingmine1:1,.,.,.,.,.,.,.,.,.,.,.,r:rockonboardingmine1:1,r:rockonboardingmine1:1,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,.,c:spawningcart:1,.,.,.,.,.,.,.",
+      "AddTokens": []
+    }
+  }
+}

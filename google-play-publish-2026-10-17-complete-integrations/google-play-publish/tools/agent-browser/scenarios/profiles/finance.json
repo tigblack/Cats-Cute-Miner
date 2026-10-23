@@ -1,0 +1,16 @@
+{
+  "_status": "метки, адрес и кнопки сняты с живой страницы Piggy Payday 2026-10-14 (только чтение); шаги раннером не прогонялись, после первого успешного прогона убери _status. Только шаг 1 из 2 (чекбокс и Next): второй шаг мастера не наблюдался, его дополни после первого живого прогона",
+  "url": "{{base}}/app-content/finance?hl=en",
+  "steps": [
+    {
+      "check": "My app doesn't provide any financial features"
+    },
+    {
+      "click": "Next"
+    }
+  ],
+  "expect": [],
+  "forbid": [
+    "Something went wrong"
+  ]
+}

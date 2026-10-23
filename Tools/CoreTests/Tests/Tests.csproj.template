@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Те же EditMode-тесты, что в Unity, но через dotnet test. -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <DefineConstants>$(DefineConstants);CATMINERS_DOTNET_TESTS</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Assets\Game\Tests\EditMode\**\*.cs" />
+  </ItemGroup>
+  <!-- Черновик теста вне Assets (Unity его не компилирует): -p:CoreTestsDraft=Имя.cs из Tools/CoreTests/Drafts. -->
+  <ItemGroup Condition="'$(CoreTestsDraft)' != ''">
+    <Compile Include="..\Drafts\$(CoreTestsDraft)" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoreLib\CoreLib.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,30 @@
+[
+  {
+    "url": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/",
+    "status": 200,
+    "expected_sha256": "b9e33a4b6d46ce9b9dfd562a16309e2f20d7d46b71cc172a44bfa24bf186df96",
+    "observed_sha256": "b9e33a4b6d46ce9b9dfd562a16309e2f20d7d46b71cc172a44bfa24bf186df96",
+    "matches_local": true
+  },
+  {
+    "url": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/",
+    "status": 200,
+    "expected_sha256": "7ad0be892504bd8850868b522ee8259d277412ae507767e51d43ae14939b09cb",
+    "observed_sha256": "7ad0be892504bd8850868b522ee8259d277412ae507767e51d43ae14939b09cb",
+    "matches_local": true
+  },
+  {
+    "url": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/",
+    "status": 200,
+    "expected_sha256": "2528076312d34010c9e2e2ad71ab2513f608cbbf3572ab109ff342a611f89f80",
+    "observed_sha256": "2528076312d34010c9e2e2ad71ab2513f608cbbf3572ab109ff342a611f89f80",
+    "matches_local": true
+  },
+  {
+    "url": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/delete-data/",
+    "status": 200,
+    "expected_sha256": "c0eee1d675e1940860ce44bad6b8122879e33d64cdd3a514b23b04773aec2520",
+    "observed_sha256": "c0eee1d675e1940860ce44bad6b8122879e33d64cdd3a514b23b04773aec2520",
+    "matches_local": true
+  }
+]

@@ -1,0 +1,28 @@
+{
+  "checked_at": "2026-10-19T18:49:58.606185+00:00",
+  "package": "com.multicastgames.catscuteminer",
+  "version": "0.1.1",
+  "version_code": 2,
+  "sha256": "00894758c49ecf3bc8e9ca2c5ccb189fb9f10aa4ab3b6a71c477e418dd8dddc1",
+  "console_original_matches_signed_builder_receipt": true,
+  "builder_receipt_ref": "release/google-play/builds/cat-miners-0.1.1-2-noads-r9.aab.build.json",
+  "artifact_identity_ref": "release/google-play/evidence/console-original-aab-identity-20261019.json",
+  "owner_test_report_ref": "release/google-play/evidence/owner-aab-noads-tested-20261019.json",
+  "legalConfigured": false,
+  "localArtifactOnly": true,
+  "runtime_implication": "Matching original AAB was built with LegalValid=false; GameSdkRuntime.Initialize requires Config.LegalValid for AppMetrica/Adjust/Meta, NeutralAgeFlow hides legal-document buttons until LegalValid. Published URLs added later to Console do not change this AAB.",
+  "ABIs_in_actual_AAB": [
+    "arm64-v8a",
+    "armeabi-v7a"
+  ],
+  "console_observations": {
+    "Alpha": "Available to testers on Google Play",
+    "Production": "Inactive",
+    "privacy_url_change": "not yet submitted for review",
+    "supported_devices": 17090,
+    "memory_page_size": "Supports 16 KB",
+    "API_levels": "26+",
+    "target_sdk": 36
+  },
+  "next_step": "Configure verified published legal URLs and exact own hosted-page allowlist; build one updated AAB, verify in-app links and eligible analytics plus test purchase, then submit production with pending privacy metadata. Existing no-ads test accepted as owner evidence."
+}

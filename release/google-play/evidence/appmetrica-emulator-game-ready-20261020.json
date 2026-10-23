@@ -1,0 +1,39 @@
+{
+  "at": "2026-10-20T16:32:00.705456+00:00",
+  "emulator": true,
+  "installed_version": "0.1.4",
+  "installed_version_code": 5,
+  "process_running": true,
+  "screenshot_ref": "release/google-play/evidence/appmetrica-emulator-game-ready-20261020.png",
+  "mc_lines": [
+    "71.977 Consent Game detail=16 ms=0",
+    "71.978 Consent AppMetrica detail=0 ms=0",
+    "71.978 Consent Adjust detail=0 ms=0",
+    "71.978 Consent Meta detail=0 ms=0",
+    "71.978 Consent Max detail=0 ms=0",
+    "71.978 SessionStart Game detail=0 ms=0",
+    "71.978 Event Game detail=1 ms=0 event=consent_chosen",
+    "71.978 Event Game detail=15 ms=0 event=session_started",
+    "72.295 Event Game detail=0 ms=0 event=game_loaded",
+    "72.295 Event Game detail=2 ms=0 event=mine_started",
+    "72.324 Foreground Game detail=0 ms=0",
+    "72.324 Focused Game detail=0 ms=0",
+    "72.335 Event Game detail=36 ms=0 event=purchase_failed"
+  ],
+  "error_marker_counts": {
+    "ClassNotFoundException": 1,
+    "NoClassDefFoundError": 0,
+    "AndroidJavaException": 0,
+    "NoSuchMethodError": 0,
+    "Failed to activate": 0,
+    "SSLHandshakeException": 0,
+    "UnknownHostException": 0,
+    "JSONException": 0,
+    "FATAL EXCEPTION": 0,
+    "Fatal signal": 0,
+    "NullReferenceException": 0,
+    "ExecutionEngineException": 0
+  },
+  "raw_logs_private": true,
+  "diagnostics_are_not_delivery_acknowledgements": true
+}

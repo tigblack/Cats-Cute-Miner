@@ -1,0 +1,68 @@
+{
+  "checked_at": "2026-10-19T18:21:36.477Z",
+  "package": "com.multicastgames.catscuteminer",
+  "gameId": "gm_cats_cute_miner",
+  "status": "six_google_products_active_backend_and_client_catalogue_match",
+  "products": [
+    {
+      "sku": "gems_handful",
+      "gems": 160,
+      "base_price_usd": "1.99",
+      "type": "consumable",
+      "google_active_purchase_options": 1,
+      "backend_mapping_verified": true
+    },
+    {
+      "sku": "gems_sack",
+      "gems": 500,
+      "base_price_usd": "5.99",
+      "type": "consumable",
+      "google_active_purchase_options": 1,
+      "backend_mapping_verified": true
+    },
+    {
+      "sku": "gems_bag",
+      "gems": 1200,
+      "base_price_usd": "11.99",
+      "type": "consumable",
+      "google_active_purchase_options": 1,
+      "backend_mapping_verified": true
+    },
+    {
+      "sku": "gems_crate",
+      "gems": 2500,
+      "base_price_usd": "22.99",
+      "type": "consumable",
+      "google_active_purchase_options": 1,
+      "backend_mapping_verified": true
+    },
+    {
+      "sku": "gems_cart",
+      "gems": 6500,
+      "base_price_usd": "59.99",
+      "type": "consumable",
+      "google_active_purchase_options": 1,
+      "backend_mapping_verified": true
+    },
+    {
+      "sku": "gems_pile",
+      "gems": 14000,
+      "base_price_usd": "119.99",
+      "type": "consumable",
+      "google_active_purchase_options": 1,
+      "backend_mapping_verified": true
+    }
+  ],
+  "google_console_url": "https://play.google.com/console/u/1/developers/8879742639795815518/app/4974963942177850884/one-time-products?hl=en",
+  "evidence_refs": [
+    "release/google-play/evidence/iap-import-execution-20261019.json",
+    "release/google-play/evidence/iap-after-import-20261019.json"
+  ],
+  "runtime_auth_catalog_reused_ref": "release/google-play/evidence/backend-runtime-catalog.json",
+  "runtime_catalog_reuse_basis": "Same gameId, package, six consumable SKUs, Google mappings and rewards verified unchanged before/after import",
+  "device_purchase_status": "waiting_for_device",
+  "device_purchase_verified": false,
+  "new_build_or_release_performed": false,
+  "ads_scope": "first_release_no_ads_preserved",
+  "app_distribution_changed": false
+}

@@ -1,0 +1,37 @@
+{
+  "checked_at": "2026-10-18T10:05:45.269786+00:00",
+  "package": "com.multicastgames.catscuteminer",
+  "unity": "6000.6.4f1",
+  "scope": "isolated_macos_editmode_and_android_player_script_compile",
+  "editmode": {
+    "filter": "PaymentDeliveryTests|PaymentAuthenticationTests|IntegrationPrivacyRewardTests|MineDressingTests",
+    "result": "Passed",
+    "total": 247,
+    "passed": 247,
+    "failed": 0,
+    "skipped": 0,
+    "duration_seconds": 37.12049,
+    "started_at": "2026-10-18 10:01:33Z UTC",
+    "finished_at": "2026-10-18 10:02:10Z UTC",
+    "raw_evidence_ref": "release/google-play/evidence/macos-release-editmode-20261018.xml",
+    "xml_sha256": "bce1864c35be2c073cd6f86227c0db996dde1ca3ece025e00742f18507a2461c"
+  },
+  "android_player_scripts": {
+    "evidence_ref": "release/google-play/evidence/android-player-api-compile-20261018.json",
+    "unity": "6000.6.4f1",
+    "target": "Android",
+    "runtime_present": true,
+    "adsEnabled": false,
+    "max_assemblies_present": false
+  },
+  "runtime_test_sources_and_manifests_fingerprint": "b93fbb9f45c36577d19176b66412028610120780b7820676f70d3c1959648dc5",
+  "fingerprint_file_count": 145,
+  "builder_source_sha256": "036ac9963a3cc32b016caa3c56de255ba39feb92841dc022627719129c2ac602",
+  "native_aab_built": false,
+  "device_runtime_verified": false,
+  "limitations": [
+    "EditMode and player C# compilation do not prove native Gradle build, signature, ABIs, Billing resolution or 16 KB alignment.",
+    "No current final artifact or device/provider/purchase delivery evidence.",
+    "The actual legal configuration and current Mac signing credentials remain unavailable."
+  ]
+}

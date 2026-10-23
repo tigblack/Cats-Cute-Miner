@@ -1,0 +1,105 @@
+{
+  "name": "CatMiner_Axon_Factories_30s_en",
+  "language": "en",
+  "duration_seconds": 30,
+  "dimensions": [
+    1080,
+    1920
+  ],
+  "fps": 30,
+  "video": "release/advertising/applovin/assets/CatMiner_Axon_Factories_30s_en.mp4",
+  "runtime": "Actual Unity Outpost gameplay from isolated AdCaptureTests, prior factory captures reused",
+  "current_release_comparison": "Factory loop preserved. No card-count, shop, ad-reward or offline-double footage included. Final Android comparison pending.",
+  "sources": [
+    {
+      "path": "build/adcapture/f10_chains.mp4",
+      "sha256": "ca47d7bba9fb7cbe1ca244f00fff7fa7637cecb56f9dce76f041e5118aa0279b"
+    },
+    {
+      "path": "build/adcapture/f10_deliver.mp4",
+      "sha256": "c4ddb99dd94fc0edfd1685708cbdee7ee7f5c177271bc39a6d20b0e9d06beaf2"
+    },
+    {
+      "path": "build/adcapture/f140_factories.mp4",
+      "sha256": "d90cb6b8508f66eafee5ff2994b467c50d3b42c5ba488d8d15ef14975cb74a75"
+    },
+    {
+      "path": "build/adcapture/f30_deliver.mp4",
+      "sha256": "0771cbffca23a7f7601cdc5b2cf24c69ff55d2e8f51a2bc11f01cd46910175a6"
+    },
+    {
+      "path": "build/adcapture/f30_market.mp4",
+      "sha256": "bb314dd6eca6173c44b17ff22b7d0dd6049ccc68765f230c1580ff9fd82451a2"
+    },
+    {
+      "path": "build/adcapture/f3_auto.mp4",
+      "sha256": "7caea20e742b058bb0db44f51c8374f49b871c8241381ff0284c439bbe2f7c8d"
+    }
+  ],
+  "audio": "Game SFX reconstructed from frame-matched capture cue logs; original synthesized t1_progress_30 music, existing project pipeline",
+  "staging": "QA mine progress and automation staged in isolated capture profiles; no production purchase/reward receipts",
+  "story": {
+    "situation": "A cat crew finds a chained factory in a mine.",
+    "desire": "The player wants the factory to produce useful goods.",
+    "conflict": "Chains block production and manual dispatch needs attention.",
+    "change": "The crew unlocks the factory; the player dispatches goods and automates production.",
+    "result": "More factories deliver goods that the player can sell for in-game gold."
+  },
+  "shot_plan": [
+    {
+      "from": 0,
+      "to": 3.75,
+      "source": "f10_chains",
+      "source_from": 3.2666666666666666,
+      "speed": 1.0
+    },
+    {
+      "from": 3.75,
+      "to": 7.5,
+      "source": "f10_chains",
+      "source_from": 7.016666666666667,
+      "speed": 1.0
+    },
+    {
+      "from": 7.5,
+      "to": 12.1875,
+      "source": "f10_deliver",
+      "source_from": 0.30000000000000004,
+      "speed": 1.0
+    },
+    {
+      "from": 12.1875,
+      "to": 15,
+      "source": "f30_deliver",
+      "source_from": 0.20000000000000007,
+      "speed": 1.0
+    },
+    {
+      "from": 15,
+      "to": 18.75,
+      "source": "f30_market",
+      "source_from": 0.6000000000000001,
+      "speed": 1.0
+    },
+    {
+      "from": 18.75,
+      "to": 22.5,
+      "source": "f3_auto",
+      "source_from": 0.30000000000000004,
+      "speed": 1.0
+    },
+    {
+      "from": 22.5,
+      "to": 26.25,
+      "source": "f140_factories",
+      "source_from": 4.5,
+      "speed": 1.0
+    }
+  ],
+  "advertising_in_game": false,
+  "purchases_disclosed": true,
+  "campaign_uploaded": false,
+  "campaign_activated": false,
+  "review": "Full video/audio stream decode passed; renamed CAT MINER endcard and full title visually reviewed; final installed Android comparison and full perceptual audio review pending",
+  "display_name": "Cat Miner: Idle Tycoon"
+}

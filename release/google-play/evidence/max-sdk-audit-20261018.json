@@ -1,0 +1,17 @@
+{
+  "version": "8.6.6",
+  "native_android_version": "13.6.4",
+  "registry": "https://unity.packages.applovin.com/com.applovin.mediation.ads",
+  "tarball": "https://unity.packages.applovin.com/com.applovin.mediation.ads/-/com.applovin.mediation.ads-8.6.6.tgz",
+  "integrity_verified": true,
+  "sha1": "799700057ec7f61e6f26b32c253a326a38152cc0",
+  "required_API_markers_present": [
+    "HasSupportedCmp",
+    "IsUserConsentSet",
+    "ShowRewardedAd",
+    "OnAdReceivedRewardEvent",
+    "OnAdRevenuePaidEvent",
+    "SetSdkKey"
+  ],
+  "reason_for_reviewed_version": "Live owner project resolved8.6.6 from official registry; preserve that version and align release gates rather than downgrade to initially proposed8.4.2"
+}

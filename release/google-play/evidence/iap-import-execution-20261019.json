@@ -1,0 +1,152 @@
+{
+  "started_at": "2026-10-19T18:19:47.059Z",
+  "package": "com.multicastgames.catscuteminer",
+  "gameId": "gm_cats_cute_miner",
+  "request_sha256": "a62ad331822e84b6621a081df965a3501e9865934712ae9100f41076e8b8735b",
+  "products": [
+    {
+      "sku": "gems_handful",
+      "type": "consumable",
+      "title": "Handful Gems",
+      "description": "Adds 160 gems. Consumable in-game currency.",
+      "priceUsd": 1.99,
+      "rewards": [
+        {
+          "sku": "gems",
+          "quantity": 160
+        }
+      ]
+    },
+    {
+      "sku": "gems_sack",
+      "type": "consumable",
+      "title": "Sack Gems",
+      "description": "Adds 500 gems. Consumable in-game currency.",
+      "priceUsd": 5.99,
+      "rewards": [
+        {
+          "sku": "gems",
+          "quantity": 500
+        }
+      ]
+    },
+    {
+      "sku": "gems_bag",
+      "type": "consumable",
+      "title": "Bag Gems",
+      "description": "Adds 1,200 gems. Consumable in-game currency.",
+      "priceUsd": 11.99,
+      "rewards": [
+        {
+          "sku": "gems",
+          "quantity": 1200
+        }
+      ]
+    },
+    {
+      "sku": "gems_crate",
+      "type": "consumable",
+      "title": "Crate Gems",
+      "description": "Adds 2,500 gems. Consumable in-game currency.",
+      "priceUsd": 22.99,
+      "rewards": [
+        {
+          "sku": "gems",
+          "quantity": 2500
+        }
+      ]
+    },
+    {
+      "sku": "gems_cart",
+      "type": "consumable",
+      "title": "Cart Gems",
+      "description": "Adds 6,500 gems. Consumable in-game currency.",
+      "priceUsd": 59.99,
+      "rewards": [
+        {
+          "sku": "gems",
+          "quantity": 6500
+        }
+      ]
+    },
+    {
+      "sku": "gems_pile",
+      "type": "consumable",
+      "title": "Pile Gems",
+      "description": "Adds 14,000 gems. Consumable in-game currency.",
+      "priceUsd": 119.99,
+      "rewards": [
+        {
+          "sku": "gems",
+          "quantity": 14000
+        }
+      ]
+    }
+  ],
+  "operation": "Native SuperLeo import JSON form; creates/activates Google products and preserves approved backend mappings",
+  "status": "response_received_requires_target_readback",
+  "http_status": 200,
+  "response": {
+    "success": true,
+    "data": {
+      "results": [
+        {
+          "sku": "gems_handful",
+          "googlePlay": {
+            "ok": true
+          },
+          "backend": {
+            "ok": true
+          }
+        },
+        {
+          "sku": "gems_sack",
+          "googlePlay": {
+            "ok": true
+          },
+          "backend": {
+            "ok": true
+          }
+        },
+        {
+          "sku": "gems_bag",
+          "googlePlay": {
+            "ok": true
+          },
+          "backend": {
+            "ok": true
+          }
+        },
+        {
+          "sku": "gems_crate",
+          "googlePlay": {
+            "ok": true
+          },
+          "backend": {
+            "ok": true
+          }
+        },
+        {
+          "sku": "gems_cart",
+          "googlePlay": {
+            "ok": true
+          },
+          "backend": {
+            "ok": true
+          }
+        },
+        {
+          "sku": "gems_pile",
+          "googlePlay": {
+            "ok": true
+          },
+          "backend": {
+            "ok": true
+          }
+        }
+      ]
+    }
+  },
+  "completed_at": "2026-10-19T18:19:58.070Z",
+  "ui": "SUPERLEO\nby Multicast\nGenerator\nCampaigns\nМонетизация Ads\nВыгрузки AppMetrica\nПровижены и интеграции\nМонетизация IAP\nГалерея\nИнструменты\nAI Ассистент\nСобытия\nAdjust Events\nАналитика\nA/B Тесты\nA/B тесты Play Console\nОтзывы\nДокументация\nНастройки\nSA\nАдминистратор\nsargsyan@multicastgames.com\nБаланс:\n$20.00\nМонетизация IAP\nИмпорт файла покупок\n\nJSON-файл вида { packageName, products: [{ sku, type, title, description, priceUsd, rewards }] } — каждый продукт заводится в Google Play (создаётся и сразу активируется) и в игровом бэкенде. Google Play и бэкенд — независимые системы, поэтому по каждому продукту ниже покажутся два отдельных результата.\n\nПоследний файл: iap-import.prepared.json\n\nSKU\tGoogle Play\tБэкенд\ngems_handful\tOK\tOK\ngems_sack\tOK\tOK\ngems_bag\tOK\tOK\ngems_crate\tOK\tOK\ngems_cart\tOK\tOK\ngems_pile\tOK\tOK\n"
+}

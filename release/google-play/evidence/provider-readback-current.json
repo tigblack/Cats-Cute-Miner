@@ -1,0 +1,53 @@
+{
+  "checked_at": "2026-10-16T11:35:57.040955+00:00",
+  "route": "Actual currently loaded SuperLeo UI API client; existing own project identity verified",
+  "actor": "sargsyan@multicastgames.com",
+  "project_id": "e4e954f1-59a9-479a-821f-be7eed9aff47",
+  "package": "com.multicastgames.catscuteminer",
+  "max": {
+    "unit_id": "f27564b55995aa89",
+    "platform": "android",
+    "format": "REWARD",
+    "disabled": false,
+    "enabled_demand": [
+      "APPLOVIN_NETWORK",
+      "APPLOVIN_EXCHANGE"
+    ],
+    "mediated_networks": [],
+    "sdk_key_not_yet_verified": true
+  },
+  "meta": {
+    "project_app_id": "5614484342110411"
+  },
+  "provider_reads": {
+    "connections": "success; admob/applovin/mintegral/unity/pangle keys present; no credential values exported",
+    "admob": {
+      "success": true,
+      "count": 61,
+      "matching_game_records": 0
+    },
+    "unity": {
+      "success": true,
+      "count": 44,
+      "matching_game_records": 0
+    },
+    "mintegral": {
+      "success": true,
+      "count": 34,
+      "matching_game_records": 0
+    },
+    "pangle": {
+      "success": true,
+      "count": 38,
+      "matching_game_records": 0
+    }
+  },
+  "adjust_evidence": "release/google-play/evidence/adjust-provision-current.json",
+  "mutations": "Adjust minimal create refused before creation. No template copied. No other provider resources modified.",
+  "pending": [
+    "MAX SDK key via signed-in account",
+    "Own mediation resources with mixed-audience settings; default16+ creation flags not used",
+    "Own minimal Adjust app via dashboard or supported no-template API",
+    "Adjust events and partner data sharing"
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "package": "com.multicastgames.catscuteminer",
+  "status": "adopted_published_public_HTML_verified",
+  "adoption_ref": "Docs/Legal/CatsCuteMiner/adoption-current.json",
+  "adopted": true,
+  "operator_process_confirmed": true,
+  "published": true,
+  "public_folder": "Docs/Legal/CatsCuteMiner/public-site",
+  "files": [
+    {
+      "source": "Docs/Legal/CatsCuteMiner/privacy-policy.md",
+      "path": "Docs/Legal/CatsCuteMiner/public-site/privacy/index.html",
+      "route": "privacy/",
+      "source_sha256": "e2fa394db49578862af66d2ad8d746cc06fccad45d5164352abd1337c3d242fd",
+      "html_sha256": "7ad0be892504bd8850868b522ee8259d277412ae507767e51d43ae14939b09cb"
+    },
+    {
+      "source": "Docs/Legal/CatsCuteMiner/terms-of-use.md",
+      "path": "Docs/Legal/CatsCuteMiner/public-site/terms/index.html",
+      "route": "terms/",
+      "source_sha256": "213dfe2c7b246c136aa86c7c5e62be800ba0863844ca0dd1e2010143593f4fff",
+      "html_sha256": "2528076312d34010c9e2e2ad71ab2513f608cbbf3572ab109ff342a611f89f80"
+    },
+    {
+      "source": "Docs/Legal/CatsCuteMiner/delete-data.md",
+      "path": "Docs/Legal/CatsCuteMiner/public-site/delete-data/index.html",
+      "route": "delete-data/",
+      "source_sha256": "3e5b52dadda9f3b3e86c4a348738ddb1923ef8bccd9977713e44712f6cd1a278",
+      "html_sha256": "c0eee1d675e1940860ce44bad6b8122879e33d64cdd3a514b23b04773aec2520"
+    }
+  ],
+  "home_sha256": "b9e33a4b6d46ce9b9dfd562a16309e2f20d7d46b71cc172a44bfa24bf186df96",
+  "published_urls": {
+    "privacy": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/",
+    "terms": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/",
+    "data_requests": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/delete-data/"
+  },
+  "runtime_urls_changed": false,
+  "website_contains_tracking_or_forms": false,
+  "published_at": "2026-10-20T15:29:32.215322+00:00",
+  "publication_evidence_ref": "release/google-play/evidence/legal-publication-20261020.json"
+}

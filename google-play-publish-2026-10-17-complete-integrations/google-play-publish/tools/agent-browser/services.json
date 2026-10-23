@@ -1,0 +1,48 @@
+{
+  "play": {
+    "title": "Google Play Console",
+    "domains": [
+      "google.com"
+    ],
+    "origins": [
+      "https://play.google.com"
+    ],
+    "check": "https://play.google.com/console/u/0/developers?hl=en",
+    "loggedOut": "accounts\\.google\\.com"
+  },
+  "adjust": {
+    "title": "Adjust",
+    "domains": [
+      "adjust.com"
+    ],
+    "origins": [
+      "https://suite.adjust.com"
+    ],
+    "check": "https://suite.adjust.com/apps",
+    "loggedOut": "/login|/sign-?in"
+  },
+  "appmetrica": {
+    "title": "AppMetrica",
+    "domains": [
+      "yandex.com",
+      "yandex.ru"
+    ],
+    "origins": [
+      "https://appmetrica.yandex.com",
+      "https://appmetrica.yandex.ru"
+    ],
+    "check": "https://appmetrica.yandex.ru/application/list",
+    "loggedOut": "passport\\.yandex"
+  },
+  "superleo": {
+    "title": "Панель Multicast (SuperLeo)",
+    "domains": [
+      "dostupai.aimulticast.org"
+    ],
+    "origins": [
+      "https://dostupai.aimulticast.org"
+    ],
+    "check": "https://dostupai.aimulticast.org/",
+    "loggedOut": "/login|/sign-?in|/auth"
+  }
+}

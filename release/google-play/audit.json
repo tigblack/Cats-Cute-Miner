@@ -1,0 +1,222 @@
+{
+  "schema_version": 1,
+  "project_name": "cats-cute-miner",
+  "scope": "source_inventory_only",
+  "readiness": "not_assessed",
+  "engines": [
+    "unity"
+  ],
+  "android_markers": [],
+  "providers": {
+    "appmetrica": {
+      "runtime": "not_verified",
+      "signals": {
+        "sdk": {
+          "match_count": 3,
+          "evidence": [
+            {
+              "path": "google-play-publish/assets/access.example.json",
+              "line": 7,
+              "kind": "configuration_or_dependency"
+            },
+            {
+              "path": "google-play-publish/assets/profile.example.json",
+              "line": 24,
+              "kind": "configuration_or_dependency"
+            },
+            {
+              "path": "google-play-publish/assets/profile.example.json",
+              "line": 273,
+              "kind": "configuration_or_dependency"
+            }
+          ]
+        },
+        "initialization": {
+          "match_count": 0,
+          "evidence": []
+        },
+        "custom_events": {
+          "match_count": 0,
+          "evidence": []
+        },
+        "ad_revenue": {
+          "match_count": 0,
+          "evidence": []
+        },
+        "iap_revenue": {
+          "match_count": 0,
+          "evidence": []
+        }
+      },
+      "source_status": "signals_found"
+    },
+    "adjust": {
+      "runtime": "not_verified",
+      "signals": {
+        "sdk": {
+          "match_count": 0,
+          "evidence": []
+        },
+        "initialization": {
+          "match_count": 0,
+          "evidence": []
+        },
+        "events": {
+          "match_count": 0,
+          "evidence": []
+        },
+        "ad_revenue": {
+          "match_count": 0,
+          "evidence": []
+        }
+      },
+      "source_status": "not_detected"
+    },
+    "meta": {
+      "runtime": "not_verified",
+      "signals": {
+        "sdk": {
+          "match_count": 0,
+          "evidence": []
+        },
+        "initialization": {
+          "match_count": 0,
+          "evidence": []
+        },
+        "activation": {
+          "match_count": 0,
+          "evidence": []
+        },
+        "events": {
+          "match_count": 0,
+          "evidence": []
+        }
+      },
+      "source_status": "not_detected"
+    },
+    "max": {
+      "runtime": "not_verified",
+      "signals": {
+        "sdk": {
+          "match_count": 0,
+          "evidence": []
+        },
+        "initialization": {
+          "match_count": 0,
+          "evidence": []
+        },
+        "rewarded": {
+          "match_count": 0,
+          "evidence": []
+        },
+        "interstitial": {
+          "match_count": 0,
+          "evidence": []
+        },
+        "banner": {
+          "match_count": 0,
+          "evidence": []
+        },
+        "ad_revenue": {
+          "match_count": 0,
+          "evidence": []
+        }
+      },
+      "source_status": "not_detected"
+    },
+    "iap": {
+      "runtime": "not_verified",
+      "signals": {
+        "sdk": {
+          "match_count": 0,
+          "evidence": []
+        },
+        "initialization": {
+          "match_count": 0,
+          "evidence": []
+        },
+        "processing": {
+          "match_count": 0,
+          "evidence": []
+        },
+        "confirmation": {
+          "match_count": 0,
+          "evidence": []
+        }
+      },
+      "source_status": "not_detected"
+    }
+  },
+  "consent": {
+    "runtime": "not_verified",
+    "signals": {
+      "integration": {
+        "match_count": 0,
+        "evidence": []
+      },
+      "forced_grant_review": {
+        "match_count": 0,
+        "evidence": []
+      }
+    }
+  },
+  "coverage": {
+    "files_scanned": 1270,
+    "unreadable_files": [],
+    "skipped_large_files": [
+      "Assets/Game/Data/Source/json-data.json",
+      "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset",
+      "Docs/Reports/balance-audit/summary-after.json",
+      "Docs/Reports/balance-audit/summary-before.json",
+      "Docs/Reports/balance-audit/after/campaign-eager-rr-seed1.json",
+      "Docs/Reports/balance-audit/before/campaign-eager-rr-seed1.json",
+      "Docs/Reports/balance-audit/before/campaign-free-cheapest-seed1.json",
+      "Docs/Reports/balance-audit/unity/validator/earned-equipment.json",
+      "Docs/Reports/outpost/earned-equipment.json",
+      "Docs/Reports/topology-wide/validator/earned-equipment.json"
+    ],
+    "excluded_dirs": [
+      ".agents",
+      ".claude",
+      ".codex",
+      ".git",
+      ".godot",
+      ".gradle",
+      ".idea",
+      ".t3",
+      ".vs",
+      ".vscode",
+      "__pycache__",
+      "bin",
+      "library",
+      "node_modules",
+      "obj",
+      "temp"
+    ],
+    "excluded_root_dirs": [
+      "_research",
+      "build",
+      "builds",
+      "captures",
+      "dist",
+      "logs",
+      "output",
+      "recordings",
+      "studio-skills",
+      "test",
+      "testdata",
+      "tests",
+      "usersettings"
+    ],
+    "excluded_paths": [
+      "release/google-play"
+    ]
+  },
+  "limitations": [
+    "Regex signals include declarations and comments, not proof of execution.",
+    "SDK/package declarations and adapters do not prove an application integration.",
+    "No binary/cache, dashboard, credential, permission, build or device checks are performed.",
+    "Excluded paths, files over 2 MiB, symlinks and remote-only files are not inspected.",
+    "not_detected means no source signal in this scan, not confirmed absence."
+  ]
+}

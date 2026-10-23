@@ -1,0 +1,36 @@
+{
+  "started_at": "2026-10-19T19:34:35.761434+00:00",
+  "package": "com.multicastgames.catscuteminer",
+  "version": "0.1.2",
+  "version_code": 3,
+  "changes": "Verified public legal URLs, exact document/host roles; no ads and age/consent protection retained; isolated normal builder applies native configuration",
+  "python_guard_tests": {
+    "total": 14,
+    "passed": 14
+  },
+  "Unity_PlayMode_tests": {
+    "total": 16,
+    "passed": 16,
+    "source_report": "build/ci-logs/PlayMode-20261019-233315.xml",
+    "evidence_ref": "release/google-play/evidence/updated-aab-playmode-20261019.xml"
+  },
+  "source_sha256": {
+    "Assets/Game/Scripts/Runtime/Integrations/GameSdkConfiguration.cs": "45064091ac8ce19041e77858040cb7a30fd732ed051f2be6889081b972b84549",
+    "Assets/Game/Resources/Integrations/cats-cute-miner-sdk.json": "f10bf04af49e20dcf755b0468069ac576bfc65d6e544826f4ceabe832823f77d",
+    "Assets/Game/Scripts/Editor/BuildAndroid.cs": "7d1caaab74716ea748465cf08d4b4b6b856f2948d3e9e0807a1827b6d6cb1c6c",
+    "Tools/GooglePlay/google_play_macos.py": "5042c2a69d61887588df907f138f46f83743b7f5a970b2a4fc6db79219d480d8",
+    "Assets/Game/Tests/PlayMode/IntegrationTelemetryTests.cs": "85858c7297e03896420cf00458295e88d7074ed328fd7ada235a945130d6957a"
+  },
+  "localArtifactOnly": false,
+  "build_status": "signed_updated_AAB_built_and_static_checks_passed_on_Mac",
+  "new_upload_or_release": false,
+  "device_or_emulator_started": false,
+  "artifact_path_macos": "/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/release/google-play/builds/cat-miners-0.1.2-3-noads.aab",
+  "builder_exit_code": 0,
+  "signature_verified_by_wrapper": true,
+  "client_legal_configured_verified_by_wrapper": true,
+  "artifact_sha256": "13e3712a7f121ac340309432b75a162f799982a1e8dde08e2a836f073ea0c74b",
+  "artifact_bytes": 77793257,
+  "final_verification_ref": "release/google-play/evidence/aab-0.1.2-3-verification-20261019.json",
+  "hub_transfer_complete": false
+}

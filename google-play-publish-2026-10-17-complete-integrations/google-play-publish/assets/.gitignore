@@ -1,0 +1,5 @@
+# Local access configuration is never distributed with the skill.
+.env
+.env.superleo
+.env.sdk.local
+access.local.json

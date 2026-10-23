@@ -1,0 +1,34 @@
+{
+  "recorded_at": "2026-10-20T15:27:28.849390+00:00",
+  "package": "com.multicastgames.catscuteminer",
+  "title": "Cat Miners: Idle Tycoon",
+  "adoption_authorized": true,
+  "adoption_evidence": "User requested item1 (adopt and publish the game legal documents): «1. делай»; then explicitly confirmed support responsibility and access.",
+  "operator_process_confirmed": true,
+  "operator_confirmation": "Я — беру процесс на себя; почта работает, доступ к исполнению есть",
+  "responsible_role": "Project owner / current user",
+  "support_email": "support@multicastgames.com",
+  "support_process_ref": "Docs/Legal/CatsCuteMiner/SUPPORT_PROCESS.md",
+  "audience_minimum_age": 13,
+  "protected_under_age": 16,
+  "ads_enabled": false,
+  "iap_products": 6,
+  "adopted_source_sha256": {
+    "privacy-policy.md": "e2fa394db49578862af66d2ad8d746cc06fccad45d5164352abd1337c3d242fd",
+    "terms-of-use.md": "213dfe2c7b246c136aa86c7c5e62be800ba0863844ca0dd1e2010143593f4fff",
+    "delete-data.md": "3e5b52dadda9f3b3e86c4a348738ddb1923ef8bccd9977713e44712f6cd1a278"
+  },
+  "published": true,
+  "runtime_urls_changed": false,
+  "published_at": "2026-10-20T15:29:32.215322+00:00",
+  "published_urls": {
+    "privacy": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/privacy/",
+    "terms": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/terms/",
+    "data_requests": "https://sites.aimulticast.org/sargsyan/cats-cute-miner-legal/delete-data/"
+  },
+  "publication_evidence_ref": "release/google-play/evidence/legal-publication-20261020.json",
+  "revision_date": "2026-10-20",
+  "previous_adoption_ref": "Docs/Legal/CatsCuteMiner/adoption-20261019.json",
+  "revision_scope": "Factual first-launch and optional Settings opt-in behavior for0.1.3/0.1.4; unchanged13+ audience, protected under16/unknown treatment, providers, support process and no-ads/IAP scope",
+  "revision_authorization": "Prior explicit owner instruction to adopt/publish game-specific documents; owner then requested removing startup screens and explicitly requested a new build after proposal for optional analytics in Settings. This revision mirrors those authorized product changes."
+}

@@ -1,0 +1,43 @@
+{
+  "completed_at": "2026-10-20T09:43:09.669151+00:00",
+  "status": "signed_aab_built_native_verified_copied_single_artifact_retention_complete",
+  "package": "com.multicastgames.catscuteminer",
+  "version_name": "0.1.3",
+  "version_code": 4,
+  "artifact_path_macos": "/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/release/google-play/builds/cat-miners-0.1.3-4-noads.aab",
+  "artifact_path_hub": "/mnt/claude-data/sargsyan-arnos-macbook-pr/cats-cute-miner-main/release/google-play/builds/cat-miners-0.1.3-4-noads.aab",
+  "artifact_bytes": 77792408,
+  "artifact_sha256": "8679875cf4d5cba1cd0663790e086b7ca3aa941ee5160ca7423e08ffd9e30a5d",
+  "signature_verified": true,
+  "native_inspection_ref": "release/google-play/evidence/build-history/cat-miners-0.1.3-4-noads.aab.inspection.json",
+  "legal_configured": true,
+  "local_artifact_only": false,
+  "startup_privacy_source_hash_matches_tested_source_and_build_mirror": true,
+  "changes": [
+    "No automatic age/privacy startup screens",
+    "No advertising; six existing IAPs preserved",
+    "Automatic pruning of obsolete matching AABs only after signed/native verification"
+  ],
+  "tests": {
+    "playmode_passed": 29,
+    "android_player_compilation_exit_code": 0,
+    "python_builder_and_retention_passed": 20,
+    "python_dex_detection_passed": 3
+  },
+  "retention": {
+    "policy_ref": "release/google-play/artifact-retention.json",
+    "macos_evidence_ref": "release/google-play/evidence/single-aab-macos-20261020.json",
+    "hub_evidence_ref": "release/google-play/evidence/single-aab-hub-20261020.json",
+    "macos_obsolete_artifacts_deleted_by_builder": 3,
+    "additional_old_console_download_deleted_on_hub": true,
+    "remaining_aab": "cat-miners-0.1.3-4-noads.aab"
+  },
+  "uploaded": false,
+  "device_or_emulator_started": false,
+  "publication_ready": false,
+  "pending_before_store_release": [
+    "Verify unused code in Console",
+    "Update public policy/terms first-launch wording to match version0.1.3",
+    "Device purchase/provider verification and generated APK ZIP alignment"
+  ]
+}

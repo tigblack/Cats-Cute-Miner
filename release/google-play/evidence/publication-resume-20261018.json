@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-10-18T10:01:08.030583+00:00",
+  "package": "com.multicastgames.catscuteminer",
+  "authorization": {
+    "user_request": "Запусти Skills и запаблиши всю игру. У тебя есть все данные.",
+    "mode": "release",
+    "target_tracks": [
+      "internal",
+      "production"
+    ],
+    "publication_hold": false,
+    "qa_waived": false
+  },
+  "skill_ref": "google-play-publish-2026-10-17-complete-integrations/google-play-publish/SKILL.md",
+  "project": {
+    "mac_path": "/Users/arthuri/Unity Projects/Cats-Cute-Miner-main",
+    "unity_version": "6000.6.4f1"
+  },
+  "preserved_owner_choices": {
+    "minimum_age": 6,
+    "protected_age": "under16_and_unknown",
+    "ads_enabled": false,
+    "excluded_countries": [
+      "BR"
+    ],
+    "iap_catalog_ref": "release/google-play/iap-catalog.approved.json",
+    "dev_tools": "lightweight_journal"
+  },
+  "supplied_marketing": {
+    "creatives": {
+      "url": "https://drive.google.com/drive/folders/1bvcbEYxVfnRjGuDYa_AeQVksSzmevCw8",
+      "access": "public_folder_contents_observed",
+      "files": [
+        "CatMiners_Ad1_Level1toLevel100_30s_1080x1920.mp4",
+        "CatMiners_Ad3_ChestsCollection_30s_1080x1350.mp4",
+        "CatMiners_Ad4_CatFactories_60s_1080x1920.mp4"
+      ],
+      "evidence_ref": ".playwright-mcp/page-2026-10-18T09-56-43-466Z.yml"
+    },
+    "playables": {
+      "url": "https://drive.google.com/drive/folders/1ZoKkAcsMUYOdG7RljV0rkJkHIYn70zlQ",
+      "access": "public_folder_contents_observed",
+      "file_ids": {
+        "cat-miners-long.html": "19rFe3dMHyWLWj-z3DqPWL4cuq91huxGi",
+        "cat-miners-medium.html": "1R-N1oM1RLqU2S080ZaGbQFW7cVq4skGz",
+        "cat-miners-short.html": "10oHOPGnpwudWBhcElOUj0p97PMrlEGDN"
+      },
+      "download_hash_comparison": "not_performed"
+    }
+  },
+  "local_playables": [
+    {
+      "variant": "short",
+      "path": "release/playables/cat-miners-short.html",
+      "bytes": 349114,
+      "sha256": "6880d5c17d9ebdce978240d249cd69da20c2befc9fd0689af10120e2c3d472dc",
+      "ad_network_validation": "pending"
+    },
+    {
+      "variant": "medium",
+      "path": "release/playables/cat-miners-medium.html",
+      "bytes": 349115,
+      "sha256": "d95457dab5b4389e86d35087108399e90a4f3cd981accebf097167a11261f784",
+      "ad_network_validation": "pending"
+    },
+    {
+      "variant": "long",
+      "path": "release/playables/cat-miners-long.html",
+      "bytes": 349113,
+      "sha256": "c185abbf61d3e6b58439de299b91bdbf151d047cb2395e859708b8379af746e5",
+      "ad_network_validation": "pending"
+    }
+  ],
+  "legal_public_urls": [
+    {
+      "url": "https://multicastgames.com/cats-cute-miner/privacy/",
+      "browser_http_status": 404,
+      "evidence_ref": ".playwright-mcp/page-2026-10-18T09-58-58-839Z.yml"
+    },
+    {
+      "url": "https://multicastgames.com/cats-cute-miner/terms/",
+      "browser_http_status": 404,
+      "evidence_ref": ".playwright-mcp/page-2026-10-18T10-00-29-465Z.yml"
+    }
+  ],
+  "browser": {
+    "route": "agentb",
+    "hub_sessions_in_current_chat": [],
+    "mac_install_check": "native_chrome_remote_debugging_not_enabled",
+    "user_access_request": "pending",
+    "mac_support_added": true,
+    "transfer_tests": {
+      "passed": 7,
+      "failed": 0,
+      "scope": "synthetic_session_transfer_storage_isolation_and_denial_tests",
+      "actual_provider_login_verified": false
+    }
+  },
+  "publication": {
+    "aab_uploaded": false,
+    "internal_released": false,
+    "production_submitted": false,
+    "campaigns_started": false
+  },
+  "pending_decisions": [
+    "Chrome native connection/access on current Mac",
+    "Confirm actual studio parent data-request process and adoption of existing game-specific policy/terms"
+  ],
+  "note": "Previous Windows build/provider receipts are historical; current Mac signing/tools and new final artifact require verification."
+}

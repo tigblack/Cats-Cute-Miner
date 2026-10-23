@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-20T18:01:03.951135+00:00",
+  "aabSha256Matches": true,
+  "sourceHashesMatch": {
+    "Assets/Game/Scripts/Core/Outpost/Sim/IntegrationPrivacy.cs": true,
+    "Assets/Game/Scripts/Runtime/Integrations/NeutralAgeFlow.cs": true,
+    "Assets/Game/Scripts/Runtime/Integrations/NativePrivacyConfiguration.cs": true,
+    "Assets/Game/Scripts/Runtime/Integrations/GameSdkRuntime.cs": true,
+    "Assets/Game/Scripts/Runtime/Integrations/GameSdkRuntime.Telemetry.cs": true
+  },
+  "onlyCurrentAab": [
+    "cat-miners-0.1.5-6-noads.aab"
+  ]
+}

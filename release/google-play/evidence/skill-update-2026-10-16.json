@@ -1,0 +1,58 @@
+{
+  "recorded_at": "2026-10-16T14:46:02.501036+00:00",
+  "skill_ref": "google-play-publish-2026-10-16-emulator-consent/google-play-publish/SKILL.md",
+  "sha256": "9e79905413b052c29902b1fa20878f07516211ed2cb40095ea0c5fd4055e4a44",
+  "package_manifest_match": true,
+  "previous_skill_ref": "google-play-publish-skill-2026-10-15/google-play-publish/SKILL.md",
+  "applied_workflow_changes": [
+    "MAX and Meta service operations only via panel/SuperLeo",
+    "Browser actions via agentb, no chrome-devtools/play-browser",
+    "Separate explicit consent for each emulator start/restart",
+    "No reset of completed registrations/tests/listing/receipts"
+  ],
+  "preserved_user_decisions": {
+    "audience": "6+ and adults, protected allunder16/unknown per explicit user",
+    "max": "First release without MAX/ads until user explicitly changes this",
+    "dev_tools": "Lightweight journal, no console per explicit user",
+    "distribution": "Brazil excluded; chest mechanic retained",
+    "emulator": "No launch requested; no current launch consent",
+    "browser": "New skill agentb only, preserve existing verified receipts; no direct MAX/Meta dashboard actions"
+  },
+  "campaign": {
+    "requested_at": "2026-10-16T14:46:02.501036+00:00",
+    "user_text": "Тут Макс должен запустить рекламную кампанию",
+    "status": "preparation_only_no_launch_authorized",
+    "daily_budget": null,
+    "currency": "USD",
+    "countries": null,
+    "externally_created": false,
+    "active": false,
+    "spend_started": false,
+    "network": "AppLovin / Axon user acquisition",
+    "launch_authorized": false,
+    "owner_scope": "Prepare everything; do not launch; leave countries and daily USD budget empty",
+    "draft_ref": "release/advertising/applovin/campaign-draft.json",
+    "updated_at": "2026-10-16T15:27:43.286362+00:00"
+  },
+  "sources": {
+    "MAX_monetization": "https://support.applovin.com/en/max/max-dashboard/ad-units/create-an-ad-unit",
+    "Axon_campaigns": "https://support.applovin.com/en/growth/promoting-your-apps/api/axon-campaign-management-api"
+  },
+  "not_inferred": [
+    "No MAX SDK re-enable",
+    "No paid campaign budget/geography/activation",
+    "No version2.0.0 copied from shared package manifest",
+    "No advertising campaign delegated/message sent to a person named Max",
+    "No emulator launch consent inferred"
+  ],
+  "browser_session_transfer": {
+    "status": "native_Chrome_consent_confirmed_by_owner_and_transfer_succeeded",
+    "services": [
+      "superleo",
+      "adjust",
+      "play"
+    ],
+    "login_readback": "SuperLeo and Adjust own cabinets verified; Play Console own app listing opened by rename task after owner confirmed the new native Chrome prompt",
+    "updated_at": "2026-10-16T15:50:26.649673+00:00"
+  }
+}

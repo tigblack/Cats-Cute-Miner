@@ -1,0 +1,242 @@
+{
+  "checkedAt": "2026-10-20T16:07:48.769Z",
+  "appId": 6374386,
+  "frames": [
+    {
+      "url": "https://appmetrica.yandex.ru/application/edit?type=edit&appId=6374386&period=2026-10-12%3ANaN-NaN-NaN",
+      "text": "AppMetrica снова доступна. Сбор данных продолжается, но некоторые отчёты и инструменты пока могут работать с ограничениями. Мы делаем всё возможное, чтобы вернуться в штатный режим. Спасибо, что вы с нами! Подробнее\n\nОбзор\nWorkspaces\nИнсайты\nОтчеты\nПрофили\nТрекинг\nPush-кампании\nВариокуб\nЭкспорт данных\nНастройки\nКоллекция промптов\nСвернуть\nCM\nCat Miners: Idle Tycoon\n6374386\nК организации\nПоиск\nAI-помощник\ntigblack2016\nПользовательское соглашение\nПредложить идею\nРеклама\nО сервисе\nRu\n© 2008–2026 OOO «ЯНДЕКС»",
+      "fields": [],
+      "links": [
+        {
+          "text": "Подробнее",
+          "path": "https://yandex.ru/support/appmetrica-io/ru/common/special-mode?utm_source=srr-common&utm_medium=appmetrica_front"
+        }
+      ]
+    },
+    {
+      "url": "https://appmetrica.yandex.ru/application/edit?iframe=1&iframe-lang=ru&type=edit&appId=6374386&period=2026-10-12%3ANaN-NaN-NaN&from=2026-10-12&to=2026-10-20",
+      "text": "Настройка\nУдалить приложение\nОсновное\nУправление доступом\nRevenue\nPush-уведомления\nЦелевые ссылки\nDeeplinks\nТестовые устройства\nЕщё\nОбщие настройки\nНазвание приложения\n \nID приложения\n6374386\nВладелец приложения\ntigblack2016@yandex.ru\nAPI key (для использования в SDK)\nPost API key\nЧасовой пояс UTC\nUTC\nПапка для группировки приложений\n+ добавить папку\nКатегория приложения\nПриложение\nУ меня игра!\nНе выбрано\nE-mail для получения важных уведомлений и новостей сервиса\nУказывая email, я соглашаюсь на получение рекламных и иных маркетинговых сообщений от Яндекса на условиях Политики конфиденциальности\nПривязка к счётчику Метрики\nБез привязки\nРазрешить вендорам использовать собственные ecom-события в продвижении\nВкл\nОткл\nUniversal Link\nУкажите Bundle ID и App Prefix и добавьте в приложение сгенерированный App Link. Как это сделать.\nBundle ID\nApp Prefix\nили Team ID. Получите на Apple Developer Portal\nUniversal Link\nСкопировать\nИспользовать Universal Link\nВкл\nОткл\nЭкспорт Данных\nЭкспорт Данных позволяет получить неагрегированные данные.\nДопускать неточные результаты\nВкл\nОткл\nСохранить настройки\nИнтеграция SDK\nОписание для Android, iOS, Windows, Unity, и Flutter.\nДополнительные условия обработки данных\nЕсли к обработке данных Вашей компанией применяется GDPR — ознакомьтесь с соответствующим разделом в Условиях использования.\nМаскировка IP-адреса\nНе сохранять полные IP-адреса пользователей из ЕС",
+      "fields": [
+        {
+          "name": "settings-menu",
+          "id": "uniq179157598836572190",
+          "type": "radio",
+          "placeholder": null,
+          "checked": true,
+          "disabled": false
+        },
+        {
+          "name": "settings-menu",
+          "id": "uniq179157598836572191",
+          "type": "radio",
+          "placeholder": null,
+          "checked": false,
+          "disabled": false
+        },
+        {
+          "name": "settings-menu",
+          "id": "uniq179157598836572192",
+          "type": "radio",
+          "placeholder": null,
+          "checked": false,
+          "disabled": false
+        },
+        {
+          "name": "settings-menu",
+          "id": "uniq179157598836572193",
+          "type": "radio",
+          "placeholder": null,
+          "checked": false,
+          "disabled": false
+        },
+        {
+          "name": "settings-menu",
+          "id": "uniq179157598836572194",
+          "type": "radio",
+          "placeholder": null,
+          "checked": false,
+          "disabled": false
+        },
+        {
+          "name": "settings-menu",
+          "id": "uniq179157598836572195",
+          "type": "radio",
+          "placeholder": null,
+          "checked": false,
+          "disabled": false
+        },
+        {
+          "name": "settings-menu",
+          "id": "uniq179157598836572196",
+          "type": "radio",
+          "placeholder": null,
+          "checked": false,
+          "disabled": false
+        },
+        {
+          "name": "settings-menu",
+          "id": "uniq179157598836572197",
+          "type": "radio",
+          "placeholder": null,
+          "checked": false,
+          "disabled": false
+        },
+        {
+          "name": "name",
+          "id": "uniq179157598836572198",
+          "type": "text",
+          "placeholder": "Название приложения",
+          "disabled": false
+        },
+        {
+          "name": "",
+          "id": "uniq179157598836572199",
+          "type": "text",
+          "placeholder": null,
+          "disabled": false
+        },
+        {
+          "name": "",
+          "id": "uniq179157598836572200",
+          "type": "text",
+          "placeholder": null,
+          "disabled": false
+        },
+        {
+          "name": "label",
+          "id": "",
+          "type": "select-one",
+          "placeholder": null,
+          "disabled": false
+        },
+        {
+          "name": "",
+          "id": "uniq179157598836572203",
+          "type": "text",
+          "placeholder": "Имя папки",
+          "disabled": false
+        },
+        {
+          "name": "category-type",
+          "id": "uniq179157598836572204",
+          "type": "radio",
+          "placeholder": null,
+          "checked": true,
+          "disabled": false
+        },
+        {
+          "name": "category-type",
+          "id": "uniq179157598836572205",
+          "type": "radio",
+          "placeholder": null,
+          "checked": false,
+          "disabled": false
+        },
+        {
+          "name": "name",
+          "id": "uniq179157598836572207",
+          "type": "text",
+          "placeholder": "email@example.com",
+          "disabled": false
+        },
+        {
+          "name": "vendor_data",
+          "id": "",
+          "type": "checkbox",
+          "placeholder": null,
+          "checked": false,
+          "disabled": false
+        },
+        {
+          "name": "bundle_id",
+          "id": "uniq179157598836572209",
+          "type": "text",
+          "placeholder": null,
+          "disabled": false
+        },
+        {
+          "name": "team_id",
+          "id": "uniq179157598836572210",
+          "type": "text",
+          "placeholder": null,
+          "disabled": false
+        },
+        {
+          "name": "universal_link",
+          "id": "uniq179157598836572211",
+          "type": "text",
+          "placeholder": null,
+          "disabled": false
+        },
+        {
+          "name": "use_universal_links",
+          "id": "",
+          "type": "checkbox",
+          "placeholder": null,
+          "checked": false,
+          "disabled": true
+        },
+        {
+          "name": "partial_export_enabled",
+          "id": "",
+          "type": "checkbox",
+          "placeholder": null,
+          "checked": true,
+          "disabled": false
+        },
+        {
+          "name": "",
+          "id": "uniq179157598836572214",
+          "type": "checkbox",
+          "placeholder": null,
+          "checked": true,
+          "disabled": false
+        }
+      ],
+      "links": []
+    }
+  ],
+  "applicationMetadata": [
+    {
+      "fields": {
+        "id": "6374386",
+        "name": "Cat Miners: Idle Tycoon",
+        "timeZoneName": "UTC",
+        "timeZoneOffset": 0,
+        "createDate": {
+          "day": 18,
+          "month": 10,
+          "year": 2026,
+          "apiFormat": null
+        }
+      },
+      "availableFieldNames": [
+        "id",
+        "organizationId",
+        "ownerUid",
+        "name",
+        "ownerLogin",
+        "ownerDefaultEmail",
+        "timeZoneName",
+        "features",
+        "organizationFeatures",
+        "grantType",
+        "categoryId",
+        "labelId",
+        "iconSrc",
+        "apiKey",
+        "timeZoneOffset",
+        "useUniversalLinks",
+        "redownloadExclusionWindowSeconds",
+        "redownloadInactivityWindowSeconds",
+        "reattributionInactivityWindowSeconds",
+        "reengagementInactivityWindowSeconds",
+        "reattributionEnabled",
+        "createDate"
+      ],
+      "clientKeyMatches": true
+    }
+  ],
+  "writesPerformed": false,
+  "fieldValuesExcluded": true
+}

@@ -1,0 +1,5 @@
+# Secrets never belong in Git/public packages. A scoped team env may travel ONLY
+# in the administrator-approved private internal skill copy (see connection.md).
+.env
+.env.superleo
+.env.sdk.local

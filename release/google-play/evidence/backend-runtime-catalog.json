@@ -1,0 +1,46 @@
+{
+  "game_id": "gm_cats_cute_miner",
+  "checked_at": "2026-10-14T13:30:20.798409+00:00",
+  "status": "verified",
+  "authenticated_guest": true,
+  "checks": [
+    {
+      "sku": "gems_handful",
+      "quantity": 160,
+      "type": "Consumable",
+      "status": "verified"
+    },
+    {
+      "sku": "gems_sack",
+      "quantity": 500,
+      "type": "Consumable",
+      "status": "verified"
+    },
+    {
+      "sku": "gems_bag",
+      "quantity": 1200,
+      "type": "Consumable",
+      "status": "verified"
+    },
+    {
+      "sku": "gems_crate",
+      "quantity": 2500,
+      "type": "Consumable",
+      "status": "verified"
+    },
+    {
+      "sku": "gems_cart",
+      "quantity": 6500,
+      "type": "Consumable",
+      "status": "verified"
+    },
+    {
+      "sku": "gems_pile",
+      "quantity": 14000,
+      "type": "Consumable",
+      "status": "verified"
+    }
+  ],
+  "live_payment_submitted": false,
+  "purchase_delivery_verified": false
+}

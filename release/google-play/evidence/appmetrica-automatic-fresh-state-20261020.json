@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-20T17:58:12.686223+00:00",
+  "privacyFileExists": false,
+  "settingsOpenedBeforeFirstEvents": false,
+  "privacyPolicyOpenedBeforeFirstEvents": false,
+  "safeStartupDiagnosticLines": [
+    "1 basic_gameplay_enabled=1",
+    "2 InitStart key_sha256=eb071302add96a831be50ac7a7be04f3e92f2fbf70c8150ebf9b7f4df9f3c471 startup=automatic advIdentifiers=0 appOpen=0 location=0 data_sending=1 revenue_auto=0 sessions_auto=1 crash=0 native_crash=0 sdk_logs=1",
+    "3 ActivationReturned server_delivery=unverified",
+    "4 native_activation=Activated server_delivery=unverified",
+    "5 EventAttempt event=session_started",
+    "6 EventSubmitted event=session_started server_delivery=unverified",
+    "7 EventAttempt event=game_loaded",
+    "8 EventSubmitted event=game_loaded server_delivery=unverified",
+    "9 EventAttempt event=mine_started",
+    "10 EventSubmitted event=mine_started server_delivery=unverified",
+    "11 EventAttempt event=purchase_failed",
+    "12 EventSubmitted event=purchase_failed server_delivery=unverified"
+  ],
+  "consentChosenRecorded": false,
+  "launchApprovalReceiptRef": "build/private/appmetrica-emulator/launch-20261020-automatic.json"
+}

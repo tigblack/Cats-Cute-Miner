@@ -1,0 +1,25 @@
+{
+  "recorded_at": "2026-10-20T16:42:48.262446+00:00",
+  "scope": "Read-only consistent snapshot after background buffer flush and app force-stop, before app cold restart",
+  "emulator_only": true,
+  "native_component_main_pending_events": 0,
+  "native_startup_result_statuses": {
+    "AD_URL_GET_RESULT": "OK",
+    "AD_URL_REPORT_RESULT": "OK",
+    "UUID_RESULT": "OK",
+    "DEVICE_ID_RESULT": "OK"
+  },
+  "native_config_flags": {
+    "data_sending_enabled": true,
+    "sessions_auto_tracking_enabled": true,
+    "location_enabled": false,
+    "crash_enabled": false,
+    "crash_native_enabled": false,
+    "revenue_auto_tracking_enabled": false
+  },
+  "stats_restricted_in_main": "false",
+  "native_main_report_request_id": 10,
+  "empty_queue_alone_is_not_http_acknowledgement": true,
+  "no_ids_keys_or_raw_payloads_emitted": true,
+  "native_initial_event_processed": true
+}

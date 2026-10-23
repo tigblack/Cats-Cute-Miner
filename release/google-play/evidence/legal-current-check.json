@@ -1,0 +1,31 @@
+{
+  "checked_at": "2026-10-16T11:08:47.447228+00:00",
+  "sources": [
+    {
+      "url": "https://multicastgames.com/policy",
+      "section": "9. Children",
+      "minimum_age": 16
+    },
+    {
+      "url": "https://multicastgames.com/termsofuse",
+      "section": "1. Eligibility",
+      "minimum_age": 16
+    }
+  ],
+  "user_choice": "mixed audience including under13, explicitly preserved",
+  "status": "game_specific_approved_published_documents_pending",
+  "contact": "support@multicastgames.com",
+  "local_drafts_ref": "Docs/Legal/CatsCuteMiner/",
+  "external_documents_changed": false,
+  "user_supplied_url": "https://multicastgames.com/#contacts",
+  "user_supplied_url_result": "Contacts section links to /policy and /termsofuse; no game-specific child-audience documents found in that section",
+  "latest_user_source_2026_10_16": "User explicitly supplied https://multicastgames.com/policy again as the studio policy after being asked for retention/deletion facts.",
+  "current_policy_readback": {
+    "url": "https://multicastgames.com/policy",
+    "last_updated": "2026-06-19",
+    "section7": "Retention as necessary for service, purchase validation/recovery and legal/tax/accounting obligations; delete or anonymize when no longer required, unless law requires longer. No fixed days/years given.",
+    "section8": "Deletion requests including linked purchase records via studio contact; legal/fraud retention exceptions.",
+    "section9": "Services not intended for users under16; unchanged conflict with explicitly accepted mixed audience.",
+    "implication": "Can use stated studio retention criteria and contact route as source for game-specific draft; cannot use this general16+ page as the child-game policy unchanged."
+  }
+}

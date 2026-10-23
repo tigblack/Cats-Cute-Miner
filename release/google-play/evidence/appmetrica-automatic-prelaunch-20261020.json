@@ -1,0 +1,40 @@
+{
+  "at": "2026-10-20T17:54:12.259268+00:00",
+  "status": "automatic_analytics_implemented_apk_and_aab_built_runtime_waiting_for_separate_launch_approval",
+  "versionName": "0.1.5",
+  "versionCode": 6,
+  "automaticAppMetricaGameplay": true,
+  "startupPrivacyOrAgeWindowRequired": false,
+  "explicitDisableAndPreviouslySavedRefusalsPreserved": true,
+  "additionalProvidersRemainIndependent": true,
+  "advertisingIdentifiersDisabledBeforeActivation": true,
+  "locationTracking": false,
+  "appOpenAutoTracking": false,
+  "nativeRevenueAutoTracking": false,
+  "testsPassed": 96,
+  "testsFailed": 0,
+  "testRefs": [
+    "build/ci-logs/PlayMode-20261020-214014.xml",
+    "build/ci-logs/EditMode-20261020-214107.xml",
+    "build/ci-logs/PlayMode-20261020-214743.xml"
+  ],
+  "productionAndroidApiCompilePassed": true,
+  "apiCompileLog": "build/ci-logs/Method-20261020-214359.log",
+  "apkRef": "release/google-play/evidence/appmetrica-automatic-apk-20261020.json",
+  "apkInspectionRef": "release/google-play/evidence/appmetrica-automatic-apk-inspection-20261020.json",
+  "policyPublicationRef": "release/google-play/evidence/legal-publication-automatic-appmetrica-20261020.json",
+  "sourceSha256": {
+    "Assets/Game/Scripts/Core/Outpost/Sim/IntegrationPrivacy.cs": "2d3453a6334a2f08cbde99ecd56a1f4ba0ddc259c90cee1d8137f7f5b0bc9c1a",
+    "Assets/Game/Scripts/Runtime/Integrations/NeutralAgeFlow.cs": "32d238114ee740afa6978bccc1a3e66b8e424c7cdef7e0ddbeb5641c5882c898",
+    "Assets/Game/Scripts/Runtime/Integrations/NativePrivacyConfiguration.cs": "e55212d69d9bfcf6129fb3510554368722891c70cd4d6b48fff7ffc78a7b7c60",
+    "Assets/Game/Scripts/Runtime/Integrations/GameSdkRuntime.cs": "2df2d33a62d16f67676746eb3d98906075eaba1a4bff613129a3c6261830cb3b",
+    "Assets/Game/Scripts/Runtime/Integrations/GameSdkRuntime.Telemetry.cs": "a3b5fc7d673d415adfdaf0cd41a343d0a71110b981265cafe844a37ad9ff7ec3"
+  },
+  "newVersionNativeRuntimeVerified": false,
+  "newVersionEmulatorLaunchApprovalPending": true,
+  "uploadedToPlay": false,
+  "aabRef": "release/google-play/builds/cat-miners-0.1.5-6-noads.aab",
+  "aabSha256": "c9b9e4d4d491eee2c436865260df68b72444f6a1f2e4866c12223caffd874d35",
+  "aabStaticChecksPassed": true,
+  "aabInspectionRef": "release/google-play/evidence/build-history/cat-miners-0.1.5-6-noads.aab.inspection.json"
+}

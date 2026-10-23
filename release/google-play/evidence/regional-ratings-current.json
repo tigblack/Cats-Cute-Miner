@@ -1,0 +1,33 @@
+{
+  "observedAtUtc": "2026-10-16T12:35:01.910216+00:00",
+  "currentIarcRatingsEvidence": "evidence/play-declarations-current.json",
+  "currentMechanic": "Real-money gem packs feed the same gem balance used by StoreBuy for random card chests; no paid/earned gem separation or Brazilian restriction is implemented.",
+  "sourceLocations": [
+    "Assets/Game/Scripts/Runtime/Outpost/OutpostController.Commands.cs:113",
+    "Assets/Game/Scripts/Core/Outpost/Sim/OutpostSimulation.Store.cs:11",
+    "Assets/Game/Resources/Outpost/store_catalog.json"
+  ],
+  "sources": [
+    {
+      "url": "https://www.gov.br/mj/pt-br/assuntos/noticias-1/mjsp-pede-a-anpd-que-monitore-jogos-eletronicos-com-caixas-de-recompensa-que-nao-implementaram-verificacao-de-idade",
+      "published": "2026-10-15",
+      "finding": "Brazil MJSP describes paid virtual currency random chests as loot boxes; rating18 alone insufficient. Lists age verification and child blocking, version without loot boxes, or default disabling for Brazilian users."
+    },
+    {
+      "url": "https://www.classification.gov.au/about-us/media-and-news/news/new-mandatory-minimum-classifications-for-gambling-games-content",
+      "finding": "Paid chance-based purchases trigger minimum Mature classification in Australia; observed result consistent with content."
+    }
+  ],
+  "decisionStatus": "owner_chose_exclude_Brazil_from_first_release_preserve_mechanic",
+  "choicesPresented": [
+    "Remove gem-paid random chest purchases globally; keep free progression chests and other gem uses",
+    "Exclude Brazil from first release; preserve mechanic",
+    "Implement separate Brazilian disabling of paid random chests"
+  ],
+  "implementedScopeChange": true,
+  "iarcAnswersFalsified": false,
+  "productionReady": false,
+  "ownerDecision": "User2026-10-16: Исключить Бразилию из первого выпуска; механику сохранить",
+  "distributionEvidence": "evidence/countries-current.json",
+  "gameMechanicChanged": false
+}

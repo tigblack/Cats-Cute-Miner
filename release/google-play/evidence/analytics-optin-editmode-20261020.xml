@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="18" result="Passed" total="18" passed="18" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-20 15:26:49Z" end-time="2026-10-20 15:26:50Z" duration="0.2506977">
+  <test-suite type="TestSuite" id="1000" name="Cat Miner: Idle Tycoon" fullname="Cat Miner: Idle Tycoon" runstate="Runnable" testcasecount="2836" result="Passed" start-time="2026-10-20 15:26:49Z" end-time="2026-10-20 15:26:50Z" duration="0.250698" total="18" passed="18" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="4009" name="CatMiners.Tests.EditMode.dll" fullname="/Users/arthuri/Unity Projects/Cats-Cute-Miner-main/build/ci/Library/ScriptAssemblies/CatMiners.Tests.EditMode.dll" runstate="Runnable" testcasecount="2836" result="Passed" start-time="2026-10-20 15:26:49Z" end-time="2026-10-20 15:26:50Z" duration="0.241368" total="18" passed="18" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="10421" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="4010" name="CatMiners" fullname="CatMiners" runstate="Runnable" testcasecount="2836" result="Passed" start-time="2026-10-20 15:26:49Z" end-time="2026-10-20 15:26:50Z" duration="0.234918" total="18" passed="18" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="4011" name="Tests" fullname="CatMiners.Tests" runstate="Runnable" testcasecount="2836" result="Passed" start-time="2026-10-20 15:26:49Z" end-time="2026-10-20 15:26:50Z" duration="0.225289" total="18" passed="18" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="4012" name="Outpost" fullname="CatMiners.Tests.Outpost" runstate="Runnable" testcasecount="2510" result="Passed" start-time="2026-10-20 15:26:49Z" end-time="2026-10-20 15:26:50Z" duration="0.218976" total="18" passed="18" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1397" name="IntegrationPrivacyRewardTests" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" testcasecount="18" result="Passed" start-time="2026-10-20 15:26:49Z" end-time="2026-10-20 15:26:50Z" duration="0.203394" total="18" passed="18" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1416" name="ClosedUnrewardedAndWrongRunCannotGrant" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.ClosedUnrewardedAndWrongRunCannotGrant" methodname="ClosedUnrewardedAndWrongRunCannotGrant" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" seed="1799597616" result="Passed" start-time="2026-10-20 15:26:49Z" end-time="2026-10-20 15:26:49Z" duration="0.119064" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1417" name="DeliverySnapshotRetryAndRestartDoNotReplayGold" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.DeliverySnapshotRetryAndRestartDoNotReplayGold" methodname="DeliverySnapshotRetryAndRestartDoNotReplayGold" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" seed="530543569" result="Passed" start-time="2026-10-20 15:26:49Z" end-time="2026-10-20 15:26:49Z" duration="0.037814" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1418" name="FailedWriteRetainsEarnedOfferAndRetryPersistsGrantAndLedgerTogether" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.FailedWriteRetainsEarnedOfferAndRetryPersistsGrantAndLedgerTogether" methodname="FailedWriteRetainsEarnedOfferAndRetryPersistsGrantAndLedgerTogether" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" seed="1820360599" result="Passed" start-time="2026-10-20 15:26:49Z" end-time="2026-10-20 15:26:50Z" duration="0.033889" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1404" name="OlderAgeAloneDoesNotGrantAnyConsentAndChoicesAreIndependent" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.OlderAgeAloneDoesNotGrantAnyConsentAndChoicesAreIndependent" methodname="OlderAgeAloneDoesNotGrantAnyConsentAndChoicesAreIndependent" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" seed="1910889464" result="Passed" start-time="2026-10-20 15:26:50Z" end-time="2026-10-20 15:26:50Z" duration="0.000134" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1415" name="OptionalAgeChoiceRejectsInvalidSelections" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.OptionalAgeChoiceRejectsInvalidSelections" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-20 15:26:50Z" end-time="2026-10-20 15:26:50Z" duration="0.001173" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1413" name="OptionalAgeChoiceRejectsInvalidSelections(Unselected)" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.OptionalAgeChoiceRejectsInvalidSelections(Unselected)" methodname="OptionalAgeChoiceRejectsInvalidSelections" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" seed="177851038" result="Passed" start-time="2026-10-20 15:26:50Z" end-time="2026-10-20 15:26:50Z" duration="0.000101" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1414" name="OptionalAgeChoiceRejectsInvalidSelections(999)" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.OptionalAgeChoiceRejectsInvalidSelections(999)" methodname="OptionalAgeChoiceRejectsInvalidSelections" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" seed="1589295913" result="Passed" start-time="2026-10-20 15:26:50Z" end-time="2026-10-20 15:26:50Z" duration="0.000019" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="ParameterizedMethod" id="1412" name="SettingsCannotReplaceAnEstablishedOrInvalidAge" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.SettingsCannotReplaceAnEstablishedOrInvalidAge" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-20 15:26:50Z" end-time="2026-10-20 15:26:50Z" duration="0.000371" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1408" name="SettingsCannotReplaceAnEstablishedOrInvalidAge(Under13)" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.SettingsCannotReplaceAnEstablishedOrInvalidAge(Under13)" methodname="SettingsCannotReplaceAnEstablishedOrInvalidAge" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" seed="944286981" result="Passed" start-time="2026-10-20 15:26:50Z" end-time="2026-10-20 15:26:50Z" duration="0.000047" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1409" name="SettingsCannotReplaceAnEstablishedOrInvalidAge(Age13To15)" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.SettingsCannotReplaceAnEstablishedOrInvalidAge(Age13To15)" methodname="SettingsCannotReplaceAnEstablishedOrInvalidAge" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" seed="762044183" result="Passed" start-time="2026-10-20 15:26:50Z" end-time="2026-10-20 15:26:50Z" duration="0.000024" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1410" name="SettingsCannotReplaceAnEstablishedOrInvalidAge(Age16OrOlder)" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.SettingsCannotReplaceAnEstablishedOrInvalidAge(Age16OrOlder)" methodname="SettingsCannotReplaceAnEstablishedOrInvalidAge" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" seed="1891538518" result="Passed" start-time="2026-10-20 15:26:50Z" end-time="2026-10-20 15:26:50Z" duration="0.000018" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1411" name="SettingsCannotReplaceAnEstablishedOrInvalidAge(999)" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.SettingsCannotReplaceAnEstablishedOrInvalidAge(999)" methodname="SettingsCannotReplaceAnEstablishedOrInvalidAge" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" seed="1593577094" result="Passed" start-time="2026-10-20 15:26:50Z" end-time="2026-10-20 15:26:50Z" duration="0.000018" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-suite type="ParameterizedMethod" id="1407" name="UnspecifiedAgeCanBeChosenVoluntarilyWithoutGrantingAnalytics" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.UnspecifiedAgeCanBeChosenVoluntarilyWithoutGrantingAnalytics" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-20 15:26:50Z" end-time="2026-10-20 15:26:50Z" duration="0.000218" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1405" name="UnspecifiedAgeCanBeChosenVoluntarilyWithoutGrantingAnalytics(Unknown)" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.UnspecifiedAgeCanBeChosenVoluntarilyWithoutGrantingAnalytics(Unknown)" methodname="UnspecifiedAgeCanBeChosenVoluntarilyWithoutGrantingAnalytics" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" seed="371772066" result="Passed" start-time="2026-10-20 15:26:50Z" end-time="2026-10-20 15:26:50Z" duration="0.000057" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1406" name="UnspecifiedAgeCanBeChosenVoluntarilyWithoutGrantingAnalytics(Unselected)" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.UnspecifiedAgeCanBeChosenVoluntarilyWithoutGrantingAnalytics(Unselected)" methodname="UnspecifiedAgeCanBeChosenVoluntarilyWithoutGrantingAnalytics" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" seed="1084650024" result="Passed" start-time="2026-10-20 15:26:50Z" end-time="2026-10-20 15:26:50Z" duration="0.000016" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+              </test-suite>
+              <test-case id="1419" name="VerifiedChestCannotDeliverRealMoneySkuAndHasAtomicCooldownAndReplayLedger" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.VerifiedChestCannotDeliverRealMoneySkuAndHasAtomicCooldownAndReplayLedger" methodname="VerifiedChestCannotDeliverRealMoneySkuAndHasAtomicCooldownAndReplayLedger" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" seed="882410330" result="Passed" start-time="2026-10-20 15:26:50Z" end-time="2026-10-20 15:26:50Z" duration="0.004890" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-suite type="ParameterizedMethod" id="1403" name="YoungerUnknownAndCorruptAgesCannotInitializeEvenWithStaleConsent" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.YoungerUnknownAndCorruptAgesCannotInitializeEvenWithStaleConsent" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-20 15:26:50Z" end-time="2026-10-20 15:26:50Z" duration="0.000492" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+                <properties />
+                <test-case id="1398" name="YoungerUnknownAndCorruptAgesCannotInitializeEvenWithStaleConsent(Unselected)" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.YoungerUnknownAndCorruptAgesCannotInitializeEvenWithStaleConsent(Unselected)" methodname="YoungerUnknownAndCorruptAgesCannotInitializeEvenWithStaleConsent" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" seed="959662118" result="Passed" start-time="2026-10-20 15:26:50Z" end-time="2026-10-20 15:26:50Z" duration="0.000065" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1399" name="YoungerUnknownAndCorruptAgesCannotInitializeEvenWithStaleConsent(Unknown)" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.YoungerUnknownAndCorruptAgesCannotInitializeEvenWithStaleConsent(Unknown)" methodname="YoungerUnknownAndCorruptAgesCannotInitializeEvenWithStaleConsent" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" seed="1230406221" result="Passed" start-time="2026-10-20 15:26:50Z" end-time="2026-10-20 15:26:50Z" duration="0.000021" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1400" name="YoungerUnknownAndCorruptAgesCannotInitializeEvenWithStaleConsent(Under13)" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.YoungerUnknownAndCorruptAgesCannotInitializeEvenWithStaleConsent(Under13)" methodname="YoungerUnknownAndCorruptAgesCannotInitializeEvenWithStaleConsent" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" seed="1597717732" result="Passed" start-time="2026-10-20 15:26:50Z" end-time="2026-10-20 15:26:50Z" duration="0.000020" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1401" name="YoungerUnknownAndCorruptAgesCannotInitializeEvenWithStaleConsent(Age13To15)" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.YoungerUnknownAndCorruptAgesCannotInitializeEvenWithStaleConsent(Age13To15)" methodname="YoungerUnknownAndCorruptAgesCannotInitializeEvenWithStaleConsent" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" seed="380215033" result="Passed" start-time="2026-10-20 15:26:50Z" end-time="2026-10-20 15:26:50Z" duration="0.000019" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                </test-case>
+                <test-case id="1402" name="YoungerUnknownAndCorruptAgesCannotInitializeEvenWithStaleConsent(999)" fullname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests.YoungerUnknownAndCorruptAgesCannotInitializeEvenWithStaleConsent(999)" methodname="YoungerUnknownAndCorruptAgesCannotInitializeEvenWithStaleConsent" classname="CatMiners.Tests.Outpost.IntegrationPrivacyRewardTests" runstate="Runnable" seed="551714713" result="Passed" start-time="2026-10-20 15:26:50Z" end-time="2026-10-20 15:26:50Z" duration="0.000018" asserts="0">
+                  <properties>
+                    <property name="retryIteration" value="0" />
+                    <property name="repeatIteration" value="0" />
+                  </properties>
+                  <output><![CDATA[Saving results to: /Users/arthuri/Library/Application Support/CatMiners/Cat Miner_ Idle Tycoon/TestResults.xml
+]]></output>
+                </test-case>
+              </test-suite>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

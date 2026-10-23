@@ -1,0 +1,21 @@
+# Store key art — 16 October 2026
+
+Generated with the built-in `image_gen` tool. Both images are promotional key art; neither is a gameplay screenshot. Masters are retained in `masters/`, Console exports in `assets/en-US/`. Mechanical exports preserve proportions and use nearest-neighbour resampling to retain pixel edges.
+
+## Icon v1
+
+Use case: ads-marketing. Asset type: Google Play full-square app icon for Cats Cute Miner. Create ONE finished square 1024x1024 image, full-bleed opaque background, no rounded-corner cutout and no outside shadow. Reference image is the actual game screenshot: use it ONLY as reference for the orange cat miner, yellow mining helmet with lamp, pickaxe, navy/slate mine walls and crisp chunky pixel-art style, NOT as an edit target or UI. A close-up cheerful orange-and-cream cat miner in its yellow helmet holding the actual simple steel pickaxe, occupying the central 70% and legible at 48px, warm lamp illuminating a small gold ore rock in foreground, deep navy underground backdrop. Strong simple silhouette and clean readable shapes, orange/yellow against navy, handcrafted sharp pixel clusters, no smoothing or pseudo-3D. Match game character identity: triangular ears, simple dark eyes, white muzzle, tiny pink nose, brown mining outfit. Keep all critical subject inside central 66% so Android adaptive masks work. No text, letters, UI, numbers, badges, rewards, prices, app-store marks, borders, extra limbs, extra characters or watermark. This is promotional key art, not a gameplay screenshot.
+
+Input: `Docs/Reports/english-ui/b03-bonus-dynamite.png` as style/character reference.
+
+## Feature graphic v1
+
+Use case: ads-marketing. Asset: one finished Google Play feature graphic for Cats Cute Miner, wide 2.048:1 landscape full bleed, export intended at 1024x500. Input1 is approved cat-miner app icon key art: preserve orange/white cat, yellow helmet, steel pickaxe, brown outfit and chunky pixel-art direction. Input2 is a real screenshot used ONLY as reference for the underground navy stone palette, lanterns and wooden mining camp; do not reproduce its interface, debug labels, numerical counters or buttons. Composition: large expressive orange miner cat on the RIGHT with helmet lamp and pickaxe hitting a gold-veined rock, warm gold shards. LEFT half provides clean deep navy cave negative space behind the exact large readable two-line title 'CATS CUTE' and 'MINER'. Bold pale warm cream block pixel lettering with restrained dark pixel shadow; keep all title letters comfortably away from edges and fully within central 80% of width and height. Warm gold lantern at far left, navy cave beams and rocks framing the background. Handcrafted coherent crisp pixel art matching the real game, warm and appealing, no realistic 3D, no gradients that destroy pixel texture. Title spelling verbatim: CATS CUTE MINER. No subtitle, call to install, store badges, star ratings, prices, discounts, multiplayer, invented gameplay, watermarks, extra text or UI. This is clearly promotional key art, not a gameplay screenshot. Full opaque rectangular background with no rounded corners, no border.
+
+Inputs: generated icon v1 as character reference; `Docs/Reports/english-ui/b03-bonus-dynamite.png` as palette/environment reference.
+
+## Feature graphic rename — 2026-10-16
+
+Built-in image_gen edit, source `assets/en-US/feature-1024x500.png` (original title), result `masters/feature-cat-miner-v2.png`; exported to current `assets/en-US/feature-1024x500.png` at1024×500 RGB. User requested the Cat Miner name; selected store title: Cat Miner: Idle Tycoon.
+
+Prompt: Edit the provided Google Play feature graphic for the same game. Replace all old CATS CUTE MINER text with CAT MINER and the subtitle IDLE TYCOON. Retain the orange/white cat, expression, yellow helmet, pickaxe, lanterns, blue pixel-art cave, gold ore, rails, composition and palette. Two large cream/gold pixel-letter lines CAT and MINER on the left, with a smaller readable IDLE TYCOON subtitle. Wide2.048:1 opaque banner, generous text margins. No extra characters, badges, store marks, calls to action, watermarks, or words from the old title. Only title lettering and the immediately surrounding background should change.

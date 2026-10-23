@@ -1,0 +1,55 @@
+{
+  "status": "historical_review_package_superseded_by_adopted_publication",
+  "package": "com.multicastgames.catscuteminer",
+  "audience": "13_and_older; all_under16_and_unknown_protected",
+  "files": [
+    {
+      "source": "Docs/Legal/CatsCuteMiner/privacy-policy.draft.md",
+      "path": "Docs/Legal/CatsCuteMiner/site/privacy/index.html",
+      "source_sha256": "e9c7c2eca862faacbea9cf106167708843ecf71317df660b54abf325877db95e",
+      "html_sha256": "c9f48264305271512010498b5d6f428765576b8f662dedcbbb05f9d87141239a",
+      "proposed_url": "https://multicastgames.com/cats-cute-miner/privacy/",
+      "public_url_verified": false
+    },
+    {
+      "source": "Docs/Legal/CatsCuteMiner/terms-of-use.draft.md",
+      "path": "Docs/Legal/CatsCuteMiner/site/terms/index.html",
+      "source_sha256": "67ad24ad09840ff91ffafe65e588dce841cbfd99b3e60a32f704f379b6d59dc6",
+      "html_sha256": "d7343dd7bf76062c06e09517a241d9e85477353b33a3cf0c5432d65a9cae8dbf",
+      "proposed_url": "https://multicastgames.com/cats-cute-miner/terms/",
+      "public_url_verified": false
+    }
+  ],
+  "runtime_urls_changed": false,
+  "website_contains_tracking_or_forms": false,
+  "pending": [
+    "Actual studio support/parental-request/access/retention/deletion process (explicitly not confirmed)",
+    "Final no-ads native inventory: no MAX/advertising provider; verify optional analytics and essential IAP services",
+    "Operator adoption and public hosting at confirmed game-specific URLs (actual URLs empty)",
+    "Final Android/native/Billing/ABI/16KB/purchase/device and analytics comparison"
+  ],
+  "first_release_scope": "no_ads_for_any_player_MAX_and_advertising_providers_deferred_second_release",
+  "ads_enabled": false,
+  "enabled_ad_formats": [],
+  "active_advertising_providers": [],
+  "optional_analytics_providers": [
+    "AppMetrica",
+    "Adjust",
+    "Meta App Events"
+  ],
+  "consumable_iap_count": 6,
+  "operator_process_confirmed": false,
+  "adopted": false,
+  "published": false,
+  "published_urls": {
+    "privacy": null,
+    "terms": null
+  },
+  "advertising_cmp_and_mediation": "deferred_second_release_not_first_release_blocker",
+  "home": {
+    "path": "Docs/Legal/CatsCuteMiner/site/index.html",
+    "html_sha256": "bfd9bd213bac93b4a6b4739b6d647ffe3fdf0530977b40254572587e7496aee1"
+  },
+  "superseded_by": "Docs/Legal/CatsCuteMiner/publication-release.json",
+  "current_owner_support_confirmation_ref": "Docs/Legal/CatsCuteMiner/adoption-20261019.json"
+}

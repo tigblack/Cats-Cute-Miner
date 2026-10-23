@@ -1,0 +1,128 @@
+{
+  "checked_at": "2026-10-19T18:19:08.896Z",
+  "package": "com.multicastgames.catscuteminer",
+  "game": {
+    "success": true,
+    "matches": [
+      {
+        "fields": [
+          "gameId",
+          "displayName",
+          "enabled",
+          "created"
+        ],
+        "gameId": "gm_cats_cute_miner",
+        "displayName": "Cats Cute Miner",
+        "enabled": true
+      }
+    ]
+  },
+  "config": {
+    "success": true,
+    "fields": [
+      "googlePlayPackageName",
+      "appStoreBundleId",
+      "ruStoreEnabled",
+      "ruStorePackageName",
+      "ruStoreAppId",
+      "adjustEnabled",
+      "adjustAppTokenSet",
+      "adjustPurchaseEventToken"
+    ],
+    "googlePlayPackageName": "com.multicastgames.catscuteminer",
+    "appStoreBundleId": "com.multicastgames.catscuteminer",
+    "ruStorePackageName": "",
+    "ruStoreAppId": ""
+  },
+  "backend": {
+    "success": true,
+    "products": [
+      {
+        "productSku": "gems_bag",
+        "productType": 0,
+        "googlePlaySku": "gems_bag",
+        "appStoreSku": "",
+        "ruStoreSku": "",
+        "rewards": [
+          {
+            "sku": "gems",
+            "quantity": 1200
+          }
+        ]
+      },
+      {
+        "productSku": "gems_cart",
+        "productType": 0,
+        "googlePlaySku": "gems_cart",
+        "appStoreSku": "",
+        "ruStoreSku": "",
+        "rewards": [
+          {
+            "sku": "gems",
+            "quantity": 6500
+          }
+        ]
+      },
+      {
+        "productSku": "gems_crate",
+        "productType": 0,
+        "googlePlaySku": "gems_crate",
+        "appStoreSku": "",
+        "ruStoreSku": "",
+        "rewards": [
+          {
+            "sku": "gems",
+            "quantity": 2500
+          }
+        ]
+      },
+      {
+        "productSku": "gems_handful",
+        "productType": 0,
+        "googlePlaySku": "gems_handful",
+        "appStoreSku": "",
+        "ruStoreSku": "",
+        "rewards": [
+          {
+            "sku": "gems",
+            "quantity": 160
+          }
+        ]
+      },
+      {
+        "productSku": "gems_pile",
+        "productType": 0,
+        "googlePlaySku": "gems_pile",
+        "appStoreSku": "",
+        "ruStoreSku": "",
+        "rewards": [
+          {
+            "sku": "gems",
+            "quantity": 14000
+          }
+        ]
+      },
+      {
+        "productSku": "gems_sack",
+        "productType": 0,
+        "googlePlaySku": "gems_sack",
+        "appStoreSku": "",
+        "ruStoreSku": "",
+        "rewards": [
+          {
+            "sku": "gems",
+            "quantity": 500
+          }
+        ]
+      }
+    ]
+  },
+  "google": {
+    "success": true,
+    "data_fields": [
+      "products"
+    ],
+    "products": []
+  },
+  "writes_performed": false
+}

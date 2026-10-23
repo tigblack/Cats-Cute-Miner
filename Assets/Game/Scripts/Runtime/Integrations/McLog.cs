@@ -6,7 +6,7 @@ using UnityEngine;
 namespace CatMiners.Runtime.Integrations
 {
     public enum McLogCode { SessionStart, SessionEnd, Foreground, Background, Focused, Unfocused,
-        Consent, SdkInitStart, SdkInitResult, Event, Sent, CallbackFailed, Revenue, QueueFull, AdError }
+        Consent, SdkInitStart, SdkInitResult, Event, Sent, CallbackFailed, Revenue, QueueFull, AdError, AgeGroup, AdConsent }
     public enum McProvider { Game, AppMetrica, Adjust, Meta, Max }
     // Memory only; callers cannot pass receipts, identifiers, keys or exception messages.
     public static class McLog

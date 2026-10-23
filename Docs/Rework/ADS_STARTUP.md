@@ -1,0 +1,25 @@
+# Android first-launch ad preparation — 23 October 2026
+
+The owner now wants any needed privacy choice at app launch, followed by a prepared ad when an in-game reward button is tapped. This supersedes the earlier no-startup-modal preference for Android ads. Ordinary Editor/Web startup is unchanged.
+
+## Flow
+
+`NeutralAgeFlow.Begin` loads the installation privacy record, then calls `RewardedStartupFlow.Begin` on Android. A new or eligible installation without a completed startup ad choice sees a pixel-kit **Privacy & ads** screen before gameplay, with the game's existing policy/terms links, **Confirm** and **Play without ads**.
+
+The body explicitly states that Confirm affirms16+ and enables optional rewarded ads. It does not opt into additional analytics, force native consent, or change an established protected age. Confirm saves the complete working copy before any ad-enabled SDK/game start. Skip keeps Ads off and does not infer an age; gameplay remains possible if saving that refusal fails. `RewardedStartupChoiceMade` prevents the own prompt repeating after a saved choice; pre-existing eligible Ads opt-in is reused without another own prompt. Regional Google UMP may still ask again when its own state requires it.
+
+After Confirm, native `GameSdkRuntime` starts MAX first. MAX presents Google UMP when required. Other SDK initialization waits for native consent completion when Ads is requested. MAX's callback validates the supported CMP, region and required consent-set state, then schedules the initial rewarded load and resumes the independently eligible SDKs. No binary consent grant, debug geography, test-unit substitution or invented adult age is used.
+
+The loading screen can enter gameplay automatically after real `RewardReady`. Load/config/consent failure exposes Try again and Play now instead of reporting success. Play now remains available during preparation. Subsequent launches with Ads enabled perform the same SDK preparation without repeating the own saved-choice prompt. In-game buttons retain the0.1.20 preparation/retry path if a new ad is not ready. Confirm, CMP closure or loading alone never grants a game reward; the durable earned-callback path is unchanged.
+
+## Evidence
+
+Android-target Unity PlayMode `build/ci-logs/PlayMode-20261023-160108.xml`: **92 passed, 0 failed, 1 ignored**,3.10seconds. The ignored test belongs to the historical no-ads release. Checks cover first-launch delay, durable Confirm before callback, exactly-once continuation, refusal/restart, unavailable storage, protected age, SDK-order predicate, previous privacy migrations, region/consent readiness, reward UI cancellation and earned-reward/background/save retries. No full mine/campaign runs. The first compile-only attempt identified obsolete `GetInstanceID` calls in new test cleanup; cleanup now preserves prior EventSystem references directly. Independent read-only startup audit and implementation review found no remaining source blockers.
+
+Fresh provider readback matched Android REWARD unit `f27564b55995aa89` to `com.multicastgames.catscuteminer`. The unit, `APPLOVIN_NETWORK` and `APPLOVIN_EXCHANGE` are enabled; caps and bid floors are empty. Other mediated networks are not being enabled by this change. AdMob App ID `ca-app-pub-3038866384444944~8596713227` is mapped to the exact Superleo project and embedded for UMP; Google bidding/store approval is separate from built-in AppLovin demand.
+
+The provider audit still reports GDPR message membership **unknown**. The AdMob browser worker rejects GDPR commands with `command must be create-app, create-ad-unit, inspect-ad-unit, link-app-store`. An operator must update that worker, then verify this app is in the published message and add it if missing. The unsupported read is not proof that no message exists. No provider writes or full six-network setup were applied during this audit.
+
+No Android phone was attached when ADB was checked. Therefore native form display, actual ad fill, `OnAdDisplayedEvent` and the real earned callback remain unverified. The owner was asked to attach a phone. The local `MC` Android log now records bounded `AgeGroup` and `AdConsent` diagnostics: age is the existing enum value; consent detail is `geography * 4 + supportedCmp * 2 + consentSet`. There are no DOBs, credentials, receipts or account/device identifiers in those records. Existing events distinguish `ad_requested`, `ad_loaded`, `ad_displayed` and load/show errors.
+
+APK0.1.21(11) is being built with the existing guarded wrapper and local install signing key. Build/native verification receipts belong in `Docs/Reports/android-rewarded-startup-20261023/`; no Play publication is part of this task. Device proof must be reported separately from source tests and artifact verification.

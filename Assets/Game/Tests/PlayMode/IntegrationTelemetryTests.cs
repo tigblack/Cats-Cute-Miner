@@ -346,7 +346,7 @@ namespace CatMiners.Tests
         }
 
         [Test]
-        public void StartupContinuesImmediatelyWithoutCreatingPrivacyScreens()
+        public void EditorStartupContinuesImmediatelyWithoutCreatingPrivacyScreens()
         {
             var host = new UnityEngine.GameObject("Startup privacy test");
             try

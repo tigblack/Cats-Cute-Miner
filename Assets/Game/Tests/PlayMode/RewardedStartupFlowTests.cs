@@ -30,7 +30,7 @@ namespace CatMiners.Tests
             string folder = Path.Combine(Application.temporaryCachePath, "startup-ads-" + Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(folder);
             string path = Path.Combine(folder, brokenPath ? "missing/privacy.json" : "privacy.json");
-            var previousEvents = Object.FindObjectsByType<EventSystem>(FindObjectsInactive.Include).Select(x => x.GetInstanceID()).ToArray();
+            var previousEvents = Object.FindObjectsByType<EventSystem>(FindObjectsInactive.Include);
             var host = new GameObject("Startup consent test");
             GameObject canvas = null;
             IntegrationPrivacy selected = null;
@@ -54,7 +54,7 @@ namespace CatMiners.Tests
                 Object.DestroyImmediate(host);
                 if (canvas != null) Object.DestroyImmediate(canvas);
                 foreach (var item in Object.FindObjectsByType<EventSystem>(FindObjectsInactive.Include))
-                    if (!previousEvents.Contains(item.GetInstanceID())) Object.DestroyImmediate(item.gameObject);
+                    if (!previousEvents.Contains(item)) Object.DestroyImmediate(item.gameObject);
                 Directory.Delete(folder, true);
             }
             Assert.IsFalse(RewardedStartupFlow.IsOpen);

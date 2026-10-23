@@ -500,7 +500,9 @@ namespace CatMiners.Runtime.Integrations
             m_NativeMaxInitialized = true;
             // A missing CMP or unset privacy data never becomes an invented consent grant.
             var geography = c.ConsentFlowUserGeography;
-            if (!MaxConsentReady(MaxSdk.CmpService.HasSupportedCmp, MaxSdk.IsUserConsentSet(),
+            bool supportedCmp = MaxSdk.CmpService.HasSupportedCmp, consentSet = MaxSdk.IsUserConsentSet();
+            McLog.Write(McLogCode.AdConsent, McProvider.Max, (int)geography * 4 + (supportedCmp ? 2 : 0) + (consentSet ? 1 : 0));
+            if (!MaxConsentReady(supportedCmp, consentSet,
                 geography == MaxSdkBase.ConsentFlowUserGeography.Gdpr,
                 geography != MaxSdkBase.ConsentFlowUserGeography.Unknown))
             { MaxState = ProviderState.Failed; RewardStatus = "consent_unavailable"; return; }

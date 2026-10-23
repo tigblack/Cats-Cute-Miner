@@ -31,6 +31,7 @@ namespace CatMiners.Runtime.Integrations
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
             var saved = LoadStartupPrivacy(Path.Combine(Application.persistentDataPath, "cats-cute-miner-privacy.json"));
+            McLog.Write(McLogCode.AgeGroup, McProvider.Game, (int)saved.Age);
             RewardedStartupFlow.Begin(host, saved, next);
 #else
             next(ProtectedDefaults());
